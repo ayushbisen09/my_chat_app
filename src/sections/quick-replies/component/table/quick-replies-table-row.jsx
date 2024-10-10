@@ -9,7 +9,7 @@ import MenuItem from '@mui/material/MenuItem';
 import TableRow from '@mui/material/TableRow';
 import TableCell from '@mui/material/TableCell';
 import IconButton from '@mui/material/IconButton';
-import { Alert, Button, Divider, Tooltip, Checkbox, Snackbar } from '@mui/material';
+import { Alert, Button, Divider, Tooltip, Checkbox, Snackbar, Typography } from '@mui/material';
 
 import { useBoolean } from 'src/hooks/use-boolean';
 
@@ -25,7 +25,6 @@ export function QuickRepliesTableRow({ row, selected, onSelectRow, quickrepliesI
   const theme = useTheme(); // Corrected theme import
   const dialog = useBoolean();
   const previewDialog = useBoolean();
-
 
   const handleSnackbarClose = (reason) => {
     if (reason === 'clickaway') {
@@ -78,8 +77,6 @@ export function QuickRepliesTableRow({ row, selected, onSelectRow, quickrepliesI
     // Add more flow names as needed
   ];
 
- 
-
   const renderPrimary = (
     <TableRow hover selected={selected}>
       <TableCell padding="checkbox">
@@ -119,8 +116,18 @@ export function QuickRepliesTableRow({ row, selected, onSelectRow, quickrepliesI
             }}
           >
             <Tooltip title="Message in the quick replies" arrow placement="top">
-              <Box component="span">
-                {quickrepliesmessage[quickrepliesIndex % quickrepliesmessage.length]}
+              <Box
+                component="span"
+                sx={{
+                  maxWidth: 150,
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  whiteSpace: 'nowrap',
+                }}
+              >
+                <Typography noWrap>
+                  {quickrepliesmessage[quickrepliesIndex % quickrepliesmessage.length]}
+                </Typography>
               </Box>
             </Tooltip>
           </Stack>
@@ -175,8 +182,7 @@ export function QuickRepliesTableRow({ row, selected, onSelectRow, quickrepliesI
           </Tooltip>
           <PreviewQuickRepliesDialog open={previewDialog.value} onClose={previewDialog.onFalse} />
           <Tooltip title="Click here to edit quick replies message" arrow placement="left">
-            <MenuItem  onClick={dialog.onTrue}>
-             
+            <MenuItem onClick={dialog.onTrue}>
               <Iconify icon="solar:pen-bold" />
               Edit
             </MenuItem>
