@@ -28,12 +28,10 @@ import { Iconify } from 'src/components/iconify';
 export function TagDialog({ open, onClose }) {
   const [tags, setTags] = useState(['Purchase', 'Pabbly Connect', 'Pabbly Subscription Billing']);
   const [tagInput, setTagInput] = useState('');
-  const [category, setCategory] = useState(''); // State to manage the selected category
-  const [newCategory, setNewCategory] = useState(''); // State to handle new category input
+
   const theme = useTheme();
   const isWeb = useMediaQuery(theme.breakpoints.up('sm'));
 
-  const [customerJourney, setCustomerJourney] = useState(false);
   const [firstMessage, setFirstMessage] = useState(false); // Toggle for First Message switch
   const [snackbarOpen, setSnackbarOpen] = useState(false);
 
@@ -54,17 +52,6 @@ export function TagDialog({ open, onClose }) {
       return;
     }
     setSnackbarOpen(false);
-  };
-
-  const handleCategoryChange = (event) => {
-    setCategory(event.target.value);
-    if (event.target.value === 'new') {
-      setNewCategory('');
-    }
-  };
-
-  const handleNewCategoryChange = (event) => {
-    setNewCategory(event.target.value);
   };
 
   return (
@@ -123,139 +110,94 @@ export function TagDialog({ open, onClose }) {
               ),
             }}
           />
-{/* 
-          <FormControl fullWidth margin="dense" variant="outlined">
-            <InputLabel>Category</InputLabel>
-            <Select
-              value={category}
-              onChange={handleCategoryChange}
-              label="Category"
-            >
-              <MenuItem value="option1">Event</MenuItem>
-              <MenuItem value="option2">VIP</MenuItem>
-              <MenuItem value="option3">Pabbly Hiring</MenuItem>
-              <MenuItem value="new">Create New</MenuItem>
-            </Select>
-            <FormHelperText>
-              <span>
-                You can select from existing categories or create a new one.{' '}
-                <RouterLink to="#" style={{ color: '#078DEE' }} underline="always">
-                  Learn more
-                </RouterLink>
-              </span>
-            </FormHelperText>
-          </FormControl> */}
 
-          {/* {category === 'new' && (
-            <TextField
-              fullWidth
-              type="text"
-              margin="dense"
-              variant="outlined"
-              label="New Category"
-              value={newCategory}
-              onChange={handleNewCategoryChange}
-              placeholder="Enter new category name"
-              helperText="Enter a name for your new category"
-            />
-          )} */}
-
-          {/* <Typography variant="subtitle1" sx={{ fontSize: 14, fontWeight: 600, color: 'text.primary' }}>
-            Customer Journey
-          </Typography>
-          <Box>
-            <FormControlLabel
-              sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', mb: 2 }}
-              control={
-                <Switch
-                  checked={customerJourney}
-                  onChange={(e) => setCustomerJourney(e.target.checked)}
-                  color="primary"
-                />
-              }
-              label={
-                <Typography component="span" sx={{ fontSize: 14, color: 'text.primary', ml: 0.5 }}>
-                  Enable to track this tag in your customers journey
-                </Typography>
-              }
-            />
-          </Box> */}
-
-          <Typography variant="subtitle1" sx={{ fontSize: 14, fontWeight: 600, color: 'text.primary' }}>
+          <Typography
+            variant="subtitle1"
+            sx={{ fontSize: 14, fontWeight: 600, color: 'text.primary' }}
+          >
             First Message
           </Typography>
           <Box>
-            <Tooltip title="Click here to allows auto-tagging if users first message matches" arrow placement="left">
-            <FormControlLabel
-              sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}
-              control={
-                <Switch
-                  checked={firstMessage}
-                  onChange={(e) => setFirstMessage(e.target.checked)}
-                  color="primary"
-                />
-              }
-              label={
-                <Typography component="span" sx={{ fontSize: 14, color: 'text.primary', ml: 0.5 }}>
-                  Allows auto-tagging if users first message matches
-                </Typography>
-              }
-            />
+            <Tooltip
+              title="Click here to allows auto-tagging if users first message matches"
+              arrow
+              placement="left"
+            >
+              <FormControlLabel
+                sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}
+                control={
+                  <Switch
+                    checked={firstMessage}
+                    onChange={(e) => setFirstMessage(e.target.checked)}
+                    color="primary"
+                  />
+                }
+                label={
+                  <Typography
+                    component="span"
+                    sx={{ fontSize: 14, color: 'text.primary', ml: 0.5 }}
+                  >
+                    Allows auto-tagging if users first message matches
+                  </Typography>
+                }
+              />
             </Tooltip>
           </Box>
 
           {firstMessage && (
             <Tooltip title="Add first messages as much as you want" arrow placement="right">
-            <Autocomplete
-              multiple
-              freeSolo
-              options={[]}
-              value={tags}
-              onChange={(event, newValue) => setTags(newValue)}
-              inputValue={tagInput}
-              onInputChange={(event, newInputValue) => {
-                setTagInput(newInputValue);
-              }}
-              onKeyDown={(event) => {
-                if (event.key === 'Enter' && tagInput.trim()) {
-                  setTags([...tags, tagInput.trim()]);
-                  setTagInput('');
-                  event.preventDefault();
+              <Autocomplete
+                multiple
+                freeSolo
+                options={[]}
+                value={tags}
+                onChange={(event, newValue) => setTags(newValue)}
+                inputValue={tagInput}
+                onInputChange={(event, newInputValue) => {
+                  setTagInput(newInputValue);
+                }}
+                onKeyDown={(event) => {
+                  if (event.key === 'Enter' && tagInput.trim()) {
+                    setTags([...tags, tagInput.trim()]);
+                    setTagInput('');
+                    event.preventDefault();
+                  }
+                }}
+                renderTags={(value, getTagProps) =>
+                  value.map((option, index) => (
+                    <Chip
+                      variant="soft"
+                      color="info"
+                      size="small"
+                      label={option}
+                      {...getTagProps({ index })}
+                    />
+                  ))
                 }
-              }}
-              renderTags={(value, getTagProps) =>
-                value.map((option, index) => (
-                  <Chip
-                    variant="soft"
-                    color="info"
-                    size="small"
-                    label={option}
-                    {...getTagProps({ index })}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    variant="outlined"
+                    size="medium"
+                    helperText="Allows auto-tagging if users first message matches"
+                    placeholder="+ Enter Keywords"
                   />
-                ))
-              }
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  variant="outlined"
-                  size="medium"
-                  helperText="Allows auto-tagging if users first message matches"
-                  placeholder="+ Enter Keywords"
-                />
-              )}
-            />
+                )}
+              />
             </Tooltip>
           )}
         </DialogContent>
 
         <DialogActions>
+        <Tooltip title="if you don't want to add a new tag click cancle button" arrow placement="top">
           <Button onClick={onClose} variant="outlined" color="inherit">
             Cancel
           </Button>
+          </Tooltip>
           <Tooltip title="Click here to add tag" arrow placement="top">
-          <Button onClick={handleAdd} variant="contained">
-            Add
-          </Button>
+            <Button onClick={handleAdd} variant="contained">
+              Add
+            </Button>
           </Tooltip>
         </DialogActions>
       </Dialog>

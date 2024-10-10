@@ -4,7 +4,7 @@ import { Box, Card, Stack, Button, Tooltip, IconButton } from '@mui/material';
 
 import { Iconify } from 'src/components/iconify';
 
-import { ChooseTemaplte } from '../hooks/dailogs/flow-start-node-choose-templates-dailog';
+import { ChooseTemplate } from '../hooks/dailogs/flow-start-node-choose-templates-dailog';
 
 // Define the function with the desired parameters
 function RenderTemplateNode({
@@ -98,7 +98,7 @@ function RenderTemplateNode({
           </Tooltip>
         )}
       </Box>
-      <ChooseTemaplte open={isTemplateDialogOpen} onClose={closeTemplateDialog} />
+      <ChooseTemplate open={isTemplateDialogOpen} onClose={closeTemplateDialog} />
     </Card>
   );
 }

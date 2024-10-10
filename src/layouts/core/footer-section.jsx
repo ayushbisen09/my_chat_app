@@ -6,8 +6,6 @@ import { layoutClasses } from '../classes';
 
 // ----------------------------------------------------------------------
 
-
-
 // ----------------------------------------------------------------------
 export function FooterSection({
   sx,
@@ -19,10 +17,6 @@ export function FooterSection({
   ...other
 }) {
   const theme = useTheme();
-
-  
-
-  
 
   return (
     <AppBar
@@ -36,28 +30,20 @@ export function FooterSection({
     >
       {slots?.topArea}
 
-      
-        <Container
-          {...slotProps?.container}
-          sx={{
-            height: 1,
-            display: 'flex',
-            alignItems: 'center',  
-            justifyContent: 'center',
-            textAlign: 'center',
-          }}
-        >
-        
-
+      <Container
+        {...slotProps?.container}
+        sx={{
+          height: 1,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          textAlign: 'center',
+        }}
+      >
         Pabbly © 2024 Pabbly Chatflow
-
-          
-        </Container>
-      
+      </Container>
 
       {slots?.bottomArea}
-
-      
     </AppBar>
   );
 }

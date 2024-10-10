@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useTheme } from '@emotion/react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
@@ -14,6 +15,23 @@ import {
   InputAdornment,
 } from '@mui/material';
 
+import {
+  optInSetImageData,
+  optInSetTemplateType,
+} from 'src/redux/slices/optInMessageTemplateTypeSlice';
+import {
+  optOutSetImageData,
+  optOutSetTemplateType,
+} from 'src/redux/slices/optOutMessageTemplateTypeSlice';
+import {
+  offHourSetImageData,
+  offHourSetTemplateType,
+} from 'src/redux/slices/offHourMessageTemplateTypeSlice';
+import {
+  wellComeSetImageData,
+  wellComeSetTemplateType,
+} from 'src/redux/slices/wellcomeMessageTemplateTypeSlice';
+
 import { Iconify } from 'src/components/iconify';
 import FileUpload from 'src/components/upload/upload';
 
@@ -22,6 +40,7 @@ import ImagePreviewTemplateChatBox from 'src/sections/preview-template/image-cha
 import Image from '../../../../../../public/assets/images/chatImage/imagechat.png';
 
 export function ImageTemplateTypeDialog({ title, content, action, open, onClose, ...other }) {
+  const dispatch = useDispatch();
   const theme = useTheme();
   const isWeb = useMediaQuery(theme.breakpoints.up('sm'));
   const [file, setFile] = useState(null); // To store uploaded file
@@ -44,10 +63,113 @@ export function ImageTemplateTypeDialog({ title, content, action, open, onClose,
     }
   };
 
-  const handleDone = () => {
-    console.log('File:', file);
-    console.log('Body Fields:', bodyFields);
-    onClose(); // Close the dialog after operation
+  const chosen = useSelector((state) => state.optInMessageTemplateType.chosen);
+  const wellComeChosen = useSelector((state) => state.wellComeMessageTemplateType.wellComeChosen);
+  // const handleSave = () => {
+  //   // Check if 'chosen' is 'optIn' and 'wellComeChosen' is not 'wellCome'
+  //   if (chosen === 'optIn' && wellComeChosen !== 'wellCome') {
+  //     // Dispatch the optIn template and data
+  //     dispatch(optInSetTemplateType('image'));
+  //     dispatch(
+  //       optInSetImageData({
+  //         imageUrl: file ? URL.createObjectURL(file) : null,
+  //         bodyFields,
+  //         fileName: file ? file.name : '',
+  //       })
+  //     );
+  //   }
+
+  //   // Check if 'wellComeChosen' is 'wellCome' and 'chosen' is not 'optIn'
+  //   else if (wellComeChosen === 'wellCome' && chosen !== 'optIn') {
+  //     // Dispatch the wellCome template and data
+  //     dispatch(wellComeSetTemplateType('image'));
+  //     dispatch(
+  //       wellComeSetImageData({
+  //         imageUrl: file ? URL.createObjectURL(file) : null,
+  //         bodyFields,
+  //         fileName: file ? file.name : '',
+  //       })
+  //     );
+  //   }
+
+  //   // For the opt-out condition
+  //   else if (chosen !== 'optIn') {
+  //     dispatch(optOutSetTemplateType('image'));
+  //     dispatch(
+  //       optOutSetImageData({
+  //         imageUrl: file ? URL.createObjectURL(file) : null,
+  //         bodyFields,
+  //         fileName: file ? file.name : '',
+  //       })
+  //     );
+  //   }
+
+  //   // Final condition for off-hours template
+  //   else {
+  //     dispatch(offHourSetTemplateType('image'));
+  //     dispatch(
+  //       offHourSetImageData({
+  //         imageUrl: file ? URL.createObjectURL(file) : null,
+  //         bodyFields,
+  //         fileName: file ? file.name : '',
+  //       })
+  //     );
+  //   }
+
+  //   // Close the dialog
+  //   onClose();
+  // };
+
+  const handleSave = () => {
+    if (chosen === 'optIn') {
+      dispatch(optInSetTemplateType('image')); // This sets the template type to 'image'
+
+      dispatch(
+        optInSetImageData({
+          imageUrl: file ? URL.createObjectURL(file) : null, // This stores the image URL
+          bodyFields,
+          fileName: file ? file.name : '', // This stores the file name
+        })
+      );
+    } else {
+      dispatch(optOutSetTemplateType('image')); // This sets the template type to 'image'
+
+      dispatch(
+        optOutSetImageData({
+          imageUrl: file ? URL.createObjectURL(file) : null, // This stores the image URL
+          bodyFields,
+          fileName: file ? file.name : '', // This stores the file name
+        })
+      );
+    }
+
+    onClose(); // Close the dialog
+  };
+
+  const handleSend = () => {
+    if (wellComeChosen === 'wellCome') {
+      dispatch(wellComeSetTemplateType('image')); // This sets the template type to 'image'
+
+      dispatch(
+        wellComeSetImageData({
+          imageUrl: file ? URL.createObjectURL(file) : null, // This stores the image URL
+          bodyFields,
+          fileName: file ? file.name : '', // This stores the file name
+        })
+      );
+    } else {
+      dispatch(offHourSetTemplateType('image')); // This sets the template type to 'image'
+
+      dispatch(
+        offHourSetImageData({
+          imageUrl: file ? URL.createObjectURL(file) : null, // This stores the image URL
+          bodyFields,
+          fileName: file ? file.name : '', // This stores the file name
+        })
+      );
+    }
+
+    onClose(); // Close the dialog
   };
 
   const handleCancel = () => {
@@ -206,8 +328,21 @@ export function ImageTemplateTypeDialog({ title, content, action, open, onClose,
         </Box>
       </Box>
       <Box sx={{ px: 2, pb: 2 }}>
-        <Button variant="contained" sx={{ mr: 1 }} onClick={handleDone}>
-          Send
+        {/* <Button variant="contained" sx={{ mr: 1 }} onClick={handleSave}>
+          Save
+        </Button> */}
+        <Button
+          variant="contained"
+          sx={{ mr: 1 }}
+          onClick={() => {
+            if (chosen === 'optIn') {
+              handleSave();
+            } else {
+              handleSend();
+            }
+          }}
+        >
+          Save
         </Button>
         <Button variant="outlined" onClick={handleCancel}>
           Cancel

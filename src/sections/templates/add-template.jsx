@@ -80,7 +80,9 @@ export default function AddTemplate() {
   }, [templateType]);
 
   const [inputText, setInputText] = useState('');
+  const [headerInput, setHeaderInput] = useState('');
   const [fields, setFields] = useState([]);
+  const [headerFields, setHeaderFields] = useState([]);
   const [sampleValues, setSampleValues] = useState({});
 
   const replacePlaceholders = (text, values) =>
@@ -100,6 +102,31 @@ export default function AddTemplate() {
       );
       if (newFields.length > 0) {
         setFields([...fields, ...newFields]);
+
+        // Set corresponding sample values, initially empty
+        const newSampleValues = newFields.reduce((acc, field, index) => {
+          acc[field] = ''; // Empty value for sample fields
+          return acc;
+        }, {});
+        setSampleValues({ ...sampleValues, ...newSampleValues });
+      }
+    }
+  };
+
+  const handleHeaderInputChange = (e) => {
+    const { value } = e.target;
+    setHeaderInput(value);
+
+    // Regex to match {{Any text}} but only add new fields if not already present
+    const regex = /\{\{.*?\}\}/g;
+    const matchedFields = value.match(regex);
+
+    if (matchedFields) {
+      const newFields = matchedFields.filter(
+        (match) => !headerFields.includes(match) // Only add fields that don't already exist
+      );
+      if (newFields.length > 0) {
+        setHeaderFields([...headerFields, ...newFields]);
 
         // Set corresponding sample values, initially empty
         const newSampleValues = newFields.reduce((acc, field, index) => {
@@ -132,6 +159,10 @@ export default function AddTemplate() {
 
   // Removed key handling for Enter and ',' as per the request
   const handleKeyPress = (e) => {
+    // Optional: you can handle some other key-specific behavior if required
+  };
+
+  const handleHeaderKeyPress = (e) => {
     // Optional: you can handle some other key-specific behavior if required
   };
 
@@ -315,6 +346,13 @@ export default function AddTemplate() {
     setHeaderType(event.target.value);
   };
 
+  const isTemplateFormat = (input) => {
+    const regex = /^\{\{.*\}\}$/;
+    return regex.test(input);
+  };
+
+  
+
   return (
     <DashboardContent maxWidth="xl">
       <Box
@@ -340,6 +378,30 @@ export default function AddTemplate() {
         <Card sx={{ width: { md: '90%', xs: '100%', sm: '90%' } }}>
           <CardHeader title="Add New Template" sx={{ mb: 3 }} />
           <Divider />
+          <FormControlLabel
+            control={
+              <TextField
+                sx={{ width: '100%' }}
+                id="select-currency-label-x"
+                variant="outlined"
+                select
+                fullWidth
+                label="Select Template Category"
+                value={categorylist}
+                onChange={handleChangeCategoryList}
+                helperText="Select template category."
+                InputLabelProps={{ htmlFor: 'outlined-select-currency-label' }}
+                inputProps={{ id: 'outlined-select-currency-label' }}
+              >
+                {CATEGORYLISTS.map((option) => (
+                  <MenuItem key={option.value} value={option.value}>
+                    {option.label}
+                  </MenuItem>
+                ))}
+              </TextField>
+            }
+            sx={{ width: '100%', padding: '24px 24px 20px 24px', mr: 0, ml: 0 }}
+          />
           <FormProvider {...methods}>
             <Form onSubmit={handleSubmit}>
               <FormControlLabel
@@ -372,32 +434,9 @@ export default function AddTemplate() {
                     }}
                   />
                 }
-                sx={{ width: '100%', padding: '24px 24px 24px 24px', mr: 0, ml: 0 }}
+                sx={{ width: '100%', padding: '00px 24px 24px 24px', mr: 0, ml: 0 }}
               />
-              <FormControlLabel
-                control={
-                  <TextField
-                    sx={{ width: '100%' }}
-                    id="select-currency-label-x"
-                    variant="outlined"
-                    select
-                    fullWidth
-                    label="Select Template Category"
-                    value={categorylist}
-                    onChange={handleChangeCategoryList}
-                    helperText="Select template category."
-                    InputLabelProps={{ htmlFor: 'outlined-select-currency-label' }}
-                    inputProps={{ id: 'outlined-select-currency-label' }}
-                  >
-                    {CATEGORYLISTS.map((option) => (
-                      <MenuItem key={option.value} value={option.value}>
-                        {option.label}
-                      </MenuItem>
-                    ))}
-                  </TextField>
-                }
-                sx={{ width: '100%', padding: '0px 24px 24px 24px', mr: 0, ml: 0 }}
-              />
+
               <FormControlLabel
                 control={
                   <TextField
@@ -467,41 +506,103 @@ export default function AddTemplate() {
                     label="Limited Time Offer"
                   />
                 </RadioGroup>
+
                 {/* Template-specific fields */}
+
                 {templateType === 'text' && (
-                  <FormControlLabel
-                    control={
-                      <TextField
-                        fullWidth
-                        type="text"
-                        margin="dense"
-                        variant="outlined"
-                        label="Template Header (optional)"
-                        helperText="You're allowed a maximum of 60 characters."
-                        InputProps={{
-                          endAdornment: (
-                            <InputAdornment position="end">
-                              <Tooltip
-                                title="You're allowed a maximum of 60 characters."
-                                arrow
-                                placement="top"
-                                sx={{
-                                  fontSize: '16px',
-                                }}
-                              >
-                                <Iconify
-                                  icon="material-symbols:info-outline"
-                                  style={{ width: 20, height: 20 }}
-                                />
-                              </Tooltip>
-                            </InputAdornment>
-                          ),
-                        }}
-                      />
-                    }
-                    sx={{ width: '100%', padding: '24px 0px 0px 0px', mr: 0, ml: 0 }}
-                  />
+                  <Box sx={{ width: '100%', pt: 2, mr: 0, ml: 0 }}>
+                    <TextField
+                      fullWidth
+                      type="text"
+                      margin="dense"
+                      variant="outlined"
+                      label="Template Header (optional)"
+                      helperText="You're allowed a maximum of 60 characters."
+                      value={headerInput}
+                      disabled={isTemplateFormat(headerInput)}
+                      onChange={handleHeaderInputChange}
+                      onKeyPress={handleHeaderKeyPress}
+                      InputProps={{
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <Tooltip
+                              title="You're allowed a maximum of 60 characters."
+                              arrow
+                              placement="top"
+                              sx={{ fontSize: '16px' }}
+                            >
+                              <Iconify
+                                icon="material-symbols:info-outline"
+                                style={{ width: 20, height: 20 }}
+                              />
+                            </Tooltip>
+                          </InputAdornment>
+                        ),
+                      }}
+                    />
+
+                    <Box sx={{ width: '100%', mr: 0, ml: 0 }}>
+                      {headerFields.map((field, index) => (
+                        <Box key={index} sx={{ display: 'flex', gap: 2, mb: 1 }}>
+                          <TextField
+                            fullWidth
+                            margin="dense"
+                            variant="outlined"
+                            label={`Field ${index + 1}`}
+                            helperText="Specify the parameter to be replaced. These values can be changed at the time of sending"
+                            value={field}
+                            InputProps={{
+                              readOnly: true,
+                              endAdornment: (
+                                <InputAdornment position="end">
+                                  <Tooltip
+                                    title="Specify the parameter to be replaced. These values can be changed at the time of sending"
+                                    arrow
+                                    placement="top"
+                                    sx={{ fontSize: '16px' }}
+                                  >
+                                    <Iconify
+                                      icon="material-symbols:info-outline"
+                                      style={{ width: 20, height: 20 }}
+                                    />
+                                  </Tooltip>
+                                </InputAdornment>
+                              ),
+                            }}
+                            sx={{ marginBottom: '8px' }}
+                          />
+                          <TextField
+                            fullWidth
+                            margin="dense"
+                            variant="outlined"
+                            label={`Sample Value ${index + 1}`}
+                            helperText="Enter a sample value for this parameter."
+                            value={sampleValues[field] || ''}
+                            onChange={(e) => handleSampleValueChange(e, field)}
+                            InputProps={{
+                              endAdornment: (
+                                <InputAdornment position="end">
+                                  <Tooltip
+                                    title="Enter sample value for this field parameter."
+                                    arrow
+                                    placement="top"
+                                    sx={{ fontSize: '16px' }}
+                                  >
+                                    <Iconify
+                                      icon="material-symbols:info-outline"
+                                      style={{ width: 20, height: 20 }}
+                                    />
+                                  </Tooltip>
+                                </InputAdornment>
+                              ),
+                            }}
+                          />
+                        </Box>
+                      ))}
+                    </Box>
+                  </Box>
                 )}
+
                 {templateType === 'image' && (
                   <>
                     <Divider sx={{ borderStyle: 'dashed', mt: '24px' }} />
@@ -692,6 +793,7 @@ export default function AddTemplate() {
                       }
                       sx={{ width: '100%', padding: '24px 0px 0px 0px', mr: 0, ml: 0 }}
                     />
+
                     <FormControl fullWidth sx={{ mt: 2 }}>
                       <InputLabel id="carousel-select-label">Carousel Media Type</InputLabel>
                       <Select

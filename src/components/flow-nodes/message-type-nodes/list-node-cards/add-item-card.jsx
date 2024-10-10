@@ -1,19 +1,35 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
 
 import { Box, Card, Stack, TextField, IconButton } from '@mui/material';
 
+import { updateItemTitle, updateItemDescription } from 'src/redux/slices/listNodeMessagePreviewSlice';
+
 import { Iconify } from 'src/components/iconify';
 
-const renderAddItemCard = (
+const RenderAddItemCard = (
   card,
   index,
   addTextField,
   deleteTextField,
   deleteCard, // Ensure this is passed as a prop
   handleHoverCardClick
-) => (
+) => {
+  const dispatch = useDispatch();
+  const id ={ card}
+  const handleTitleChange = (event) => {
+    dispatch(updateItemTitle(event.target.value));
+  };
+
+  const handleDescriptionChange = (event) => {
+    dispatch(updateItemDescription(event.target.value));
+  };
+return(
+
+
+
   <Card
-    key={card.id}
+    key={id}
     sx={{
       position: 'relative',
       px: 1.5,
@@ -44,6 +60,7 @@ const renderAddItemCard = (
             multiline
             rows={1}
             sx={{ mb: 2 }}
+            onChange={handleTitleChange} // Dispatch title change
           />
           <TextField
             label="Enter Description"
@@ -52,12 +69,13 @@ const renderAddItemCard = (
             fullWidth
             multiline
             rows={2}
+            onChange={handleDescriptionChange} // Dispatch description change
           />
         </Box>
         {/* Box for Icons */}
         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
           {/* Delete card icon */}
-          <IconButton onClick={() => deleteCard(card.id)}>
+          <IconButton onClick={() => deleteCard(id)}>
             <Iconify width={20} icon="solar:trash-bin-trash-bold" />
           </IconButton>
           <IconButton>
@@ -69,5 +87,6 @@ const renderAddItemCard = (
     </Stack>
   </Card>
 );
+};
 
-export default renderAddItemCard;
+export default RenderAddItemCard;

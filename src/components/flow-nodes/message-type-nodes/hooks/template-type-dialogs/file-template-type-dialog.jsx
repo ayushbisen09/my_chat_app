@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useTheme } from '@emotion/react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
@@ -14,6 +15,27 @@ import {
   InputAdornment,
 } from '@mui/material';
 
+import {
+  optInSetUploadedFile,
+  optInSetTemplateType,
+  optInSetFileTemplateFields,
+} from 'src/redux/slices/optInMessageTemplateTypeSlice';
+import {
+  optOutSetUploadedFile,
+  optOutSetTemplateType,
+  optOutSetFileTemplateFields,
+} from 'src/redux/slices/optOutMessageTemplateTypeSlice';
+import {
+  offHourSetTemplateType,
+  offHourSetUploadedFile,
+  offHourSetFileTemplateFields,
+} from 'src/redux/slices/offHourMessageTemplateTypeSlice';
+import {
+  wellComeSetUploadedFile,
+  wellComeSetTemplateType,
+  wellComeSetFileTemplateFields,
+} from 'src/redux/slices/wellcomeMessageTemplateTypeSlice';
+
 import { Iconify } from 'src/components/iconify';
 import FileUpload from 'src/components/upload/upload';
 
@@ -22,6 +44,7 @@ import FilePreviewTemplateChatBox from 'src/sections/preview-template/file-chatb
 import FileImage from '../../../../../../public/assets/images/chatImage/document.png';
 
 export function FileTemplateTypeDialog({ title, content, action, open, onClose, ...other }) {
+  const dispatch = useDispatch(); // Hook to dispatch actions
   const theme = useTheme();
   const isWeb = useMediaQuery(theme.breakpoints.up('sm'));
   const [file, setFile] = useState(null); // To store uploaded file
@@ -44,15 +67,53 @@ export function FileTemplateTypeDialog({ title, content, action, open, onClose, 
     }
   };
 
-  const handleDone = () => {
-    // Handle the operation here
-    // Example: Save data or process the file
+  const chosen = useSelector((state) => state.optInMessageTemplateType.chosen);
+  const wellComeChosen = useSelector((state) => state.wellComeMessageTemplateType.wellComeChosen);
+
+  const handleSave = () => {
+    // Dispatch the Redux actions to store the file template data
+    if (chosen === 'optIn') {
+      dispatch(optInSetTemplateType('file'));
+
+      dispatch(optInSetFileTemplateFields(bodyFields));
+
+      dispatch(optInSetUploadedFile(file));
+    } else {
+      dispatch(optOutSetTemplateType('file'));
+
+      dispatch(optOutSetFileTemplateFields(bodyFields));
+
+      dispatch(optOutSetUploadedFile(file));
+    }
+    
 
     console.log('File:', file);
     console.log('Body Fields:', bodyFields);
+
     onClose(); // Close the dialog after operation
   };
+  const handleSend = () => {
+    // Dispatch the Redux actions to store the file template data
+    
+    if (wellComeChosen === 'wellCome') {
+      dispatch(wellComeSetTemplateType('file'));
 
+      dispatch(wellComeSetFileTemplateFields(bodyFields));
+
+      dispatch(wellComeSetUploadedFile(file));
+    } else {
+      dispatch(offHourSetTemplateType('file'));
+
+      dispatch(offHourSetFileTemplateFields(bodyFields));
+
+      dispatch(offHourSetUploadedFile(file));
+    }
+
+    console.log('File:', file);
+    console.log('Body Fields:', bodyFields);
+
+    onClose(); // Close the dialog after operation
+  };
   const handleCancel = () => {
     onClose(); // Close the dialog without making changes
   };
@@ -209,8 +270,14 @@ export function FileTemplateTypeDialog({ title, content, action, open, onClose, 
         </Box>
       </Box>
       <Box sx={{ px: 2, pb: 2 }}>
-        <Button variant="contained" sx={{ mr: 1 }} onClick={handleDone}>
-          Send
+        <Button variant="contained" sx={{ mr: 1 }} onClick={() => {
+            if (chosen === 'optIn') {
+              handleSave();
+            } else {
+              handleSend();
+            }
+          }}>
+          Save
         </Button>
         <Button variant="outlined" onClick={handleCancel}>
           Cancel

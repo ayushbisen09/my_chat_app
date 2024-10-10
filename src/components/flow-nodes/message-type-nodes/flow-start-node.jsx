@@ -19,7 +19,7 @@ import {
 import { Iconify } from 'src/components/iconify';
 
 import { ChooseFacebookAd } from './hooks/dailogs/flow-start-node-facebook-ad-dailog';
-import { ChooseTemaplte } from './hooks/dailogs/flow-start-node-choose-templates-dailog';
+import { ChooseTemplate } from './hooks/dailogs/flow-start-node-choose-templates-dailog';
 
 export default function FlowStartNode({
   sx,
@@ -193,7 +193,7 @@ export default function FlowStartNode({
             Add up to 1 Meta Ads to begin flow
           </Typography>
 
-          <ChooseTemaplte open={isTemplateDialogOpen} onClose={closeTemplateDialog} />
+          <ChooseTemplate open={isTemplateDialogOpen} onClose={closeTemplateDialog} />
           <ChooseFacebookAd open={isFacebookAdDialogOpen} onClose={closeFacebookAdDialog} />
         </Stack>
       </Card>

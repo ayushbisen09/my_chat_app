@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useForm, useFieldArray } from 'react-hook-form';
 
-import TextField from '@mui/material/TextField';
 import {
   Box,
   Card,
@@ -12,22 +11,23 @@ import {
   Tooltip,
   useTheme,
   Snackbar,
+  TextField,
   CardHeader,
   Typography,
   useMediaQuery,
-  InputAdornment
 } from '@mui/material';
 
 import { DashboardContent } from 'src/layouts/dashboard';
 
 import { Iconify } from 'src/components/iconify';
+import { ConfirmDialog } from 'src/components/custom-dialog';
 import PageHeader from 'src/components/page-header/page-header';
 
 export default function Page() {
   const theme = useTheme();
   const isTabletOrMobile = useMediaQuery(theme.breakpoints.down('md'));
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [confirmDelete, setConfirmDelete] = useState({ open: false, index: null });
 
   const methods = useForm({
     defaultValues: {
@@ -36,7 +36,6 @@ export default function Page() {
   });
 
   const { control } = methods;
-
   const { fields, append, remove } = useFieldArray({
     control,
     name: 'items',
@@ -49,11 +48,17 @@ export default function Page() {
     });
   };
 
-  const handleRemove = (index) => {
-    if (fields.length > 1) {
-      remove(index);
+  const handleConfirmRemove = (index) => {
+    setConfirmDelete({ open: true, index });
+  };
+
+  const handleRemove = () => {
+    if (confirmDelete.index !== null) {
+      remove(confirmDelete.index);
+      setConfirmDelete({ open: false, index: null });
     }
   };
+
   const handleSnackbarClose = (event, reason) => {
     if (reason === 'clickaway') {
       return;
@@ -62,7 +67,6 @@ export default function Page() {
   };
 
   const saveAttributes = () => {
-    // Show Snackbar
     setSnackbarOpen(true);
   };
 
@@ -96,62 +100,19 @@ export default function Page() {
             <Stack spacing={3}>
               {fields.map((item, index) => (
                 <Stack key={item.id} spacing={isTabletOrMobile ? 1 : 0}>
-                  <Stack
-                    direction={{ xs: 'column', md: 'row' }}
-                    spacing={2}
-                    sx={{ width: 1 }}
-                    alignItems="center"
-                  >
-                    <TextField variant="outlined" fullWidth label="Attribute name" 
-                     InputProps={{
-                      endAdornment: (
-                        <InputAdornment position="end">
-                          <Tooltip
-                            title="Enter Attribute Name."
-                            arrow
-                            placement="top"
-                            sx={{
-                              fontSize: '16px', // Adjust the font size as needed
-                            }}
-                          >
-                            <Iconify
-                              icon="material-symbols:info-outline"
-                              style={{ width: 20, height: 20 }}
-                            />
-                          </Tooltip>
-                        </InputAdornment>
-                      ),
-                    }}/>
-                    <TextField variant="outlined" fullWidth label="Attribute description"
-                    InputProps={{
-                      endAdornment: (
-                        <InputAdornment position="end">
-                          <Tooltip
-                            title="Enter Attribute Description."
-                            arrow
-                            placement="top"
-                            sx={{
-                              fontSize: '16px', // Adjust the font size as needed
-                            }}
-                          >
-                            <Iconify
-                              icon="material-symbols:info-outline"
-                              style={{ width: 20, height: 20 }}
-                            />
-                          </Tooltip>
-                        </InputAdornment>
-                      ),
-                    }}/>
+                  <Stack direction={{ xs: 'column', md: 'row' }} spacing={2} alignItems="center">
+                    <TextField fullWidth label="Attribute name" />
+                    <TextField fullWidth label="Attribute description" />
                     {!isTabletOrMobile && (
                       <Tooltip title="Click here to delete attribute" arrow placement="top">
-                      <Button
-                        size="small"
-                        sx={{ color: 'grey.600', minWidth: 'auto' }}
-                        onClick={() => handleRemove(index)}
-                        disabled={fields.length === 1}
-                      >
-                        <Iconify width={24} icon="solar:trash-bin-trash-bold" />
-                      </Button>
+                        <Button
+                          size="small"
+                          sx={{ color: 'grey.600', minWidth: 'auto' }}
+                          onClick={() => handleConfirmRemove(index)}
+                          disabled={fields.length === 1}
+                        >
+                          <Iconify width={24} icon="solar:trash-bin-trash-bold" />
+                        </Button>
                       </Tooltip>
                     )}
                   </Stack>
@@ -160,7 +121,7 @@ export default function Page() {
                       <Button
                         size="small"
                         sx={{ color: 'grey.600', minWidth: 'auto' }}
-                        onClick={() => handleRemove(index)}
+                        onClick={() => handleConfirmRemove(index)}
                         disabled={fields.length === 1}
                       >
                         <Iconify width={24} icon="solar:trash-bin-trash-bold" />
@@ -170,51 +131,48 @@ export default function Page() {
                 </Stack>
               ))}
             </Stack>
-            <Tooltip title="click here to add more attribute" arrow placement="top">
+
             <Button
               size="small"
               color="primary"
               startIcon={<Iconify icon="mingcute:add-line" />}
               onClick={handleAdd}
-              sx={{ mt: 3, alignSelf: 'flex-start' }}
+              sx={{ mt: 3 }}
             >
               Add More Attribute
             </Button>
-            </Tooltip>
 
             <Box sx={{ mt: 3 }}>
-            <Tooltip title="Click here to save attribute" arrow placement="top">
               <Button onClick={saveAttributes} variant="contained" color="inherit">
                 Save
               </Button>
-              </Tooltip>
             </Box>
           </Box>
         </Card>
       </Box>
+
       <Snackbar
         open={snackbarOpen}
-        autoHideDuration={1000} // Adjust duration as needed
+        autoHideDuration={1000}
         onClose={handleSnackbarClose}
         anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-        sx={{
-          boxShadow: '0px 8px 16px 0px rgba(145, 158, 171, 0.16)',
-        }}
       >
-        <Alert
-          onClose={handleSnackbarClose}
-          severity="success"
-          sx={{
-            width: '100%',
-            fontSize: '14px',
-            fontWeight: 'bold',
-            backgroundColor: theme.palette.background.paper,
-            color: theme.palette.text.primary,
-          }}
-        >
+        <Alert onClose={handleSnackbarClose} severity="success">
           Attributes Saved Successfully!
         </Alert>
       </Snackbar>
+
+      <ConfirmDialog
+        open={confirmDelete.open}
+        onClose={() => setConfirmDelete({ open: false, index: null })}
+        title="Delete"
+        content="Are you sure you want to remove this attribute?"
+        action={
+          <Button variant="contained" color="error" onClick={handleRemove}>
+            Delete
+          </Button>
+        }
+      />
     </DashboardContent>
   );
 }

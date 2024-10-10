@@ -1,3 +1,4 @@
+import { useDispatch } from 'react-redux';
 import { useState, useCallback } from 'react';
 
 import { useTheme } from '@mui/material/styles';
@@ -6,7 +7,6 @@ import {
   Box,
   Card,
   Alert,
-  Avatar,
   Button,
   Divider,
   Tooltip,
@@ -18,6 +18,8 @@ import {
   InputAdornment,
 } from '@mui/material';
 
+import { setOptOutMessageData } from 'src/redux/slices/optOutRegularMessageSlice';
+
 import { Iconify } from 'src/components/iconify';
 import FileUpload from 'src/components/upload/upload';
 import { ConfirmDialog } from 'src/components/custom-dialog';
@@ -26,7 +28,9 @@ import FileType from './hook/messages-type/file';
 import VideoType from './hook/messages-type/video';
 import AudioType from './hook/messages-type/audio';
 
-export default function RegularMessage() {
+export default function OptOutRegularMessage({onClose}) {
+  const dispatch = useDispatch();
+  
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const [confirmDelete, setConfirmDelete] = useState(false);
@@ -54,16 +58,22 @@ export default function RegularMessage() {
   ); // State to store the entered message
 
   const handleAdd = () => {
-    // Implement your logic to add WhatsApp number here
-    // For example, you might want to validate the inputs first
+    // Dispatch the selected message type and content to Redux store
+    dispatch(
+      setOptOutMessageData({
+        messageType: messagetype,
+        messageContent: message,
+        chatBoxImage, // If there is an image
+      })
+    );
 
     // Show the snackbar
     setSnackbarOpen(true);
+    onClose();
 
     // Close the dialog after a short delay
     setTimeout(() => {}, 500);
-  };
-
+  }
   const handleSnackbarClose = (event, reason) => {
     if (reason === 'clickaway') {
       return;
@@ -116,7 +126,7 @@ export default function RegularMessage() {
     <>
       <Box sx={{ mt: '24px' }}>
         <Box display="flex" flexDirection={isMobile ? 'column' : 'row'} width="100%">
-          <Box width={isMobile ? '100%' : '60%'} pr={isMobile ? 0 : '12px'}>
+          <Box width={isMobile ? '100%' : '59.01%'} pr={isMobile ? 0 : '12px'}>
             <Tooltip title="Click here to select regular message type" arrow placement="top">
               <TextField
                 sx={{ mb: 3 }}
@@ -359,31 +369,16 @@ export default function RegularMessage() {
               >
                 <CardHeader
                   sx={{ mb: 2 }}
-                  avatar={<Avatar aria-label="profile picture">MC</Avatar>}
+                 
                   title={
                     <Typography variant="h7" sx={{ fontSize: 14, fontWeight: '700' }}>
                       Mireya Conner
                     </Typography>
                   }
-                  subheader={
-                    <Typography variant="subtitle2" sx={{ fontSize: 12, fontWeight: '400' }}>
-                      Online
-                    </Typography>
-                  }
+                  
                 />
                 <Divider />
-                <Typography
-                  variant="caption"
-                  sx={{
-                    pr: 2,
-                    pt: 3,
-                    display: 'flex',
-                    color: '#919EAB',
-                    justifyContent: 'end',
-                  }}
-                >
-                  4:02 PM
-                </Typography>
+               
                 <Box
                   sx={{
                     p: 2,
@@ -432,7 +427,7 @@ export default function RegularMessage() {
           </Button>
         </Tooltip>
         <Tooltip title="Click here to cancel regular message type" arrow placement="top">
-          <Button sx={{ mt: '24px' }} variant="outlined">
+          <Button sx={{ mt: '24px' }} variant="outlined" onClick={onClose}>
             Cancel
           </Button>
         </Tooltip>

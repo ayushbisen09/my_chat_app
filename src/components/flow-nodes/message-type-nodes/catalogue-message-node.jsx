@@ -1,29 +1,19 @@
 import React, { useState } from 'react';
 
-import {
-  Box,
-  Card,
-  Typography,
-  IconButton,
-  CardHeader,
-} from '@mui/material';
+import { Box, Card, Typography, IconButton, CardHeader } from '@mui/material';
 
 import { Iconify } from 'src/components/iconify';
 
-import renderCatalougeMessageNodeCard from './catalouge-node-card/catalouge-message-node-card';
+import RenderCatalougeMessageNodeCard from './catalouge-node-card/catalouge-message-node-card';
 
 export default function CatalougeMessageNode({ sx, ...other }) {
   const [cards, setCards] = useState([
     {
       id: 1,
-    
+
       textFields: [{ id: 1 }], // Initialize with one text field for the first card
     },
-    
   ]);
-
-  
- 
 
   const addTextField = (cardId) => {
     setCards(
@@ -56,7 +46,7 @@ export default function CatalougeMessageNode({ sx, ...other }) {
   };
   const deleteCard = (cardId) => {
     setCards(cards.filter((card) => card.id !== cardId));
-  }
+  };
   const handleHoverCardClick = (cardId) => {
     const cardIndex = cards.findIndex((card) => card.id === cardId);
     if (cardIndex !== -1) {
@@ -102,7 +92,7 @@ export default function CatalougeMessageNode({ sx, ...other }) {
         sx={{ p: 0, mb: 2 }}
       />
       {cards.map((card, index) =>
-        renderCatalougeMessageNodeCard(
+        RenderCatalougeMessageNodeCard(
           card,
           index,
           addTextField,
@@ -110,7 +100,7 @@ export default function CatalougeMessageNode({ sx, ...other }) {
           deleteCard,
           handleHoverCardClick
         )
-      )}   
-      </Card>
+      )}
+    </Card>
   );
 }

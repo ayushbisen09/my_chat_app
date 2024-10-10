@@ -183,11 +183,10 @@ export function WebhookDialog({ title, content, action, open, onClose, ...other 
             Cancel
           </Button>
           <Tooltip title="click here to add opt-out webhook." arrow placement="top">
-          <Button onClick={handleAdd} variant="contained">
-            Add
-          </Button>
+            <Button onClick={handleAdd} variant="contained">
+              Add
+            </Button>
           </Tooltip>
-        
         </DialogActions>
       </Dialog>
       <Snackbar

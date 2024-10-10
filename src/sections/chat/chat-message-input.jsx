@@ -29,7 +29,7 @@ import {
 } from 'src/redux/slices/messageReply';
 
 import { Iconify } from 'src/components/iconify';
-import { ChooseTemaplte } from 'src/components/flow-nodes/message-type-nodes/hooks/dailogs/flow-start-node-choose-templates-dailog';
+import { ChooseTemplate } from 'src/components/flow-nodes/message-type-nodes/hooks/dailogs/flow-start-node-choose-templates-dailog';
 
 import { useMockedUser } from 'src/auth/hooks';
 
@@ -473,7 +473,7 @@ export function ChatMessageInput({
         onFileAttached={handleFileAttached}
       />
       <QuickRepliesDialog open={dialogType === 'quick-replies'} onClose={handleCloseDialog} />
-      <ChooseTemaplte open={dialogType === 'template'} onClose={handleCloseDialog} />
+      <ChooseTemplate open={dialogType === 'template'} onClose={handleCloseDialog} />
     </>
   );
 }

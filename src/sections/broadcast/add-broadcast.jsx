@@ -5,8 +5,8 @@ import { FormProvider } from 'react-hook-form';
 import ReactCountryFlag from 'react-country-flag';
 import React, { useState, useCallback } from 'react';
 
+import { DatePicker } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import {
   Box,
@@ -447,7 +447,7 @@ export default function AddBroadcast() {
                   <Form>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                     
-                      <DateTimePicker
+                      <DatePicker
                         sx={{ mt: '24px' }}
                         label="Select Date and Time"
                         value={startDate}

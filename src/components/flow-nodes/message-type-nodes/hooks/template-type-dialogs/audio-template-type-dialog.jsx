@@ -1,5 +1,6 @@
 import { useTheme } from '@emotion/react';
 import { useState, useCallback } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
@@ -14,12 +15,30 @@ import {
   InputAdornment,
 } from '@mui/material';
 
+import {
+  optInSetAudioData,
+  optInSetTemplateType,
+} from 'src/redux/slices/optInMessageTemplateTypeSlice';
+import {
+  optOutSetAudioData,
+  optOutSetTemplateType,
+} from 'src/redux/slices/optOutMessageTemplateTypeSlice';
+import {
+  offHourSetAudioData,
+  offHourSetTemplateType,
+} from 'src/redux/slices/offHourMessageTemplateTypeSlice';
+import {
+  wellComeSetAudioData,
+  wellComeSetTemplateType,
+} from 'src/redux/slices/wellcomeMessageTemplateTypeSlice';
+
 import { Iconify } from 'src/components/iconify';
 import FileUpload from 'src/components/upload/upload';
 
 import AudioTemplateChatBox from 'src/sections/preview-template/audio-chatbox';
 
 export function AudioTemplateTypeDialog({ title, content, action, open, onClose, ...other }) {
+  const dispatch = useDispatch();
   const theme = useTheme();
   const isWeb = useMediaQuery(theme.breakpoints.up('sm'));
   const [file, setFile] = useState(null);
@@ -48,13 +67,58 @@ export function AudioTemplateTypeDialog({ title, content, action, open, onClose,
     }
   }, []);
 
-  const handleDone = () => {
-    console.log('File:', file);
-    console.log('Body Fields:', bodyFields);
-    console.log('File Name:', fileName);
-    onClose();
-  };
+  const chosen = useSelector((state) => state.optInMessageTemplateType.chosen);
+  const wellComeChosen = useSelector((state) => state.wellComeMessageTemplateType.wellComeChosen);
 
+  const handleSave = () => {
+    // Dispatch audio data to the Redux store
+    if (chosen === 'optIn') {
+      dispatch(optInSetTemplateType('audio'));
+      dispatch(
+        optInSetAudioData({
+          audioUrl,
+          bodyFields,
+          fileName,
+        })
+      );
+    } else {
+      dispatch(optOutSetTemplateType('audio'));
+      dispatch(
+        optOutSetAudioData({
+          audioUrl,
+          bodyFields,
+          fileName,
+        })
+      );
+    }
+
+    onClose(); // Close the dialog
+  };
+  const handleSend = () => {
+    // Dispatch audio data to the Redux store
+
+    if (wellComeChosen === 'wellCome') {
+      dispatch(wellComeSetTemplateType('audio'));
+      dispatch(
+        wellComeSetAudioData({
+          audioUrl,
+          bodyFields,
+          fileName,
+        })
+      );
+    } else {
+      dispatch(offHourSetTemplateType('audio'));
+      dispatch(
+        offHourSetAudioData({
+          audioUrl,
+          bodyFields,
+          fileName,
+        })
+      );
+    }
+
+    onClose(); // Close the dialog
+  };
   const handleCancel = () => {
     onClose();
   };
@@ -174,8 +238,18 @@ export function AudioTemplateTypeDialog({ title, content, action, open, onClose,
         </Box>
       </Box>
       <Box sx={{ px: 2, pb: 2 }}>
-        <Button variant="contained" sx={{ mr: 1 }} onClick={handleDone}>
-          Send
+        <Button
+          variant="contained"
+          sx={{ mr: 1 }}
+          onClick={() => {
+            if (chosen === 'optIn') {
+              handleSave();
+            } else {
+              handleSend();
+            }
+          }}
+        >
+          Save
         </Button>
         <Button variant="outlined" onClick={handleCancel}>
           Cancel

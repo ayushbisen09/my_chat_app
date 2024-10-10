@@ -14,13 +14,17 @@ import {
   useMediaQuery,
 } from '@mui/material';
 
+import { useBoolean } from 'src/hooks/use-boolean';
+
 import { CONFIG } from 'src/config-global';
 import { DashboardContent } from 'src/layouts/dashboard';
 
 import { Iconify } from 'src/components/iconify';
 import PageHeader from 'src/components/page-header/page-header';
 
+import { WebhookDialog } from 'src/sections/api-&-webhook/hook/add-webhook';
 import BigCard from 'src/sections/api-&-webhook/components/bigcard/big-card';
+import { ApiWebhookTable } from 'src/sections/api-&-webhook/components/table/api-webhook-table';
 
 // ----------------------------------------------------------------------
 
@@ -31,6 +35,10 @@ export default function Page() {
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const theme = useTheme();
   const isWeb = useMediaQuery(theme.breakpoints.up('sm'));
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+  const dialog = useBoolean();
+
+
 
   const copyToClipboard = () => {
     navigator.clipboard
@@ -60,11 +68,36 @@ export default function Page() {
     <>
       {/* <BlankView title="Notification Preferences" /> */}
       <DashboardContent maxWidth="xl">
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: isMobile ? 'column' : 'row',
+          alignItems: isMobile ? 'flex-start' : 'center',
+          justifyContent: 'space-between',
+          mb: 0,
+        }}
+      >
         <PageHeader
           title="API & Webhooks"
           Subheading="API & Webhooks is the secret key used for authentication while making a request to our APIs."
           showButton={false}
         />
+        <Tooltip title="Click here to add WhatsApp Number." arrow placement="top">
+        <Button
+          onClick={dialog.onTrue}
+          sx={{ mt: isMobile ? 2 : 0 }}
+          startIcon={
+            <Iconify icon="heroicons:plus-circle-16-solid" style={{ width: 18, height: 18 }} />
+          }
+          size="large"
+          variant="contained"
+          color="primary"
+        >
+          Add Webhook
+        </Button>
+        </Tooltip>
+        <WebhookDialog open={dialog.value} onClose={dialog.onFalse} />
+</Box>
         <Box sx={{ mt: 4 }}>
           {' '}
           {/* Add margin-top and padding for spacing */}
@@ -75,6 +108,7 @@ export default function Page() {
             <Divider sx={{ mx: -3 }} /> {/* Extend Divider to full width */}
             <Box sx={{ mt: 3 }}>
               <TextField
+       
                 variant="outlined"
                 // fullWidth
                 label="Here's your Pabbly Broadcasting API Token"
@@ -116,7 +150,9 @@ export default function Page() {
             </Box>
           </Card>
           {/* card section started */}
+
           <BigCard />
+          <ApiWebhookTable/>
         </Box>
       </DashboardContent>
       <Snackbar

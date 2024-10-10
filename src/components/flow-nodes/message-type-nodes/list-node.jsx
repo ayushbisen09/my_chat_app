@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 
 import {
   Box,
@@ -11,15 +12,19 @@ import {
   CardHeader,
   IconButton,
   Typography,
-  ListItemIcon
+  ListItemIcon,
 } from '@mui/material';
+
+import { updateListPlaceholder } from 'src/redux/slices/listNodeMessagePreviewSlice';
 
 import { Iconify } from 'src/components/iconify';
 
-import renderListNode from './list-node-cards/list-card';
-import renderAddItemCard from './list-node-cards/add-item-card';
+import RenderListNode from './list-node-cards/list-card';
+import RenderAddItemCard from './list-node-cards/add-item-card';
 import renderTextButtonNode from './text-button-node-card/text-button-card';
-import renderListNodeAddSectionCard from './list-node-cards/list-node-add-section-card';
+import RenderListNodeAddSectionCard from './list-node-cards/list-node-add-section-card';
+import { ListNodeMessagePreview } from './list-node-cards/hook/list-node-message-preview';
+
 
 const commonCardStyles = {
   px: 1.5,
@@ -37,7 +42,6 @@ const commonCardStyles = {
 };
 
 export default function ListNode({
-  
   sx,
   Videotitle,
   cardstats,
@@ -46,14 +50,18 @@ export default function ListNode({
   videoId,
   ...other
 }) {
-  const [cards, setCards] = useState([{ id: 1, type: 'list-node', textFields: [] },{
-    id: 2,
-    type: 'text-button',
-    textFields: [{ id: 1 }], // Initialize with one text field for the first card
-  },]);
+  const [cards, setCards] = useState([
+    { id: 1, type: 'list-node', textFields: [] },
+    {
+      id: 2,
+      type: 'text-button',
+      textFields: [{ id: 1 }], // Initialize with one text field for the first card
+    },
+  ]);
   const [outsideCards, setOutsideCards] = useState([]); // State for cards outside the main card
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
+  const [showListNodeMessagePreview, setShowListNodeMessagePreview] = useState(false);
 
   const addTextField = (cardId) => {
     setCards(
@@ -120,13 +128,11 @@ export default function ListNode({
 
   const addOutsideCard = (type) => {
     const newCard = { id: outsideCards.length + 1, type, textFields: [] };
-   
+
     setOutsideCards((prev) => [...prev, newCard]);
     handleClose();
   };
-
-
-  
+  const dispatch = useDispatch();
 
   return (
     <Card
@@ -140,7 +146,7 @@ export default function ListNode({
           borderRadius: '16px',
         },
         overflow: 'visible',
-        
+
         ...sx,
       }}
       {...other}
@@ -164,59 +170,52 @@ export default function ListNode({
         sx={{ p: 0, mb: 2 }}
       />
 
-      <Card 
-    sx={{
-      position: 'relative',
-      boxShadow: '0px 2px 1px 0px rgba(145, 158, 171, 0.16)',
-      px: 1.5,
-      pt: 3.5,
-      pb: 2.5,
-      mb: 3,
-      borderRadius: '8px',
-      border: '1px solid transparent',
-      overflow: 'visible',
-      '&:hover': {
-        border: '1px solid #919EAb',
-        borderRadius: '8px',
-      },
-      '&:hover .hoverCard': {
-        opacity: 1,
-      },
-    }}
->
- 
-       
+      <Card
+        sx={{
+          position: 'relative',
+          boxShadow: '0px 2px 1px 0px rgba(145, 158, 171, 0.16)',
+          px: 1.5,
+          pt: 3.5,
+          pb: 2.5,
+          mb: 3,
+          borderRadius: '8px',
+          border: '1px solid transparent',
+          overflow: 'visible',
+          '&:hover': {
+            border: '1px solid #919EAb',
+            borderRadius: '8px',
+          },
+          '&:hover .hoverCard': {
+            opacity: 1,
+          },
+        }}
+      >
         {cards.map((card, index) => (
           <Box sx={{ position: 'relative' }} key={card.id}>
-            
-            {card.type === 'list-node' && renderListNode(
-              card,
-              index,
-              deleteTextField,
-              deleteCard,
-              handleHoverCardClick
-            )}
-            {card.type === 'add-section' && renderListNodeAddSectionCard(
-              card,
-              index,
-              addTextField,
-              deleteTextField,
-              deleteCard,
-              handleHoverCardClick,
-              addItemCard
-            )}
-            {card.type === 'add-item' && renderAddItemCard(
-              card,
-              index,
-              addTextField,
-              deleteTextField,
-              deleteCard,
-              handleHoverCardClick
-            )}
+            {card.type === 'list-node' &&
+              RenderListNode(card, index, deleteTextField, deleteCard, handleHoverCardClick)}
+            {card.type === 'add-section' &&
+              RenderListNodeAddSectionCard(
+                card,
+                index,
+                addTextField,
+                deleteTextField,
+                deleteCard,
+                handleHoverCardClick,
+                addItemCard
+              )}
+            {card.type === 'add-item' &&
+              RenderAddItemCard(
+                card,
+                index,
+                addTextField,
+                deleteTextField,
+                deleteCard,
+                handleHoverCardClick
+              )}
           </Box>
         ))}
 
-       
         <Button
           sx={{ mb: 3 }}
           variant="outlined"
@@ -232,92 +231,85 @@ export default function ListNode({
         </Button>
 
         <TextField
-  sx={{
- 
-   
-    '& .MuiFilledInput-root': {
-    
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-    '& .MuiInputBase-input': {
-      textAlign: 'center',
-      padding:'12px'
-    },
-    '& .MuiInputLabel-root': {
-      display: 'none', // Hide the label
-    },
-  }}
-  variant="filled"
-  fullWidth
-  placeholder="List"
-  InputProps={{
-    sx: { textAlign: 'center' },
-  }}
- 
-/>
+          sx={{
+            '& .MuiFilledInput-root': {
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            },
+            '& .MuiInputBase-input': {
+              textAlign: 'center',
+              padding: '12px',
+            },
+            '& .MuiInputLabel-root': {
+              display: 'none', // Hide the label
+            },
+          }}
+          variant="filled"
+          fullWidth
+          placeholder="List"
+          InputProps={{
+            sx: { textAlign: 'center' },
+          }}
+          onChange={(e) => dispatch(updateListPlaceholder(e.target.value))}  // Dispatch action on change
+        />
         <Box
-      className="hoverCard"
-      sx={{
-        position: 'absolute',
-        top: 30,
-        right: -40,
-        width: '50px',
-        backgroundColor: 'background.paper',
-        border: '1px solid #ddd',
-        borderRadius: '12px',
-        opacity: 0,
-        transition: 'opacity 0.1s',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        flexDirection: 'column',
-        zIndex: 10,
-        p:1
-      }}
-    >
-      <Tooltip title="Add">
-        <IconButton >
-          <Iconify
-            width={24}
-            icon="eva:plus-fill"
-            sx={{ color: 'text.secondary' }}
+          className="hoverCard"
+          sx={{
+            position: 'absolute',
+            top: 30,
+            right: -40,
+            width: '50px',
+            backgroundColor: 'background.paper',
+            border: '1px solid #ddd',
+            borderRadius: '12px',
+            opacity: 0,
+            transition: 'opacity 0.1s',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            flexDirection: 'column',
+            zIndex: 10,
+            p: 1,
+          }}
+        >
+          <Tooltip title="Add">
+            <IconButton>
+              <Iconify width={24} icon="eva:plus-fill" sx={{ color: 'text.secondary' }} />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Preview">
+            <IconButton
+              onClick={() => {
+                console.log('clicked');
+                setShowListNodeMessagePreview(true);
+              }}
+            >
+              <Iconify width={20} icon="eva:eye-fill" sx={{ color: 'text.secondary' }} />
+            </IconButton>
+          </Tooltip>
+          <ListNodeMessagePreview
+            showListNodeMessagePreview={showListNodeMessagePreview}
+            setShowListNodeMessagePreview={setShowListNodeMessagePreview}
           />
-        </IconButton>
-      </Tooltip>
-      <Tooltip title="Preview">
-        <IconButton>
-          <Iconify width={24} icon="eva:eye-fill" sx={{ color: 'text.secondary' }} />
-        </IconButton>
-      </Tooltip>
-     
-        
-    
-    </Box>
+        </Box>
       </Card>
 
       {/* Render cards that are outside the main Card */}
-      {outsideCards.map((card,index) => (
-        <Box sx={{ position: 'relative' }} >
-          
-          {card.type === 'list-node' && renderListNode(
-            card,
-            card.id,
-            deleteTextField,
-            deleteCard,
-            handleHoverCardClick
-          )}
+      {outsideCards.map((card, index) => (
+        <Box sx={{ position: 'relative' }}>
+          {card.type === 'list-node' &&
+            RenderListNode(card, card.id, deleteTextField, deleteCard, handleHoverCardClick)}
 
-
-          {card.type === 'text-button' && renderTextButtonNode(
-      card,
-      index,
-      addTextField,
-      deleteTextField,
-      deleteCard,
-      handleHoverCardClick
-    )}
+          {card.type === 'text-button' &&
+            renderTextButtonNode(
+              card,
+              index,
+              addTextField,
+              deleteTextField,
+              deleteCard,
+              handleHoverCardClick
+            )}
           {/* Add handling for other types if needed */}
         </Box>
       ))}

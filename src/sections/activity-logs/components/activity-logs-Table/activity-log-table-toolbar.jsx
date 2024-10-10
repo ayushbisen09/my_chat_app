@@ -1,15 +1,19 @@
+
+import dayjs from 'dayjs';
 import { useTheme } from '@emotion/react';
 import { useState, useCallback } from 'react';
 
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
 import Popover from '@mui/material/Popover';
 import MenuItem from '@mui/material/MenuItem';
 import TextField from '@mui/material/TextField';
 import FormControl from '@mui/material/FormControl';
 import { Tooltip ,useMediaQuery} from '@mui/material';
 import InputAdornment from '@mui/material/InputAdornment';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
 import { useBoolean } from 'src/hooks/use-boolean';
 
@@ -24,6 +28,8 @@ export function ActivityLogTableToolbar({ filters, onResetPage, dateError }) {
   const confirm = useBoolean();
 
   const popover = usePopover();
+  const [startDate, setStartDate] = useState(dayjs(new Date()));
+  const [endDate, setEndDate] = useState(dayjs(new Date()));
   const [filterAnchorEl, setFilterAnchorEl] = useState(null);
   const [selectedColumn, setSelectedColumn] = useState('');
   const [operator, setOperator] = useState('contains');
@@ -79,26 +85,28 @@ export function ActivityLogTableToolbar({ filters, onResetPage, dateError }) {
         direction={{ xs: 'column', md: 'row' }}
         sx={{ p: 2.5, pr: { xs: 2.5, md: 1 } }}
       >
-        <TextField
-          label="Start date"
-          type="date"
-          value={filters.state.startDate}
-          onChange={handleFilterStartDate}
-          fullWidth
-          InputLabelProps={{ shrink: true }} // Ensure the label stays visible
-          sx={{ maxWidth: { md: 200 } }}
-        />
-        <TextField
-          label="End date"
-          type="date"
-          value={filters.state.endDate}
-          onChange={handleFilterEndDate}
-          fullWidth
-          error={dateError}
-          helperText={dateError ? 'End date must be later than start date' : null}
-          InputLabelProps={{ shrink: true }}
-          sx={{ maxWidth: { md: 200 } }}
-        />
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DatePicker
+              label="Start Date"
+              value={startDate}
+              minDate={dayjs('2017-01-01')}
+              onChange={(newValue) => {
+                setStartDate(newValue);
+              }}
+              slotProps={{ textField: { fullWidth: false } }}
+            />
+          </LocalizationProvider>
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DatePicker
+              label="End Date"
+              value={endDate}
+              minDate={dayjs('2017-01-01')}
+              onChange={(newValue) => {
+                setEndDate(newValue);
+              }}
+              slotProps={{ textField: { fullWidth: false } }}
+            />
+          </LocalizationProvider>
         <Stack direction="row" alignItems="center" flexGrow={1} sx={{ width: 1 }}>
         <Tooltip title="Search log by actor or event data" arrow placement="top">
           <TextField
@@ -116,7 +124,7 @@ export function ActivityLogTableToolbar({ filters, onResetPage, dateError }) {
             }}
           />
           </Tooltip>
-          <Tooltip title="Filter log by Status " arrow placement="top">
+          {/* <Tooltip title="Filter log by Status " arrow placement="top">
           <Button
             size="large"
             variant=""
@@ -125,7 +133,7 @@ export function ActivityLogTableToolbar({ filters, onResetPage, dateError }) {
           >
             Filters
           </Button>
-          </Tooltip>
+          </Tooltip> */}
         </Stack>
       </Stack>
       <CustomPopover

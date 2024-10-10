@@ -1,5 +1,5 @@
 import IconButton from '@mui/material/IconButton';
-import { Box, Card, Avatar, Divider, CardMedia, CardHeader, Typography } from '@mui/material';
+import { Box, Card, Divider, CardMedia, CardHeader, Typography } from '@mui/material';
 
 import { Iconify } from '../iconify';
 
@@ -11,10 +11,7 @@ export default function ChatBox({
   showCall,
   showCoupon,
   showVisit,
-  title,
-  showOnline = true, // Default to true, can be overridden
-  showAvatar = true, // Default to true, can be overridden
-  showTimestamp = true, // Default to true, can be overridden
+  title, // Default to true, can be overridden
 }) {
   return (
     <Card
@@ -26,39 +23,16 @@ export default function ChatBox({
     >
       <CardHeader
         sx={{ mb: 2 }}
-        avatar={
-          showAvatar && ( // Conditionally render avatar
-            <Avatar aria-label="profile picture">MC</Avatar>
-          )
-        }
+        
         title={
-          <Typography variant="h7" sx={{ fontSize: 14, fontWeight: '700' }}>
+          <Typography variant= 'body2' sx={{ fontSize: 14, fontWeight: '700' }}>
             {title || 'Mireya Conner'} {/* Use title prop if available */}
           </Typography>
         }
-        subheader={
-          showOnline && ( // Conditionally render online status
-            <Typography variant="subtitle2" sx={{ fontSize: 12, fontWeight: '400' }}>
-              Online
-            </Typography>
-          )
-        }
+        
       />
       <Divider />
-      {showTimestamp && ( // Conditionally render timestamp
-        <Typography
-          variant="caption"
-          sx={{
-            pr: 2,
-            pt: 3,
-            display: 'flex',
-            color: '#919EAB',
-            justifyContent: 'end',
-          }}
-        >
-          4:02 PM
-        </Typography>
-      )}
+      
       <Box
         sx={{
           p: 2,

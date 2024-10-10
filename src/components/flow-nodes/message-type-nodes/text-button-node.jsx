@@ -14,7 +14,7 @@ import {
 
 import { Iconify } from 'src/components/iconify';
 
-import renderTextButtonNode from './text-button-node-card/text-button-card';
+import RenderTextButtonNode from './text-button-node-card/text-button-card';
 
 export default function TextButtonNode({ sx, ...other }) {
   const [cards, setCards] = useState([
@@ -129,7 +129,7 @@ export default function TextButtonNode({ sx, ...other }) {
         sx={{ p: 0, mb: 2 }}
       />
       {cards.map((card, index) =>
-        renderTextButtonNode(
+        RenderTextButtonNode(
           card,
           index,
           addTextField,

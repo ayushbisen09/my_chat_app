@@ -12,7 +12,7 @@ import ChooseTemplateDailogTable from '../template-dailog-table/template-dailog-
 
 // ----------------------------------------------------------------------
 
-export function ChooseTemaplte({ title, content, action, open, onClose, ...other }) {
+export function ChooseTemplate({ title, content, action, open, onClose, ...other }) {
   const theme = useTheme();
   const isWeb = useMediaQuery(theme.breakpoints.up('sm'));
   const dialog = useBoolean();

@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
 
+import { useTheme } from '@mui/material/styles'; // Corrected import
+
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
 import MenuList from '@mui/material/MenuList';
 import MenuItem from '@mui/material/MenuItem';
 import TableRow from '@mui/material/TableRow';
 import TableCell from '@mui/material/TableCell';
-import { Tooltip,Checkbox } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
+import { Alert, Button, Divider, Tooltip, Checkbox, Snackbar } from '@mui/material';
 
 import { useBoolean } from 'src/hooks/use-boolean';
 
@@ -16,46 +17,54 @@ import { Iconify } from 'src/components/iconify';
 import { ConfirmDialog } from 'src/components/custom-dialog';
 import { usePopover, CustomPopover } from 'src/components/custom-popover';
 
+import { EditTagDialog } from '../hook/edit-tag-dialog';
+import { PreviewTagDialog } from '../hook/preview-tag-dialog';
 
-const tagname = [
-  'Purchase',
-  'Pabbly Connect',
-  'Employee',
-  'Pabbly Subscription Billing',
-  'Pabbly Form Builder',
-  'Support',
-  'Sales'
-  // Add more flow names as needed
-];
+// import { EditQuickRepliesDialog } from '../../hook/edit-quick-replies-dialog';
+// import { PreviewQuickRepliesDialog } from '../../hook/preview-quick-replies-dialog';
 
-const tagassignwhen = [
-  'Want to purchase',
-  'Want to purchase Pabbly Connect',
-  'Do you want to join as an employee',
-  '	Want to purchase Pabbly Subscription Billing',
-  '	Want to purchase Pabbly Form Builder',
-  'I need support',
-  'Manage sales data',
-  // Add more flow names as needed
-];
+export function TagTableRow({ row, selected, onSelectRow, tagIndex }) {
+  const [snackbarOpen, setSnackbarOpen] = useState(false); // State for Snackbar
+  const theme = useTheme(); // Corrected theme import
+  const dialog = useBoolean();
+  const previewDialog = useBoolean();
 
-export function TagTableRow({
-  row,
-  selected,
-  onViewRow,
-  onSelectRow,
-  onDeleteRow,
-  tagIndex
-}) {
+  const handleSnackbarClose = (reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setSnackbarOpen(false);
+  };
+
   const confirm = useBoolean();
-  const collapse = useBoolean();
   const popover = usePopover();
 
-  const [setShowToken] = useState(false);
-
-  const handleToggleToken = () => {
-    setShowToken((prev) => !prev);
+  const handleDelete = () => {
+    confirm.onFalse();
+    setSnackbarOpen(true); // Set Snackbar to open on delete
   };
+
+  const tagname = [
+    'Purchase',
+    'Pabbly Connect',
+    'Employee',
+    'Pabbly Subscription Billing',
+    'Pabbly Form Builder',
+    'Support',
+    'Sales',
+    // Add more flow names as needed
+  ];
+
+  const tagassignwhen = [
+    'Want to purchase',
+    'Want to purchase Pabbly Connect',
+    'Do you want to join as an employee',
+    '	Want to purchase Pabbly Subscription Billing',
+    '	Want to purchase Pabbly Form Builder',
+    'I need support',
+    'Manage sales data',
+    // Add more flow names as needed
+  ];
 
   const renderPrimary = (
     <TableRow hover selected={selected}>
@@ -66,7 +75,7 @@ export function TagTableRow({
           inputProps={{ id: `row-checkbox-${row.id}`, 'aria-label': `Row checkbox` }}
         />
       </TableCell>
-      <TableCell width={700}>
+      <TableCell width={592}>
         <Stack spacing={2} direction="row" alignItems="center">
           <Stack
             sx={{
@@ -75,13 +84,13 @@ export function TagTableRow({
               alignItems: 'flex-start',
             }}
           >
-            <Tooltip title="Tag name" arrow placement="top">
-            <Box component="span">{tagname[tagIndex % tagname.length]}</Box>
+            <Tooltip title="Tag name " arrow placement="top">
+              <Box component="span">{tagname[tagIndex % tagname.length]}</Box>
             </Tooltip>
           </Stack>
         </Stack>
       </TableCell>
-      <TableCell width={700}>
+      <TableCell width={592}>
         <Stack spacing={2} direction="row" alignItems="center">
           <Stack
             sx={{
@@ -90,8 +99,8 @@ export function TagTableRow({
               alignItems: 'flex-start',
             }}
           >
-            <Tooltip title="Tag Assign when" arrow placement="top">
-            <Box component="span">{tagassignwhen[tagIndex % tagassignwhen.length]}</Box>
+            <Tooltip title="This is when tag assign to user" arrow placement="top">
+              <Box component="span">{tagassignwhen[tagIndex % tagassignwhen.length]}</Box>
             </Tooltip>
           </Stack>
         </Stack>
@@ -107,34 +116,30 @@ export function TagTableRow({
             }}
           >
             <Tooltip title="Date when access shared by you" arrow placement="top">
-            <Box component="span">Jan 19, 2024</Box></Tooltip>
+              <Box component="span">Jan 19, 2024</Box>
+            </Tooltip>
             <Tooltip title="Time when access shared by you" arrow placement="top">
-            <Box component="span" sx={{ color: 'text.disabled' }}>
-              08:23:313
-            </Box>
+              <Box component="span" sx={{ color: 'text.disabled' }}>
+                08:23:313
+              </Box>
             </Tooltip>
           </Stack>
         </Stack>
       </TableCell>
 
       <TableCell align="right" sx={{ px: 1, whiteSpace: 'nowrap' }}>
-      
-        <Tooltip title="Action" arrow placement="top">
-        <IconButton color={popover.open ? 'inherit' : 'default'} onClick={popover.onOpen}>
-          <Iconify icon="eva:more-vertical-fill" />
-        </IconButton>
+        <Tooltip title="Actions" arrow placement="top">
+          <IconButton color={popover.open ? 'inherit' : 'default'} onClick={popover.onOpen}>
+            <Iconify icon="eva:more-vertical-fill" />
+          </IconButton>
         </Tooltip>
       </TableCell>
     </TableRow>
   );
 
-  
-
   return (
     <>
       {renderPrimary}
-
-    
 
       <CustomPopover
         open={popover.open}
@@ -143,17 +148,32 @@ export function TagTableRow({
         slotProps={{ arrow: { placement: 'right-top' } }}
       >
         <MenuList>
-        <Tooltip title="Click here to remove team member" arrow placement="left">
-          <MenuItem
-            onClick={() => {
-              confirm.onTrue();
-              popover.onClose();
-            }}
-            sx={{ color: 'error.main' }}
-          >
-            <Iconify icon="solar:trash-bin-trash-bold" />
-            Remove
-          </MenuItem>
+          <Tooltip title= {`Click here to view the this ${tagname[tagIndex % tagname.length]} tag?`} arrow placement="left">
+            <MenuItem onClick={previewDialog.onTrue}>
+              <Iconify icon="solar:eye-bold" />
+              View
+            </MenuItem>
+          </Tooltip>
+          <PreviewTagDialog open={previewDialog.value} onClose={previewDialog.onFalse} />
+          <Tooltip title={`Click here to edit this ${tagname[tagIndex % tagname.length]} tag?`} arrow placement="left">
+            <MenuItem onClick={dialog.onTrue}>
+              <Iconify icon="solar:pen-bold" />
+              Edit
+            </MenuItem>
+            <EditTagDialog open={dialog.value} onClose={dialog.onFalse} />
+          </Tooltip>
+          <Divider style={{ borderStyle: 'dashed' }} />
+          <Tooltip title= {`click here to delete this ${tagname[tagIndex % tagname.length]} tag?`} arrow placement="left">
+            <MenuItem
+              onClick={() => {
+                confirm.onTrue();
+                popover.onClose();
+              }}
+              sx={{ color: 'error.main' }}
+            >
+              <Iconify icon="solar:trash-bin-trash-bold" />
+              Delete
+            </MenuItem>
           </Tooltip>
         </MenuList>
       </CustomPopover>
@@ -161,16 +181,38 @@ export function TagTableRow({
       <ConfirmDialog
         open={confirm.value}
         onClose={confirm.onFalse}
-        title="Remove"
-        content="Are you sure want to remove?"
+        title="Delete"
+        content={`Are you sure you want to delete the ${tagname[tagIndex % tagname.length]} tag?`}
         action={
-          <Tooltip title="Click here to remove team member" arrow placement="bottom">
-          <Button variant="contained" color="error" onClick={onDeleteRow}>
-            Remove
+          <Button variant="contained" color="error" onClick={handleDelete}>
+            Delete
           </Button>
-          </Tooltip>
         }
       />
+
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={10000}
+        onClose={handleSnackbarClose}
+        anchorOrigin={{ vertical: 'buttom', horizontal: 'right' }}
+        sx={{
+          boxShadow: '0px 8px 16px 0px rgba(145, 158, 171, 0.16)',
+        }}
+      >
+        <Alert
+          onClose={handleSnackbarClose}
+          severity="success"
+          sx={{
+            width: '100%',
+            fontSize: '14px',
+            fontWeight: 'bold',
+            backgroundColor: theme.palette.background.paper,
+            color: theme.palette.text.primary,
+          }}
+        >
+          {tagname[tagIndex % tagname.length]} tag Deleted Successfully!
+        </Alert>
+      </Snackbar>
     </>
   );
 }

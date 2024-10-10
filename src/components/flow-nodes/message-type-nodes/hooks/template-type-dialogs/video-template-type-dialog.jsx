@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useTheme } from '@emotion/react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
@@ -14,21 +15,32 @@ import {
   InputAdornment,
 } from '@mui/material';
 
+import {
+  optInSetVideoData,
+  optInSetTemplateType,
+} from 'src/redux/slices/optInMessageTemplateTypeSlice';
+import {
+  optOutSetVideoData,
+  optOutSetTemplateType,
+} from 'src/redux/slices/optOutMessageTemplateTypeSlice';
+import {
+  offHourSetVideoData,
+  offHourSetTemplateType,
+} from 'src/redux/slices/offHourMessageTemplateTypeSlice';
+import {
+  wellComeSetVideoData,
+  wellComeSetTemplateType,
+} from 'src/redux/slices/wellcomeMessageTemplateTypeSlice';
+
 import { Iconify } from 'src/components/iconify';
 import FileUpload from 'src/components/upload/upload';
 
 import VideoTemplateChatBox from 'src/sections/preview-template/video-chatbox';
 
-import video from '../../../../../../public/assets/images/chatImage/video.png'
+import video from '../../../../../../public/assets/images/chatImage/video.png';
 
-export function VideoTemplateTypeDialog({
-  title,
-  content,
-  action,
-  open,
-  onClose,
-  ...other
-}) {
+export function VideoTemplateTypeDialog({ title, content, action, open, onClose, ...other }) {
+  const dispatch = useDispatch();
   const theme = useTheme();
   const isWeb = useMediaQuery(theme.breakpoints.up('sm'));
   const [file, setFile] = useState(null);
@@ -51,10 +63,56 @@ export function VideoTemplateTypeDialog({
     }
   };
 
-  const handleDone = () => {
-    console.log('File:', file);
-    console.log('Body Fields:', bodyFields);
-    onClose();
+  const chosen = useSelector((state) => state.optInMessageTemplateType.chosen);
+  const wellComeChosen = useSelector((state) => state.wellComeMessageTemplateType.wellComeChosen);
+
+  const handleSave = () => {
+    if (chosen === 'optIn') {
+      dispatch(optInSetTemplateType('video'));
+      dispatch(
+        optInSetVideoData({
+          videoUrl: file, // File URL from the file upload
+          bodyFields, // Body fields filled in the form
+          fileName: 'Video File', // You can update this based on your form field for file name
+        })
+      );
+    } else {
+      dispatch(optOutSetTemplateType('video'));
+      dispatch(
+        optOutSetVideoData({
+          videoUrl: file, // File URL from the file upload
+          bodyFields, // Body fields filled in the form
+          fileName: 'Video File', // You can update this based on your form field for file name
+        })
+      );
+    }
+    
+
+    onClose(); // Close dialog
+  };
+  const handleSend = () => {
+  
+    if (wellComeChosen === 'wellCome') {
+      dispatch(wellComeSetTemplateType('video'));
+      dispatch(
+        wellComeSetVideoData({
+          videoUrl: file, // File URL from the file upload
+          bodyFields, // Body fields filled in the form
+          fileName: 'Video File', // You can update this based on your form field for file name
+        })
+      );
+    } else {
+      dispatch(offHourSetTemplateType('video'));
+      dispatch(
+        offHourSetVideoData({
+          videoUrl: file, // File URL from the file upload
+          bodyFields, // Body fields filled in the form
+          fileName: 'Video File', // You can update this based on your form field for file name
+        })
+      );
+    }
+
+    onClose(); // Close dialog
   };
 
   const handleCancel = () => {
@@ -214,8 +272,14 @@ export function VideoTemplateTypeDialog({
         </Box>
       </Box>
       <Box sx={{ px: 2, pb: 2 }}>
-        <Button variant="contained" sx={{ mr: 1 }} onClick={handleDone}>
-          Send
+        <Button variant="contained" sx={{ mr: 1 }} onClick={() => {
+            if (chosen === 'optIn') {
+              handleSave();
+            } else {
+              handleSend();
+            }
+          }}>
+          Save
         </Button>
         <Button variant="outlined" onClick={handleCancel}>
           Cancel

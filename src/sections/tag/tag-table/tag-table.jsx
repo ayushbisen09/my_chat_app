@@ -4,7 +4,15 @@ import { useState, useCallback } from 'react';
 
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
-import { Table, Tooltip, Divider, TableBody, IconButton, CardHeader } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
+import {
+  Table,
+  Tooltip,
+  Divider,
+  TableBody,
+  IconButton,
+  CardHeader,
+} from '@mui/material';
 
 import { paths } from 'src/routes/paths';
 import { useRouter } from 'src/routes/hooks';
@@ -12,15 +20,16 @@ import { useRouter } from 'src/routes/hooks';
 import { useBoolean } from 'src/hooks/use-boolean';
 import { useSetState } from 'src/hooks/use-set-state';
 
-import { fIsAfter, fIsBetween } from 'src/utils/format-time';
+// import { fIsAfter, fIsBetween } from 'src/utils/format-time';
 
-// import { _orders, ORDER_STATUS_OPTIONS } from 'src/_mock';
-import { _templates } from 'src/_mock';
+
+
+
+import { _tags } from 'src/_mock/_tags';
 
 import { Label } from 'src/components/label';
 import { toast } from 'src/components/snackbar';
 import { Iconify } from 'src/components/iconify';
-import { Scrollbar } from 'src/components/scrollbar';
 import {
   useTable,
   emptyRows,
@@ -37,32 +46,25 @@ import { TagTableRow } from './tag-table-row';
 import { TagTableFilter } from './tag-table-filter';
 import { TagTableToolbar } from './tag-table-toolbar';
 
-// ----------------------------------------------------------------------
+
 
 const TABLE_HEAD = [
-  { id: 'name', label: 'Name', width: 700 , tooltip: "Team member email "},
-  { id: 'tagassignwhen', label: 'Tag Assign When', width: 700, tooltip: "Shared date and time " },
-  { id: 'sharedon', label: 'Shared On', width: 200 },
+  { id: 'name', label: 'Name', width: 700 , tooltip: "Tag Names"},
+  { id: 'tagassignwhen', label: 'Tag Assign When', width: 700, tooltip: "This is when tag is assign to user" },
+  { id: 'sharedon', label: 'Shared On', width: 200 ,tooltip: "This is the time when tag is shared with the user"},
   { id: '', label: '', width: 100 },
 ];
 
-export default function TagTable({
-  sx,
-  icon,
-  title,
-  total,
-  color = 'warning',
-  ...other
-}) {
-  // const theme = useTheme();
+export default function TagTable({ sx, icon, title, total, color = 'warning' }) {
+  const theme = useTheme();
 
-  const table = useTable({ defaultOrderBy: 'orderNumber' });
+  const table = useTable({ defaultOrderBy: 'tags' });
 
   const router = useRouter();
 
   const confirm = useBoolean();
 
-  const [tableData, setTableData] = useState(_templates);
+  const [tableData, setTableData] = useState(_tags);
 
   const filters = useSetState({
     name: '',
@@ -71,13 +73,13 @@ export default function TagTable({
     endDate: null,
   });
 
-  const dateError = fIsAfter(filters.state.startDate, filters.state.endDate);
+  
 
   const dataFiltered = applyFilter({
     inputData: tableData,
     comparator: getComparator(table.order, table.orderBy),
     filters: filters.state,
-    dateError,
+
   });
 
   const dataInPage = rowInPage(dataFiltered, table.page, table.rowsPerPage);
@@ -87,7 +89,6 @@ export default function TagTable({
     filters.state.status !== 'all' ||
     (!!filters.state.startDate && !!filters.state.endDate);
 
-  const notFound = (!dataFiltered.length && canReset) || !dataFiltered.length;
 
   const handleDeleteRow = useCallback(
     (id) => {
@@ -102,18 +103,6 @@ export default function TagTable({
     [dataInPage.length, table, tableData]
   );
 
-  const handleDeleteRows = useCallback(() => {
-    const deleteRows = tableData.filter((row) => !table.selected.includes(row.id));
-
-    toast.success('Delete success!');
-
-    setTableData(deleteRows);
-
-    table.onUpdatePageDeleteRows({
-      totalRowsInPage: dataInPage.length,
-      totalRowsFiltered: dataFiltered.length,
-    });
-  }, [dataFiltered.length, dataInPage.length, table, tableData]);
 
   const handleViewRow = useCallback(
     (id) => {
@@ -122,13 +111,6 @@ export default function TagTable({
     [router]
   );
 
-  const handleFilterStatus = useCallback(
-    (event, newValue) => {
-      table.onResetPage();
-      filters.setState({ status: newValue });
-    },
-    [filters, table]
-  );
 
   return (
     <>
@@ -143,7 +125,7 @@ export default function TagTable({
         <CardHeader
           title={
             <Box sx={{ typography: 'subtitle2', fontSize: '18px', fontWeight: 600 }}>
-              WhatsApp Number access shared by you
+              Tags
             </Box>
           }
           action={total && <Label color={color}>{total}</Label>}
@@ -156,7 +138,7 @@ export default function TagTable({
         <TagTableToolbar
           filters={filters}
           onResetPage={table.onResetPage}
-          dateError={dateError}
+         
         />
 
         {canReset && (
@@ -188,50 +170,48 @@ export default function TagTable({
             }
           />
 
-          <Scrollbar sx={{ minHeight: 300 }}>
-            <Table size={table.dense ? 'small' : 'medium'}>
-              <TableHeadCustom
-                order={table.order}
-                orderBy={table.orderBy}
-                headLabel={TABLE_HEAD}
-                rowCount={dataFiltered.length}
-                numSelected={table.selected.length}
-                onSort={table.onSort}
-                onSelectAllRows={(checked) =>
-                  table.onSelectAllRows(
-                    checked,
-                    dataFiltered.map((row) => row.id)
-                  )
-                }
+          <Table size={table.dense ? 'small' : 'medium'}>
+            <TableHeadCustom
+              order={table.order}
+              orderBy={table.orderBy}
+              headLabel={TABLE_HEAD}
+              rowCount={dataFiltered.length}
+              numSelected={table.selected.length}
+              onSort={table.onSort}
+              onSelectAllRows={(checked) =>
+                table.onSelectAllRows(
+                  checked,
+                  dataFiltered.map((row) => row.id)
+                )
+              }
+            />
+
+            <TableBody>
+              {dataFiltered
+                .slice(
+                  table.page * table.rowsPerPage,
+                  table.page * table.rowsPerPage + table.rowsPerPage
+                )
+                .map((row, index) => (
+                  <TagTableRow
+                    key={row.id}
+                    row={row}
+                    selected={table.selected.includes(row.id)}
+                    onSelectRow={() => table.onSelectRow(row.id)}
+                    onDeleteRow={() => handleDeleteRow(row.id)}
+                    onViewRow={() => handleViewRow(row.id)}
+                    tagIndex={table.page * table.rowsPerPage + index}
+                  />
+                ))}
+
+              <TableEmptyRows
+                height={table.dense ? 56 : 56 + 20}
+                emptyRows={emptyRows(table.page, table.rowsPerPage, dataFiltered.length)}
               />
 
-              <TableBody>
-                {dataFiltered
-                  .slice(
-                    table.page * table.rowsPerPage,
-                    table.page * table.rowsPerPage + table.rowsPerPage
-                  )
-                  .map((row , index) => (
-                    <TagTableRow
-                      key={row.id}
-                      row={row}
-                      selected={table.selected.includes(row.id)}
-                      onSelectRow={() => table.onSelectRow(row.id)}
-                      onDeleteRow={() => handleDeleteRow(row.id)}
-                      onViewRow={() => handleViewRow(row.id)}
-                      tagIndex={table.page * table.rowsPerPage + index}
-                    />
-                  ))}
-
-                <TableEmptyRows
-                  height={table.dense ? 56 : 56 + 20}
-                  emptyRows={emptyRows(table.page, table.rowsPerPage, dataFiltered.length)}
-                />
-
-                <TableNoData />
-              </TableBody>
-            </Table>
-          </Scrollbar>
+              <TableNoData />
+            </TableBody>
+          </Table>
         </Box>
 
         <TablePaginationCustom
@@ -247,9 +227,9 @@ export default function TagTable({
     </>
   );
 }
-function applyFilter({ inputData, comparator, filters, dateError }) {
-  const { status, name, startDate, endDate } = filters;
-
+function applyFilter({ inputData, comparator, filters }) {
+  const { status, name } = filters;
+  console.log(inputData);
   const stabilizedThis = inputData.map((el, index) => [el, index]);
 
   stabilizedThis.sort((a, b) => {
@@ -263,9 +243,7 @@ function applyFilter({ inputData, comparator, filters, dateError }) {
   if (name) {
     inputData = inputData.filter(
       (order) =>
-        order.orderNumber.toLowerCase().indexOf(name.toLowerCase()) !== -1 ||
-        order.customer.name.toLowerCase().indexOf(name.toLowerCase()) !== -1 ||
-        order.customer.email.toLowerCase().indexOf(name.toLowerCase()) !== -1
+        order.tags.toLowerCase().indexOf(name.toLowerCase()) !== -1 
     );
   }
 
@@ -273,11 +251,7 @@ function applyFilter({ inputData, comparator, filters, dateError }) {
     inputData = inputData.filter((order) => order.status === status);
   }
 
-  if (!dateError) {
-    if (startDate && endDate) {
-      inputData = inputData.filter((order) => fIsBetween(order.createdAt, startDate, endDate));
-    }
-  }
+  
 
   return inputData;
 }

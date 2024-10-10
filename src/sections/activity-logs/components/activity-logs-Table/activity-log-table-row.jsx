@@ -8,9 +8,21 @@ import TableCell from '@mui/material/TableCell';
 
 import { Label } from 'src/components/label';
 
+import { ActivityLogDrawer } from '../drawer/activity-log-drawer';
+
+
 export function ActivitylogTableRow({ row, selected, onViewRow, onSelectRow, onDeleteRow }) {
   const [setShowToken] = useState(false);
+  const [openDrawer1, setOpenDrawer1] = useState(false);
 
+
+  const handleOpenDrawer1 = () => {
+    setOpenDrawer1(true);
+  };
+
+  const handleCloseDrawer1 = () => {
+    setOpenDrawer1(false);
+  };
   const renderPrimary = (
     <TableRow hover selected={selected}>
       <TableCell width={350}>
@@ -99,7 +111,6 @@ export function ActivitylogTableRow({ row, selected, onViewRow, onSelectRow, onD
         )}
       </TableCell>
       <TableCell width={592}>
-      <Tooltip title="Event Data: 6671324303c8782026584551846" arrow placement="top">
         <Stack spacing={2} direction="row" alignItems="center">
           <Stack
             sx={{
@@ -108,7 +119,9 @@ export function ActivitylogTableRow({ row, selected, onViewRow, onSelectRow, onD
               alignItems: 'flex-start',
             }}
           >
+            <Tooltip title="Event Data: 6671324303c8782026584551846" arrow placement="top" disableInteractive>
             <Box
+            onClick={handleOpenDrawer1}
               component="span"
               sx={{
                 color: '#078DEE',
@@ -121,9 +134,10 @@ export function ActivitylogTableRow({ row, selected, onViewRow, onSelectRow, onD
             >
               6671324303c8782026584551846
             </Box>
+        </Tooltip>
+            <ActivityLogDrawer open={openDrawer1} onClose={handleCloseDrawer1} />
           </Stack>
         </Stack>
-        </Tooltip>
       </TableCell>
     </TableRow>
   );
