@@ -115,7 +115,7 @@ export function QuickRepliesTableRow({ row, selected, onSelectRow, quickrepliesI
               alignItems: 'flex-start',
             }}
           >
-            <Tooltip title="Message in the quick replies" arrow placement="top">
+            <Tooltip title={`Quick replies message:${quickrepliesmessage[quickrepliesIndex % quickrepliesmessage.length]} `} arrow placement="top">
               <Box
                 component="span"
                 sx={{
