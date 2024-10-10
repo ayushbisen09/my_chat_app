@@ -119,7 +119,7 @@ export function QuickRepliesTableRow({ row, selected, onSelectRow, quickrepliesI
               <Box
                 component="span"
                 sx={{
-                  maxWidth: 150,
+                  maxWidth: 500,
                   overflow: 'hidden',
                   textOverflow: 'ellipsis',
                   whiteSpace: 'nowrap',
