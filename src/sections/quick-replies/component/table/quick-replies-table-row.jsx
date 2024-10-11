@@ -9,7 +9,7 @@ import MenuItem from '@mui/material/MenuItem';
 import TableRow from '@mui/material/TableRow';
 import TableCell from '@mui/material/TableCell';
 import IconButton from '@mui/material/IconButton';
-import { Alert, Button, Divider, Tooltip, Checkbox, Snackbar, Typography } from '@mui/material';
+import { Alert, Button, Divider, Tooltip, Snackbar, Typography } from '@mui/material';
 
 import { useBoolean } from 'src/hooks/use-boolean';
 
@@ -79,13 +79,6 @@ export function QuickRepliesTableRow({ row, selected, onSelectRow, quickrepliesI
 
   const renderPrimary = (
     <TableRow hover selected={selected}>
-      <TableCell padding="checkbox">
-        <Checkbox
-          checked={selected}
-          onClick={onSelectRow}
-          inputProps={{ id: `row-checkbox-${row.id}`, 'aria-label': `Row checkbox` }}
-        />
-      </TableCell>
       <TableCell width={592}>
         <Stack spacing={2} direction="row" alignItems="center">
           <Stack
@@ -115,7 +108,11 @@ export function QuickRepliesTableRow({ row, selected, onSelectRow, quickrepliesI
               alignItems: 'flex-start',
             }}
           >
-            <Tooltip title={`Quick replies message:${quickrepliesmessage[quickrepliesIndex % quickrepliesmessage.length]} `} arrow placement="top">
+            <Tooltip
+              title={`Quick replies message:${quickrepliesmessage[quickrepliesIndex % quickrepliesmessage.length]} `}
+              arrow
+              placement="top"
+            >
               <Box
                 component="span"
                 sx={{
