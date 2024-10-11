@@ -40,19 +40,25 @@ import { SharedByYouTeammemberTableToolbar } from './teammember-table-toolbar';
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
-  { id: 'teammember', label: 'Team member email', width: 700 , tooltip: "Team member email "},
-  { id: 'sharedon', label: 'Shared on', width: 700, tooltip: "Shared date and time " },
-  { id: '', label: '', width: 562 },
+  { id: 'teammember', label: 'Team Member Email', width: 900, tooltip: 'Team member email ' },
+  {
+    id: 'sharedon',
+    label: 'WhatsApp Number You’ve Shared',
+    width: 900,
+    tooltip: 'WhatsApp Number You’ve Shared with the team members',
+  },
+
+  {
+    id: 'sharedon',
+    label: 'Shared on',
+    width: 700,
+    tooltip:
+      'Date and time when Whatsapp number shared with team member according to this time zone (UTC+05:30) Asia/Kolkata',
+  },
+  { id: '', label: '', width: 0 },
 ];
 
-export default function SharedbyYouTeamMemberTable({
-  sx,
-  icon,
-  title,
-  total,
-  color = 'warning',
-  ...other
-}) {
+export default function TeamMemberTable({ sx, icon, title, total, color = 'warning', ...other }) {
   // const theme = useTheme();
 
   const table = useTable({ defaultOrderBy: 'orderNumber' });
@@ -142,7 +148,7 @@ export default function SharedbyYouTeamMemberTable({
         <CardHeader
           title={
             <Box sx={{ typography: 'subtitle2', fontSize: '18px', fontWeight: 600 }}>
-              WhatsApp Number access shared by you
+              Team Members
             </Box>
           }
           action={total && <Label color={color}>{total}</Label>}
@@ -210,7 +216,7 @@ export default function SharedbyYouTeamMemberTable({
                     table.page * table.rowsPerPage,
                     table.page * table.rowsPerPage + table.rowsPerPage
                   )
-                  .map((row) => (
+                  .map((row, index) => (
                     <SharedByYouTeammemberTableRow
                       key={row.id}
                       row={row}
@@ -218,6 +224,7 @@ export default function SharedbyYouTeamMemberTable({
                       onSelectRow={() => table.onSelectRow(row.id)}
                       onDeleteRow={() => handleDeleteRow(row.id)}
                       onViewRow={() => handleViewRow(row.id)}
+                      teammemberIndex={table.page * table.rowsPerPage + index}
                     />
                   ))}
 

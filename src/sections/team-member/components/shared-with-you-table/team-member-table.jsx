@@ -41,9 +41,11 @@ import { SharedWithYouTeammemberTableFiltersResult } from './team-member-table-f
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
-  { id: 'teammember', label: 'Team member email', width: 700, tooltip: "Team member email " },
-  { id: 'sharedon', label: 'Shared on', width: 700 ,tooltip: "Shared date and time "},
-  { id: '', label: '', width: 562 },
+  { id: 'teammember', label: 'WhatsApp Number Access Shared By You', width: 1200, tooltip: "WhatsApp number access shared by you" },
+  { id: 'whatsAppNumbershared ', label: 'WhatsApp Number Shared ', width: 1500 ,tooltip: "whatsApp number shared with team member"},
+  { id: 'sharedon', label: 'Shared On', width: 900 ,tooltip: "Shared date and time "},
+  { id: 'access', label: 'Access', width: 900 ,tooltip: "Access team member account" , align: 'right'},
+
 ];
 
 export default function SharedWithYouTeamMemberTable({
@@ -143,7 +145,7 @@ export default function SharedWithYouTeamMemberTable({
         <CardHeader
           title={
             <Box sx={{ typography: 'subtitle2', fontSize: '18px', fontWeight: 600 }}>
-              WhatsApp Number access shared with you
+              WhatsApp Number Accounts Shared With You
             </Box>
           }
           action={total && <Label color={color}>{total}</Label>}
@@ -211,7 +213,7 @@ export default function SharedWithYouTeamMemberTable({
                     table.page * table.rowsPerPage,
                     table.page * table.rowsPerPage + table.rowsPerPage
                   )
-                  .map((row) => (
+                  .map((row ,index) => (
                     <SharedWithYouTeammemberTableRow
                       key={row.id}
                       row={row}
@@ -219,6 +221,8 @@ export default function SharedWithYouTeamMemberTable({
                       onSelectRow={() => table.onSelectRow(row.id)}
                       onDeleteRow={() => handleDeleteRow(row.id)}
                       onViewRow={() => handleViewRow(row.id)}
+                      sharedwithyouteammemberIndex={table.page * table.rowsPerPage + index}
+
                     />
                   ))}
 

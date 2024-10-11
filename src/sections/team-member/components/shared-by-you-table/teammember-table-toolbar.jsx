@@ -80,7 +80,7 @@ export function SharedByYouTeammemberTableToolbar({ filters, onResetPage, dateEr
             fullWidth
             value={filters.state.name}
             onChange={handleFilterName}
-            placeholder="Search whatsApp number shared by you by email..."
+            placeholder="Search by email..."
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">

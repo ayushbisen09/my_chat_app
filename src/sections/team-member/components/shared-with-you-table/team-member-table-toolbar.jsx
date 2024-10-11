@@ -2,8 +2,8 @@ import { useTheme } from '@emotion/react';
 import { useState, useCallback } from 'react';
 
 import Stack from '@mui/material/Stack';
-import { useMediaQuery } from '@mui/material';
 import TextField from '@mui/material/TextField';
+import { Tooltip, useMediaQuery } from '@mui/material';
 import InputAdornment from '@mui/material/InputAdornment';
 
 import { useBoolean } from 'src/hooks/use-boolean';
@@ -75,12 +75,13 @@ export function SharedWithYouTeammemberTableToolbar({ filters, onResetPage, date
         sx={{ p: 2.5, pr: { xs: 2.5, md: 1 } }}
       >
         <Stack direction="row" alignItems="center" flexGrow={1} sx={{ width: 1 }}>
+        <Tooltip title="Click here to search team member by email" arrow placement="top">
           <TextField
             sx={{ mr: '5px' }}
             fullWidth
             value={filters.state.name}
             onChange={handleFilterName}
-            placeholder="Search whatsApp number shared with you by email..."
+            placeholder="Search by email..."
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -89,6 +90,7 @@ export function SharedWithYouTeammemberTableToolbar({ filters, onResetPage, date
               ),
             }}
           />
+        </Tooltip>
          
         </Stack>
       </Stack>
