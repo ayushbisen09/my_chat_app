@@ -110,7 +110,7 @@ export default function AgentQues() {
     <Box
       sx={{
         width: '100%',
-        maxWidth: '1172px',
+        maxWidth: '1171px',
         margin: '0 auto',
 
         overflowX: 'auto',
