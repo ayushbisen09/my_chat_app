@@ -27,7 +27,7 @@ const getInitials = (name) =>
     .map((n) => n[0])
     .join('');
 
-// Function to generate a random background color
+// Function to generate a random background color.
 const getRandomColor = () => {
   const colors = [
     '#FFB6C1',
