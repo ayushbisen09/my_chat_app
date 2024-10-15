@@ -9,7 +9,6 @@ import {
   Button,
   Divider,
   Tooltip,
-  MenuItem,
   TextField,
   CardHeader,
   Typography,
@@ -27,11 +26,7 @@ export default function AddBulkContact() {
   const methods = useForm();
 
   // Contact List Events
-  const [contactlist, setContatList] = useState('Pabbly_Connect_list');
 
-  const handleChangeContactList = useCallback((event) => {
-    setContatList(event.target.value);
-  }, []);
 
   const CONTACTLISTS = [
     { value: 'Pabbly_Connect_list', label: 'Pabbly Connect list' },
@@ -112,53 +107,11 @@ export default function AddBulkContact() {
 
   return (
     <Box sx={{ mt: 4 }}>
-      
       <Card>
         <CardHeader title="Add Bulk Contact" sx={{ mb: 3 }} />
         <Divider />
         <FormProvider {...methods}>
           <Form onSubmit={methods.handleSubmit(onSubmit)}>
-            {/* ... (other form controls remain unchanged) ... */}
-            <FormControlLabel
-              control={
-                <TextField
-                  sx={{ width: '100%' }}
-                  id="select-currency-label-x"
-                  variant="outlined"
-                  select
-                  fullWidth
-                  label="Select Contact List  (Required)"
-                  value={contactlist}
-                  onChange={handleChangeContactList}
-                  helperText="Select contact list in which this contact is added."
-                  InputLabelProps={{ htmlFor: `outlined-select-currency-label` }}
-                  inputProps={{ id: `outlined-select-currency-label` }}
-                >
-                  {CONTACTLISTS.map((option) => (
-                    <MenuItem key={option.value} value={option.value}>
-                      {option.label}
-                    </MenuItem>
-                  ))}
-                </TextField>
-              }
-              sx={{ width: '100%', padding: '32px 24px 24px 24px', mr: 0, ml: 0 }}
-            />
-            <FormControlLabel
-              control={
-                <Divider
-                  sx={{
-                    borderStyle: 'dashed',
-                    fontWeight: '600',
-                    width: '100%',
-
-                    mr: 2,
-                    ml: 0,
-                  }}
-                />
-              }
-              sx={{ width: '100%', padding: '0px 24px 24px 24px', mr: 0, ml: 0 }}
-            />
-
             <FormControlLabel
               control={
                 <TextField
@@ -197,7 +150,7 @@ export default function AddBulkContact() {
                   }}
                 />
               }
-              sx={{ width: '100%', padding: '0px 24px 24px 24px', mr: 0, ml: 0 }}
+              sx={{ width: '100%', padding: '32px 24px 24px 24px', mr: 0, ml: 0 }}
             />
 
             <Typography
@@ -272,16 +225,16 @@ export default function AddBulkContact() {
                             ),
                           }}
                         />
-                        
+
                         <TextField
-                      fullWidth
-                      // placeholder="Enter value"
-                      select
-                      type="text"
-                      margin="dense"
-                      variant="outlined"
-                      label="Enter Value"
-                    />
+                          fullWidth
+                          // placeholder="Enter value"
+                          select
+                          type="text"
+                          margin="dense"
+                          variant="outlined"
+                          label="Enter Value"
+                        />
                         {/* <TextField
                           fullWidth
                           placeholder="Enter value"
@@ -341,15 +294,15 @@ export default function AddBulkContact() {
                             ),
                           }}
                         />
-                       <TextField
-                      fullWidth
-                      // placeholder="Enter value"
-                      select
-                      type="text"
-                      margin="dense"
-                      variant="outlined"
-                      label="Enter Value"
-                    />
+                        <TextField
+                          fullWidth
+                          // placeholder="Enter value"
+                          select
+                          type="text"
+                          margin="dense"
+                          variant="outlined"
+                          label="Enter Value"
+                        />
                       </Box>
                       <Box sx={{ width: '100%', display: 'flex', gap: '16px' }}>
                         <TextField
@@ -380,14 +333,14 @@ export default function AddBulkContact() {
                           }}
                         />
                         <TextField
-                      fullWidth
-                      // placeholder="Enter value"
-                      select
-                      type="text"
-                      margin="dense"
-                      variant="outlined"
-                      label="Enter Value"
-                    />
+                          fullWidth
+                          // placeholder="Enter value"
+                          select
+                          type="text"
+                          margin="dense"
+                          variant="outlined"
+                          label="Enter Value"
+                        />
                       </Box>
                     </Box>
                     <Box sx={{ width: '100%' }}>
@@ -431,14 +384,14 @@ export default function AddBulkContact() {
                           }}
                         />
                         <TextField
-                      fullWidth
-                      // placeholder="Enter value"
-                      select
-                      type="text"
-                      margin="dense"
-                      variant="outlined"
-                      label="Enter Value"
-                    />
+                          fullWidth
+                          // placeholder="Enter value"
+                          select
+                          type="text"
+                          margin="dense"
+                          variant="outlined"
+                          label="Enter Value"
+                        />
                       </Box>
                       <Box sx={{ width: '100%', display: 'flex', gap: '16px', mb: '24px' }}>
                         <TextField
@@ -468,15 +421,15 @@ export default function AddBulkContact() {
                             ),
                           }}
                         />
-                       <TextField
-                      fullWidth
-                      // placeholder="Enter value"
-                      select
-                      type="text"
-                      margin="dense"
-                      variant="outlined"
-                      label="Enter Value"
-                    />
+                        <TextField
+                          fullWidth
+                          // placeholder="Enter value"
+                          select
+                          type="text"
+                          margin="dense"
+                          variant="outlined"
+                          label="Enter Value"
+                        />
                       </Box>
                       <Box sx={{ width: '100%', display: 'flex', gap: '16px' }}>
                         <TextField
@@ -507,14 +460,14 @@ export default function AddBulkContact() {
                           }}
                         />
                         <TextField
-                      fullWidth
-                      // placeholder="Enter value"
-                      select
-                      type="text"
-                      margin="dense"
-                      variant="outlined"
-                      label="Enter Value"
-                    />
+                          fullWidth
+                          // placeholder="Enter value"
+                          select
+                          type="text"
+                          margin="dense"
+                          variant="outlined"
+                          label="Enter Value"
+                        />
                       </Box>
                     </Box>
                   </Box>

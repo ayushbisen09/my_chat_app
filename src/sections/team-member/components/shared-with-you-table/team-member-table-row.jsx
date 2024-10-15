@@ -4,7 +4,7 @@ import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import TableRow from '@mui/material/TableRow';
 import TableCell from '@mui/material/TableCell';
-import { Button, Tooltip } from '@mui/material';
+import { Button, Tooltip, Checkbox } from '@mui/material';
 
 export function SharedWithYouTeammemberTableRow({
   row,
@@ -47,6 +47,13 @@ export function SharedWithYouTeammemberTableRow({
 
   const renderPrimary = (
     <TableRow hover selected={selected}>
+      <TableCell padding="checkbox">
+        <Checkbox
+          checked={selected}
+          onClick={onSelectRow}
+          inputProps={{ id: `row-checkbox-${row.id}`, 'aria-label': `Row checkbox` }}
+        />
+      </TableCell>
       <TableCell width={700}>
         <Stack spacing={2} direction="row" alignItems="center">
           <Stack

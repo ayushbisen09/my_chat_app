@@ -55,14 +55,15 @@ export function TagTableRow({ row, selected, onSelectRow, tagIndex }) {
     // Add more flow names as needed
   ];
 
-  const tagassignwhen = [
-    'Want to purchase',
-    'Want to purchase Pabbly Connect',
-    'Do you want to join as an employee',
-    '	Want to purchase Pabbly Subscription Billing',
-    '	Want to purchase Pabbly Form Builder',
-    'I need support',
-    'Manage sales data',
+  const fristmessage = [
+    'Yes',
+    'No',
+    'Yes',
+    'No',
+    'Yes',
+    'No',
+    'Yes',
+    'No',
     // Add more flow names as needed
   ];
 
@@ -84,7 +85,11 @@ export function TagTableRow({ row, selected, onSelectRow, tagIndex }) {
               alignItems: 'flex-start',
             }}
           >
-            <Tooltip title="Tag name " arrow placement="top">
+            <Tooltip
+              title={` Tag name: " ${tagname[tagIndex % tagname.length]}" `}
+              arrow
+              placement="top"
+            >
               <Box component="span">{tagname[tagIndex % tagname.length]}</Box>
             </Tooltip>
           </Stack>
@@ -99,8 +104,12 @@ export function TagTableRow({ row, selected, onSelectRow, tagIndex }) {
               alignItems: 'flex-start',
             }}
           >
-            <Tooltip title="This is when tag assign to user" arrow placement="top">
-              <Box component="span">{tagassignwhen[tagIndex % tagassignwhen.length]}</Box>
+            <Tooltip
+              title={`${tagname[tagIndex % tagname.length]} tag assign to user when this message "${fristmessage[tagIndex % fristmessage.length]}" is entered`}
+              arrow
+              placement="top"
+            >
+              <Box component="span">{fristmessage[tagIndex % fristmessage.length]}</Box>
             </Tooltip>
           </Stack>
         </Stack>
@@ -148,14 +157,22 @@ export function TagTableRow({ row, selected, onSelectRow, tagIndex }) {
         slotProps={{ arrow: { placement: 'right-top' } }}
       >
         <MenuList>
-          <Tooltip title= {`Click here to view the this ${tagname[tagIndex % tagname.length]} tag?`} arrow placement="left">
+          <Tooltip
+            title={`Click here to view the this ${tagname[tagIndex % tagname.length]} tag?`}
+            arrow
+            placement="left"
+          >
             <MenuItem onClick={previewDialog.onTrue}>
               <Iconify icon="solar:eye-bold" />
               View
             </MenuItem>
           </Tooltip>
           <PreviewTagDialog open={previewDialog.value} onClose={previewDialog.onFalse} />
-          <Tooltip title={`Click here to edit this ${tagname[tagIndex % tagname.length]} tag?`} arrow placement="left">
+          <Tooltip
+            title={`Click here to edit this ${tagname[tagIndex % tagname.length]} tag?`}
+            arrow
+            placement="left"
+          >
             <MenuItem onClick={dialog.onTrue}>
               <Iconify icon="solar:pen-bold" />
               Edit
@@ -163,7 +180,11 @@ export function TagTableRow({ row, selected, onSelectRow, tagIndex }) {
             <EditTagDialog open={dialog.value} onClose={dialog.onFalse} />
           </Tooltip>
           <Divider style={{ borderStyle: 'dashed' }} />
-          <Tooltip title= {`click here to delete this ${tagname[tagIndex % tagname.length]} tag?`} arrow placement="left">
+          <Tooltip
+            title={`click here to delete this ${tagname[tagIndex % tagname.length]} tag?`}
+            arrow
+            placement="left"
+          >
             <MenuItem
               onClick={() => {
                 confirm.onTrue();

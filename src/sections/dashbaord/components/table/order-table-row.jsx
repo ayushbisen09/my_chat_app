@@ -23,7 +23,14 @@ import { Iconify } from 'src/components/iconify';
 import { ConfirmDialog } from 'src/components/custom-dialog';
 import { usePopover, CustomPopover } from 'src/components/custom-popover';
 
-export function OrderTableRow({ row, selected, onViewRow, onSelectRow, onDeleteRow }) {
+export function OrderTableRow({
+  row,
+  selected,
+  onViewRow,
+  onSelectRow,
+  onDeleteRow,
+  dashboardTableIndex,
+}) {
   const confirmDelete = useBoolean();
   const confirmStatus = useBoolean();
   const collapse = useBoolean();
@@ -44,12 +51,39 @@ export function OrderTableRow({ row, selected, onViewRow, onSelectRow, onDeleteR
     setStatusToToggle(newStatus);
     confirmStatus.onTrue();
   };
-  
-  const token = '4545656565slfkvdkxvzck44554z65X4c65xz4v6zx4vxzv65xz4v64z35v4zZFzsgfsdgsvzxvdf45645s4cfdsgvjhxlcfOIaPDJSIGJFDGPIDS5464646465468464';
+
+  const token =
+    '4545656565slfkvdkxvzck44554z65X4c65xz4v6zx4vxzv65xz4v64z35v4zZFzsgfsdgsvzxvdf45645s4cfdsgvjhxlcfOIaPDJSIGJFDGPIDS5464646465468464';
   const truncatedToken = truncateText(token, 100);
   const bulletPoints = '•'.repeat(token.length);
   const generateBulletPoints = (length) => '●'.repeat(length);
 
+  const WhatsAppnumbers = [
+    '+91 98765 43210',
+    '+91 91234 56789',
+    '+91 99887 65432',
+    '+91 93456 78901',
+    '+91 97654 32109',
+    // Add more flow names as needed
+  ];
+  const phonenumberID = [
+    '654532354351213',
+    '542546584351354',
+    '575454548454545',
+    '345564764354545',
+    '117563543435334',
+    // Add more flow names as needed
+  ];
+
+
+  const weebhookURL = [
+    'https://chatflow.pabbly.com/65e80c31e88b/5b654444',
+    'https://chatflow.pabbly.com/65e80c31e88b/5dxzk545',
+    'https://chatflow.pabbly.com/65e80c31e88b/5b665453',
+    'https://chatflow.pabbly.com/65e80c31e88b/5b624242',
+    'https://chatflow.pabbly.com/65e80c31e88b/5b653435',
+    // Add more flow names as needed
+  ];
   const renderPrimary = (
     <TableRow hover selected={selected}>
       <TableCell width={288}>
@@ -61,12 +95,14 @@ export function OrderTableRow({ row, selected, onViewRow, onSelectRow, onDeleteR
               alignItems: 'flex-start',
             }}
           >
-            <Tooltip title="WhatsApp number you have added." arrow placement="top">
-              <Box component="span">+91 9425124879</Box>
+            <Tooltip title= {` This  WhatsApp number: " ${WhatsAppnumbers[dashboardTableIndex % WhatsAppnumbers.length]}" you have added`}  arrow placement="top">
+              <Box component="span">
+                {WhatsAppnumbers[dashboardTableIndex % WhatsAppnumbers.length]}
+              </Box>
             </Tooltip>
-            <Tooltip title="Phone number ID of your WhatsApp Number." arrow placement="top">
+            <Tooltip title= {` Phone number ID of your WhatsApp Number ${phonenumberID[dashboardTableIndex % phonenumberID.length]}`} arrow placement="top">
               <Box component="span" sx={{ color: 'text.disabled' }}>
-                Phone Number ID: 117359445455733
+                Phone Number ID: {phonenumberID[dashboardTableIndex % phonenumberID.length]}
               </Box>
             </Tooltip>
           </Stack>
@@ -82,10 +118,18 @@ export function OrderTableRow({ row, selected, onViewRow, onSelectRow, onDeleteR
               alignItems: 'flex-start',
             }}
           >
-            <Tooltip title="Webhook URL for incoming messages of your WhatsApp Number." arrow placement="top">
-              <Box component="span">https://chatflow.pabbly.com/65e80c31e88b/5b654444</Box>
+            <Tooltip
+              title= {`Webhook URL for incoming messages of your WhatsApp Number is: ${weebhookURL[dashboardTableIndex % weebhookURL.length]}`}
+              arrow
+              placement="top"
+            >
+              <Box component="span">{weebhookURL[dashboardTableIndex % weebhookURL.length]}</Box>
             </Tooltip>
-            <Tooltip title="WhatsApp Business Account ID of your WhatsApp Number." arrow placement="top">
+            <Tooltip
+              title="WhatsApp Business Account ID of your WhatsApp Number."
+              arrow
+              placement="top"
+            >
               <Box component="span" sx={{ color: 'text.disabled' }}>
                 WhatsApp Business Account ID: 117359445455733
               </Box>
@@ -181,7 +225,7 @@ export function OrderTableRow({ row, selected, onViewRow, onSelectRow, onDeleteR
           sx={{ bgcolor: 'background.neutral' }}
         >
           <Paper sx={{ m: 1.5 }}>
-          {/* <Stack
+            {/* <Stack
   direction="row"
   gap={2}
   alignItems="center"
@@ -220,34 +264,33 @@ export function OrderTableRow({ row, selected, onViewRow, onSelectRow, onDeleteR
     </IconButton>
   </Tooltip>
 </Stack> */}
-<Stack
-      direction="row"
-      gap={2}
-      alignItems="center"
-      sx={{
-        p: (theme) => theme.spacing(1.5, 2, 1.5, 1.5),
-        '&:not(:last-of-type)': {
-          borderBottom: (theme) => `solid 2px ${theme.vars.palette.background.neutral}`,
-        },
-      }}
-    >
-      <Tooltip
-        title={showToken ? `Access token of your WhatsApp Number: ${token}` : ''}
-        arrow
-        placement="top"
-      >
-        <Typography variant="body2">
-          Access Token: {showToken ? truncatedToken : generateBulletPoints(token.length)}
-        </Typography>
-      </Tooltip>
+            <Stack
+              direction="row"
+              gap={2}
+              alignItems="center"
+              sx={{
+                p: (theme) => theme.spacing(1.5, 2, 1.5, 1.5),
+                '&:not(:last-of-type)': {
+                  borderBottom: (theme) => `solid 2px ${theme.vars.palette.background.neutral}`,
+                },
+              }}
+            >
+              <Tooltip
+                title={showToken ? `Access token of your WhatsApp Number: ${token}` : ''}
+                arrow
+                placement="top"
+              >
+                <Typography variant="body2">
+                  Access Token: {showToken ? truncatedToken : generateBulletPoints(token.length)}
+                </Typography>
+              </Tooltip>
 
-      <Tooltip title="Click here to show/hide verification token." arrow placement="top">
-        <IconButton onClick={handleToggleToken}>
-          <Iconify icon={showToken ? 'solar:eye-bold' : 'solar:eye-closed-bold'} />
-        </IconButton>
-      </Tooltip>
-    </Stack>
-
+              <Tooltip title="Click here to show/hide verification token." arrow placement="top">
+                <IconButton onClick={handleToggleToken}>
+                  <Iconify icon={showToken ? 'solar:eye-bold' : 'solar:eye-closed-bold'} />
+                </IconButton>
+              </Tooltip>
+            </Stack>
 
             <Stack
               direction="row"

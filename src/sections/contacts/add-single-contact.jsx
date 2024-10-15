@@ -110,31 +110,7 @@ export default function AddSingleContact() {
         <FormProvider {...methods}>
           <Form onSubmit={methods.handleSubmit(onSubmit)}>
             {/* ... (other form controls remain unchanged) ... */}
-            <FormControlLabel
-              control={
-                <TextField
-                  sx={{ width: '100%' }}
-                  id="select-currency-label-x"
-                  variant="outlined"
-                  select
-                  fullWidth
-                  label="Select Contact List  (Required)"
-                  value={contactlist}
-                  onChange={handleChangeContactList}
-                  helperText="Select contact list in which this contact is added."
-                  InputLabelProps={{ htmlFor: `outlined-select-currency-label` }}
-                  inputProps={{ id: `outlined-select-currency-label` }}
-                >
-                  {CONTACTLISTS.map((option) => (
-                    <MenuItem key={option.value} value={option.value}>
-                      {option.label}
-                    </MenuItem>
-                  ))}
-                </TextField>
-              }
-              sx={{ width: '100%', padding: '32px 24px 24px 24px', mr: 0, ml: 0 }}
-            />
-
+            
             <FormControlLabel
               control={
                 <TextField
@@ -199,7 +175,7 @@ export default function AddSingleContact() {
                   }}
                 />
               }
-              sx={{ width: '100%', padding: '0px 24px 32px 24px', mr: 0, ml: 0 }}
+              sx={{ width: '100%', padding: '32px 24px 24px 24px', mr: 0, ml: 0 }}
             />
             <FormControlLabel
               control={

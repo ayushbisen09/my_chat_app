@@ -15,7 +15,7 @@ import PageHeader from 'src/components/page-header/page-header';
 
 import BigCard from 'src/sections/team-member/components/big-card/big-card';
 import { TeamMemberDialog } from 'src/sections/team-member/hooks/add-team-member';
-import SharedbyYouTeamMemberTable from 'src/sections/team-member/components/shared-by-you-table/team-member-table';
+import TeamMemberTable from 'src/sections/team-member/components/shared-by-you-table/team-member-table';
 import SharedWithYouTeamMemberTable from 'src/sections/team-member/components/shared-with-you-table/team-member-table';
 
 // ----------------------------------------------------------------------
@@ -126,7 +126,7 @@ export default function Page({ sx, icon, title, total, color = 'warning', ...oth
       {/* Big Card Section */}
 
       {/* Table */}
-      <SharedbyYouTeamMemberTable />
+      <TeamMemberTable />
       <SharedWithYouTeamMemberTable />
     </DashboardContent>
   );

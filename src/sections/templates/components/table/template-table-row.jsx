@@ -7,8 +7,8 @@ import MenuList from '@mui/material/MenuList';
 import MenuItem from '@mui/material/MenuItem';
 import TableRow from '@mui/material/TableRow';
 import TableCell from '@mui/material/TableCell';
+import { Divider, Tooltip } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
-import { Divider, Tooltip,Checkbox } from '@mui/material';
 
 import { useBoolean } from 'src/hooks/use-boolean';
 
@@ -25,13 +25,7 @@ export function OrderTableRow({ row, selected, onViewRow, onSelectRow, onDeleteR
 
   const renderRow = (label, color) => (
     <TableRow hover selected={selected}>
-      <TableCell padding="checkbox">
-        <Checkbox
-          checked={selected}
-          onClick={onSelectRow}
-          inputProps={{ id: `row-checkbox-${row.id}`, 'aria-label': `Row checkbox` }}
-        />
-      </TableCell>
+      
       <TableCell width={500}>
         <Stack spacing={2} direction="row" alignItems="center">
           <Stack

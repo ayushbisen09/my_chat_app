@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { useState, useCallback } from 'react';
 
-import { Box, List, Typography, ListItemText, ListItemButton } from '@mui/material';
+import { Box, List, Tooltip, Typography, ListItemText, ListItemButton } from '@mui/material';
 
 const CustomListItemButton = styled(ListItemButton)(({ theme }) => ({
   borderRadius: '6px',
@@ -57,11 +57,14 @@ export default function Agentlist({ onItemSelect }) {
         width: {
           xs: '100%',
           sm: '100%',
-          md: '303px',
+          md: '276px',
         },
       }}
     >
-      <Typography fontSize={18} fontWeight={700}>Agents List</Typography>
+      <Typography fontSize={18} fontWeight={700}>
+        Agents List
+      </Typography>
+
       <List sx={{ width: '100%' }}>
         {AGENTS.map((agent, index) => (
           <CustomListItemButton
@@ -71,14 +74,33 @@ export default function Agentlist({ onItemSelect }) {
           >
             <ListItemText
               primary={
-                <div style={{ display: 'flex', alignItems: 'center', width: '100%', overflow: 'hidden' }}>
-                  <span style={{ flexGrow: 1, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                    {agent.name}
-                  </span>
-                  <span style={{ marginLeft: '8px', flexShrink: 0 }}>
-                    ({agent.count})
-                  </span>
-                </div>
+                <Tooltip
+                  title= {` This is agent name : "${agent.name}" and number assigned chats for this agent is: "${agent.count}"`}
+                  arrow
+                  placement="top"
+                >
+                  <Box
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      width: '100%',
+                      overflow: 'hidden',
+                    }}
+                  >
+                    <span
+                      style={{
+                        flexGrow: 1,
+                        whiteSpace: 'nowrap',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                      }}
+                    >
+                      {agent.name}
+                    </span>
+
+                    <span style={{ marginLeft: '8px', flexShrink: 0 }}>({agent.count})</span>
+                  </Box>
+                </Tooltip>
               }
             />
           </CustomListItemButton>

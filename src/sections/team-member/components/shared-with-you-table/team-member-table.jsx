@@ -193,7 +193,6 @@ export default function SharedWithYouTeamMemberTable({
           <Scrollbar sx={{ minHeight: 300 }}>
             <Table size={table.dense ? 'small' : 'medium'}>
               <TableHeadCustom
-              showCheckbox={false}
                 order={table.order}
                 orderBy={table.orderBy}
                 headLabel={TABLE_HEAD}

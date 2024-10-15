@@ -5,31 +5,21 @@ import { useState, useCallback } from 'react';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import { useTheme } from '@mui/material/styles';
-import {
-  Table,
-  Tooltip,
-  Divider,
-  TableBody,
-  IconButton,
-  CardHeader,
-} from '@mui/material';
+import { Table, Alert, Button, Tooltip, Divider, Snackbar, TableBody, IconButton, CardHeader } from '@mui/material';
 
 import { paths } from 'src/routes/paths';
 import { useRouter } from 'src/routes/hooks';
 
-import { useBoolean } from 'src/hooks/use-boolean';
 import { useSetState } from 'src/hooks/use-set-state';
 
 // import { fIsAfter, fIsBetween } from 'src/utils/format-time';
-
-
-
 
 import { _tags } from 'src/_mock/_tags';
 
 import { Label } from 'src/components/label';
 import { toast } from 'src/components/snackbar';
 import { Iconify } from 'src/components/iconify';
+import { ConfirmDialog } from 'src/components/custom-dialog';
 import {
   useTable,
   emptyRows,
@@ -46,23 +36,28 @@ import { TagTableRow } from './tag-table-row';
 import { TagTableFilter } from './tag-table-filter';
 import { TagTableToolbar } from './tag-table-toolbar';
 
-
-
 const TABLE_HEAD = [
-  { id: 'name', label: 'Name', width: 700 , tooltip: "Tag Names"},
-  { id: 'tagassignwhen', label: 'Tag Assign When', width: 700, tooltip: "This is when tag is assign to user" },
-  { id: 'sharedon', label: 'Shared On', width: 200 ,tooltip: "This is the time when tag is shared with the user"},
+  { id: 'name', label: 'Name', width: 700, tooltip: 'Tag Names' },
+  { id: 'fristmessage', label: 'First Message', width: 700, tooltip: 'This is the first message' },
+  {
+    id: 'sharedon',
+    label: 'Shared On',
+    width: 200,
+    tooltip: 'This is the time when tag is shared with the user',
+  },
   { id: '', label: '', width: 100 },
 ];
 
 export default function TagTable({ sx, icon, title, total, color = 'warning' }) {
+  const [snackbarOpen, setSnackbarOpen] = useState(false); // State for Snackbar
+
   const theme = useTheme();
 
   const table = useTable({ defaultOrderBy: 'tags' });
 
   const router = useRouter();
 
-  const confirm = useBoolean();
+  // const confirm = useBoolean();
 
   const [tableData, setTableData] = useState(_tags);
 
@@ -73,13 +68,10 @@ export default function TagTable({ sx, icon, title, total, color = 'warning' }) 
     endDate: null,
   });
 
-  
-
   const dataFiltered = applyFilter({
     inputData: tableData,
     comparator: getComparator(table.order, table.orderBy),
     filters: filters.state,
-
   });
 
   const dataInPage = rowInPage(dataFiltered, table.page, table.rowsPerPage);
@@ -88,7 +80,6 @@ export default function TagTable({ sx, icon, title, total, color = 'warning' }) 
     !!filters.state.name ||
     filters.state.status !== 'all' ||
     (!!filters.state.startDate && !!filters.state.endDate);
-
 
   const handleDeleteRow = useCallback(
     (id) => {
@@ -103,14 +94,29 @@ export default function TagTable({ sx, icon, title, total, color = 'warning' }) 
     [dataInPage.length, table, tableData]
   );
 
-
   const handleViewRow = useCallback(
     (id) => {
       router.push(paths.dashboard.order.details(id));
     },
     [router]
   );
+  const [confirm, setConfirm] = useState({ value: false });
 
+  const handleDelete = () => {
+    // Handle delete logic here
+    setSnackbarOpen(true); // Set Snackbar to open on delete
+    console.log('Tag deleted');
+    setConfirm({ value: false });
+  };
+
+  
+
+  const handleSnackbarClose = (reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setSnackbarOpen(false);
+  };
 
   return (
     <>
@@ -124,9 +130,7 @@ export default function TagTable({ sx, icon, title, total, color = 'warning' }) 
       >
         <CardHeader
           title={
-            <Box sx={{ typography: 'subtitle2', fontSize: '18px', fontWeight: 600 }}>
-              Tags
-            </Box>
+            <Box sx={{ typography: 'subtitle2', fontSize: '18px', fontWeight: 600 }}>Tags</Box>
           }
           action={total && <Label color={color}>{total}</Label>}
           sx={{
@@ -135,11 +139,7 @@ export default function TagTable({ sx, icon, title, total, color = 'warning' }) 
         />
         <Divider />
 
-        <TagTableToolbar
-          filters={filters}
-          onResetPage={table.onResetPage}
-         
-        />
+        <TagTableToolbar filters={filters} onResetPage={table.onResetPage} />
 
         {canReset && (
           <TagTableFilter
@@ -163,12 +163,48 @@ export default function TagTable({ sx, icon, title, total, color = 'warning' }) 
             }
             action={
               <Tooltip title="Delete">
-                <IconButton color="primary" onClick={confirm.onTrue}>
+                <IconButton color="primary" onClick={() => setConfirm({ value: true })}>
                   <Iconify icon="solar:trash-bin-trash-bold" />
                 </IconButton>
               </Tooltip>
             }
           />
+          <ConfirmDialog
+            open={confirm.value}
+            onClose={() => setConfirm({ value: false })} // Closes the ConfirmDialog
+            title="Delete"
+            content="Are you sure you want to delete the all the tags? "
+            action={
+              <Button variant="contained" color="error" onClick={handleDelete}>
+                Delete
+              </Button>
+            }
+          />
+
+<Snackbar
+        open={snackbarOpen}
+        autoHideDuration={10000}
+        onClose={handleSnackbarClose}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+        sx={{
+          boxShadow: '0px 8px 16px 0px rgba(145, 158, 171, 0.16)',
+        }}
+      >
+        <Alert
+          onClose={handleSnackbarClose}
+          severity="success"
+          sx={{
+            width: '100%',
+            fontSize: '14px',
+            fontWeight: 'bold',
+            backgroundColor: theme.palette.background.paper,
+            color: theme.palette.text.primary,
+          }}
+        >
+          All tags Deleted Successfully!
+        </Alert>
+      </Snackbar>
+
 
           <Table size={table.dense ? 'small' : 'medium'}>
             <TableHeadCustom
@@ -242,16 +278,13 @@ function applyFilter({ inputData, comparator, filters }) {
 
   if (name) {
     inputData = inputData.filter(
-      (order) =>
-        order.tags.toLowerCase().indexOf(name.toLowerCase()) !== -1 
+      (order) => order.tags.toLowerCase().indexOf(name.toLowerCase()) !== -1
     );
   }
 
   if (status !== 'all') {
     inputData = inputData.filter((order) => order.status === status);
   }
-
-  
 
   return inputData;
 }

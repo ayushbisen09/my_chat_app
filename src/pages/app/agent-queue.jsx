@@ -8,8 +8,8 @@ import { DashboardContent } from 'src/layouts/dashboard';
 
 import PageHeader from 'src/components/page-header/page-header';
 
-import Kanban from 'src/sections/agent-queue/card/kanban';
 import Agentlist from 'src/sections/agent-queue/agent-list';
+import AgentQueues from 'src/sections/agent-queue/card/agent-queue';
 
 // import { BlankView } from 'src/sections/blank/view';
 
@@ -40,18 +40,19 @@ export default function Page() {
         }}
       >
         <PageHeader
-          title="Agent Chat Overview"
-          Subheading="Agent Chat Overview shows the list of chats assigned to Ayush Bisen."
+          title="Agent Queues"
+          Subheading="Agent queues shows the list of chats assigned to team member."
           link_added="#"
         />
       </Box>
       <Box
         sx={{
-          gap: 3,
+          gap: 1,
           display: 'flex',
           flexDirection: isMobile ? 'column' : 'row',
           alignItems: isMobile ? 'flex-start' : 'flex-start',
           // justifyContent: 'space-between',
+          width: '100%',
           mt: '40px',
         }}
       >
@@ -60,15 +61,14 @@ export default function Page() {
           <Box
             sx={{
               mt: 0,
-
-              gap: 3,
+              gap: 2,
               display: 'grid',
               gridTemplateColumns: { xs: 'repeat(1, 1fr)', md: 'repeat(5, 1fr)' },
             }}
           />
 
           {/* <KanbanView /> */}
-          <Kanban/>
+          <AgentQueues />
         </Box>
       </Box>
     </DashboardContent>

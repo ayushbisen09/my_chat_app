@@ -226,7 +226,7 @@ export default function DashboardTable({ sx, icon, title, total, color = 'warnin
                     table.page * table.rowsPerPage,
                     table.page * table.rowsPerPage + table.rowsPerPage
                   )
-                  .map((row) => (
+                  .map((row ,index) => (
                     <OrderTableRow
                       key={row.id}
                       row={row}
@@ -234,6 +234,7 @@ export default function DashboardTable({ sx, icon, title, total, color = 'warnin
                       onSelectRow={() => table.onSelectRow(row.id)}
                       onDeleteRow={() => handleDeleteRow(row.id)}
                       onViewRow={() => handleViewRow(row.id)}
+                      dashboardTableIndex={table.page * table.rowsPerPage + index}
                     />
                   ))}
 

@@ -69,6 +69,31 @@ export default function Page({ sx, icon, title, total, color = 'warning', ...oth
         }}
       >
         {/* WhatsApp Number Added */}
+        
+        {/* WhatsApp Message Quota (Outgoing) */}
+        <Tooltip title="Number of WhatsApp message alloted to you." arrow placement="top">
+          <div>
+            <StatsCards
+              cardtitle="WhatsApp Message Credits Allotted"
+              cardstats="10,000"
+              icon_name="2card.png"
+              icon_color="#FFA92E"
+              bg_gradient={theme.vars.palette[color].main}
+            />
+          </div>
+        </Tooltip>
+        {/* Messaage Quota Used */}
+        <Tooltip title="Number of WhatsApp message used frow alloted limit" arrow placement="top">
+          <div>
+        <StatsCards
+          cardtitle="WhatsApp Message Credits Remaining"
+          cardstats="2,000"
+          icon_name="3card.svg"
+          icon_color="#7D6ADB"
+          bg_gradient="#8E33FF"
+        />
+        </div>
+        </Tooltip>
         <Tooltip title="Number of WhatsApp Numbers you have added." arrow placement="top">
           <div>
             <StatsCards
@@ -79,30 +104,6 @@ export default function Page({ sx, icon, title, total, color = 'warning', ...oth
               bg_gradient="#22C55E"
             />
           </div>
-        </Tooltip>
-        {/* WhatsApp Message Quota (Outgoing) */}
-        <Tooltip title="Number of WhatsApp Message Quota (Outgoing) assigned to you." arrow placement="top">
-          <div>
-            <StatsCards
-              cardtitle="WhatsApp Message Quota (Outgoing)"
-              cardstats="10,000"
-              icon_name="2card.png"
-              icon_color="#FFA92E"
-              bg_gradient={theme.vars.palette[color].main}
-            />
-          </div>
-        </Tooltip>
-        {/* Messaage Quota Used */}
-        <Tooltip title="Number of WhatsApp Message Quota you have used" arrow placement="top">
-          <div>
-        <StatsCards
-          cardtitle="Message Quota Used"
-          cardstats="2,000"
-          icon_name="3card.svg"
-          icon_color="#7D6ADB"
-          bg_gradient="#8E33FF"
-        />
-        </div>
         </Tooltip>
 
       </Box>

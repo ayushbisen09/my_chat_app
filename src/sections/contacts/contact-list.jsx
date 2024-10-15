@@ -1,14 +1,25 @@
 import styled from '@emotion/styled';
 import { useState, useCallback } from 'react';
 
-import { Box, List, Button, Tooltip, Divider, MenuList, MenuItem, IconButton, ListItemText, ListItemButton } from '@mui/material';
+import {
+  Box,
+  List,
+  Button,
+  Tooltip,
+  Divider,
+  MenuList,
+  MenuItem,
+  IconButton,
+  ListItemText,
+  ListItemButton,
+} from '@mui/material';
 
 import { useBoolean } from 'src/hooks/use-boolean';
 
 import { Iconify } from 'src/components/iconify';
 import { usePopover, CustomPopover } from 'src/components/custom-popover';
 
-import { ContactsDialog } from './hook/add-contact-list';
+import { AddContactsListDrawer } from './hook/add-contact-list';
 
 export default function ContactList({ onItemSelect }) {
   const CustomListItemButton = styled(ListItemButton)(({ theme }) => ({
@@ -60,7 +71,7 @@ export default function ContactList({ onItemSelect }) {
     [onItemSelect]
   );
 
-  const dialog = useBoolean();
+  const addContactListDrawer = useBoolean();
   const popover = usePopover();
 
   const contactLists = [
@@ -86,7 +97,7 @@ export default function ContactList({ onItemSelect }) {
       <Tooltip title="Click here to add new contact list." arrow placement="top">
         <Button
           sx={{ mb: '8px' }}
-          onClick={dialog.onTrue}
+          onClick={addContactListDrawer.onTrue}
           fullWidth
           color="inherit"
           variant="contained"
@@ -95,44 +106,53 @@ export default function ContactList({ onItemSelect }) {
           Add Contact List
         </Button>
       </Tooltip>
-      <ContactsDialog open={dialog.value} onClose={dialog.onFalse} />
+      <AddContactsListDrawer
+        open={addContactListDrawer.value}
+        onClose={addContactListDrawer.onFalse}
+      />
       <List sx={{ width: '100%' }}>
         {contactLists.map((contact, index) => (
           <Tooltip key={index} title={`List name: ${contact.name}`} arrow placement="top">
-            <Box
-            sx={{display:'flex'}}>
-
-            <CustomListItemButton
-              selected={selectedIndex === index}
-              onClick={(event) => handleListItemClick(event, index)}
-            >
-              <ListItemText
-                primary={
-                  <div style={{ display: 'flex', alignItems: 'center', width: '100%', overflow: 'hidden' }}>
-                    <span style={{ flexGrow: 1, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                      {contact.name}
-                    </span>
-                    <span style={{ marginLeft: '8px', flexShrink: 0 }}>
-                      ({contact.count})
-                    </span>
-                    
-                  </div>
-                }
-              />
-              
-            </CustomListItemButton>
-            <IconButton
-                      color={popover.open ? 'inherit' : 'default'}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        popover.onOpen(e);
+            <Box sx={{ display: 'flex' }}>
+              <CustomListItemButton
+                selected={selectedIndex === index}
+                onClick={(event) => handleListItemClick(event, index)}
+              >
+                <ListItemText
+                  primary={
+                    <div
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        width: '100%',
+                        overflow: 'hidden',
                       }}
                     >
-                      <Iconify icon="eva:more-vertical-fill" />
-                    </IconButton>
-
+                      <span
+                        style={{
+                          flexGrow: 1,
+                          whiteSpace: 'nowrap',
+                          overflow: 'hidden',
+                          textOverflow: 'ellipsis',
+                        }}
+                      >
+                        {contact.name}
+                      </span>
+                      <span style={{ marginLeft: '8px', flexShrink: 0 }}>({contact.count})</span>
+                    </div>
+                  }
+                />
+              </CustomListItemButton>
+              <IconButton
+                color={popover.open ? 'inherit' : 'default'}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  popover.onOpen(e);
+                }}
+              >
+                <Iconify icon="eva:more-vertical-fill" />
+              </IconButton>
             </Box>
-            
           </Tooltip>
         ))}
       </List>
@@ -147,13 +167,9 @@ export default function ContactList({ onItemSelect }) {
           <Tooltip title="Click here to edit the list." arrow placement="right">
             <MenuItem>
               <Iconify icon="solar:bill-list-bold" />
-              Edit List 
+              Edit List
             </MenuItem>
           </Tooltip>
-          
-         
-            
-       
 
           <Divider style={{ borderStyle: 'dashed' }} />
           <Tooltip title="Click here to delete this contact list ." arrow placement="right">
@@ -171,6 +187,5 @@ export default function ContactList({ onItemSelect }) {
         </MenuList>
       </CustomPopover>
     </Box>
-    
   );
 }

@@ -25,7 +25,7 @@ export function ChatRoomSingle({ participant }) {
   const collapseAdditional = useBoolean(false);
   const collapsegeneraldetails = useBoolean(false);
   const collapseUserAttribute = useBoolean(false);
-  
+
   const [priority, setPriority] = useState('');
   const [status, setStatus] = useState('');
   const [tags, setTags] = useState(['Purchase', 'Pabbly Connect', 'Pabbly Subscription Billing']);
@@ -36,7 +36,7 @@ export function ChatRoomSingle({ participant }) {
     `${CONFIG.site.basePath}/assets/images/chatavatar/Ayush.png`
   );
 
-  const [chatOwner, setChatOwner] = useState('');
+  const [teamMember, setteamMember] = useState('');
   const [incomingStatus, setIncomingStatus] = useState('');
   const [userStatus, setUserStatus] = useState('');
 
@@ -44,14 +44,14 @@ export function ChatRoomSingle({ participant }) {
   const [userAttributes, setUserAttributes] = useState({
     email: 'xyz@gmail.com',
     city: 'Bhopal',
-    orderId: '#87887656'
+    orderId: '#87887656',
   });
   const [isEditing, setIsEditing] = useState(false);
 
   const handlePriorityChange = (event) => {
     setPriority(event.target.value);
   };
-  
+
   const handleStatusChange = (event) => {
     setStatus(event.target.value);
   };
@@ -78,8 +78,8 @@ export function ChatRoomSingle({ participant }) {
     setTags(tags.filter((tag) => tag !== tagToDelete));
   };
 
-  const handleChatOwnerChange = (event) => {
-    setChatOwner(event.target.value);
+  const handleteamMemberChange = (event) => {
+    setteamMember(event.target.value);
   };
 
   const handleIncomingStatusChange = (event) => {
@@ -97,9 +97,9 @@ export function ChatRoomSingle({ participant }) {
 
   // New function to handle changes in user attributes
   const handleUserAttributeChange = (attribute, value) => {
-    setUserAttributes(prev => ({
+    setUserAttributes((prev) => ({
       ...prev,
-      [attribute]: value
+      [attribute]: value,
     }));
   };
 
@@ -115,13 +115,6 @@ export function ChatRoomSingle({ participant }) {
 
   const renderContact = (
     <Stack spacing={1} sx={{ px: 2, py: 2.5 }}>
-      <Stack>
-        <Typography sx={{ fontSize: '14px', fontWeight: 'regular' }}>Ticket ID</Typography>
-        <Typography sx={{ fontSize: '12px', fontWeight: 'regular', color: 'text.secondary' }}>
-          #56435{' '}
-        </Typography>
-      </Stack>
-
       <Stack>
         <Typography sx={{ fontSize: '14px', fontWeight: 'regular' }}>Last Active</Typography>
         <Typography sx={{ fontSize: '12px', fontWeight: 'regular', color: 'text.secondary' }}>
@@ -153,11 +146,11 @@ export function ChatRoomSingle({ participant }) {
   const renderAdditionalInfo = (
     <Stack spacing={1} sx={{ px: 2, py: 2.5 }}>
       <Stack>
-        <Button 
-          variant='outlined' 
-          color='inherit' 
-          size='small' 
-          sx={{width:32 ,mb: 1}}
+        <Button
+          variant="outlined"
+          color="inherit"
+          size="small"
+          sx={{ width: 32, mb: 1 }}
           onClick={handleEditUserAttributes}
         >
           {isEditing ? 'Save' : 'Edit'}
@@ -209,17 +202,17 @@ export function ChatRoomSingle({ participant }) {
       </Stack>
       <Stack>
         <Typography sx={{ fontSize: '14px', fontWeight: 'regular', mb: '10px' }}>
-          Chat Owner
+          Team Member
         </Typography>
 
         <FormControl fullWidth size="small">
-          <InputLabel id="chat-owner-select-label">Chat Owner</InputLabel>
+          <InputLabel id="chat-owner-select-label">Team Member</InputLabel>
           <Select
             labelId="chat-owner-select-label"
             id="chat-owner-select"
-            value={chatOwner}
-            label="Chat Owner"
-            onChange={handleChatOwnerChange}
+            value={teamMember}
+            label="Team Member"
+            onChange={handleteamMemberChange}
           >
             <MenuItem value="Ayush Bisen">Ayush Bisen</MenuItem>
             <MenuItem value="Ankit Mandli">Ankit Mandli</MenuItem>
@@ -278,10 +271,7 @@ export function ChatRoomSingle({ participant }) {
               placeholder="+ Add a tag"
               InputProps={{
                 ...params.InputProps,
-                endAdornment: (
-                  <InputAdornment position="start"/>
-                 
-                ),
+                endAdornment: <InputAdornment position="start" />,
               }}
               sx={{
                 '& .MuiAutocomplete-inputRoot': {
@@ -358,7 +348,7 @@ export function ChatRoomSingle({ participant }) {
       >
         GENERAL DETAILS
       </CollapseButton>
-      
+
       <Collapse in={collapsegeneraldetails.value}>{rendergeneraldetails}</Collapse>
     </>
   );
