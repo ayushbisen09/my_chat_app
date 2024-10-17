@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
@@ -19,21 +19,22 @@ import { Iconify } from 'src/components/iconify';
 import { usePopover, CustomPopover } from 'src/components/custom-popover';
 
 import { ConfirmDialog } from '../../hook/confirm-dialog';
+import { TestCampaignDrawer } from '../../hook/test-broadcast-drawer';
 
 const templatename = [
   'Classic Layout',
-  'Creative Portfolio',
+  '-',
   'Elegant Presentation',
-  'Professional Report',
+  '-',
   'Educational Content',
   // Add more flow names as needed
 ];
 
 const templatetype = [
-  'Manual Broadcast',
+  'Broadcast',
   'API Broadcast',
   'Scheduled Broadcast',
-  'Instant Broadcast',
+
   // Add more flow names as needed
 ];
 
@@ -42,15 +43,26 @@ const broadcastname = [
   'Special Announcement',
   'Product Launch',
   'Seasonal Campaign',
-  'New Feature Alert'
+  'New Feature Alert',
   // Add more flow names as needed
 ];
 
-
-export function OrderTableRow({ row, selected, onSelectRow, onDeleteRow ,broadcastIndex}) {
+export function OrderTableRow({ row, selected, onSelectRow, onDeleteRow, broadcastIndex }) {
   const confirm = useBoolean();
   const collapse = useBoolean();
   const popover = usePopover();
+  const isApiBroadcast = templatetype[broadcastIndex % templatetype.length] === 'API Broadcast';
+
+  const [openTestCampaignDrawer, setOpenTestCampaignDrawer] = useState(false);
+
+  const handleOpenTestCampaignDrawer = () => {
+    setOpenTestCampaignDrawer(true);
+  };
+
+  const handleCloseTestCampaignDrawer = () => {
+    setOpenTestCampaignDrawer(false);
+  };
+
   const renderPrimary = (
     <TableRow hover selected={selected}>
       <TableCell padding="checkbox">
@@ -60,7 +72,7 @@ export function OrderTableRow({ row, selected, onSelectRow, onDeleteRow ,broadca
           inputProps={{ id: `row-checkbox-${row.id}`, 'aria-label': `Row checkbox` }}
         />
       </TableCell>
-      <TableCell width={288}>
+      <TableCell width={900}>
         <Stack spacing={2} direction="row" alignItems="center">
           <Stack
             sx={{
@@ -70,13 +82,18 @@ export function OrderTableRow({ row, selected, onSelectRow, onDeleteRow ,broadca
             }}
           >
             <Tooltip title="Broadcast name " arrow placement="top">
-            <Box component="span">{broadcastname[broadcastIndex % broadcastname.length]}</Box>
+              <Box component="span">{broadcastname[broadcastIndex % broadcastname.length]}</Box>
+            </Tooltip>
+            <Tooltip title="Template type " arrow placement="top">
+              <Box component="span" sx={{ color: 'text.disabled' }}>
+                {templatetype[broadcastIndex % templatetype.length]}
+              </Box>
             </Tooltip>
           </Stack>
         </Stack>
       </TableCell>
 
-      <TableCell width={592}>
+      <TableCell width={1000}>
         <Stack spacing={2} direction="row" alignItems="center">
           <Stack
             sx={{
@@ -85,19 +102,13 @@ export function OrderTableRow({ row, selected, onSelectRow, onDeleteRow ,broadca
               alignItems: 'flex-start',
             }}
           >
-             <Tooltip title="Template name " arrow placement="top">
-            <Box component="span">{templatename[broadcastIndex % templatename.length]}</Box>
-            </Tooltip>
-            <Tooltip title="Template type " arrow placement="top">
-
-            <Box component="span" sx={{ color: 'text.disabled' }}>
-            {templatetype[broadcastIndex % templatetype.length]}
-            </Box>
+            <Tooltip title="Template name " arrow placement="top">
+              <Box component="span">{templatename[broadcastIndex % templatename.length]}</Box>
             </Tooltip>
           </Stack>
         </Stack>
       </TableCell>
-      <TableCell width={592}>
+      <TableCell width={800}>
         <Stack spacing={2} direction="row" alignItems="center">
           <Stack
             sx={{
@@ -105,22 +116,22 @@ export function OrderTableRow({ row, selected, onSelectRow, onDeleteRow ,broadca
               flex: '1 1 auto',
               alignItems: 'flex-start',
             }}
-          ><Tooltip title="Date when broadcast is created " arrow placement="top">
-            <Box component="span">Jan 19, 2024</Box>
+          >
+            <Tooltip title="Date when broadcast is created " arrow placement="top">
+              <Box component="span">Jan 19, 2024</Box>
             </Tooltip>
             <Tooltip title="Time when broadcast is created" arrow placement="top">
-            <Box component="span" sx={{ color: 'text.disabled' }}>
-              08:23:31
-            </Box>
+              <Box component="span" sx={{ color: 'text.disabled' }}>
+                08:23:31
+              </Box>
             </Tooltip>
           </Stack>
         </Stack>
       </TableCell>
 
-   
       <TableCell width={110}>
-  {row.status === 'live' ? (
-    <Tooltip title="This broadcast is live " arrow placement="top">
+      {row.status === 'live' ? (
+    <Tooltip title="This broadcast is live" arrow placement="top">
       <Label variant="soft" color="success">
         {row.status}
       </Label>
@@ -137,22 +148,40 @@ export function OrderTableRow({ row, selected, onSelectRow, onDeleteRow ,broadca
         {row.status}
       </Label>
     </Tooltip>
+  ) : row.status === 'failed' ? (
+    <Tooltip title="This broadcast has failed" arrow placement="top">
+      <Label variant="soft" color="error">
+        {row.status}
+      </Label>
+    </Tooltip>
   ) : (
     <Label variant="soft" color="default">
       {row.status}
     </Label>
   )}
-</TableCell>
+      </TableCell>
 
       <TableCell align="right" sx={{ px: 1, whiteSpace: 'nowrap' }}>
-      <Tooltip title="Click here to see reciver list and stats" arrow placement="top">
-        <IconButton
-          color={collapse.value ? 'inherit' : 'default'}
-          onClick={collapse.onToggle}
-          sx={{ ...(collapse.value && { bgcolor: 'action.hover' }) }}
-        >
-          <Iconify icon="eva:arrow-ios-downward-fill" />
-        </IconButton>
+        {isApiBroadcast ? (
+          <Button variant="outlined" color="primary" onClick={handleOpenTestCampaignDrawer}>
+            Test Broadcast
+          </Button>
+        ) : (
+          '-'
+        )}
+      </TableCell>
+
+      <TestCampaignDrawer open={openTestCampaignDrawer} onClose={handleCloseTestCampaignDrawer} />
+
+      <TableCell align="right" sx={{ px: 1, whiteSpace: 'nowrap' }}>
+        <Tooltip title="Click here to see reciver list and stats" arrow placement="top">
+          <IconButton
+            color={collapse.value ? 'inherit' : 'default'}
+            onClick={collapse.onToggle}
+            sx={{ ...(collapse.value && { bgcolor: 'action.hover' }) }}
+          >
+            <Iconify icon="eva:arrow-ios-downward-fill" />
+          </IconButton>
         </Tooltip>
 
         <IconButton color={popover.open ? 'inherit' : 'default'} onClick={popover.onOpen}>
@@ -178,48 +207,48 @@ export function OrderTableRow({ row, selected, onSelectRow, onDeleteRow ,broadca
                   Receivers List
                 </Typography>
                 <Tooltip title="Included reciever list" arrow placement="left">
-                <Typography sx={{ mb: '2px' }} fontSize="14px" color="text.secondary">
-                  <Box component="span" fontWeight="medium" color="text.primary">
-                    Included:
-                  </Box>{' '}
-                  Pabbly Connect List, Pabbly Subscription Billing, Pabbly Support.
-                </Typography>
+                  <Typography sx={{ mb: '2px' }} fontSize="14px" color="text.secondary">
+                    <Box component="span" fontWeight="medium" color="text.primary">
+                      Included:
+                    </Box>{' '}
+                    Pabbly Connect List, Pabbly Subscription Billing, Pabbly Support.
+                  </Typography>
                 </Tooltip>
                 <Tooltip title="Excluded reciever list" arrow placement="left">
-                <Typography fontSize="14px" color="text.secondary">
-                  <Box component="span" fontWeight="medium" color="text.primary">
-                    Excluded:
-                  </Box>{' '}
-                  Pabbly Email Marketing, Pabbly Form Builder.
-                </Typography>
+                  <Typography fontSize="14px" color="text.secondary">
+                    <Box component="span" fontWeight="medium" color="text.primary">
+                      Excluded:
+                    </Box>{' '}
+                    Pabbly Email Marketing, Pabbly Form Builder.
+                  </Typography>
                 </Tooltip>
               </Box>
               <Divider />
               <Tooltip title="Broadcast stats" arrow placement="left">
-              <Box sx={{ p: '12px 24px 12px 24px' }}>
-                <Typography variant="subtitle2" fontWeight="bold" gutterBottom>
-                  Stats
-                </Typography>
-                <Stack spacing={0.5}>
-                  {' '}
-                  {/* 0.5 * 8px = 4px gap, adjust to 2px using 0.25 */}
-                  {[
-                    { label: 'Sent', value: '700 (20%)' },
-                    { label: 'Delivered', value: '565 (45%)' },
-                    { label: 'Read', value: '565 (45%)' },
-                    { label: 'Clicked', value: '122 (04%)' },
-                    { label: 'Replied', value: '122 (04%)' },
-                    { label: 'Replied', value: '700 (20%)' },
-                  ].map((item, index) => (
-                    <Typography key={index} fontSize="14px" color="text.primary">
-                      {item.label}:{' '}
-                      <Box component="span" color="text.secondary">
-                        {item.value}
-                      </Box>
-                    </Typography>
-                  ))}
-                </Stack>
-              </Box>
+                <Box sx={{ p: '12px 24px 12px 24px' }}>
+                  <Typography variant="subtitle2" fontWeight="bold" gutterBottom>
+                    Stats
+                  </Typography>
+                  <Stack spacing={0.5}>
+                    {' '}
+                    {/* 0.5 * 8px = 4px gap, adjust to 2px using 0.25 */}
+                    {[
+                      { label: 'Sent', value: '700 (20%)' },
+                      { label: 'Delivered', value: '565 (45%)' },
+                      { label: 'Read', value: '565 (45%)' },
+                      { label: 'Clicked', value: '122 (04%)' },
+                      { label: 'Replied', value: '122 (04%)' },
+                      { label: 'Replied', value: '700 (20%)' },
+                    ].map((item, index) => (
+                      <Typography key={index} fontSize="14px" color="text.primary">
+                        {item.label}:{' '}
+                        <Box component="span" color="text.secondary">
+                          {item.value}
+                        </Box>
+                      </Typography>
+                    ))}
+                  </Stack>
+                </Box>
               </Tooltip>
               {/* <Box sx={{ p: '6px 24px 24px 24px' }}>
                 <Stack direction="row" spacing={1}>
@@ -251,8 +280,7 @@ export function OrderTableRow({ row, selected, onSelectRow, onDeleteRow ,broadca
         slotProps={{ arrow: { placement: 'right-top' } }}
       >
         <MenuList>
-          
-        {/* <Tooltip title="Click here to edit broadcast" arrow placement="left">
+          {/* <Tooltip title="Click here to edit broadcast" arrow placement="left">
           <MenuItem sx={{ color: '' }}>
             <Iconify icon="solar:pen-bold" />
             Edit Broadcast
@@ -261,16 +289,16 @@ export function OrderTableRow({ row, selected, onSelectRow, onDeleteRow ,broadca
 
           {/* <Divider style={{ borderStyle: 'dashed' }} /> */}
           <Tooltip title="Click here to detele the broadcast" arrow placement="left">
-          <MenuItem
-            onClick={() => {
-              confirm.onTrue();
-              popover.onClose();
-            }}
-            sx={{ color: 'error.main' }}
-          >
-            <Iconify icon="solar:trash-bin-trash-bold" />
-            Delete
-          </MenuItem>
+            <MenuItem
+              onClick={() => {
+                confirm.onTrue();
+                popover.onClose();
+              }}
+              sx={{ color: 'error.main' }}
+            >
+              <Iconify icon="solar:trash-bin-trash-bold" />
+              Delete
+            </MenuItem>
           </Tooltip>
         </MenuList>
       </CustomPopover>

@@ -228,7 +228,7 @@ export default function ConditionNode({
               gap: 2,
             }}
           >
-            <Button variant="outlined" color="success" size="large" fullWidth>
+            <Button variant="outlined" color="success" size="medium" fullWidth>
               True
             </Button>
 
@@ -244,7 +244,7 @@ export default function ConditionNode({
               gap: 2,
             }}
           >
-            <Button variant="outlined" color="error" size="large" fullWidth>
+            <Button variant="outlined" color="error" size="medium" fullWidth>
               False
             </Button>
 

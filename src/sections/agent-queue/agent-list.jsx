@@ -57,7 +57,7 @@ export default function Agentlist({ onItemSelect }) {
         width: {
           xs: '100%',
           sm: '100%',
-          md: '276px',
+          md: '260px',
         },
       }}
     >

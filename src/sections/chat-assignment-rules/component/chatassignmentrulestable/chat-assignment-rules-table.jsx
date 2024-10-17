@@ -5,7 +5,15 @@ import { useState, useCallback } from 'react';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import { useTheme } from '@mui/material/styles';
-import { Tab, Tabs, Table, Tooltip, TableBody, IconButton, useMediaQuery } from '@mui/material';
+import {
+  Table,
+  Tooltip,
+  Divider,
+  TableBody,
+  IconButton,
+  CardHeader,
+  useMediaQuery,
+} from '@mui/material';
 
 import { paths } from 'src/routes/paths';
 import { useRouter } from 'src/routes/hooks';
@@ -13,18 +21,12 @@ import { useRouter } from 'src/routes/hooks';
 import { useBoolean } from 'src/hooks/use-boolean';
 import { useSetState } from 'src/hooks/use-set-state';
 
-import { fIsAfter, fIsBetween } from 'src/utils/format-time';
-
 import { CONFIG } from 'src/config-global';
-import { varAlpha } from 'src/theme/styles';
-import {
-  _chatassignmentrules,
-  CHATASSIGNMENTRULE_STATUS_OPTIONS,
-} from 'src/_mock/_chatassignmentrules';
+import { _chatassignmentrule } from 'src/_mock/_chatassignmentrules';
 
-import { Label } from 'src/components/label';
 import { toast } from 'src/components/snackbar';
 import { Iconify } from 'src/components/iconify';
+import { Scrollbar } from 'src/components/scrollbar';
 import {
   useTable,
   emptyRows,
@@ -41,44 +43,47 @@ import { ChatAssignmentTableRow } from './chat-assignment-rules-table-row';
 import { ChatAssignmentTableToolbar } from './chat-assignment-rules-table-toolbar';
 import { ChatAssignmentTableFiltersResult } from './chat-assignment-rules-table-filtter';
 
-// import { OrderTableRow } from './contact-table-row';
-// import { OrderTableToolbar } from './contact-table-toolbar';
-// import { OrderTableFiltersResult } from './contact-table-filters-result';
-
 // ----------------------------------------------------------------------
 
-const metadata = { title: `Page one | Dashboard - ${CONFIG.site.name}` };
-const STATUS_OPTIONS = [{ value: 'all', label: 'All' }, ...CHATASSIGNMENTRULE_STATUS_OPTIONS];
+const metadata = { title: `Chat Assignment Rules | Chat Assigment Rules - ${CONFIG.site.name}` };
 
 const TABLE_HEAD = [
-  { id: 'sno', label: 'S.No', width: 353 ,tooltip: 'Serial Number'},
-  { id: 'rulename', label: 'Rule Name', width: 298 ,tooltip: 'Chat assigment rule name'},
-  { id: 'assignedto', label: 'Assigned To', width: 262 ,tooltip: 'Chat assignment rule assign to online/offline/both '},
-
-  { id: '', width: 88 },
+  {
+    id: 'teamMember',
+    label: 'Team Member',
+    width: 1000,
+    tooltip: 'The team member associated with the chat assignment',
+  },
+  {
+    id: 'assignedWhen',
+    label: 'Assigned When',
+    width: 700,
+    tooltip: 'The round-robin assignment order for task allocation',
+  },
+  {
+    id: 'ticketAssignedTo',
+    label: 'Ticket Assigned To',
+    width: 700,
+    tooltip: 'The team member who is responsible for handling the ticket',
+    align: 'right',
+  },
 ];
-const ruleNames = [
-  'Chat Assignment Rule',
-  'Assignment Name Rule',
-  'General Shift Rule',
-  'Priority Assignment Rule',
-  'Custom Rule 1',
-  'Custom Rule 2',
-  // Add more rule names as needed
-];
 
-export default function ContactsTable({ sx, icon, title, total, color = 'warning', ...other }) {
+
+export default function ChatAssignmentTable({
+  sx,
+  icon,
+  title,
+  total,
+  color = 'warning',
+  ...other
+}) {
   const theme = useTheme();
-
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
-  const table = useTable({ defaultOrderBy: 'orderNumber' });
-
+  const table = useTable({ defaultOrderBy: 'chatAssignmentRules' });
   const router = useRouter();
-
   const confirm = useBoolean();
-
-  const [tableData, setTableData] = useState(_chatassignmentrules);
-
+  const [tableData, setTableData] = useState(_chatassignmentrule);
   const filters = useSetState({
     name: '',
     status: 'all',
@@ -86,13 +91,10 @@ export default function ContactsTable({ sx, icon, title, total, color = 'warning
     endDate: null,
   });
 
-  const dateError = fIsAfter(filters.state.startDate, filters.state.endDate);
-
   const dataFiltered = applyFilter({
     inputData: tableData,
     comparator: getComparator(table.order, table.orderBy),
     filters: filters.state,
-    dateError,
   });
 
   const dataInPage = rowInPage(dataFiltered, table.page, table.rowsPerPage);
@@ -107,11 +109,8 @@ export default function ContactsTable({ sx, icon, title, total, color = 'warning
   const handleDeleteRow = useCallback(
     (id) => {
       const deleteRow = tableData.filter((row) => row.id !== id);
-
-      toast.success('Contact Removed Successfully!');
-
+      toast.success('Chat Assignment Rule Removed Successfully!');
       setTableData(deleteRow);
-
       table.onUpdatePageDeleteRow(dataInPage.length);
     },
     [dataInPage.length, table, tableData]
@@ -119,11 +118,8 @@ export default function ContactsTable({ sx, icon, title, total, color = 'warning
 
   const handleDeleteRows = useCallback(() => {
     const deleteRows = tableData.filter((row) => !table.selected.includes(row.id));
-
     toast.success('Delete success!');
-
     setTableData(deleteRows);
-
     table.onUpdatePageDeleteRows({
       totalRowsInPage: dataInPage.length,
       totalRowsFiltered: dataFiltered.length,
@@ -137,66 +133,23 @@ export default function ContactsTable({ sx, icon, title, total, color = 'warning
     [router]
   );
 
-  const handleFilterStatus = useCallback(
-    (event, newValue) => {
-      table.onResetPage();
-      filters.setState({ status: newValue });
-    },
-    [filters, table]
-  );
-
   return (
     <>
       {/* Table */}
       <Card
         sx={{
           boxShadow: '0px 12px 24px -4px rgba(145, 158, 171, 0.2)',
-
           mt: '24px',
         }}
       >
-        <Tabs
-          value={filters.state.status}
-          onChange={handleFilterStatus}
+        <CardHeader
+          title="Chat Assignment Rules"
           sx={{
-            px: 2.5,
-            boxShadow: (theme1) =>
-              `inset 0 -2px 0 0 ${varAlpha(theme1.vars.palette.grey['500Channel'], 0.08)}`,
+            mb: 2,
           }}
-        >
-          {STATUS_OPTIONS.map((tab) => (
-            <Tab
-              key={tab.value}
-              iconPosition="end"
-              value={tab.value}
-              label={tab.label}
-              icon={
-                <Label
-                  variant={
-                    ((tab.value === 'all' || tab.value === filters.state.status) && 'filled') ||
-                    'soft'
-                  }
-                  color={
-                    (tab.value === 'online' && 'success') ||
-                    (tab.value === 'offline' && 'error') ||
-                    (tab.value === 'both' && 'warning') ||
-                    'default'
-                  }
-                >
-                  {['online', 'offline', 'both'].includes(tab.value)
-                    ? tableData.filter((user) => user.status === tab.value).length
-                    : tableData.length}
-                </Label>
-              }
-            />
-          ))}
-        </Tabs>
-
-        <ChatAssignmentTableToolbar
-          filters={filters}
-          onResetPage={table.onResetPage}
-          dateError={dateError}
         />
+        <Divider />
+        <ChatAssignmentTableToolbar filters={filters} onResetPage={table.onResetPage} />
 
         {canReset && (
           <ChatAssignmentTableFiltersResult
@@ -220,58 +173,59 @@ export default function ContactsTable({ sx, icon, title, total, color = 'warning
             }
             action={
               <Tooltip title="Delete">
-                <IconButton color="primary" onClick={confirm.onTrue}>
-                  <Iconify icon="solar:trash-bin-trash-bold" />
-                </IconButton>
+                <span>
+                  <IconButton color="primary" onClick={confirm.onTrue}>
+                    <Iconify icon="solar:trash-bin-trash-bold" />
+                  </IconButton>
+                </span>
               </Tooltip>
             }
           />
 
-          <Table size={table.dense ? 'small' : 'medium'}>
-            <TableHeadCustom
-              order={table.order}
-              orderBy={table.orderBy}
-              headLabel={TABLE_HEAD}
-              rowCount={dataFiltered.length}
-              numSelected={table.selected.length}
-              onSort={table.onSort}
-              onSelectAllRows={(checked) =>
-                table.onSelectAllRows(
-                  checked,
-                  dataFiltered.map((row) => row.id)
-                )
-              }
-            />
-
-            <TableBody>
-              {dataFiltered
-                .slice(
-                  table.page * table.rowsPerPage,
-                  table.page * table.rowsPerPage + table.rowsPerPage
-                )
-                .map((row, index) => (
-                  <ChatAssignmentTableRow
-                    key={row.id}
-                    row={{
-                      ...row,
-                      ruleName: ruleNames[index % ruleNames.length],
-                    }}
-                    selected={table.selected.includes(row.id)}
-                    onSelectRow={() => table.onSelectRow(row.id)}
-                    onDeleteRow={() => handleDeleteRow(row.id)}
-                    onViewRow={() => handleViewRow(row.id)}
-                    serialNumber={table.page * table.rowsPerPage + index + 1}
-                  />
-                ))}
-
-              <TableEmptyRows
-                height={table.dense ? 56 : 56 + 20}
-                emptyRows={emptyRows(table.page, table.rowsPerPage, dataFiltered.length)}
+          <Scrollbar sx={{ minHeight: 444 }}>
+            <Table size={table.dense ? 'small' : 'medium'} sx={{ minWidth: 960 }}>
+              <TableHeadCustom
+                order={table.order}
+                orderBy={table.orderBy}
+                headLabel={TABLE_HEAD}
+                rowCount={dataFiltered.length}
+                numSelected={table.selected.length}
+                onSort={table.onSort}
+                onSelectAllRows={(checked) =>
+                  table.onSelectAllRows(
+                    checked,
+                    dataFiltered.map((row) => row.id)
+                  )
+                }
               />
 
-              <TableNoData />
-            </TableBody>
-          </Table>
+              <TableBody>
+                {dataFiltered
+                  .slice(
+                    table.page * table.rowsPerPage,
+                    table.page * table.rowsPerPage + table.rowsPerPage
+                  )
+                  .map((row, index) => (
+                    <ChatAssignmentTableRow
+                      key={row.id}
+                      row={row}
+                      selected={table.selected.includes(row.id)}
+                      onSelectRow={() => table.onSelectRow(row.id)}
+                      onDeleteRow={() => handleDeleteRow(row.id)}
+                      onViewRow={() => handleViewRow(row.id)}
+                      chatAssignmentRuleTableIndex={table.page * table.rowsPerPage + index}
+                    />
+                  ))}
+
+                <TableEmptyRows
+                  height={table.dense ? 56 : 56 + 20}
+                  emptyRows={emptyRows(table.page, table.rowsPerPage, dataFiltered.length)}
+                />
+
+                <TableNoData notFound={!dataFiltered.length} />
+              </TableBody>
+            </Table>
+          </Scrollbar>
         </Box>
 
         <TablePaginationCustom
@@ -287,8 +241,9 @@ export default function ContactsTable({ sx, icon, title, total, color = 'warning
     </>
   );
 }
-function applyFilter({ inputData, comparator, filters, dateError }) {
-  const { status, name, startDate, endDate } = filters;
+
+function applyFilter({ inputData, comparator, filters }) {
+  const { status, name } = filters;
 
   const stabilizedThis = inputData.map((el, index) => [el, index]);
 
@@ -298,26 +253,17 @@ function applyFilter({ inputData, comparator, filters, dateError }) {
     return a[1] - b[1];
   });
 
-  inputData = stabilizedThis.map((el) => el[0]);
+  let filteredData = stabilizedThis.map((el) => el[0]);
 
   if (name) {
-    inputData = inputData.filter(
-      (order) =>
-        order.orderNumber.toLowerCase().indexOf(name.toLowerCase()) !== -1 ||
-        order.customer.name.toLowerCase().indexOf(name.toLowerCase()) !== -1 ||
-        order.customer.email.toLowerCase().indexOf(name.toLowerCase()) !== -1
+    filteredData = filteredData.filter(
+      (item) => item.chatAssignmentRules.toLowerCase().indexOf(name.toLowerCase()) !== -1
     );
   }
 
   if (status !== 'all') {
-    inputData = inputData.filter((order) => order.status === status);
+    filteredData = filteredData.filter((item) => item.status === status);
   }
 
-  if (!dateError) {
-    if (startDate && endDate) {
-      inputData = inputData.filter((order) => fIsBetween(order.createdAt, startDate, endDate));
-    }
-  }
-
-  return inputData;
+  return filteredData;
 }

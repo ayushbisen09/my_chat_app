@@ -134,7 +134,7 @@ const SingleProduct = () => {
               <Button
                 variant="outlined"
                 color="primary"
-                size="large"
+                size="medium"
                 fullWidth
                 startIcon={<Iconify width={20} icon="solar:add-circle-bold" sx={{ color: '#0080ff' }} />}
                 onClick={handleAddButton} sx={{mb:2}}
@@ -165,7 +165,7 @@ const SingleProduct = () => {
         <Button 
           variant="outlined" 
           color='primary'
-          size='large'
+          size='medium'
           fullWidth
           startIcon={<Iconify width={20} icon="solar:add-circle-bold" sx={{ color: '#0080ff' }} />}
           onClick={handleClick}

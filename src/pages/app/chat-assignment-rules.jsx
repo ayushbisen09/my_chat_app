@@ -1,14 +1,13 @@
 import 'react-modal-video/css/modal-video.min.css';
 
 import Box from '@mui/material/Box';
+import { useMediaQuery} from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-import { Button, Tooltip ,useMediaQuery} from '@mui/material';
 
 import { useBoolean } from 'src/hooks/use-boolean';
 
 import { DashboardContent } from 'src/layouts/dashboard';
 
-import { Iconify } from 'src/components/iconify';
 import PageHeader from 'src/components/page-header/page-header';
 
 import { AddrulesDialog } from 'src/sections/chat-assignment-rules/hook/add-rules-dialog';
@@ -38,7 +37,7 @@ export default function Page({ sx, icon, title, total, color = 'warning', ...oth
           Subheading="Here you can set the assignment rules for the upcoming chats to the team members."
           link_added="#"
         />
-        <Tooltip
+        {/* <Tooltip
                     title="Click here to add chat assignment rule "
                     arrow
                     placement="top"
@@ -56,7 +55,7 @@ export default function Page({ sx, icon, title, total, color = 'warning', ...oth
         >
           Add Rule
         </Button>
-        </Tooltip>
+        </Tooltip> */}
         <AddrulesDialog open={dialog.value} onClose={dialog.onFalse} />
       </Box>
       <ChatAssignmentTable />

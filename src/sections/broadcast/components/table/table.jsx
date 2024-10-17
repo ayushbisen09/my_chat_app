@@ -49,9 +49,10 @@ const STATUS_OPTIONS = [{ value: 'all', label: 'All' }, ...BROADCAST_STATUS_OPTI
 
 const TABLE_HEAD = [
   { id: 'broadcastname', label: 'Broadcast Name', width: 353, tooltip : "Broadcast name"},
-  { id: 'templateused', label: 'Template Used', width: 298 , tooltip : "Template used with the broadcast" },
+  { id: 'templateused', label: 'Template Name', width: 400 , tooltip : "Template type with the broadcast" },
   { id: 'date', label: 'Date', width: 262 , tooltip : "Date and Time when broadcast is created" },
   { id: 'status', label: 'Status', width: 515 , tooltip : "Broadcast status weather it is Live/Scheduled/Sent"},
+  { id: 'testcampaign', label: 'Test Campaign', width: 515 , tooltip : "Broadcast status weather it is Live/Scheduled/Sent" , align: 'right'},
 
   { id: '', width: 88 },
 ];
@@ -169,10 +170,11 @@ export default function BroadcastTable({ sx, icon, title, total, color = 'warnin
                     (tab.value === 'live' && 'success') ||
                     (tab.value === 'sent' && 'warning') ||
                     (tab.value === 'scheduled' && 'info') ||
+                    (tab.value === 'failed' && 'error') ||
                     'default'
                   }
                 >
-                  {['live', 'sent', 'scheduled'].includes(tab.value)
+                  {['live', 'sent', 'scheduled' , 'failed'].includes(tab.value)
                     ? tableData.filter((user) => user.status === tab.value).length
                     : tableData.length}
                 </Label>

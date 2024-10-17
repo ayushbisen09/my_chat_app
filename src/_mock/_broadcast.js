@@ -7,6 +7,7 @@ export const BROADCAST_STATUS_OPTIONS = [
   { value: 'live', label: 'Live' },
   { value: 'sent', label: 'Sent' },
   { value: 'scheduled', label: 'Scheduled' },
+  { value: 'failed', label: 'Failed' },
 ];
 
 const ITEMS = [...Array(3)].map((_, index) => ({
@@ -20,12 +21,14 @@ const ITEMS = [...Array(3)].map((_, index) => ({
 
 export const _broadcast = [...Array(20)].map((_, index) => {
   let status;
-  if (index % 3 === 0) {
+  if (index % 4 === 0) {
     status = 'live';
-  } else if (index % 2 === 0) {
+  } else if (index % 3 === 0) {
     status = 'sent';
-  } else {
+  } else if (index % 2 === 0) {
     status = 'scheduled';
+  } else {
+    status = 'failed';
   }
 
   const shipping = 10;

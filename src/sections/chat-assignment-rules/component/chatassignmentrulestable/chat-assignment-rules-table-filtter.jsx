@@ -2,8 +2,6 @@ import { useCallback } from 'react';
 
 import Chip from '@mui/material/Chip';
 
-import { fDateRangeShortLabel } from 'src/utils/format-time';
-
 import { chipProps, FiltersBlock, FiltersResult } from 'src/components/filters-result';
 
 // ----------------------------------------------------------------------
@@ -19,10 +17,7 @@ export function ChatAssignmentTableFiltersResult({ filters, totalResults, onRese
     filters.setState({ status: 'all' });
   }, [filters, onResetPage]);
 
-  const handleRemoveDate = useCallback(() => {
-    onResetPage();
-    filters.setState({ startDate: null, endDate: null });
-  }, [filters, onResetPage]);
+ 
 
   const handleReset = useCallback(() => {
     onResetPage();
@@ -37,17 +32,6 @@ export function ChatAssignmentTableFiltersResult({ filters, totalResults, onRese
           label={filters.state.status}
           onDelete={handleRemoveStatus}
           sx={{ textTransform: 'capitalize' }}
-        />
-      </FiltersBlock>
-
-      <FiltersBlock
-        label="Date:"
-        isShow={Boolean(filters.state.startDate && filters.state.endDate)}
-      >
-        <Chip
-          {...chipProps}
-          label={fDateRangeShortLabel(filters.state.startDate, filters.state.endDate)}
-          onDelete={handleRemoveDate}
         />
       </FiltersBlock>
 

@@ -102,14 +102,7 @@ export function ChatHeaderDetail({ collapseNav, participants, loading }) {
             Block
           </MenuItem>
 
-          <MenuItem
-            onClick={() => {
-              popover.onClose();
-            }}
-          >
-            <Iconify icon="solar:danger-triangle-bold" />
-            Report
-          </MenuItem>
+          
 
           <Divider sx={{ borderStyle: 'dashed' }} />
 

@@ -27,7 +27,7 @@ const getInitials = (name) =>
     .map((n) => n[0])
     .join('');
 
-// Function to generate a random background color.
+// Function to generate a random background color
 const getRandomColor = () => {
   const colors = [
     '#FFB6C1',
@@ -110,7 +110,7 @@ export default function AgentQues() {
     <Box
       sx={{
         width: '100%',
-        maxWidth: '1171px',
+        maxWidth: '1172px',
         margin: '0 auto',
 
         overflowX: 'auto',
@@ -147,7 +147,7 @@ export default function AgentQues() {
                 width: {
                   xs: '280px',
                   sm: '320px',
-                  md: '380px',
+                  md: '360px',
                 },
               }}
             >
