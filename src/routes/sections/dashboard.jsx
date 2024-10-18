@@ -17,6 +17,8 @@ const Addcontact = lazy(() => import('../../sections/contacts/add-contact'));
 
 const AgentQueue = lazy(() => import('src/pages/app/agent-queue'));
 const Templates = lazy(() => import('src/pages/app/templates'));
+const YourTemplate = lazy(() => import('../../sections/templates/your-templates'));
+
 const AddTemplate = lazy(() => import('../../sections/templates/add-template'));
 const Broadcast = lazy(() => import('src/pages/app/broadcast'));
 const AddBroadcast = lazy(() => import('../../sections/broadcast/add-broadcast'));
@@ -59,6 +61,7 @@ export const dashboardRoutes = [
       { path: 'agentQueue', element: <AgentQueue /> },
       { path: 'template', element: <Templates /> },
       { path: 'template/addtemplate', element: <AddTemplate /> },
+      { path: 'template/yourtemplate', element: <YourTemplate/> },
       { path: 'broadcast', element: <Broadcast /> },
       { path: 'broadcast/addbroadcast', element: <AddBroadcast /> },
       { path: 'flows', element: <Flows /> },

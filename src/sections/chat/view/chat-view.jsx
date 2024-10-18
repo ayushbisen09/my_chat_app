@@ -39,7 +39,6 @@ export function ChatView() {
     `${selectedConversationId}`
   );
 
-  console.log("conversation k andar ka message",conversation?.messages);
   const roomNav = useCollapseNav();
 
   const conversationsNav = useCollapseNav();
@@ -63,7 +62,8 @@ export function ChatView() {
     <Layout
       sx={{
         mt: '40px',
-        minHeight: 680,
+        mb:"100px",
+        minHeight: 800,
         flex: '1 1 0',
         borderRadius: 2,
         position: 'relative',
@@ -99,7 +99,7 @@ export function ChatView() {
               />
             ) : (
               <EmptyContent
-                imgUrl={`${CONFIG.site.basePath}/assets/icons/empty/ic-chat-active.svg`}
+                imgUrl={`${CONFIG.site.basePath}/assets/icons/empty/ic-chat-active.png`}
                 title="Good morning!"
                 description="Write something awesome..."
               />

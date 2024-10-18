@@ -2,6 +2,7 @@ import { useCallback } from 'react';
 
 import Stack from '@mui/material/Stack';
 import Badge from '@mui/material/Badge';
+import { Tooltip } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
 import Divider from '@mui/material/Divider';
 import MenuList from '@mui/material/MenuList';
@@ -10,8 +11,6 @@ import IconButton from '@mui/material/IconButton';
 import ListItemText from '@mui/material/ListItemText';
 
 import { useResponsive } from 'src/hooks/use-responsive';
-
-import { fToNow } from 'src/utils/format-time';
 
 import { Iconify } from 'src/components/iconify';
 import { usePopover, CustomPopover } from 'src/components/custom-popover';
@@ -41,27 +40,29 @@ export function ChatHeaderDetail({ collapseNav, participants, loading }) {
   }, [lgUp]);
 
   const renderSingle = (
-    <Stack direction="row" alignItems="center" spacing={2}>
-      <Badge
-        variant={singleParticipant?.status}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-      >
-        <Avatar src="/assets/images/chatavatar/Ayush.png" alt={singleParticipant?.name} />
-      </Badge>
+    <Tooltip
+      title="This is the contact information with whom the loged in user is contacting with"
+      arrow
+      placement="top"
+    >
+      <Stack direction="row" alignItems="center" spacing={2}>
+        <Badge
+          variant={singleParticipant?.status}
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+        >
+          <Avatar src="/assets/images/chatavatar/Ayushhh.png" alt={singleParticipant?.name} />
+        </Badge>
 
-      <ListItemText
-        primary="Ayush Bisen"
-        secondary={
-          singleParticipant?.status === 'offline'
-            ? fToNow(singleParticipant?.lastActivity)
-            : singleParticipant?.status
-        }
-        secondaryTypographyProps={{
-          component: 'span',
-          ...(singleParticipant?.status !== 'offline' && { textTransform: 'capitalize' }),
-        }}
-      />
-    </Stack>
+        <ListItemText
+          primary="Ayush Bisen"
+          secondary="+91 7489077458"
+          secondaryTypographyProps={{
+            component: 'span',
+            fontSize: '12px',
+          }}
+        />
+      </Stack>
+    </Tooltip>
   );
 
   if (loading) {
@@ -73,17 +74,30 @@ export function ChatHeaderDetail({ collapseNav, participants, loading }) {
       {renderSingle}
 
       <Stack direction="row" flexGrow={1} justifyContent="flex-end">
-        <IconButton onClick={handleToggleNav}>
-          <Iconify icon={!collapseDesktop ? 'ri:sidebar-unfold-fill' : 'ri:sidebar-fold-fill'} />
-        </IconButton>
-
+        <Tooltip
+          title={
+            collapseDesktop
+              ? 'Click here to show the additional chat information of the contact'
+              : 'Click here to hide the additional chat information of the contact'
+          }
+          arrow
+          placement="top"
+        >
+          
+          <IconButton onClick={handleToggleNav}>
+            <Iconify icon={!collapseDesktop ? 'ri:sidebar-unfold-fill' : 'ri:sidebar-fold-fill'} />
+          </IconButton>
+        </Tooltip>
+        <Tooltip title="Click here for actions" arrow placement='top'>
         <IconButton onClick={popover.onOpen}>
           <Iconify icon="eva:more-vertical-fill" />
         </IconButton>
+        </Tooltip>
       </Stack>
 
       <CustomPopover open={popover.open} anchorEl={popover.anchorEl} onClose={popover.onClose}>
         <MenuList>
+        <Tooltip title="Click here to hide the notifications for this contact" arrow placement='left'>
           <MenuItem
             onClick={() => {
               popover.onClose();
@@ -92,7 +106,8 @@ export function ChatHeaderDetail({ collapseNav, participants, loading }) {
             <Iconify icon="solar:bell-off-bold" />
             Hide notifications
           </MenuItem>
-
+          </Tooltip>
+          <Tooltip title="Click here to Block this contact" arrow placement='left'>
           <MenuItem
             onClick={() => {
               popover.onClose();
@@ -101,11 +116,10 @@ export function ChatHeaderDetail({ collapseNav, participants, loading }) {
             <Iconify icon="solar:forbidden-circle-bold" />
             Block
           </MenuItem>
-
-          
+          </Tooltip>
 
           <Divider sx={{ borderStyle: 'dashed' }} />
-
+          <Tooltip title="Click here to Delete this contact" arrow placement='left'>
           <MenuItem
             onClick={() => {
               popover.onClose();
@@ -115,6 +129,7 @@ export function ChatHeaderDetail({ collapseNav, participants, loading }) {
             <Iconify icon="solar:trash-bin-trash-bold" />
             Delete
           </MenuItem>
+          </Tooltip>
         </MenuList>
       </CustomPopover>
     </>

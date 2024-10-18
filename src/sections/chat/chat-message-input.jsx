@@ -352,7 +352,6 @@ export function ChatMessageInput({
                   alignItems: 'center',
                 }}
               >
-                {/* Check if the attached file is audio or video and display the corresponding icon */}
                 {filePreview.type.includes('audio') && (
                   <Iconify icon="eva:music-outline" width={24} height={24} />
                 )}
@@ -400,9 +399,11 @@ export function ChatMessageInput({
       </Box>
       <Box sx={{ p: 1, display: 'flex', justifyContent: 'space-between' }}>
         <Box>
+        <Tooltip title="Click here to add the emoji in the chat message" arrow placement='top'>
           <IconButton ref={emojiButtonRef} onClick={handleToggleEmojiPicker} disabled={disabled}>
             <Iconify icon="eva:smiling-face-fill" />
           </IconButton>
+          </Tooltip>
           <Popper
             open={showEmojiPicker}
             anchorEl={emojiButtonRef.current}
@@ -422,38 +423,75 @@ export function ChatMessageInput({
               </Box>
             </ClickAwayListener>
           </Popper>
-          <IconButton
-            onClick={toggleBold}
-            sx={{ color: isBold ? '#078DEE' : 'secondary' }}
-            disabled={disabled}
+          <Tooltip
+            title="If you want to highlight the chat message click here to apply the text decoration"
+            arrow
+            placement="top"
           >
-            <Iconify icon="heroicons:bold" />
-          </IconButton>
-          <IconButton
-            onClick={toggleItalic}
-            sx={{ color: isItalic ? '#078DEE' : 'secondary' }}
-            disabled={disabled}
+            <IconButton
+              onClick={toggleBold}
+              sx={{ color: isBold ? '#078DEE' : 'secondary' }}
+              disabled={disabled}
+            >
+              <Iconify icon="heroicons:bold" />
+            </IconButton>
+          </Tooltip>
+          <Tooltip
+            title="Click here to change the chat message format to Italic"
+            arrow
+            placement="top"
           >
-            <Iconify icon="majesticons:italic-line" />
-          </IconButton>
-          <IconButton
-            onClick={toggleStrikethrough}
-            sx={{ color: isStrikethrough ? '#078DEE' : 'secondary' }}
-            disabled={disabled}
+            <IconButton
+              onClick={toggleItalic}
+              sx={{ color: isItalic ? '#078DEE' : 'secondary' }}
+              disabled={disabled}
+            >
+              <Iconify icon="majesticons:italic-line" />
+            </IconButton>
+          </Tooltip>
+          <Tooltip
+            title="Click here to apply strike Through text decoration to the chat message"
+            arrow
+            placement="top"
           >
-            <Iconify icon="mi:strikethrough" />
-          </IconButton>
-          <IconButton onClick={handleAttach} disabled={disabled}>
-            <Iconify icon="eva:attach-2-fill" />
-          </IconButton>
-          <IconButton onClick={() => handleOpenDialog('quick-replies')} disabled={disabled}>
-            <Iconify icon="fa6-solid:reply" />
-          </IconButton>
-          <IconButton onClick={() => handleOpenDialog('template')} disabled={disabled}>
-            <Iconify icon="fluent:mail-template-24-filled" />
-          </IconButton>
+            <IconButton
+              onClick={toggleStrikethrough}
+              sx={{ color: isStrikethrough ? '#078DEE' : 'secondary' }}
+              disabled={disabled}
+            >
+              <Iconify icon="mi:strikethrough" />
+            </IconButton>
+          </Tooltip>
+          <Tooltip
+            title="Click here to attach the file into chat message"
+            arrow
+            placement="top"
+          >
+            <IconButton onClick={handleAttach} disabled={disabled}>
+              <Iconify icon="eva:attach-2-fill" />
+            </IconButton>
+          </Tooltip>
+          <Tooltip
+            title="Click here to open the quick replies dailog for faster communication"
+            arrow
+            placement="top"
+          >
+            <IconButton onClick={() => handleOpenDialog('quick-replies')} disabled={disabled}>
+              <Iconify icon="fa6-solid:reply" />
+            </IconButton>
+          </Tooltip>
+          <Tooltip
+            title="Click here to select the template you want to share with the contact"
+            arrow
+            placement="top"
+          >
+            <IconButton onClick={() => handleOpenDialog('template')} disabled={disabled}>
+              <Iconify icon="fluent:mail-template-24-filled" />
+            </IconButton>
+          </Tooltip>
         </Box>
         <Box>
+        <Tooltip title="Click here to send message" arrow placement='top'>
           <Button
             onClick={handleSendMessage}
             variant="contained"
@@ -464,6 +502,7 @@ export function ChatMessageInput({
           >
             Send
           </Button>
+          </Tooltip>
         </Box>
       </Box>
 

@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import Chip from '@mui/material/Chip';
 import { Button } from '@mui/material';
 import Stack from '@mui/material/Stack';
-import Avatar from '@mui/material/Avatar';
 import Select from '@mui/material/Select';
 import Collapse from '@mui/material/Collapse';
 import MenuItem from '@mui/material/MenuItem';
@@ -103,15 +102,15 @@ export function ChatRoomSingle({ participant }) {
     }));
   };
 
-  const renderInfo = (
-    <Stack alignItems="center" sx={{ py: 5 }}>
-      <Avatar alt={name} src={avatar} sx={{ width: 64, height: 64, mb: 2 }} />
-      <Typography variant="subtitle1">{name}</Typography>
-      <Typography variant="body2" sx={{ color: 'text.secondary', mt: 0.5 }}>
-        {role}
-      </Typography>
-    </Stack>
-  );
+  // const renderInfo = (
+  //   <Stack alignItems="center" sx={{ py: 5 }}>
+  //     <Avatar alt={name} src={avatar} sx={{ width: 64, height: 64, mb: 2 }} />
+  //     <Typography variant="subtitle1">{name}</Typography>
+  //     <Typography variant="body2" sx={{ color: 'text.secondary', mt: 0.5 }}>
+  //       {role}
+  //     </Typography>
+  //   </Stack>
+  // );
 
   const renderContact = (
     <Stack spacing={1} sx={{ px: 2, py: 2.5 }}>
@@ -328,7 +327,7 @@ export function ChatRoomSingle({ participant }) {
 
   return (
     <>
-      {renderInfo}
+      {/* {renderInfo} */}
 
       <CollapseButton selected={collapse.value} onClick={collapse.onToggle}>
         CHAT INFORMATION

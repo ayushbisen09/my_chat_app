@@ -52,6 +52,8 @@ export const paths = {
     template: {
       root: `${ROOTS.DASHBOARD}/template`,
       addtemplate: `${ROOTS.DASHBOARD}/template/addtemplate`,
+      yourtemplate: `${ROOTS.DASHBOARD}/template/yourtemplate`,
+
     },
     broadcast: {
       root: `${ROOTS.DASHBOARD}/broadcast`,

@@ -3,10 +3,10 @@ import { useState, useEffect, useCallback } from 'react';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Drawer from '@mui/material/Drawer';
-import { Typography } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import TextField from '@mui/material/TextField';
 import IconButton from '@mui/material/IconButton';
+import { Tooltip, Typography } from '@mui/material';
 import InputAdornment from '@mui/material/InputAdornment';
 import ClickAwayListener from '@mui/material/ClickAwayListener';
 
@@ -150,6 +150,7 @@ export function ChatNav({ loading, contacts, conversations, collapseNav, selecte
     <ClickAwayListener onClickAway={handleClickAwaySearch}>
       <TextField
         fullWidth
+        size="small"
         value={searchContacts.query}
         onChange={(event) => handleSearchContacts(event.target.value)}
         placeholder="Search contacts..."
@@ -174,22 +175,36 @@ export function ChatNav({ loading, contacts, conversations, collapseNav, selecte
             <Box sx={{ flexGrow: 1 }} />
           </>
         )}
-
-        <IconButton onClick={handleToggleNav}>
-          <Iconify
-            icon={collapseDesktop ? 'eva:arrow-ios-forward-fill' : 'eva:arrow-ios-back-fill'}
-          />
-        </IconButton>
+        <Tooltip
+          title={
+            collapseDesktop
+              ? 'Click here to expand the WhatsApp contact list'
+              : 'Click here to collapse the WhatsApp contact list'
+          }
+          arrow
+          placement="top"
+        >
+          <IconButton onClick={handleToggleNav}>
+            <Iconify
+              icon={collapseDesktop ? 'eva:arrow-ios-forward-fill' : 'eva:arrow-ios-back-fill'}
+            />
+          </IconButton>
+        </Tooltip>
 
         {!collapseDesktop && (
-          <IconButton onClick={handleClickCompose}>
-            <Iconify width={24} icon="solar:user-plus-bold" />
-          </IconButton>
+          <Tooltip title="Click here to add new WhatsApp number" arrow placement="top">
+            <IconButton onClick={handleClickCompose}>
+              <Iconify width={20} icon="solar:user-plus-bold" />
+            </IconButton>
+          </Tooltip>
         )}
-
-        <IconButton onClick={dialog.onTrue} >
-          <Iconify width={24} icon="iconoir:filter-solid" />
-        </IconButton>
+        {!collapseDesktop && (
+          <Tooltip title="Click here to apply filter to chats" arrow placement="top">
+            <IconButton onClick={dialog.onTrue}>
+              <Iconify width={20} icon="iconoir:filter-solid" />
+            </IconButton>
+          </Tooltip>
+        )}
         <ChatFilterDialog open={dialog.value} onClose={dialog.onFalse} />
       </Stack>
 
@@ -207,6 +222,7 @@ export function ChatNav({ loading, contacts, conversations, collapseNav, selecte
               position: 'sticky',
               bottom: 0,
               backgroundColor: '#FFFFFF', // Ensure it has a background
+              borderRadius: '0px 0px 0px 16px',
               padding: '12px', // Add some padding for better appearance
               borderTop: '1px solid rgba(145, 158, 171, 0.2)',
             }}
@@ -229,12 +245,12 @@ export function ChatNav({ loading, contacts, conversations, collapseNav, selecte
                   display: 'felx',
                 }}
               >
-                <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                  <Typography sx={{ mr: 0.5 }}>{visitedCount}</Typography>
-                  <Typography sx={{ mr: 0.5 }}>-</Typography>
-                  <Typography sx={{ mr: 0.5 }}>{chatCount}</Typography>
-                  <Typography sx={{ mr: 0.5 }}>of</Typography>
-                  <Typography>{chatCount}</Typography>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, borderRadius: 2 }}>
+                  {[visitedCount, '-', chatCount, 'of', chatCount].map((text, index) => (
+                    <Typography key={index} variant="body2" color="text.secondary" fontSize="12px">
+                      {text}
+                    </Typography>
+                  ))}
                 </Box>
               </Box>
             </Box>

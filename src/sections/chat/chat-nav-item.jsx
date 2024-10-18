@@ -3,6 +3,7 @@ import { useCallback } from 'react';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Badge from '@mui/material/Badge';
+import { Divider } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 import ListItemText from '@mui/material/ListItemText';
@@ -46,12 +47,12 @@ export function ChatNavItem({ selected, collapse, conversation, onCloseMobile })
 
   const renderSingle = ( 
     <Badge key={singleParticipant?.status} variant={singleParticipant?.status} anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }} sx={{ zIndex: -1 }}>
-      <Avatar alt={singleParticipant?.name} src="/assets/images/chatavatar/Ayush.png" sx={{ width: 48, height: 48 }} />
+      <Avatar alt={singleParticipant?.name} src="/assets/images/chatavatar/Ayushhh.png" sx={{ width: 48, height: 48 }} />
     </Badge>
   );
 
   return (
-    <Box component="li" sx={{ display: 'flex' }}>
+    <Box  >
       <ListItemButton
         onClick={handleClickConversation}
         sx={{
@@ -85,6 +86,7 @@ export function ChatNavItem({ selected, collapse, conversation, onCloseMobile })
                 color: conversation.unreadCount ? 'text.primary' : 'text.secondary',
               }}
             />
+           
 
             <Stack alignItems="flex-end" sx={{ alignSelf: 'stretch' }}>
               <Typography
@@ -110,6 +112,7 @@ export function ChatNavItem({ selected, collapse, conversation, onCloseMobile })
           </>
         )}
       </ListItemButton>
+      <Divider/>
   
     </Box>
   );
