@@ -9,12 +9,17 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import {
   Alert,
+  Select,
   Divider,
   Tooltip,
   Snackbar,
+  MenuItem,
   TextField,
+  InputLabel,
+  FormControl,
   useMediaQuery,
   InputAdornment,
+  FormHelperText,
 } from '@mui/material';
 
 import { useBoolean } from 'src/hooks/use-boolean';
@@ -48,6 +53,16 @@ export function WebhookDialog({ title, content, action, open, onClose, ...other 
     }
     setSnackbarOpen(false);
   };
+
+  const events = [
+    { id: 'event1', label: 'New Message Recieved' },
+    { id: 'event2', label: 'On message status change lik: delivered, read' },
+    { id: 'event3', label: 'Contact create' },
+    { id: 'event4', label: 'Contact update' },
+    { id: 'event5', label: 'Contact delete' },
+    { id: 'event6', label: 'Broadcast sent' },
+    // Add more events as needed
+  ];
 
   return (
     <>
@@ -141,41 +156,25 @@ export function WebhookDialog({ title, content, action, open, onClose, ...other 
               ),
             }}
           />
-          <TextField
-            autoFocus
-            fullWidth
-            type="text"
-            margin="dense"
-            variant="outlined"
-            label="Webhook Event"
-            helperText={
-              <span>
-                Select the event for which you want to be notified.{' '}
-                <Link href="#" style={{ color: '#078DEE' }} underline="always">
-                  Learn more
-                </Link>
-              </span>
-            }
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <Tooltip
-                    title="Select the event for which you want to be notified. "
-                    arrow
-                    placement="top"
-                    sx={{
-                      fontSize: '16px', // Adjust the font size as needed
-                    }}
-                  >
-                    <Iconify
-                      icon="material-symbols:info-outline"
-                      style={{ width: 20, height: 20 }}
-                    />
-                  </Tooltip>
-                </InputAdornment>
-              ),
-            }}
-          />
+          <FormControl fullWidth margin="dense" variant="outlined">
+            <InputLabel>Webhook Event</InputLabel>
+            <Select
+              label="Webhook Event"
+              defaultValue="" // Set a default value if needed
+            >
+              {events.map((event) => (
+                <MenuItem key={event.id} value={event.id}>
+                  {event.label}
+                </MenuItem>
+              ))}
+            </Select>
+            <FormHelperText>
+              Select the event for which you want to be notified.{' '}
+              <Link href="#" style={{ color: '#078DEE' }} underline="always">
+                Learn more
+              </Link>
+            </FormHelperText>
+          </FormControl>
         </DialogContent>
 
         <DialogActions>

@@ -50,10 +50,9 @@ export const paths = {
     },
     agentQueue: `${ROOTS.DASHBOARD}/agentQueue`,
     template: {
+      templateslist: `${ROOTS.DASHBOARD}/template/templateslist`,
       root: `${ROOTS.DASHBOARD}/template`,
       addtemplate: `${ROOTS.DASHBOARD}/template/addtemplate`,
-      yourtemplate: `${ROOTS.DASHBOARD}/template/yourtemplate`,
-
     },
     broadcast: {
       root: `${ROOTS.DASHBOARD}/broadcast`,

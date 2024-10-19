@@ -1,8 +1,6 @@
 import { useState, useCallback } from 'react';
 
-import Badge from '@mui/material/Badge';
-import { Tooltip } from '@mui/material';
-import Avatar from '@mui/material/Avatar';
+import { Typography } from '@mui/material';
 
 import { usePopover } from 'src/components/custom-popover';
 
@@ -32,17 +30,20 @@ export function ChatNavAccount() {
 
   return (
     <>
-    <Tooltip title="This is the info of loged in user" arrow placement='top'>
-      <Badge variant={status} anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}>
+    
+      {/* <Badge variant={status} anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}>
         <Avatar
-          src="/assets/images/chatavatar/NeerajSir.jpeg" // Replace with your custom avatar image path
+          src="/assets/images/chatavatar/NeerajSi.jpeg" // Replace with your custom avatar image path
           onClick={popover.onOpen}
           sx={{  width: 48, height: 48 }}
         >
           {user?.displayName?.charAt(0).toUpperCase()}
         </Avatar>
-      </Badge>
-      </Tooltip>
+      </Badge> */}
+      <Typography variant='h5'>
+        Inbox
+      </Typography>
+   
       {/* <CustomAvatar  /> */}
 
      

@@ -47,7 +47,7 @@ export const navData = [
         icon: ICONS.templates,
         children: [
           { title: 'Explore Templates', path: paths.dashboard.template.root },
-          { title: 'Template List', path: paths.dashboard.template.yourtemplate },
+          { title: 'Template List', path: paths.dashboard.template.templateslist },
           { title: 'Add Template', path: paths.dashboard.template.addtemplate },
         ],
       },

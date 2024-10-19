@@ -61,7 +61,7 @@ export function ChatView() {
   return (
     <Layout
       sx={{
-        mt: '40px',
+        // mt: '40px',
         mb:"100px",
         minHeight: 800,
         flex: '1 1 0',
