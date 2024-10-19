@@ -13,7 +13,6 @@ import PageHeader from 'src/components/page-header/page-header';
 
 import TagTable from 'src/sections/tag/tag-table/tag-table';
 import { TagDialog } from 'src/sections/tag/hook/tag-dialog';
-import InsertDataField from 'src/sections/workflow/autocomplete';
 
 // ----------------------------------------------------------------------
 
