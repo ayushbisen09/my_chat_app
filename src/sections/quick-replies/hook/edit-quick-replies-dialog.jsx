@@ -9,13 +9,11 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import {
   Box,
-  Card,
   Divider,
   Tooltip,
   MenuItem,
   TextField,
   Typography,
-  CardHeader,
   useMediaQuery,
   InputAdornment,
 } from '@mui/material';
@@ -104,7 +102,7 @@ export function EditQuickRepliesDialog({ title, content, action, open, onClose, 
   const [message, setMessage] = useState(
     'Thank you for opting-out. In future if you ever want to connect again just send "Hello".'
   ); // State to store the entered message
-  
+
   return (
     <>
       <Dialog
@@ -117,7 +115,7 @@ export function EditQuickRepliesDialog({ title, content, action, open, onClose, 
           sx={{ fontWeight: '700', display: 'flex', justifyContent: 'space-between' }}
           onClick={dialog.onFalse}
         >
-         Edit Quick Replies{' '}
+          Edit Quick Replies{' '}
           <Iconify
             onClick={onClose}
             icon="uil:times"
@@ -193,7 +191,9 @@ export function EditQuickRepliesDialog({ title, content, action, open, onClose, 
                     label="Enter message here."
                     value={message}
                     onChange={handleMessageChange} // Update state on text change
-                    helperText=""
+                    helperText="Use text formatting - *bold* & _italic_ Text can be upto 4096 characters long
+                    Personalize messages with - $FirstName, $Name, $MobileNumber, $LastName & custom attributes.
+                    Customize messages with dynamic parameters e.g. - Your verification code is {{1}}."
                   />
                 </Tooltip>
               )}
@@ -202,12 +202,16 @@ export function EditQuickRepliesDialog({ title, content, action, open, onClose, 
                 <>
                   <Tooltip title="Enter caption here" arrow placement="top">
                     <TextField
+                    rows={4}
+                    multiline
                       sx={{ mb: 3 }}
                       fullWidth
-                      label="Caption"
+                      label="Enter Message Here"
                       value={message}
                       onChange={handleMessageChange} // Update state on text change
-                      helperText="You are allowed a maximum of 4096 characters."
+                      helperText="Use text formatting - *bold* & _italic_ Text can be upto 4096 characters long
+                      Personalize messages with - $FirstName, $Name, $MobileNumber, $LastName & custom attributes.
+                      Customize messages with dynamic parameters e.g. - Your verification code is {{1}}."
                     />
                   </Tooltip>
 
@@ -360,63 +364,35 @@ export function EditQuickRepliesDialog({ title, content, action, open, onClose, 
               )}
             </Box>
           </Box>
-
-          <TextField
-            fullWidth
-            multiline
-            rows={4}
-            margin="dense"
-            variant="outlined"
-            label="Enter Text"
-            helperText="Use text formatting - *bold* & _italic_ Text can be upto 4096 characters long
-Personalize messages with - $FirstName, $Name, $MobileNumber, $LastName & custom attributes.
-Customize messages with dynamic parameters e.g. - Your verification code is {{1}}."
-          />
+<Divider/>
+         
           <Tooltip title="Quick replies message type preview" arrow placement="top">
             <Box>
-              <Card
+              <Box
                 sx={{
-                  border: '1px solid #919EAB33',
-                  width: '100%',
-                  // maxWidth: '500px',
+                  p: 2,
+                  backgroundColor: '#CCF4FE',
+                  borderRadius: '8px',
+                  mt: 2,
                 }}
               >
-                <CardHeader
-                  sx={{ mb: 2 }}
-                  title={
-                    <Typography variant="h7" sx={{ fontSize: 14, fontWeight: '700' }}>
-                      Mireya Conner
-                    </Typography>
-                  }
-                />
-                <Divider />
-
-                <Box
-                  sx={{
-                    p: 2,
-                    backgroundColor: '#CCF4FE',
-                    borderRadius: '8px',
-                    m: 2,
-                  }}
-                >
-                  <Box sx={{ mb: 2 }}>
-                    {chatBoxImage && (
-                      <img
-                        src={chatBoxImage}
-                        alt="Chat Preview"
-                        style={{ width: '100%', borderRadius: '8px' }}
-                      />
-                    )}
-                  </Box>
-                  <Typography
-                    variant="body2"
-                    color="text.primary"
-                    sx={{ fontSize: 14, fontWeight: '500', mb: chatBoxImage ? 0 : 0 }}
-                  >
-                    {message}
-                  </Typography>
+                <Box sx={{ mb: 2 }}>
+                  {chatBoxImage && (
+                    <img
+                      src={chatBoxImage}
+                      alt="Chat Preview"
+                      style={{ width: '100%', borderRadius: '8px' }}
+                    />
+                  )}
                 </Box>
-              </Card>
+                <Typography
+                  variant="body2"
+                  color="text.primary"
+                  sx={{ fontSize: 14, fontWeight: '500', mb: chatBoxImage ? 0 : 0 }}
+                >
+                  {message}
+                </Typography>
+              </Box>
             </Box>
           </Tooltip>
         </DialogContent>

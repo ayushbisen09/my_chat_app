@@ -10,7 +10,6 @@ import {
   Card,
   Chip,
   Stack,
-  Avatar,
   Button,
   Switch,
   Divider,
@@ -40,15 +39,27 @@ import FileImage from '../../../../../public/assets/images/chatImage/imagechat.p
 
 export default function OptInSetting() {
   const { messageType, messageContent, chatBoxImage } = useSelector((state) => state.optInMessage);
-  const optInTemplateType = useSelector((state) => state.optInMessageTemplateType.optInTemplateType); // Access the saved template fields
-  const optInTemplateFields = useSelector((state) => state.optInMessageTemplateType.optInTemplateFields); // Access the saved template fields
-  const optInFileTemplateFields = useSelector((state) => state.optInMessageTemplateType.optInFileTemplateFields); // New file template fields
-  const optInUploadedFile = useSelector((state) => state.optInMessageTemplateType.optInUploadedFile); // New uploaded file
-  const { optInAudioUrl, optInAudioBodyFields } = useSelector((state) => state.optInMessageTemplateType); // Access audio data from the template slice
-  const { optInVideoUrl, optInVideoBodyFields } = useSelector((state) => state.optInMessageTemplateType); // Access video data from Redux
-  const { optInImageUrl, optInImageBodyFields } = useSelector((state) => state.optInMessageTemplateType); // Access video data from Redux
-  
-
+  const optInTemplateType = useSelector(
+    (state) => state.optInMessageTemplateType.optInTemplateType
+  ); // Access the saved template fields
+  const optInTemplateFields = useSelector(
+    (state) => state.optInMessageTemplateType.optInTemplateFields
+  ); // Access the saved template fields
+  const optInFileTemplateFields = useSelector(
+    (state) => state.optInMessageTemplateType.optInFileTemplateFields
+  ); // New file template fields
+  const optInUploadedFile = useSelector(
+    (state) => state.optInMessageTemplateType.optInUploadedFile
+  ); // New uploaded file
+  const { optInAudioUrl, optInAudioBodyFields } = useSelector(
+    (state) => state.optInMessageTemplateType
+  ); // Access audio data from the template slice
+  const { optInVideoUrl, optInVideoBodyFields } = useSelector(
+    (state) => state.optInMessageTemplateType
+  ); // Access video data from Redux
+  const { optInImageUrl, optInImageBodyFields } = useSelector(
+    (state) => state.optInMessageTemplateType
+  ); // Access video data from Redux
 
   // const optInImageTemplateData = useSelector((state) => state.optInMessageTemplateType.optInImageUrl);
   // const optInImageBodyFields = useSelector((state) => state.optInMessageTemplateType.optInImageBodyFields);
@@ -71,7 +82,7 @@ export default function OptInSetting() {
     template.replace(/\{\{(\d+)\}\}/g, (match, number) => fields[number - 1] || match);
 
   console.log(optInTemplateType);
-  const dispatch=useDispatch();
+  const dispatch = useDispatch();
   return (
     <Box>
       <Card>
@@ -113,8 +124,9 @@ export default function OptInSetting() {
                   {...params}
                   variant="outlined"
                   size="large"
-                  helperText="Enter opt-in keywords"
-                  placeholder="+ Add a tag"
+                  helperText="The user will have to type exactly one of these messages
+on which they should be automatically opted-in."
+                  placeholder="+ Add Keyword"
                   InputProps={{
                     ...params.InputProps,
                     endAdornment: <InputAdornment position="Start" />,
@@ -158,20 +170,7 @@ export default function OptInSetting() {
             <Tooltip title="Opt-Out response preview" arrow placement="top">
               <Box sx={{ width: '380px' }}>
                 {optInMessageType === 'regular' && (
-                  <Card sx={{ border: '1px solid #919EAB33', width: '100%', maxWidth: '500px' }}>
-                    <CardHeader
-                      avatar={<Avatar aria-label="profile picture">MC</Avatar>}
-                      title="Mireya Conner"
-                      subheader="Online"
-                    />
-                    <Divider />
-                    <Typography
-                      variant="caption"
-                      sx={{ pr: 2, pt: 3, display: 'flex', justifyContent: 'end' }}
-                    >
-                      4:02 PM
-                    </Typography>
-                    <Box sx={{ p: 2, backgroundColor: '#CCF4FE', borderRadius: '8px', m: 2 }}>
+                  <Box sx={{ p: 2, backgroundColor: '#CCF4FE', borderRadius: '8px', m: 2 }}>
                       {messageType === 'video' && (
                         <VideoType videoSrc="../../../public/assets/videos/chat-videos/advertisement.mp4" />
                       )}
@@ -197,7 +196,6 @@ export default function OptInSetting() {
                         {messageContent}
                       </Typography>
                     </Box>
-                  </Card>
                 )}
                 {optInTemplateType === 'text' &&
                   optInMessageType === 'pre' &&
@@ -223,7 +221,10 @@ export default function OptInSetting() {
                             <br />
                             {replacePlaceholders(`Delivery Address: {{5}}`, optInTemplateFields)}
                             <br />
-                            {replacePlaceholders(`Estimated Delivery Date: {{6}}`, optInTemplateFields)}
+                            {replacePlaceholders(
+                              `Estimated Delivery Date: {{6}}`,
+                              optInTemplateFields
+                            )}
                           </>
                         }
                         showLinks
@@ -256,7 +257,10 @@ export default function OptInSetting() {
                             <br />
                             {replacePlaceholders(`Order ID: {{4}}`, optInFileTemplateFields)}
                             <br />
-                            {replacePlaceholders(`Delivery Address: {{5}}`, optInFileTemplateFields)}
+                            {replacePlaceholders(
+                              `Delivery Address: {{5}}`,
+                              optInFileTemplateFields
+                            )}
                             <br />
                             {replacePlaceholders(
                               `Estimated Delivery Date: {{6}}`,
@@ -331,7 +335,10 @@ export default function OptInSetting() {
                             <br />
                             {replacePlaceholders(`Delivery Address: {{5}}`, optInVideoBodyFields)}
                             <br />
-                            {replacePlaceholders(`Estimated Delivery Date: {{6}}`, optInVideoBodyFields)}
+                            {replacePlaceholders(
+                              `Estimated Delivery Date: {{6}}`,
+                              optInVideoBodyFields
+                            )}
                           </>
                         }
                         showLinks
@@ -341,37 +348,42 @@ export default function OptInSetting() {
                     </Box>
                   )}
 
-                {optInTemplateType === 'image' && optInMessageType === 'pre' && optInImageBodyFields && (
-                  <ImagePreviewTemplateChatBox
-                    // coverSrc={isFileUploaded ? URL.createObjectURL(file) : Image}
-                    showImage={FileImage}
-                    coverSrc={optInImageUrl ||FileImage } // Pass the video URL from Redux state
-                    text={
-                      <>
-                        <span style={{ fontWeight: '600' }}>
-                          {replacePlaceholders(` Hi {{1}}! 🎧🛒`, optInImageBodyFields)}
-                        </span>
-                        <br /> <br />
-                        {` Congratulations! 🎉 Your order for the Headway Bassheads has been confirmed. 🙌`}
-                        <br /> <br />
-                        {` Order Details:`}
-                        <br />
-                        {replacePlaceholders(` Product: {{2}}`, optInImageBodyFields)}
-                        <br />
-                        {replacePlaceholders(`Quantity: {{3}}`,  optInImageBodyFields)}
-                        <br />
-                        {replacePlaceholders(`Order ID: {{4}}`,  optInImageBodyFields)}
-                        <br />
-                        {replacePlaceholders(`Delivery Address: {{5}}`,  optInImageBodyFields)}
-                        <br />
-                        {replacePlaceholders(`Estimated Delivery Date: {{6}}`,  optInImageBodyFields)}
-                      </>
-                    }
-                    showLinks
-                    showVisit
-                    showCall
-                  />
-                )}
+                {optInTemplateType === 'image' &&
+                  optInMessageType === 'pre' &&
+                  optInImageBodyFields && (
+                    <ImagePreviewTemplateChatBox
+                      // coverSrc={isFileUploaded ? URL.createObjectURL(file) : Image}
+                      showImage={FileImage}
+                      coverSrc={optInImageUrl || FileImage} // Pass the video URL from Redux state
+                      text={
+                        <>
+                          <span style={{ fontWeight: '600' }}>
+                            {replacePlaceholders(` Hi {{1}}! 🎧🛒`, optInImageBodyFields)}
+                          </span>
+                          <br /> <br />
+                          {` Congratulations! 🎉 Your order for the Headway Bassheads has been confirmed. 🙌`}
+                          <br /> <br />
+                          {` Order Details:`}
+                          <br />
+                          {replacePlaceholders(` Product: {{2}}`, optInImageBodyFields)}
+                          <br />
+                          {replacePlaceholders(`Quantity: {{3}}`, optInImageBodyFields)}
+                          <br />
+                          {replacePlaceholders(`Order ID: {{4}}`, optInImageBodyFields)}
+                          <br />
+                          {replacePlaceholders(`Delivery Address: {{5}}`, optInImageBodyFields)}
+                          <br />
+                          {replacePlaceholders(
+                            `Estimated Delivery Date: {{6}}`,
+                            optInImageBodyFields
+                          )}
+                        </>
+                      }
+                      showLinks
+                      showVisit
+                      showCall
+                    />
+                  )}
               </Box>
             </Tooltip>
           </Box>

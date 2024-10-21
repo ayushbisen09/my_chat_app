@@ -40,13 +40,27 @@ import FileImage from '../../../../../public/assets/images/chatImage/imagechat.p
 
 export default function OptOutSetting() {
   const { messageType, messageContent, chatBoxImage } = useSelector((state) => state.optOutMessage);
-  const optOutTemplateType = useSelector((state) => state.optOutMessageTemplateType.optOutTemplateType); // Access the saved template fields
-  const optOutTemplateFields = useSelector((state) => state.optOutMessageTemplateType.optOutTemplateFields); // Access the saved template fields
-  const optOutFileTemplateFields = useSelector((state) => state.optOutMessageTemplateType.optOutFileTemplateFields); // New file template fields
-  const optOutUploadedFile = useSelector((state) => state.optOutMessageTemplateType.optOutUploadedFile); // New uploaded file
-  const { optOutAudioUrl, optOutAudioBodyFields } = useSelector((state) => state.optOutMessageTemplateType); // Access audio data from the template slice
-  const { optOutVideoUrl, optOutVideoBodyFields } = useSelector((state) => state.optOutMessageTemplateType); // Access video data from Redux
-  const { optOutImageUrl, optOutImageBodyFields } = useSelector((state) => state.optOutMessageTemplateType); // Access video data from Redux
+  const optOutTemplateType = useSelector(
+    (state) => state.optOutMessageTemplateType.optOutTemplateType
+  ); // Access the saved template fields
+  const optOutTemplateFields = useSelector(
+    (state) => state.optOutMessageTemplateType.optOutTemplateFields
+  ); // Access the saved template fields
+  const optOutFileTemplateFields = useSelector(
+    (state) => state.optOutMessageTemplateType.optOutFileTemplateFields
+  ); // New file template fields
+  const optOutUploadedFile = useSelector(
+    (state) => state.optOutMessageTemplateType.optOutUploadedFile
+  ); // New uploaded file
+  const { optOutAudioUrl, optOutAudioBodyFields } = useSelector(
+    (state) => state.optOutMessageTemplateType
+  ); // Access audio data from the template slice
+  const { optOutVideoUrl, optOutVideoBodyFields } = useSelector(
+    (state) => state.optOutMessageTemplateType
+  ); // Access video data from Redux
+  const { optOutImageUrl, optOutImageBodyFields } = useSelector(
+    (state) => state.optOutMessageTemplateType
+  ); // Access video data from Redux
 
   // const optOutImageTemplateData = useSelector((state) => state.optOutMessageTemplateType.optOutImageUrl);
   // const optOutImageBodyFields = useSelector((state) => state.optOutMessageTemplateType.optOutImageBodyFields);
@@ -111,8 +125,9 @@ export default function OptOutSetting() {
                   {...params}
                   variant="outlined"
                   size="large"
-                  helperText="Enter opt-out keywords"
-                  placeholder="+ Add a tag"
+                  helperText="The user will have to type exactly one of these messages
+on which they should be automatically opted-out"
+                  placeholder="+ Add Keyword"
                   InputProps={{
                     ...params.InputProps,
                     endAdornment: <InputAdornment position="Start" />,
@@ -221,7 +236,10 @@ export default function OptOutSetting() {
                             <br />
                             {replacePlaceholders(`Delivery Address: {{5}}`, optOutTemplateFields)}
                             <br />
-                            {replacePlaceholders(`Estimated Delivery Date: {{6}}`, optOutTemplateFields)}
+                            {replacePlaceholders(
+                              `Estimated Delivery Date: {{6}}`,
+                              optOutTemplateFields
+                            )}
                           </>
                         }
                         showLinks
@@ -254,7 +272,10 @@ export default function OptOutSetting() {
                             <br />
                             {replacePlaceholders(`Order ID: {{4}}`, optOutFileTemplateFields)}
                             <br />
-                            {replacePlaceholders(`Delivery Address: {{5}}`, optOutFileTemplateFields)}
+                            {replacePlaceholders(
+                              `Delivery Address: {{5}}`,
+                              optOutFileTemplateFields
+                            )}
                             <br />
                             {replacePlaceholders(
                               `Estimated Delivery Date: {{6}}`,
@@ -329,7 +350,10 @@ export default function OptOutSetting() {
                             <br />
                             {replacePlaceholders(`Delivery Address: {{5}}`, optOutVideoBodyFields)}
                             <br />
-                            {replacePlaceholders(`Estimated Delivery Date: {{6}}`, optOutVideoBodyFields)}
+                            {replacePlaceholders(
+                              `Estimated Delivery Date: {{6}}`,
+                              optOutVideoBodyFields
+                            )}
                           </>
                         }
                         showLinks
@@ -339,36 +363,41 @@ export default function OptOutSetting() {
                     </Box>
                   )}
 
-                {optOutTemplateType === 'image' && optOutMessageType === 'pre' && optOutImageBodyFields && (
-                  <ImagePreviewTemplateChatBox
-                  showImage={FileImage}
-                  coverSrc={optOutImageUrl ||FileImage } // Pass the video URL from Redux state
-                    text={
-                      <>
-                        <span style={{ fontWeight: '600' }}>
-                          {replacePlaceholders(` Hi {{1}}! 🎧🛒`, optOutImageBodyFields)}
-                        </span>
-                        <br /> <br />
-                        {` Congratulations! 🎉 Your order for the Headway Bassheads has been confirmed. 🙌`}
-                        <br /> <br />
-                        {` Order Details:`}
-                        <br />
-                        {replacePlaceholders(` Product: {{2}}`, optOutImageBodyFields)}
-                        <br />
-                        {replacePlaceholders(`Quantity: {{3}}`, optOutImageBodyFields)}
-                        <br />
-                        {replacePlaceholders(`Order ID: {{4}}`, optOutImageBodyFields)}
-                        <br />
-                        {replacePlaceholders(`Delivery Address: {{5}}`, optOutImageBodyFields)}
-                        <br />
-                        {replacePlaceholders(`Estimated Delivery Date: {{6}}`, optOutImageBodyFields)}
-                      </>
-                    }
-                    showLinks
-                    showVisit
-                    showCall
-                  />
-                )}
+                {optOutTemplateType === 'image' &&
+                  optOutMessageType === 'pre' &&
+                  optOutImageBodyFields && (
+                    <ImagePreviewTemplateChatBox
+                      showImage={FileImage}
+                      coverSrc={optOutImageUrl || FileImage} // Pass the video URL from Redux state
+                      text={
+                        <>
+                          <span style={{ fontWeight: '600' }}>
+                            {replacePlaceholders(` Hi {{1}}! 🎧🛒`, optOutImageBodyFields)}
+                          </span>
+                          <br /> <br />
+                          {` Congratulations! 🎉 Your order for the Headway Bassheads has been confirmed. 🙌`}
+                          <br /> <br />
+                          {` Order Details:`}
+                          <br />
+                          {replacePlaceholders(` Product: {{2}}`, optOutImageBodyFields)}
+                          <br />
+                          {replacePlaceholders(`Quantity: {{3}}`, optOutImageBodyFields)}
+                          <br />
+                          {replacePlaceholders(`Order ID: {{4}}`, optOutImageBodyFields)}
+                          <br />
+                          {replacePlaceholders(`Delivery Address: {{5}}`, optOutImageBodyFields)}
+                          <br />
+                          {replacePlaceholders(
+                            `Estimated Delivery Date: {{6}}`,
+                            optOutImageBodyFields
+                          )}
+                        </>
+                      }
+                      showLinks
+                      showVisit
+                      showCall
+                    />
+                  )}
               </Box>
             </Tooltip>
           </Box>

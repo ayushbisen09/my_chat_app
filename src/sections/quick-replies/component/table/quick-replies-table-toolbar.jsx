@@ -56,7 +56,7 @@ export function QuickRepliesTableToolbar({ filters, onResetPage }) {
               fullWidth
               value={filters.state.name}
               onChange={handleFilterName}
-              placeholder="Search quick replies by name"
+              placeholder="Search quick replies by shortcuts..."
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">

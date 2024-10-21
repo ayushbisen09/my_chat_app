@@ -22,7 +22,7 @@ export default function OptInManagement() {
     <DashboardContent maxWidth="xl">
       <PageHeader
         title="Opt-In Management"
-        Subheading="Setup keywords that users can type to Opt-in & Opt-out from messaging campaigns."
+        Subheading="Send template message from one of your pre approved templates. You can also opt to send regular message to active users."
         showButton={false}
       />
 

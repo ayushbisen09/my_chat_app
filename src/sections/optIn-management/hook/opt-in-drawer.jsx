@@ -87,7 +87,7 @@ const OptInDrawer = ({ open, onClose, messageType, setMessageType }) => {
         <Box sx={{ mt: 4 }}>
           <Card>
             <CardHeader
-              subheader="Setup keywords that users can type to Opt-in & Opt-out from messaging campaigns."
+              subheader="Send template message from one of your pre approved templates. You can also opt to send regular message to active users."
               title="Opt-In Response"
               sx={{ mb: 3 }}
             />

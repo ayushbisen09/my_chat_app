@@ -53,7 +53,7 @@ const TABLE_HEAD = [
     width: 600,
     tooltip: 'Quick replies message shortcuts',
   },
-  { id: 'text', label: 'Text', width: 1000, tooltip: 'Quick replies message text' },
+  { id: 'text', label: 'Message', width: 1000, tooltip: 'Quick replies message text' },
   { id: 'type', label: 'Type', width: 500, tooltip: 'Quick replies message type' },
 
   { id: '', width: 10 },

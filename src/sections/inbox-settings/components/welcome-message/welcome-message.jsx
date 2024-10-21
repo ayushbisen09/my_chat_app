@@ -5,11 +5,8 @@ import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import {
   Box,
-  Card,
-  Avatar,
   Button,
   Switch,
-  Divider,
   Tooltip,
   CardHeader,
   Typography,
@@ -103,46 +100,32 @@ export default function WellComeMessage() {
           <Tooltip title="Opt-Out response preview" arrow placement="top">
             <Box sx={{ width: '380px' }}>
               {wellComeMessageType === 'regular' && (
-                <Card sx={{ border: '1px solid #919EAB33', width: '100%', maxWidth: '500px' }}>
-                  <CardHeader
-                    avatar={<Avatar aria-label="profile picture">MC</Avatar>}
-                    title="Mireya Conner"
-                    subheader="Online"
-                  />
-                  <Divider />
-                  <Typography
-                    variant="caption"
-                    sx={{ pr: 2, pt: 3, display: 'flex', justifyContent: 'end' }}
-                  >
-                    4:02 PM
-                  </Typography>
-                  <Box sx={{ p: 2, backgroundColor: '#CCF4FE', borderRadius: '8px', m: 2 }}>
-                    {messageType === 'video' && (
-                      <VideoType videoSrc="../../../public/assets/videos/chat-videos/advertisement.mp4" />
-                    )}
-                    {messageType === 'audio' && (
-                      <AudioType audioSrc="../../../public/assets/audios/new-instrumental.mp3" />
-                    )}
-                    {messageType === 'file' && <FileType />}
+                <Box sx={{ p: 2, backgroundColor: '#CCF4FE', borderRadius: '8px', m: 2 }}>
+                  {messageType === 'video' && (
+                    <VideoType videoSrc="../../../public/assets/videos/chat-videos/advertisement.mp4" />
+                  )}
+                  {messageType === 'audio' && (
+                    <AudioType audioSrc="../../../public/assets/audios/new-instrumental.mp3" />
+                  )}
+                  {messageType === 'file' && <FileType />}
 
-                    <Box sx={{ mb: 2 }}>
-                      {chatBoxImage && (
-                        <img
-                          src={chatBoxImage}
-                          alt="Chat Preview"
-                          style={{ width: '100%', borderRadius: '8px' }}
-                        />
-                      )}
-                    </Box>
-                    <Typography
-                      variant="body2"
-                      color="text.primary"
-                      sx={{ fontSize: 14, fontWeight: '500' }}
-                    >
-                      {messageContent}
-                    </Typography>
+                  <Box sx={{ mb: 2 }}>
+                    {chatBoxImage && (
+                      <img
+                        src={chatBoxImage}
+                        alt="Chat Preview"
+                        style={{ width: '100%', borderRadius: '8px' }}
+                      />
+                    )}
                   </Box>
-                </Card>
+                  <Typography
+                    variant="body2"
+                    color="text.primary"
+                    sx={{ fontSize: 14, fontWeight: '500' }}
+                  >
+                    {messageContent}
+                  </Typography>
+                </Box>
               )}
               {wellComeTemplateType === 'text' &&
                 wellComeMessageType === 'pre' &&
