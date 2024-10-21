@@ -292,7 +292,7 @@ const TestCampaignDrawer = ({ open, onClose }) => {
                     startIcon={<Iconify icon="bxs:send" style={{ width: 18, height: 18 }} />}
                     size="medium"
                     variant="outlined"
-                    color="success"
+                    color="primary"
                   >
                     Send Test
                   </Button>

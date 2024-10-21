@@ -13,12 +13,14 @@ import {
   CardMedia,
   Typography,
   ListItemText,
-  useMediaQuery
+  useMediaQuery,
 } from '@mui/material';
 
 import { useBoolean } from 'src/hooks/use-boolean';
 
 import { CONFIG } from 'src/config-global';
+
+import { Iconify } from 'src/components/iconify';
 
 import { TeamMemberDialog } from '../../hooks/add-team-member';
 
@@ -31,6 +33,12 @@ export default function BigCard(sx, ...other) {
   const theme = useTheme();
 
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+  const commonTypographyProps = {
+    fontSize: '14px',
+    fontWeight: '500',
+    lineHeight: '24px',
+    '&::before': { content: '"•"', paddingRight: '0.5rem' },
+  };
 
   return (
     <Box
@@ -83,11 +91,7 @@ export default function BigCard(sx, ...other) {
             <ListItem disablePadding>
               <ListItemText
                 primaryTypographyProps={{
-                  sx: {
-                    fontSize: '14px',
-                    fontWeight: '500',
-                    '&::before': { content: '"•"', paddingRight: '0.5rem' },
-                  },
+                  sx: commonTypographyProps,
                 }}
                 primary="You can add multiple team members, and can share multiple WhatsApp Numbers with them."
               />
@@ -95,11 +99,7 @@ export default function BigCard(sx, ...other) {
             <ListItem disablePadding>
               <ListItemText
                 primaryTypographyProps={{
-                  sx: {
-                    fontSize: '14px',
-                    fontWeight: '500',
-                    '&::before': { content: '"•"', paddingRight: '0.5rem' },
-                  },
+                  sx: commonTypographyProps,
                 }}
                 primary="Team members will be able to chat in your account."
               />
@@ -107,11 +107,7 @@ export default function BigCard(sx, ...other) {
             <ListItem disablePadding>
               <ListItemText
                 primaryTypographyProps={{
-                  sx: {
-                    fontSize: '14px',
-                    fontWeight: '500',
-                    '&::before': { content: '"•"', paddingRight: '0.5rem' },
-                  },
+                  sx: commonTypographyProps,
                 }}
                 primary="Team members will have access only to shared WhatsApp Numbers."
               />
@@ -119,11 +115,7 @@ export default function BigCard(sx, ...other) {
             <ListItem disablePadding>
               <ListItemText
                 primaryTypographyProps={{
-                  sx: {
-                    fontSize: '14px',
-                    fontWeight: '500',
-                    '&::before': { content: '"•"', paddingRight: '0.5rem' },
-                  },
+                  sx: commonTypographyProps,
                 }}
                 primary="Team members won't be able to delete campaigns."
               />
@@ -131,11 +123,7 @@ export default function BigCard(sx, ...other) {
             <ListItem disablePadding>
               <ListItemText
                 primaryTypographyProps={{
-                  sx: {
-                    fontSize: '14px',
-                    fontWeight: '500',
-                    '&::before': { content: '"•"', paddingRight: '0.5rem' },
-                  },
+                  sx: commonTypographyProps,
                 }}
                 primary="Team members will be able to access Inboxs."
               />
@@ -143,11 +131,7 @@ export default function BigCard(sx, ...other) {
             <ListItem disablePadding>
               <ListItemText
                 primaryTypographyProps={{
-                  sx: {
-                    fontSize: '14px',
-                    fontWeight: '500',
-                    '&::before': { content: '"•"', paddingRight: '0.5rem' },
-                  },
+                  sx: commonTypographyProps,
                 }}
                 primary="Team members won't be able to delete contacts. "
               />
@@ -155,11 +139,7 @@ export default function BigCard(sx, ...other) {
             <ListItem disablePadding>
               <ListItemText
                 primaryTypographyProps={{
-                  sx: {
-                    fontSize: '14px',
-                    fontWeight: '500',
-                    '&::before': { content: '"•"', paddingRight: '0.5rem' },
-                  },
+                  sx: commonTypographyProps,
                 }}
                 primary="Team members will not be able to delete templates in your account."
               />
@@ -168,11 +148,7 @@ export default function BigCard(sx, ...other) {
               <ListItemText
                 primaryTypographyProps={{
                   component: 'div',
-                  sx: {
-                    fontSize: '14px',
-                    fontWeight: '500',
-                    '&::before': { content: '"•"', paddingRight: '0.5rem' },
-                  },
+                  sx: commonTypographyProps,
                 }}
                 primary={
                   <>
@@ -188,15 +164,18 @@ export default function BigCard(sx, ...other) {
           </List>
         </Typography>
         <Tooltip title="Click here to add team member." arrow placement="top">
-        <Button
-          onClick={dialog.onTrue}
-          sx={{ mt: isMobile ? 2 : 0 }}
-          size="large"
-          variant="outlined"
-          color="primary"
-        >
-          Add Team Member
-        </Button>
+          <Button
+            onClick={dialog.onTrue}
+            sx={{ mt: isMobile ? 2 : 0 }}
+            size="large"
+            variant="outlined"
+            color="primary"
+            startIcon={
+              <Iconify icon="heroicons:plus-circle-16-solid" style={{ width: 18, height: 18 }} />
+            }
+          >
+            Add Team Member
+          </Button>
         </Tooltip>
         <TeamMemberDialog open={dialog.value} onClose={dialog.onFalse} />
       </Box>
@@ -209,21 +188,22 @@ export default function BigCard(sx, ...other) {
             marginRight: '0px', // Adjusted margin-right for screens matching 'sm' breakpoint and up
           }),
         }}
-      ><Tooltip title="Click here to see Video Tutorial." arrow placement="top">
-        <Card>
-          <CardMedia
-            component="img"
-            src={coverSrc}
-            title="Cover Image"
-            style={{
-              height: '100%',
-              width: '100%',
-              cursor: 'pointer',
-              objectFit: 'contain',
-            }}
-            onClick={() => setOpen(true)}
-          />
-        </Card>
+      >
+        <Tooltip title="Click here to see Video Tutorial." arrow placement="top">
+          <Card>
+            <CardMedia
+              component="img"
+              src={coverSrc}
+              title="Cover Image"
+              style={{
+                height: '100%',
+                width: '100%',
+                cursor: 'pointer',
+                objectFit: 'contain',
+              }}
+              onClick={() => setOpen(true)}
+            />
+          </Card>
         </Tooltip>
         <ModalVideo
           channel="youtube"

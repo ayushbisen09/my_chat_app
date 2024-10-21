@@ -342,7 +342,7 @@ export function ImageTemplateTypeDialog({ title, content, action, open, onClose,
             }
           }}
         >
-          Save
+          Send
         </Button>
         <Button variant="outlined" onClick={handleCancel}>
           Cancel

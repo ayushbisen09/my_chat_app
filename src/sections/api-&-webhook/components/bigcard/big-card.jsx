@@ -9,7 +9,7 @@ import {
   ListItem,
   Typography,
   ListItemText,
-  useMediaQuery
+  useMediaQuery,
 } from '@mui/material';
 
 import { useBoolean } from 'src/hooks/use-boolean';
@@ -18,7 +18,7 @@ import { CONFIG } from 'src/config-global';
 
 import { WebhookDialog } from '../../hook/add-webhook';
 
-export default function BigCard({sx, ...other}) {
+export default function BigCard({ sx, ...other }) {
   const videoId = 'CoIfgN0tfhE'; // Repalace with your YouTube video ID
   const coverSrc = `${CONFIG.site.basePath}/assets/background/Pabbly Broadcast Card.png`;
   const [isOpen, setOpen] = useState(false);
@@ -27,6 +27,12 @@ export default function BigCard({sx, ...other}) {
   const theme = useTheme();
 
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+  const commonTypographyProps = {
+    fontSize: '14px',
+    fontWeight: '500',
+    lineHeight: '24px',
+    '&::before': { content: '"•"', paddingRight: '0.5rem' },
+  };
 
   return (
     <Box
@@ -60,74 +66,81 @@ export default function BigCard({sx, ...other}) {
           flex: '1 1 auto',
           flexDirection: 'column',
           alignItems: { xs: 'flex-start', md: 'flex-start' },
+          // justifyContent:"space-between"
         }}
       >
         <Typography variant="h6" sx={{ color: 'grey.800', mb: 1 }}>
           Add Opt-Out Webhook URL
         </Typography>
-        
-          <List sx={{ color: 'grey.600' }}>
-            <ListItem disablePadding sx={{ mb: '24px' }}>
-              <ListItemText
-                primaryTypographyProps={{
-                  sx: {
-                    fontSize: '14px',
-                    fontWeight: '500',
-                    lineHeight: '22px',
-                  },
-                }}
-                primary="Set up webhooks and receive notification for different events."
-              />
-            </ListItem>
-            <ListItem disablePadding>
-              <ListItemText
-                primaryTypographyProps={{
-                  sx: {
-                    fontSize: '14px',
-                    fontWeight: '500',
-                    '&::before': { content: '"•"', paddingRight: '0.5rem' },
-                  },
-                }}
-                primary="All the events will be triggered on the added webhook URL."
-              />
-            </ListItem>
-            <ListItem disablePadding>
-              <ListItemText
-                primaryTypographyProps={{
-                  sx: {
-                    fontSize: '14px',
-                    fontWeight: '500',
-                    '&::before': { content: '"•"', paddingRight: '0.5rem' },
-                  },
-                }}
-                primary="You can set up upto 5 webhooks URLs."
-              />
-            </ListItem>
-            <ListItem disablePadding>
-              <ListItemText
-                primaryTypographyProps={{
-                  sx: {
-                    fontSize: '14px',
-                    fontWeight: '500',
-                    '&::before': { content: '"•"', paddingRight: '0.5rem' },
-                  },
-                }}
-                primary="Review and agree to the terms and conditions set by WhatsApp and your chosen provider."
-              />
-            </ListItem>
-            {/* Add more list items as needed */}
-          </List>
-          <Tooltip title="Click here to add add webhook." arrow placement="top">
-        <Button
-          onClick={dialog.onTrue}
-          sx={{ mt: isMobile ? 2 : 0 }}
-          size="large"
-          variant="outlined"
-          color="primary"
+        <Box
+          sx={{
+            display: 'flex',
+            flex: '1 1 auto',
+            flexDirection: 'column',
+            alignItems: { xs: 'flex-start', md: 'flex-start' },
+            justifyContent: 'space-between',
+          }}
         >
-          Add Webhook
-        </Button>
-        </Tooltip>
+          <Box>
+            <List sx={{ color: 'grey.600' }}>
+              <ListItem disablePadding sx={{ mb: '24px' }}>
+                <ListItemText
+                  primaryTypographyProps={{
+                    sx: {
+                      fontSize: '14px',
+                      fontWeight: '500',
+                      lineHeight: '22px',
+                    },
+                  }}
+                  primary="Set up webhooks and receive notification for different events."
+                />
+              </ListItem>
+              <ListItem disablePadding>
+                <ListItemText
+                  primaryTypographyProps={{
+                    sx: commonTypographyProps,
+                  }}
+                  primary="All the events will be triggered on the added webhook URL."
+                />
+              </ListItem>
+              <ListItem disablePadding>
+                <ListItemText
+                  primaryTypographyProps={{
+                    sx: commonTypographyProps,
+                  }}
+                  primary="You can set up upto 5 webhooks URLs."
+                />
+              </ListItem>
+              <ListItem disablePadding>
+                <ListItemText
+                  primaryTypographyProps={{
+                    sx: {
+                      fontSize: '14px',
+                      fontWeight: '500',
+                      '&::before': { content: '"•"', paddingRight: '0.5rem' },
+                    },
+                  }}
+                  primary="Review and agree to the terms and conditions set by WhatsApp and your chosen provider."
+                />
+              </ListItem>
+              {/* Add more list items as needed */}
+            </List>
+          </Box>
+          <Box>
+            <Tooltip title="Click here to add add webhook." arrow placement="top">
+              <Button
+                onClick={dialog.onTrue}
+                sx={{ mt: isMobile ? 2 : 0 }}
+                size="large"
+                variant="outlined"
+                color="primary"
+              >
+                Add Webhook
+              </Button>
+            </Tooltip>
+          </Box>
+        </Box>
+
         <WebhookDialog open={dialog.value} onClose={dialog.onFalse} />
       </Box>
 
@@ -141,31 +154,12 @@ export default function BigCard({sx, ...other}) {
         }}
       >
         <Box
+          height="273px"
+          width="474px"
           alt="logo"
           component="img"
           src={`${CONFIG.site.basePath}/assets/background/Get Help Photo.png`}
         />
-        {/* <Card>
-          <CardMedia
-            component="img"
-            src={coverSrc}
-            title="Cover Image"
-            style={{
-              height: '100%',
-              width: '100%',
-              cursor: 'pointer',
-              objectFit: 'contain',
-            }}
-            onClick={() => setOpen(true)}
-          />
-        </Card>
-        <ModalVideo
-          channel="youtube"
-          autoplay="true"
-          isOpen={isOpen}
-          videoId={videoId}
-          onClose={() => setOpen(false)}
-        /> */}
       </Box>
     </Box>
   );

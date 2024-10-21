@@ -35,6 +35,13 @@ export default function BigCard({ sx, ...other }) {
 
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
+  const commonTypographyProps = {
+    fontSize: '14px',
+    fontWeight: '500',
+    lineHeight: '24px',
+    '&::before': { content: '"•"', paddingRight: '0.5rem' },
+  };
+
   return (
     <Box
       sx={{
@@ -77,11 +84,7 @@ export default function BigCard({ sx, ...other }) {
           <ListItem disablePadding>
             <ListItemText
               primaryTypographyProps={{
-                sx: {
-                  fontSize: '14px',
-                  fontWeight: '500',
-                  '&::before': { content: '"•"', paddingRight: '0.5rem' },
-                },
+                sx: commonTypographyProps,
               }}
               primary="Choose a WhatsApp Business API provider that suits your needs and requirements."
             />
@@ -89,11 +92,7 @@ export default function BigCard({ sx, ...other }) {
           <ListItem disablePadding>
             <ListItemText
               primaryTypographyProps={{
-                sx: {
-                  fontSize: '14px',
-                  fontWeight: '500',
-                  '&::before': { content: '"•"', paddingRight: '0.5rem' },
-                },
+                sx: commonTypographyProps,
               }}
               primary="Familiarize yourself with the requirements for using the WhatsApp Business API."
             />
@@ -101,11 +100,7 @@ export default function BigCard({ sx, ...other }) {
           <ListItem disablePadding>
             <ListItemText
               primaryTypographyProps={{
-                sx: {
-                  fontSize: '14px',
-                  fontWeight: '500',
-                  '&::before': { content: '"•"', paddingRight: '0.5rem' },
-                },
+                sx: commonTypographyProps,
               }}
               primary="Apply for access to the WhatsApp Business API through your chosen provider."
             />
@@ -113,11 +108,7 @@ export default function BigCard({ sx, ...other }) {
           <ListItem disablePadding>
             <ListItemText
               primaryTypographyProps={{
-                sx: {
-                  fontSize: '14px',
-                  fontWeight: '500',
-                  '&::before': { content: '"•"', paddingRight: '0.5rem' },
-                },
+                sx: commonTypographyProps,
               }}
               primary="Review and agree to the terms and conditions set by WhatsApp and your chosen provider."
             />
@@ -125,11 +116,7 @@ export default function BigCard({ sx, ...other }) {
           <ListItem disablePadding>
             <ListItemText
               primaryTypographyProps={{
-                sx: {
-                  fontSize: '14px',
-                  fontWeight: '500',
-                  '&::before': { content: '"•"', paddingRight: '0.5rem' },
-                },
+                sx: commonTypographyProps,
               }}
               primary="Verify your business and phone number with WhatsApp."
             />
@@ -137,11 +124,7 @@ export default function BigCard({ sx, ...other }) {
           <ListItem disablePadding>
             <ListItemText
               primaryTypographyProps={{
-                sx: {
-                  fontSize: '14px',
-                  fontWeight: '500',
-                  '&::before': { content: '"•"', paddingRight: '0.5rem' },
-                },
+                sx: commonTypographyProps,
               }}
               primary="Work with your chosen provider to complete the setup process. "
             />
@@ -149,11 +132,7 @@ export default function BigCard({ sx, ...other }) {
           <ListItem disablePadding>
             <ListItemText
               primaryTypographyProps={{
-                sx: {
-                  fontSize: '14px',
-                  fontWeight: '500',
-                  '&::before': { content: '"•"', paddingRight: '0.5rem' },
-                },
+                sx: commonTypographyProps,
               }}
               primary="Iterate on your messaging strategies to improve engagement and achieve your business goals."
             />
@@ -162,11 +141,7 @@ export default function BigCard({ sx, ...other }) {
             <ListItemText
               primaryTypographyProps={{
                 component: 'div',
-                sx: {
-                  fontSize: '14px',
-                  fontWeight: '500',
-                  '&::before': { content: '"•"', paddingRight: '0.5rem' },
-                },
+                sx: commonTypographyProps,
               }}
               primary={
                 <>
@@ -188,6 +163,9 @@ export default function BigCard({ sx, ...other }) {
           size="large"
           variant="outlined"
           color="primary"
+          startIcon={
+            <Iconify icon="heroicons:plus-circle-16-solid" style={{ width: 18, height: 18 }} />
+          }
         >
           Add WhatsApp Number
         </Button>
@@ -204,53 +182,53 @@ export default function BigCard({ sx, ...other }) {
         }}
       >
         <Tooltip title="Click here to see Video Tutorial." arrow placement="top">
-        <Card>
-          <Box position="relative">
-            <CardMedia
-              component="img"
-              src={coverSrc}
-              title="Cover Image"
-              sx={{
-                height: '100%',
-                width: '100%',
-                cursor: 'pointer',
-                objectFit: 'contain',
-              }}
-              onClick={() => setOpen(true)}
-            />
-            <IconButton
-              aria-label="play"
-              onClick={() => setOpen(true)}
-              sx={{
-                padding: '0px',
-                position: 'absolute',
-                top: '50%',
-                left: '50%',
-                transform: 'translate(-50%, -50%)',
-                // backgroundColor: '#078DEE',
-                color: '#078DEE',
+          <Card>
+            <Box position="relative">
+              <CardMedia
+                component="img"
+                src={coverSrc}
+                title="Cover Image"
+                sx={{
+                  height: '100%',
+                  width: '100%',
+                  cursor: 'pointer',
+                  objectFit: 'contain',
+                }}
+                onClick={() => setOpen(true)}
+              />
+              <IconButton
+                aria-label="play"
+                onClick={() => setOpen(true)}
+                sx={{
+                  padding: '0px',
+                  position: 'absolute',
+                  top: '50%',
+                  left: '50%',
+                  transform: 'translate(-50%, -50%)',
+                  // backgroundColor: '#078DEE',
+                  color: '#078DEE',
 
-                animation: 'pulse 2s infinite',
-                '@keyframes pulse': {
-                  '0%': {
-                    transform: 'translate(-50%, -50%) scale(1)',
-                    boxShadow: '0 0 0 0 rgba(7, 141, 238, 0.7)',
+                  animation: 'pulse 2s infinite',
+                  '@keyframes pulse': {
+                    '0%': {
+                      transform: 'translate(-50%, -50%) scale(1)',
+                      boxShadow: '0 0 0 0 rgba(7, 141, 238, 0.7)',
+                    },
+                    '70%': {
+                      transform: 'translate(-50%, -50%) scale(1.1)',
+                      boxShadow: '0 0 0 10px rgba(7, 141, 238, 0)',
+                    },
+                    '100%': {
+                      transform: 'translate(-50%, -50%) scale(1)',
+                      boxShadow: '0 0 0 0 rgba(7, 141, 238, 0)',
+                    },
                   },
-                  '70%': {
-                    transform: 'translate(-50%, -50%) scale(1.1)',
-                    boxShadow: '0 0 0 10px rgba(7, 141, 238, 0)',
-                  },
-                  '100%': {
-                    transform: 'translate(-50%, -50%) scale(1)',
-                    boxShadow: '0 0 0 0 rgba(7, 141, 238, 0)',
-                  },
-                },
-              }}
-            >
-              <Iconify icon="icon-park-solid:play" width={50} height={50} />
-            </IconButton>
-          </Box>
-        </Card>
+                }}
+              >
+                <Iconify icon="icon-park-solid:play" width={50} height={50} />
+              </IconButton>
+            </Box>
+          </Card>
         </Tooltip>
         <ModalVideo
           channel="youtube"

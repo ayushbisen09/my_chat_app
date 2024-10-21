@@ -246,7 +246,7 @@ export function ChatNav({ loading, contacts, conversations, collapseNav, selecte
                 }}
               >
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, borderRadius: 2 }}>
-                  {[visitedCount, '-', chatCount, 'of', chatCount].map((text, index) => (
+                  {[visitedCount, '-', '25', 'of', '72'].map((text, index) => (
                     <Typography key={index} variant="body2" color="text.secondary" fontSize="12px">
                       {text}
                     </Typography>

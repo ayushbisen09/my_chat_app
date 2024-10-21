@@ -380,7 +380,7 @@ export function OrderTableRow({
                   popover.onClose();
                 }}
               >
-                <Iconify icon="line-md:switch-off-filled-to-switch-filled-transition" />
+                <Iconify icon="ion:toggle-sharp" />
                 Inactive
               </MenuItem>
             </Tooltip>
@@ -392,7 +392,7 @@ export function OrderTableRow({
                   popover.onClose();
                 }}
               >
-                <Iconify icon="line-md:switch-filled-to-switch-off-filled-transition" />
+                <Iconify icon="ph:toggle-left-fill" />
                 Active
               </MenuItem>
             </Tooltip>
@@ -433,7 +433,7 @@ export function OrderTableRow({
         action={
           <Button
             variant="contained"
-            color="inherit"
+            color="primary"
             onClick={() => {
               handleStatusToggle(statusToToggle); // Toggle the status here
               confirmStatus.onFalse(); // Close the dialog

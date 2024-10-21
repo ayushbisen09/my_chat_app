@@ -186,7 +186,7 @@ export function WhatsAppDialog({ title, content, action, open, onClose, ...other
           <Button onClick={onClose} variant="outlined" color="inherit">
             Cancel
           </Button>
-          <Button onClick={handleAdd} variant="contained">
+          <Button onClick={handleAdd} variant="contained" color='primary'>
             Add
           </Button>
         </DialogActions>

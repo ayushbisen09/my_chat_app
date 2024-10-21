@@ -164,7 +164,7 @@ export function TextTemplateTypeDialog({ title, content, action, open, onClose, 
             }
           }}
         >
-          Save
+          Send
         </Button>
         <Button variant="outlined" onClick={onClose}>
           Cancel

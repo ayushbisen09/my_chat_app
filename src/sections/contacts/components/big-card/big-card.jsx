@@ -38,6 +38,13 @@ export default function BigCard({ sx, ...other }) {
   const handleAddContact = () => {
     navigate('/app/contact/addcontact');
   };
+
+  const commonTypographyProps = {
+    fontSize: '14px',
+    fontWeight: '500',
+    lineHeight: '24px',
+    '&::before': { content: '"•"', paddingRight: '0.5rem' },
+  };
   return (
     <Box
       sx={{
@@ -81,9 +88,8 @@ export default function BigCard({ sx, ...other }) {
             <ListItemText
               primaryTypographyProps={{
                 sx: {
-                  fontSize: '14px',
-                  fontWeight: '500',
-                  '&::before': { paddingRight: '0.5rem' },
+                  ...commonTypographyProps,
+                  '&::before': { paddingRight: '0.5rem' }, // Override for this specific ListItemText
                 },
               }}
               primary="There may be no contacts in this contact list. You can create a workflow by following the steps below-"
@@ -92,11 +98,7 @@ export default function BigCard({ sx, ...other }) {
           <ListItem disablePadding>
             <ListItemText
               primaryTypographyProps={{
-                sx: {
-                  fontSize: '14px',
-                  fontWeight: '500',
-                  '&::before': { content: '"•"', paddingRight: '0.5rem' },
-                },
+                sx: commonTypographyProps,
               }}
               primary={
                 <>
@@ -111,11 +113,7 @@ export default function BigCard({ sx, ...other }) {
           <ListItem disablePadding>
             <ListItemText
               primaryTypographyProps={{
-                sx: {
-                  fontSize: '14px',
-                  fontWeight: '500',
-                  '&::before': { content: '"•"', paddingRight: '0.5rem' },
-                },
+                sx: commonTypographyProps,
               }}
               primary={
                 <>
@@ -130,11 +128,7 @@ export default function BigCard({ sx, ...other }) {
           <ListItem disablePadding>
             <ListItemText
               primaryTypographyProps={{
-                sx: {
-                  fontSize: '14px',
-                  fontWeight: '500',
-                  '&::before': { content: '"•"', paddingRight: '0.5rem' },
-                },
+                sx: commonTypographyProps,
               }}
               primary={
                 <>
@@ -159,7 +153,11 @@ export default function BigCard({ sx, ...other }) {
             size="large"
             variant="outlined"
             color="primary"
+            startIcon={
+              <Iconify icon="heroicons:plus-circle-16-solid" style={{ width: 18, height: 18 }} />
+            }
           >
+            
             Add Contact
           </Button>
         </Tooltip>

@@ -17,7 +17,6 @@ import {
   DialogActions,
   DialogContent,
   useMediaQuery,
-  FormControlLabel,
 } from '@mui/material';
 
 import { useBoolean } from 'src/hooks/use-boolean';
@@ -119,7 +118,7 @@ export function AttachFileDialog({ open, onFileAttached, onClose, ...other }) {
         return '.pdf,.doc,.docx,.csv';
       case 'audio':
         return '.mp3, .mp4';
-       
+
       default:
         return '';
     }
@@ -192,19 +191,15 @@ export function AttachFileDialog({ open, onFileAttached, onClose, ...other }) {
             />
 
             <Typography sx={{ fontWeight: '600', width: '100%', mb: 3, mt: 3 }}>OR</Typography>
-
             <Tooltip title="Click here to upload file." arrow placement="top">
-              <FormControlLabel
-                control={
-                  <FileUpload
-                    ref={fileUploadRef}
-                    onFileUpload={handleFileUpload}
-                    accept={getAcceptedFileTypes()}
-                    selectedFile={selectedFile}
-                  />
-                }
-                sx={{ width: '100%' }}
-              />
+              <Box>
+                <FileUpload
+                  ref={fileUploadRef}
+                  onFileUpload={handleFileUpload}
+                  accept={getAcceptedFileTypes()}
+                  selectedFile={selectedFile}
+                />
+              </Box>
             </Tooltip>
           </Box>
 

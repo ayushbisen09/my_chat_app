@@ -279,7 +279,7 @@ export function VideoTemplateTypeDialog({ title, content, action, open, onClose,
               handleSend();
             }
           }}>
-          Save
+          Send
         </Button>
         <Button variant="outlined" onClick={handleCancel}>
           Cancel

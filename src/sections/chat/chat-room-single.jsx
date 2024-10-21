@@ -26,7 +26,7 @@ export function ChatRoomSingle({ participant }) {
   const collapseUserAttribute = useBoolean(false);
 
   const [priority, setPriority] = useState('');
-  const [status, setStatus] = useState('');
+  const [status, setStatus] = useState('open');
   const [tags, setTags] = useState(['Purchase', 'Pabbly Connect', 'Pabbly Subscription Billing']);
   const [tagInput, setTagInput] = useState('');
   const [role, setRole] = useState('+91 7489077458');
@@ -36,14 +36,14 @@ export function ChatRoomSingle({ participant }) {
   );
 
   const [teamMember, setteamMember] = useState('');
-  const [incomingStatus, setIncomingStatus] = useState('');
+  const [incomingStatus, setIncomingStatus] = useState('allowed');
   const [userStatus, setUserStatus] = useState('');
 
   // New state for user attributes
   const [userAttributes, setUserAttributes] = useState({
     email: 'xyz@gmail.com',
     city: 'Bhopal',
-    orderId: '#87887656',
+    pincode: '481331',
   });
   const [isEditing, setIsEditing] = useState(false);
 
@@ -155,7 +155,7 @@ export function ChatRoomSingle({ participant }) {
           {isEditing ? 'Save' : 'Edit'}
         </Button>
       </Stack>
-      {['email', 'city', 'orderId'].map((attribute) => (
+      {['email', 'city', 'pincode'].map((attribute) => (
         <Stack key={attribute}>
           <Typography sx={{ fontSize: '14px', fontWeight: 'regular' }}>
             {attribute.charAt(0).toUpperCase() + attribute.slice(1)}
@@ -213,6 +213,7 @@ export function ChatRoomSingle({ participant }) {
             label="Team Member"
             onChange={handleteamMemberChange}
           >
+            <MenuItem value="none">None</MenuItem>
             <MenuItem value="Ayush Bisen">Ayush Bisen</MenuItem>
             <MenuItem value="Ankit Mandli">Ankit Mandli</MenuItem>
             <MenuItem value="Rajendra Jatav">Rajendra Jatav</MenuItem>
@@ -231,7 +232,7 @@ export function ChatRoomSingle({ participant }) {
             label="Status"
             onChange={handleStatusChange}
           >
-            <MenuItem value="Open">Open</MenuItem>
+            <MenuItem value="open">Open</MenuItem>
             <MenuItem value="On Hold">On Hold</MenuItem>
             <MenuItem value="Replied">Replied</MenuItem>
             <MenuItem value="Resolved">Resolved</MenuItem>
@@ -298,7 +299,7 @@ export function ChatRoomSingle({ participant }) {
             label="Incoming Status"
             onChange={handleIncomingStatusChange}
           >
-            <MenuItem value="Allowed">Allowed</MenuItem>
+            <MenuItem value="allowed">Allowed</MenuItem>
             <MenuItem value="Blocked">Blocked</MenuItem>
           </Select>
         </FormControl>
@@ -317,6 +318,7 @@ export function ChatRoomSingle({ participant }) {
             label="User Status"
             onChange={handleUserStatusChange}
           >
+            <MenuItem value="none">None</MenuItem>
             <MenuItem value="Opt-In">Opt-In</MenuItem>
             <MenuItem value="Opt-Out">Opt-Out</MenuItem>
           </Select>

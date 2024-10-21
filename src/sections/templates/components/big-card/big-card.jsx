@@ -20,6 +20,8 @@ import { useBoolean } from 'src/hooks/use-boolean';
 
 import { CONFIG } from 'src/config-global';
 
+import { Iconify } from 'src/components/iconify';
+
 export default function BigCard(sx, ...other) {
   const videoId = 'CoIfgN0tfhE'; // Repalace with your YouTube video ID
   const coverSrc = `${CONFIG.site.basePath}/assets/background/Pabbly Broadcast Card.png`;
@@ -33,6 +35,12 @@ export default function BigCard(sx, ...other) {
 
   const handleAddContact = () => {
     navigate('/dashboard/contact/addcontact');
+  };
+  const commonTypographyProps = {
+    fontSize: '14px',
+    fontWeight: '500',
+    lineHeight: '24px',
+    '&::before': { content: '"•"', paddingRight: '0.5rem' },
   };
   return (
     <Box
@@ -85,11 +93,7 @@ export default function BigCard(sx, ...other) {
             <ListItem disablePadding sx={{ mb: '24px' }}>
               <ListItemText
                 primaryTypographyProps={{
-                  sx: {
-                    fontSize: '14px',
-                    fontWeight: '500',
-                    '&::before': { paddingRight: '0.5rem' },
-                  },
+                  sx: commonTypographyProps,
                 }}
                 primary="There may be no contacts in this contact list. You can create a workflow by following the steps below-"
               />
@@ -97,11 +101,7 @@ export default function BigCard(sx, ...other) {
             <ListItem disablePadding>
               <ListItemText
                 primaryTypographyProps={{
-                  sx: {
-                    fontSize: '14px',
-                    fontWeight: '500',
-                    '&::before': { content: '"•"', paddingRight: '0.5rem' },
-                  },
+                  sx: commonTypographyProps,
                 }}
                 primary={
                   <>
@@ -116,11 +116,7 @@ export default function BigCard(sx, ...other) {
             <ListItem disablePadding>
               <ListItemText
                 primaryTypographyProps={{
-                  sx: {
-                    fontSize: '14px',
-                    fontWeight: '500',
-                    '&::before': { content: '"•"', paddingRight: '0.5rem' },
-                  },
+                  sx: commonTypographyProps,
                 }}
                 primary={
                   <>
@@ -135,11 +131,7 @@ export default function BigCard(sx, ...other) {
             <ListItem disablePadding>
               <ListItemText
                 primaryTypographyProps={{
-                  sx: {
-                    fontSize: '14px',
-                    fontWeight: '500',
-                    '&::before': { content: '"•"', paddingRight: '0.5rem' },
-                  },
+                  sx: commonTypographyProps,
                 }}
                 primary={
                   <>
@@ -164,6 +156,9 @@ export default function BigCard(sx, ...other) {
           size="large"
           variant="outlined"
           color="primary"
+          startIcon={
+            <Iconify icon="heroicons:plus-circle-16-solid" style={{ width: 18, height: 18 }} />
+          }
         >
           Add Contact
         </Button>

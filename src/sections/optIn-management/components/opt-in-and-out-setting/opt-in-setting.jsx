@@ -66,7 +66,7 @@ export default function OptInSetting() {
 
   const [optInDrawer, setOptInDrawer] = useState(false);
   const [optInMessageType, setOptInMessageType] = useState('pre');
-  const [tags, setTags] = useState(['Purchase', 'Pabbly Connect', 'Pabbly Subscription Billing']);
+  const [tags, setTags] = useState(['Order Updates', 'Dialy Deals', 'Confirm']);
   const [tagInput, setTagInput] = useState('');
 
   const handleAddTag = () => {

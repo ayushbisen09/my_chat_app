@@ -38,8 +38,6 @@ export default function Page() {
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const dialog = useBoolean();
 
-
-
   const copyToClipboard = () => {
     navigator.clipboard
       .writeText('●●●●●●●●●●●●●●●●●●')
@@ -68,36 +66,36 @@ export default function Page() {
     <>
       {/* <BlankView title="Notification Preferences" /> */}
       <DashboardContent maxWidth="xl">
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: isMobile ? 'column' : 'row',
-          alignItems: isMobile ? 'flex-start' : 'center',
-          justifyContent: 'space-between',
-          mb: 0,
-        }}
-      >
-        <PageHeader
-          title="API & Webhooks"
-          Subheading="API & Webhooks is the secret key used for authentication while making a request to our APIs."
-          showButton={false}
-        />
-        <Tooltip title="Click here to add WhatsApp Number." arrow placement="top">
-        <Button
-          onClick={dialog.onTrue}
-          sx={{ mt: isMobile ? 2 : 0 }}
-          startIcon={
-            <Iconify icon="heroicons:plus-circle-16-solid" style={{ width: 18, height: 18 }} />
-          }
-          size="large"
-          variant="contained"
-          color="primary"
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: isMobile ? 'column' : 'row',
+            alignItems: isMobile ? 'flex-start' : 'center',
+            justifyContent: 'space-between',
+            mb: 0,
+          }}
         >
-          Add Webhook
-        </Button>
-        </Tooltip>
-        <WebhookDialog open={dialog.value} onClose={dialog.onFalse} />
-</Box>
+          <PageHeader
+            title="API & Webhooks"
+            Subheading="API & Webhooks is the secret key used for authentication while making a request to our APIs."
+            showButton={false}
+          />
+          <Tooltip title="Click here to add WhatsApp Number." arrow placement="top">
+            <Button
+              onClick={dialog.onTrue}
+              sx={{ mt: isMobile ? 2 : 0 }}
+              startIcon={
+                <Iconify icon="heroicons:plus-circle-16-solid" style={{ width: 18, height: 18 }} />
+              }
+              size="large"
+              variant="contained"
+              color="primary"
+            >
+              Add Webhook
+            </Button>
+          </Tooltip>
+          <WebhookDialog open={dialog.value} onClose={dialog.onFalse} />
+        </Box>
         <Box sx={{ mt: 4 }}>
           {' '}
           {/* Add margin-top and padding for spacing */}
@@ -108,9 +106,8 @@ export default function Page() {
             <Divider sx={{ mx: -3 }} /> {/* Extend Divider to full width */}
             <Box sx={{ mt: 3 }}>
               <TextField
-       
                 variant="outlined"
-                // fullWidth
+                fullWidth
                 label="Here's your Pabbly Broadcasting API Token"
                 value="●●●●●●●●●●●●●●●●●●"
                 helperText={
@@ -121,14 +118,7 @@ export default function Page() {
                 }
                 InputProps={{
                   endAdornment: (
-                    <Tooltip
-                      title="Copy API Token"
-                      arrow
-                      placement="top"
-                      sx={{
-                        fontSize: '16px',
-                      }}
-                    >
+                    <Tooltip title="Copy API Token" arrow placement="top">
                       <Box component="span" sx={{ cursor: 'pointer' }}>
                         <Iconify
                           icon="solar:copy-bold"
@@ -141,18 +131,17 @@ export default function Page() {
                 }}
               />
               <Box sx={{ mt: 2 }}>
-              <Tooltip title="Click here to generate API token." arrow placement="top">
-                <Button variant="contained" color="primary">
-                  Generate API Token
-                </Button>
+                <Tooltip title="Click here to generate API token." arrow placement="top">
+                  <Button variant="contained" color="primary">
+                    Generate API Token
+                  </Button>
                 </Tooltip>
               </Box>
             </Box>
           </Card>
           {/* card section started */}
-
           <BigCard />
-          <ApiWebhookTable/>
+          <ApiWebhookTable />
         </Box>
       </DashboardContent>
       <Snackbar

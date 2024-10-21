@@ -67,7 +67,7 @@ export default function OptOutSetting() {
 
   const [optOutDrawer, setOptOutDrawer] = useState(false);
   const [optOutMessageType, setOptOutMessageType] = useState('pre');
-  const [tags, setTags] = useState(['Purchase', 'Pabbly Connect', 'Pabbly Subscription Billing']);
+  const [tags, setTags] = useState(['SignUp', 'Event Update', 'Supports']);
   const [tagInput, setTagInput] = useState('');
 
   const handleAddTag = () => {
