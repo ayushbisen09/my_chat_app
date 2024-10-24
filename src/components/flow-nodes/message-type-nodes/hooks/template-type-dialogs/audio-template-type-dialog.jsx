@@ -12,6 +12,8 @@ import {
   TextField,
   Typography,
   useMediaQuery,
+  DialogContent,
+  DialogActions,
   InputAdornment,
 } from '@mui/material';
 
@@ -156,89 +158,95 @@ export function AudioTemplateTypeDialog({ title, content, action, open, onClose,
         </Typography>
       </DialogTitle>
       <Divider sx={{ borderStyle: 'dashed' }} />
-      <Box sx={{ display: 'flex' }}>
-        <Box sx={{ px: 2, pb: 2, width: '60%' }}>
-          {bodyFields.map((fieldValue, index) => (
-            <TextField
-              key={index}
-              sx={{ mt: '24px' }}
-              placeholder={`Enter a custom field for body field ${index + 1}`}
-              fullWidth
-              size="medium"
-              type="text"
-              margin="dense"
-              variant="outlined"
-              label={`Body Field ${index + 1} (Eg: Ankit)`}
-              helperText="This field is required. Leaving it empty may prevent message delivery."
-              InputLabelProps={{ shrink: true }}
-              value={fieldValue}
-              onChange={(e) => handleInputChange(index, e.target.value)}
-            />
-          ))}
-          <Box sx={{ mt: 0.5 }}>
-            <FileUpload onFileUpload={handleFileUpload} />
-            <TextField
-              sx={{ mt: 3 }}
-              fullWidth
-              type="text"
-              margin="dense"
-              variant="outlined"
-              label="File Name"
-              helperText="Display name of audio file, visible on download."
-              value={fileName}
-              onChange={(e) => setFileName(e.target.value)}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <Tooltip
-                      title="Enter the name of audio file, visible on download"
-                      arrow
-                      placement="top"
-                      sx={{ fontSize: '16px' }}
-                    >
-                      <Iconify
-                        icon="material-symbols:info-outline"
-                        style={{ width: 20, height: 20 }}
-                      />
-                    </Tooltip>
-                  </InputAdornment>
-                ),
-              }}
+      <DialogContent>
+        <Box sx={{ display: 'flex' }}>
+          <Box sx={{ pr: 2, pb: 2, width: '60%' }}>
+            {bodyFields.map((fieldValue, index) => (
+              <TextField
+                key={index}
+                sx={{ mt: '24px' }}
+                placeholder={`Enter a custom field for body field ${index + 1}`}
+                fullWidth
+                size="medium"
+                type="text"
+                margin="dense"
+                variant="outlined"
+                label={`Body Field ${index + 1} (Eg: Ankit)`}
+                helperText="This field is required. Leaving it empty may prevent message delivery."
+                InputLabelProps={{ shrink: true }}
+                value={fieldValue}
+                onChange={(e) => handleInputChange(index, e.target.value)}
+              />
+            ))}
+            <Box sx={{ mt: 0.5 }}>
+              <FileUpload onFileUpload={handleFileUpload} />
+              <TextField
+                sx={{ mt: 3 }}
+                fullWidth
+                type="text"
+                margin="dense"
+                variant="outlined"
+                label="File Name"
+                helperText="Display name of audio file, visible on download."
+                value={fileName}
+                onChange={(e) => setFileName(e.target.value)}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <Tooltip
+                        title="Enter the name of audio file, visible on download"
+                        arrow
+                        placement="top"
+                        sx={{ fontSize: '16px' }}
+                      >
+                        <Iconify
+                          icon="material-symbols:info-outline"
+                          style={{ width: 20, height: 20 }}
+                        />
+                      </Tooltip>
+                    </InputAdornment>
+                  ),
+                }}
+              />
+            </Box>
+          </Box>
+          <Box sx={{ py: 2,pl:2,width: '40%' }}>
+            <AudioTemplateChatBox
+              audioSrc={audioUrl}
+              text={
+                <>
+                  <span style={{ fontWeight: '600' }}>
+                    {replacePlaceholders(` Hi {{1}}! 🎧🛒`, bodyFields)}
+                  </span>
+                  <br /> <br />
+                  {` Congratulations! 🎉 Your order for the Headway Bassheads has been confirmed. 🙌`}
+                  <br /> <br />
+                  {` Order Details:`}
+                  <br />
+                  {replacePlaceholders(` Product: {{2}}`, bodyFields)}
+                  <br />
+                  {replacePlaceholders(`Quantity: {{3}}`, bodyFields)}
+                  <br />
+                  {replacePlaceholders(`Order ID: {{4}}`, bodyFields)}
+                  <br />
+                  {replacePlaceholders(`Delivery Address: {{5}}`, bodyFields)}
+                  <br />
+                  {replacePlaceholders(`Estimated Delivery Date: {{6}}`, bodyFields)}
+                </>
+              }
+              showLinks
+              showVisit
+              showCall
             />
           </Box>
         </Box>
-        <Box sx={{ p: 2, width: '40%' }}>
-          <AudioTemplateChatBox
-            audioSrc={audioUrl}
-            text={
-              <>
-                <span style={{ fontWeight: '600' }}>
-                  {replacePlaceholders(` Hi {{1}}! 🎧🛒`, bodyFields)}
-                </span>
-                <br /> <br />
-                {` Congratulations! 🎉 Your order for the Headway Bassheads has been confirmed. 🙌`}
-                <br /> <br />
-                {` Order Details:`}
-                <br />
-                {replacePlaceholders(` Product: {{2}}`, bodyFields)}
-                <br />
-                {replacePlaceholders(`Quantity: {{3}}`, bodyFields)}
-                <br />
-                {replacePlaceholders(`Order ID: {{4}}`, bodyFields)}
-                <br />
-                {replacePlaceholders(`Delivery Address: {{5}}`, bodyFields)}
-                <br />
-                {replacePlaceholders(`Estimated Delivery Date: {{6}}`, bodyFields)}
-              </>
-            }
-            showLinks
-            showVisit
-            showCall
-          />
-        </Box>
-      </Box>
-      <Box sx={{ px: 2, pb: 2 }}>
+      </DialogContent>
+      <DialogActions>
+        <Button variant="outlined" onClick={handleCancel}>
+          Cancel
+        </Button>
         <Button
+          color="primary"
           variant="contained"
           sx={{ mr: 1 }}
           onClick={() => {
@@ -251,10 +259,7 @@ export function AudioTemplateTypeDialog({ title, content, action, open, onClose,
         >
           Send
         </Button>
-        <Button variant="outlined" onClick={handleCancel}>
-          Cancel
-        </Button>
-      </Box>
+      </DialogActions>
     </Dialog>
   );
 }

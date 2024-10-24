@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 
-import { Box, CardMedia, Typography, IconButton } from '@mui/material';
+import { Box, Divider, CardMedia, Typography, IconButton } from '@mui/material';
 
 import { Iconify } from 'src/components/iconify';
 
@@ -62,28 +62,105 @@ export default function VideoTemplateChatBox({
       )}
 
       {/* Description */}
-      <Typography variant="body1">{text}</Typography>
+      <Typography fontSize="14px">{text}</Typography>
 
       {/* Footer Links */}
       {showLinks && (
-        <Box sx={{ mt: 2, display: 'flex', justifyContent: 'space-between' }}>
-          {showVisit && (
-            <IconButton color="primary">
-              <Iconify icon="material-symbols:globe" sx={{ fontSize: 24 }} />
-              <Typography variant="body2">Visit Now</Typography>
-            </IconButton>
-          )}
+        <Box sx={{ mt: 3 }}>
           {showCall && (
-            <IconButton color="primary">
-              <Iconify icon="material-symbols:phone" sx={{ fontSize: 24 }} />
-              <Typography variant="body2">Call Now</Typography>
-            </IconButton>
+            <Box>
+              <Divider
+                sx={{
+                  mb: 1,
+                }}
+              />
+
+              <Box
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'center', // Center horizontally
+                  alignItems: 'center', // Center vertically
+                }}
+              >
+                <IconButton
+                  size="small"
+                  sx={{
+                    color: '#007BFF', // Change color of the icon button
+                  }}
+                >
+                  <Iconify width={20} icon="material-symbols:call" />
+                </IconButton>
+                <Typography
+                  sx={{
+                    color: '#007BFF', // Change color of the text
+                    fontSize: '14px', // Set font size to 12
+                    fontWeight: '400', // Set font weight to medium
+                  }}
+                >
+                  Call Now
+                </Typography>
+              </Box>
+            </Box>
           )}
           {showCoupon && (
-            <IconButton color="primary">
-              <Iconify icon="material-symbols:card-giftcard" sx={{ fontSize: 24 }} />
-              <Typography variant="body2">Coupon Code</Typography>
-            </IconButton>
+            <Box>
+              <Divider sx={{ mt: 1, mb: 1 }} />
+              <Box
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'center', // Center horizontally
+                  alignItems: 'center', // Center vertically
+                }}
+              >
+                <IconButton
+                  size="small"
+                  sx={{
+                    color: '#007BFF', // Change color of the icon button
+                  }}
+                >
+                  <Iconify width={20} icon="solar:copy-bold" />
+                </IconButton>
+                <Typography
+                  sx={{
+                    color: '#007BFF', // Change color of the text
+                    fontSize: '14px', // Set font size to 12
+                    fontWeight: '400', // Set font weight to medium
+                  }}
+                >
+                  Coupon Code
+                </Typography>
+              </Box>
+            </Box>
+          )}
+          {showVisit && (
+            <Box>
+              <Divider sx={{ mb: 1, mt: 1 }} />
+              <Box
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'center', // Center horizontally
+                  alignItems: 'center', // Center vertically
+                }}
+              >
+                <IconButton
+                  size="small"
+                  sx={{
+                    color: '#007BFF', // Change color of the icon button
+                  }}
+                >
+                  <Iconify width={20} icon="icon-park-outline:share" />
+                </IconButton>
+                <Typography
+                  sx={{
+                    color: '#007BFF', // Change color of the text
+                    fontSize: '14px', // Set font size to 12
+                    fontWeight: '400', // Set font weight to medium
+                  }}
+                >
+                  Visit Now
+                </Typography>
+              </Box>
+            </Box>
           )}
         </Box>
       )}

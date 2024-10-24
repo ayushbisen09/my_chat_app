@@ -4,7 +4,16 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
-import { Box, Button, Divider, TextField, Typography, useMediaQuery } from '@mui/material';
+import {
+  Box,
+  Button,
+  Divider,
+  TextField,
+  Typography,
+  DialogActions,
+  DialogContent,
+  useMediaQuery,
+} from '@mui/material';
 
 import {
   optInSetTemplateType,
@@ -88,7 +97,7 @@ export function TextTemplateTypeDialog({ title, content, action, open, onClose, 
         }}
       >
         <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
-          <Typography variant="h6">Template Messages</Typography>
+          <Typography variant="h6"> Text Template Messages</Typography>
           <Iconify
             onClick={onClose}
             icon="uil:times"
@@ -100,8 +109,12 @@ export function TextTemplateTypeDialog({ title, content, action, open, onClose, 
         </Typography>
       </DialogTitle>
       <Divider sx={{ borderStyle: 'dashed' }} />
+
+
+      <DialogContent>
+
       <Box sx={{ display: 'flex' }}>
-        <Box sx={{ px: 2, pb: 2, width: '60%' }}>
+        <Box sx={{ pr: 2, pb: 2, width: '60%' }}>
           {bodyFields.map((fieldValue, index) => (
             <TextField
               key={index}
@@ -122,7 +135,7 @@ export function TextTemplateTypeDialog({ title, content, action, open, onClose, 
             />
           ))}
         </Box>
-        <Box sx={{ p: 2, width: '40%' }}>
+        <Box sx={{ py: 2,pl:2, width: '40%' }}>
           <PreviewTemplateChatBox
             coverSrc="/assets/images/templateImage/template-image1.jpg"
             text={
@@ -152,10 +165,14 @@ export function TextTemplateTypeDialog({ title, content, action, open, onClose, 
           />
         </Box>
       </Box>
-      <Box sx={{ px: 2, pb: 2 }}>
+      </DialogContent>
+      <DialogActions>
+        <Button variant="outlined" onClick={onClose}>
+          Cancel
+        </Button>
         <Button
+          color="primary"
           variant="contained"
-          sx={{ mr: 1 }}
           onClick={() => {
             if (chosen === 'optIn') {
               handleSave();
@@ -166,10 +183,7 @@ export function TextTemplateTypeDialog({ title, content, action, open, onClose, 
         >
           Send
         </Button>
-        <Button variant="outlined" onClick={onClose}>
-          Cancel
-        </Button>
-      </Box>
+      </DialogActions>
     </Dialog>
   );
 }

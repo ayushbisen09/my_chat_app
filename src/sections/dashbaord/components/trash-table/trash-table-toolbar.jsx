@@ -20,8 +20,7 @@ import { MoveToFolderPopover } from '../../hooks/move_folder-dailog';
 
 // ----------------------------------------------------------------------
 
-export function OrderTableToolbar({ filters, onResetPage, numSelected, publish, onDeleteRow, }) {
-  
+export function TrashTableToolbar({ filters, onResetPage, numSelected, publish, onDeleteRow }) {
   const theme = useTheme();
 
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
@@ -33,7 +32,7 @@ export function OrderTableToolbar({ filters, onResetPage, numSelected, publish, 
   const [filterValue, setFilterValue] = useState('');
   const [moveToFolderPopoverOpen, setMoveToFolderPopoverOpen] = useState(false);
   const confirmDelete = useBoolean();
-  const whatsapp_status = ['Active', 'Inactive']; // Add your actual column names here
+
   const columns = [
     'Pabbly Connect',
     'Main Folder',
@@ -56,8 +55,9 @@ export function OrderTableToolbar({ filters, onResetPage, numSelected, publish, 
 
   const handleFilterName = useCallback(
     (event) => {
+      const { value } = event.target;
       onResetPage();
-      filters.setState({ name: event.target.value }); // This updates the filters state with the search input
+      filters.setState({ name: value }); // Update the filter state
     },
     [filters, onResetPage]
   );
@@ -150,21 +150,19 @@ export function OrderTableToolbar({ filters, onResetPage, numSelected, publish, 
           flexGrow={1}
           sx={{ pr: '12px', width: 1 }}
         >
-          <Tooltip title="Search any contacts by WhatsApp number." arrow placement="top">
-            <TextField
-              fullWidth
-              value={filters.state.name}
-              onChange={handleFilterName}
-              placeholder="Search contacts WhatsApp number..."
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <Iconify icon="eva:search-fill" sx={{ color: 'text.disabled' }} />
-                  </InputAdornment>
-                ),
-              }}
-            />
-          </Tooltip>
+          <TextField
+            fullWidth
+            value={filters.state.name}
+            onChange={handleFilterName}
+            placeholder="Search contacts WhatsApp number..."
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Iconify icon="eva:search-fill" sx={{ color: 'text.disabled' }} />
+                </InputAdornment>
+              ),
+            }}
+          />
 
           {numSelected > 0 && (
             <Button
@@ -180,20 +178,6 @@ export function OrderTableToolbar({ filters, onResetPage, numSelected, publish, 
               Select Action
             </Button>
           )}
-
-        
-
-          <Button
-            sx={{
-              ...buttonStyle,
-              width: '120px', // Fixed width for "Filters"
-            }}
-            // variant="outlined"
-            startIcon={<Iconify icon="mdi:filter" />}
-            onClick={handleFilterClick}
-          >
-            Filters
-          </Button>
         </Stack>
       </Stack>
 
@@ -260,43 +244,30 @@ export function OrderTableToolbar({ filters, onResetPage, numSelected, publish, 
         transformOrigin={{ vertical: 'top', horizontal: 'left' }}
       >
         <MenuList>
-          
-           
-         
-          <Tooltip title="Activate selected WhatsApp numbers." arrow placement="left">
-            <MenuItem>
-              <Iconify icon="ion:toggle-sharp" sx={{ mr: 2 }} />
-              Enable
+          <Tooltip title="Move to existing folder." arrow placement="left">
+            <MenuItem
+              onClick={() => {
+                setMoveToFolderPopoverOpen(true); // Open the Move To Folder dialog
+                popover.onClose();
+              }}
+              sx={{ color: 'secondary' }}
+            >
+              <Iconify icon="fluent:folder-move-16-filled" sx={{ mr: 2 }} />
+              Move To Folder
             </MenuItem>
           </Tooltip>
 
-
-
-          <Tooltip title="Deactivate selected WhatsApp numbers." arrow placement="left">
-            <MenuItem>
-              <Iconify icon="ph:toggle-left-fill" sx={{ mr: 2 }} />
-              Disable
-            </MenuItem>
-            </Tooltip>
-            <Tooltip title="Click here to move whatsapp number to folder." arrow placement="left">
-            <MenuItem onClick={() => {
-                setMoveToFolderPopoverOpen(true); // Open the Move To Folder dialog
-                popover.onClose();
-              }}> 
-              <Iconify icon="fluent:folder-move-16-filled" sx={{ mr: 2 }} />
-              Move
-            </MenuItem>
-            </Tooltip>
-         
-
           <Divider style={{ borderStyle: 'dashed' }} />
-          <Tooltip title="Click here to delete selected whatsapp numbers." arrow placement="left">
-            <MenuItem sx={{ color: 'error.main' }} onClick={() => {
+          <Tooltip title="This will delete the selected WhatsApp numbers." arrow placement="left">
+            <MenuItem
+              onClick={() => {
                 confirmDelete.onTrue();
                 popover.onClose();
-              }}>
+              }}
+              sx={{ color: 'error.main' }}
+            >
               <Iconify icon="solar:trash-bin-trash-bold" sx={{ mr: 2 }} />
-              Delete
+              Delete Permanently
             </MenuItem>
           </Tooltip>
         </MenuList>
@@ -309,7 +280,7 @@ export function OrderTableToolbar({ filters, onResetPage, numSelected, publish, 
         open={confirmDelete.value}
         onClose={confirmDelete.onFalse}
         title="Delete"
-        content="Are you sure you want to delete WhatsApp numbers?"
+        content="WhatsApp number once deleted will be permanently deleted?"
         action={
           <Button variant="contained" color="error" onClick={onDeleteRow}>
             Delete

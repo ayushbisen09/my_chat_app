@@ -5,8 +5,6 @@ import Card from '@mui/material/Card';
 import Button from '@mui/material/Button';
 import { useTheme } from '@mui/material/styles';
 import {
-  Tab,
-  Tabs,
   Table,
   Tooltip,
   Divider,
@@ -25,9 +23,8 @@ import { useSetState } from 'src/hooks/use-set-state';
 
 import { fIsAfter, fIsBetween } from 'src/utils/format-time';
 
+import { _orders } from 'src/_mock';
 import { CONFIG } from 'src/config-global';
-import { varAlpha } from 'src/theme/styles';
-import { _orders, ORDER_STATUS_OPTIONS } from 'src/_mock';
 
 import { Label } from 'src/components/label';
 import { Iconify } from 'src/components/iconify';
@@ -45,15 +42,11 @@ import {
   TablePaginationCustom,
 } from 'src/components/table';
 
-import { OrderTableRow } from './order-table-row';
-import { OrderTableToolbar } from './order-table-toolbar';
-import { OrderTableFiltersResult } from './order-table-filters-result';
+import { TrashTableRow } from './trash-table-row';
+import { TrashTableToolbar } from './trash-table-toolbar';
+import { TrashTableFiltersResult } from './trash-table-filter';
 
 const metadata = { title: `Page one | Dashboard - ${CONFIG.site.name}` };
-const STATUS_OPTIONS = [
-  { value: 'all', label: 'All', tooltip: 'All added WhatsApp numbers.' },
-  ...ORDER_STATUS_OPTIONS,
-];
 
 const TABLE_HEAD = [
   { id: 'createdAt', label: 'Date', width: 137, tooltip: 'The date when the entry was created' },
@@ -79,7 +72,7 @@ const TABLE_HEAD = [
   { id: '', width: 88 },
 ];
 
-export default function DashboardTable2({
+export default function TrashTable({
   selectedFolder,
   sx,
   icon,
@@ -105,9 +98,9 @@ export default function DashboardTable2({
   const dateError = fIsAfter(filters.state.startDate, filters.state.endDate);
 
   const dataFiltered = applyFilter({
-    inputData: tableData,
+    inputData: tableData, // This is your original data
     comparator: getComparator(table.order, table.orderBy),
-    filters: filters.state,
+    filters: filters.state, // Make sure this is passed to applyFilter
     dateError,
   });
 
@@ -170,10 +163,10 @@ export default function DashboardTable2({
           <CardHeader
             title={
               <Box>
-                <Box sx={{ typography: 'subtitle2', fontSize: '18px', fontWeight: 600 }}>
-                  <Tooltip title={`Folder Name: ${selectedFolder}`} arrow placement="bottom">
-                    {selectedFolder}
-                  </Tooltip>
+                <Box sx={{ typography: 'subtitle2', fontSize: '18px', fontWeight: 600 }}>Trash</Box>
+                <Box sx={{ typography: 'body2', fontSize: '14px', color: 'text.secondary' }}>
+                  Deleted WhatsApp number can be restored or permanently deleted from the trash
+                  folder.
                 </Box>
               </Box>
             }
@@ -184,43 +177,7 @@ export default function DashboardTable2({
           />
           <Divider />
 
-          <Tabs
-            value={filters.state.status}
-            onChange={handleFilterStatus}
-            sx={{
-              px: 2.5,
-              boxShadow: (theme1) =>
-                `inset 0 -2px 0 0 ${varAlpha(theme1.vars.palette.grey['500Channel'], 0.08)}`,
-            }}
-          >
-            {STATUS_OPTIONS.map((tab) => (
-              <Tab
-                key={tab.value} // <-- Added key here
-                iconPosition="end"
-                value={tab.value}
-                label={tab.label}
-                icon={
-                  <Label
-                    variant={
-                      ((tab.value === 'all' || tab.value === filters.state.status) && 'filled') ||
-                      'soft'
-                    }
-                    color={
-                      (tab.value === 'active' && 'success') ||
-                      (tab.value === 'inactive' && 'error') ||
-                      'default'
-                    }
-                  >
-                    {['active', 'inactive'].includes(tab.value)
-                      ? tableData.filter((user) => user.status === tab.value).length
-                      : tableData.length}
-                  </Label>
-                }
-              />
-            ))}
-          </Tabs>
-
-          <OrderTableToolbar
+          <TrashTableToolbar
             filters={filters}
             onResetPage={table.onResetPage}
             dateError={dateError}
@@ -228,7 +185,7 @@ export default function DashboardTable2({
           />
 
           {canReset && (
-            <OrderTableFiltersResult
+            <TrashTableFiltersResult
               filters={filters}
               totalResults={dataFiltered.length}
               onResetPage={table.onResetPage}
@@ -301,7 +258,7 @@ export default function DashboardTable2({
                         table.page * table.rowsPerPage + table.rowsPerPage
                       )
                       .map((row, index) => (
-                        <OrderTableRow
+                        <TrashTableRow
                           key={row.id}
                           row={row}
                           selected={table.selected.includes(row.id)}
@@ -354,29 +311,34 @@ export default function DashboardTable2({
 function applyFilter({ inputData, comparator, filters, dateError }) {
   const { status, name, startDate, endDate } = filters;
 
+  // Create a stabilized array for sorting
   const stabilizedThis = inputData.map((el, index) => [el, index]);
 
+  // Sort the data based on the comparator
   stabilizedThis.sort((a, b) => {
     const order = comparator(a[0], b[0]);
     if (order !== 0) return order;
     return a[1] - b[1];
   });
 
+  // Extract the sorted data
   inputData = stabilizedThis.map((el) => el[0]);
 
-  // Filter by WhatsApp number (case insensitive)
+  // Filter by name (using orderNumber as per your requirement)
   if (name) {
-    inputData = inputData.filter((whatsapp) =>
-      whatsapp.orderNumber.toLowerCase().includes(name.toLowerCase())
+    inputData = inputData.filter((row) =>
+      row.orderNumber.toLowerCase().includes(name.toLowerCase())
     );
   }
 
+  // Filter by status if it's not 'all'
   if (status !== 'all') {
-    inputData = inputData.filter((whatsapp) => whatsapp.status === status);
+    inputData = inputData.filter((row) => row.status === status);
   }
 
+  // Filter by date range if there's no date error
   if (!dateError && startDate && endDate) {
-    inputData = inputData.filter((whatsapp) => fIsBetween(whatsapp.createdAt, startDate, endDate));
+    inputData = inputData.filter((row) => fIsBetween(row.createdAt, startDate, endDate));
   }
 
   return inputData;

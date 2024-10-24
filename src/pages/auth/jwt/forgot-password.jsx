@@ -2,26 +2,23 @@ import { Helmet } from 'react-helmet-async';
 
 import { Box, Button, Typography } from '@mui/material';
 
-// import { RouterLink } from 'src/routes/components';
-
 import { paths } from 'src/routes/paths';
 import { useRouter } from 'src/routes/hooks';
 
 import { CONFIG } from 'src/config-global';
 
-import { JwtSignInView } from 'src/sections/auth/jwt';
-
+import { JwtForgotpassword } from 'src/sections/auth/jwt/jwt-forgot-password';
 
 // ----------------------------------------------------------------------
 
-const metadata = { title: `Sign in | Jwt - ${CONFIG.site.name}` };
+const metadata = { title: `Forgot password | Jwt - ${CONFIG.site.name}` };
 
 export default function Page() {
 
-
+  
   const router = useRouter();
 
-  const redirectToLogin =()=>{  
+  const redirectToSignup =()=>{  
     router.push(paths.auth.jwt.signUp)
    
   }
@@ -29,7 +26,7 @@ export default function Page() {
   return (
     // <div style={{ backgroundColor: '#F5fffa', width: '100%', height: 'auto' }}>
     <>
-      <Box
+    <Box
         sx={{
           position: 'absolute',
           top: { xs: 8, md: 16 },
@@ -53,39 +50,23 @@ export default function Page() {
         >
           Don&apos;t have a Pabbly Account yet?
         </Typography>
-
-        {/* <Button
-        component={RouterLink}
-        href={paths.auth.jwt.signUp}
+        <Button
           variant="outlined"
           color="primary"
-          // sx={{
-          //   width: { xs: 'auto', md: 'auto' } // Full width on mobile, auto on desktop
-          // }}
-        >    
-          Create Account
-        </Button> */}
-
-        <Button    
-        variant='outlined'
-        color='primary'
-        // href={paths.auth.jwt.signUp}
-        onClick={redirectToLogin}
-        sx={{border:'solid 1px '}}
+          sx={{
+            width: { xs: 'auto', md: 'auto', } // Full width on mobile, auto on desktop
+          }}
+         onClick={redirectToSignup}
         >
           Create Account
         </Button>
-  
-       
       </Box>
-
       <Helmet>
         <title> {metadata.title}</title>
       </Helmet>
- 
-      <JwtSignInView />
-  
-    </>
-    //  </div>
+
+     <JwtForgotpassword/>
+     </>
+  //  </div>
   );
 }

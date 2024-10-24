@@ -236,7 +236,7 @@ export function AttachFileDialog({ open, onFileAttached, onClose, ...other }) {
             onClick={handleSendMessage}
             variant="contained"
             color="primary"
-            endIcon={<Iconify icon="akar-icons:attach" style={{ width: 18, height: 18 }} />}
+            startIcon={<Iconify icon="akar-icons:attach" style={{ width: 18, height: 18 }} />}
             disabled={!isFileUploaded}
           >
             Attach

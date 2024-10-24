@@ -1,11 +1,8 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router';
 
 import Box from '@mui/material/Box';
-import Link from '@mui/material/Link';
 import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
 import MenuList from '@mui/material/MenuList';
 import Collapse from '@mui/material/Collapse';
 import MenuItem from '@mui/material/MenuItem';
@@ -13,7 +10,7 @@ import TableRow from '@mui/material/TableRow';
 import TableCell from '@mui/material/TableCell';
 import IconButton from '@mui/material/IconButton';
 import ListItemText from '@mui/material/ListItemText';
-import { Tooltip, Divider, Checkbox, Typography } from '@mui/material';
+import { Button, Tooltip, Divider, Checkbox } from '@mui/material';
 
 import { useBoolean } from 'src/hooks/use-boolean';
 
@@ -22,11 +19,12 @@ import { Iconify } from 'src/components/iconify';
 import { ConfirmDialog } from 'src/components/custom-dialog';
 import { usePopover, CustomPopover } from 'src/components/custom-popover';
 
-import teamMemberRoute from '../../../../pages/app/team-members'
 import { MoveToFolderPopover } from '../../hooks/move_folder-dailog';
 
+// import { ShareWhatsApp numberPopover } from '../../hooks/table-hook-components/share-WhatsApp number-popover';
+// import { RenameWhatsApp numberDialog } from '../../hooks/table-hook-components/rename_WhatsApp number-dailog';
 
-export function OrderTableRow({
+export function TrashTableRow({
   row,
   selected,
   onViewRow,
@@ -34,47 +32,22 @@ export function OrderTableRow({
   onDeleteRow,
   dashboardTableIndex,
 }) {
+  const confirm = useBoolean();
   const confirmDelete = useBoolean();
-  const confirmStatus = useBoolean();
+  const confirmShare = useBoolean();
+  const [moveToFolderPopoverOpen, setMoveToFolderPopoverOpen] = useState(false);
+
+  const [renameDialogOpen, setRenameDialogOpen] = useState(false);
+
   const collapse = useBoolean();
   const popover = usePopover();
-  const [showToken, setShowToken] = useState(false);
-  const [statusToToggle, setStatusToToggle] = useState('');
 
-  const [moveToFolderPopoverOpen, setMoveToFolderPopoverOpen] = useState(false);
- 
-  const navigate = useNavigate();
-  const confirm = useBoolean(); // Assuming you have a useBoolean hook for handling confirmation
+  const [showToken, setShowToken] = useState(false);
 
   const handleToggleToken = () => {
     setShowToken((prev) => !prev);
   };
-  const truncateText = (text, maxLength) => {
-    if (text.length > maxLength) {
-      return `${text.substring(0, maxLength)}...`;
-    }
-    return text;
-  };
 
-  const token =
-    '4545656565slfkvdkxvzck44554z65X4c65xz4v6zx4vxzv65xz4v64z35v4zZFzsgfsdgsvzxvdf45645s4cfdsgvjhxlcfOIaPDJSIGJFDGPIDS5464646465468464';
-
-  // Truncate token to 100 characters
-  const truncatedToken = truncateText(token, 100);
-
-  // Limit bullet points to a maximum of 20
-  const generateBulletPoints = (length) => {
-    const bulletPointLength = Math.min(length, 94); // Cap at 20 bullet points
-    return '●'.repeat(bulletPointLength);
-  };
-
-  // Generate 20 bullet points or fewer
-  const bulletPoints = generateBulletPoints(token.length);
-
-  const handleStatusToggle = (newStatus) => {
-    setStatusToToggle(newStatus);
-    confirmStatus.onTrue();
-  };
   const WhatsAppnumbers = [
     '+91 98765 43210',
     '+91 91234 56789',
@@ -100,10 +73,12 @@ export function OrderTableRow({
     'https://chatflow.pabbly.com/65e80c31e88b/5b653435',
     // Add more flow names as needed
   ];
+
   const renderPrimary = (
     <TableRow hover selected={selected}>
-      <TableCell padding="checkbox">
-        <Tooltip title="Select this WhatsApp number" arrow placement="top">
+
+<TableCell padding="checkbox">
+        <Tooltip title="Select this WhataApp number" arrow placement="top">
           <Checkbox
             checked={selected}
             onClick={onSelectRow}
@@ -111,45 +86,40 @@ export function OrderTableRow({
           />
         </Tooltip>
       </TableCell>
-
       <TableCell width={110}>
-        {row.status === 'active' ? (
-          <Tooltip title="This WhatsApp number is currently active" arrow placement="top">
-            <Label variant="soft" color="success">
-              {row.status}
-            </Label>
-          </Tooltip>
-        ) : row.status === 'inactive' ? (
-          <Tooltip title="This WhatsApp number is currently inactive." arrow placement="top">
-            <Label variant="soft" color="error">
-              {row.status}
-            </Label>
-          </Tooltip>
-        ) : (
-          <Label variant="soft" color="success">
-            {row.status}
-          </Label>
-        )}
-        <Tooltip
-          title=" Created: Oct 23, 2024 17:45:32, (UTC+05:30) Asia/Kolkata"
-          placement="top"
-          arrow
-        >
-          <Box
-            component="span"
+        <Stack spacing={2} direction="row" alignItems="center">
+          <Stack
             sx={{
-              color: 'text.disabled',
-              overflow: 'hidden',
-              textOverflow: 'ellipsis',
-              whiteSpace: 'nowrap',
-              maxWidth: '180px', // Adjust the maxWidth to your desired value
-              display: 'inline-block',
+              typography: 'body2',
+              flex: '1 1 auto',
+              alignItems: 'flex-start',
             }}
           >
-            Oct 23, 2024 17:45:32
-          </Box>
-        </Tooltip>
+            <Tooltip title={`WhatsApp number is ${row.status}`} placement="top" arrow>
+              <Label variant="soft" color= 'error'>
+                Inactive
+              </Label>
+            </Tooltip>
+            <Tooltip
+              title="WhatsApp number Created: Aug 13, 2024 14:40:03, (UTC+00:00) America/Danmarkshavn"
+              placement="bottom"
+              arrow
+            >
+              <Box
+                sx={{
+                  width: 145,
+                  whiteSpace: 'nowrap',
+                  color: 'text.disabled',
+                }}
+                component="span"
+              >
+                Aug 13, 2024 14:40:03
+              </Box>
+            </Tooltip>
+          </Stack>
+        </Stack>
       </TableCell>
+
       <TableCell width={200}>
         <Stack spacing={2} direction="row" alignItems="center">
           <Stack
@@ -251,7 +221,7 @@ export function OrderTableRow({
               lineHeight: { lg: '14px', md: '14px', xs: '14px' },
               height: { lg: '40px', md: '40px', xs: '40px' }, // Default height
             }}
-            disabled={row.status === 'inactive'} // Disable the button if status is 'inactive'
+            disabled='inactive' // Disable the button if status is 'inactive'
           >
             Access Inbox
           </Button>
@@ -268,11 +238,9 @@ export function OrderTableRow({
             <Iconify icon="eva:arrow-ios-downward-fill" />
           </IconButton>
         </Tooltip>
-        <Tooltip title="Click to see options." arrow placement="top">
-          <IconButton color={popover.open ? 'inherit' : 'default'} onClick={popover.onOpen}>
-            <Iconify icon="eva:more-vertical-fill" />
-          </IconButton>
-        </Tooltip>
+        <IconButton color={popover.open ? 'inherit' : 'default'} onClick={popover.onOpen}>
+          <Iconify icon="eva:more-vertical-fill" />
+        </IconButton>
       </TableCell>
     </TableRow>
   );
@@ -289,7 +257,6 @@ export function OrderTableRow({
           <Paper sx={{ m: 1.5 }}>
             <Stack
               direction="row"
-              gap={2}
               alignItems="center"
               sx={{
                 p: (theme) => theme.spacing(1.5, 2, 1.5, 1.5),
@@ -298,21 +265,13 @@ export function OrderTableRow({
                 },
               }}
             >
-              <Tooltip
-                title={showToken ? `Access token of your WhatsApp Number: ${token}` : ''}
-                arrow
-                placement="top"
-              >
-                <Typography variant="body2">
-                  Access Token: {showToken ? truncatedToken : generateBulletPoints(token.length)}
-                </Typography>
-              </Tooltip>
-
-              <Tooltip title="Click here to show/hide verification token." arrow placement="top">
-                <IconButton onClick={handleToggleToken}>
-                  <Iconify icon={showToken ? 'solar:eye-bold' : 'solar:eye-closed-bold'} />
-                </IconButton>
-              </Tooltip>
+              <ListItemText
+                primary={`Verification Token: ${showToken ? '4545656565' : '●●●●●●●●●'}`}
+                primaryTypographyProps={{ typography: 'body2' }}
+              />
+              <IconButton onClick={handleToggleToken}>
+                <Iconify icon={showToken ? 'solar:eye-bold' : 'solar:eye-closed-bold'} />
+              </IconButton>
             </Stack>
 
             <Stack
@@ -325,27 +284,10 @@ export function OrderTableRow({
                 },
               }}
             >
-              <Tooltip title="Privacy policy URL of your website." arrow placement="top">
-                <span>
-                  <ListItemText
-                    primary={
-                      <Typography component="div" variant="body2">
-                        Privacy Policy URL:{' '}
-                        <Link
-                          style={{ color: '#078DEE' }}
-                          underline="always"
-                          href="https://www.pabbly.com/privacy-policy/"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          sx={{ wordBreak: 'break-all' }}
-                        >
-                          https://www.pabbly.com/privacy-policy/
-                        </Link>
-                      </Typography>
-                    }
-                  />
-                </span>
-              </Tooltip>
+              <ListItemText
+                primary="Privacy Policy URL: https://www.pabbly.com/privacy-policy/"
+                primaryTypographyProps={{ typography: 'body2' }}
+              />
             </Stack>
             <Stack
               direction="row"
@@ -357,26 +299,10 @@ export function OrderTableRow({
                 },
               }}
             >
-              <Tooltip title="Terms of service URL of your website." arrow placement="top">
-                <span>
-                  <ListItemText
-                    primary={
-                      <Typography component="div" variant="body2">
-                        Terms of Service URL:{' '}
-                        <Link
-                          href="https://www.pabbly.com/terms-conditions/"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          underline="always"
-                          sx={{ color: '#078DEE' }}
-                        >
-                          https://www.pabbly.com/terms-conditions/
-                        </Link>
-                      </Typography>
-                    }
-                  />
-                </span>
-              </Tooltip>
+              <ListItemText
+                primary="Terms of Service URL: https://www.pabbly.com/terms-conditions/"
+                primaryTypographyProps={{ typography: 'body2' }}
+              />
             </Stack>
           </Paper>
         </Collapse>
@@ -387,7 +313,9 @@ export function OrderTableRow({
   return (
     <>
       {renderPrimary}
+
       {renderSecondary}
+
       <CustomPopover
         open={popover.open}
         anchorEl={popover.anchorEl}
@@ -395,61 +323,21 @@ export function OrderTableRow({
         slotProps={{ arrow: { placement: 'right-top' } }}
       >
         <MenuList>
-          {row.status === 'active' ? (
-            <Tooltip title="Click to set status to disable" arrow placement="left">
-              <MenuItem
-                onClick={() => {
-                  handleStatusToggle('Disable');
-                  popover.onClose();
-                }}
-              >
-                <Iconify icon="ion:toggle-sharp" />
-                Disable
-              </MenuItem>
-            </Tooltip>
-          ) : (
-            <Tooltip title="Click to set status to enable" arrow placement="left">
-              <MenuItem
-                onClick={() => {
-                  handleStatusToggle('Enable');
-                  popover.onClose();
-                }}
-              >
-                <Iconify icon="ph:toggle-left-fill" />
-                Enable
-              </MenuItem>
-            </Tooltip>
-          )}
-          
-
-          <Tooltip title="Move the WhatsApp number to an existing folder." arrow placement="left">
-            <MenuItem
-              onClick={() => {
-                setMoveToFolderPopoverOpen(true); // Open the Move To Folder dialog
-                popover.onClose();
-              }}
-              sx={{ color: 'secondary' }}
-            >
-              <Iconify icon="fluent:folder-move-16-filled" />
-              Move To Folder
-            </MenuItem>
-          </Tooltip>
-          <Tooltip title="Add team members for collaborative editing." arrow placement="left">
-            <MenuItem
-              component="a"
-              // href={paths.dashboard.setting.root}
-              onClick={() => {
-                navigate(teamMemberRoute);
-              }}
-              sx={{ color: 'secondary' }}
-            >
-              <Iconify icon="fluent:people-team-add-24-filled" />
-              Add Team Members
-            </MenuItem>
+        <Tooltip title="Move to existing folder." arrow placement="left">
+          <MenuItem
+            onClick={() => {
+              setMoveToFolderPopoverOpen(true); // Open the Move To Folder dialog
+              popover.onClose();
+            }}
+            sx={{ color: 'secondary' }}
+          >
+            <Iconify icon="fluent:folder-move-16-filled" />
+            Move To Folder
+          </MenuItem>
           </Tooltip>
 
           <Divider style={{ borderStyle: 'dashed' }} />
-          <Tooltip title="This will remove this WhatsApp number" arrow placement="left">
+          <Tooltip title="This will delete the WhatsApp number." arrow placement="left">
             <MenuItem
               onClick={() => {
                 confirmDelete.onTrue();
@@ -458,7 +346,7 @@ export function OrderTableRow({
               sx={{ color: 'error.main' }}
             >
               <Iconify icon="solar:trash-bin-trash-bold" />
-              Delete
+              Delete Permanently
             </MenuItem>
           </Tooltip>
         </MenuList>
@@ -468,30 +356,10 @@ export function OrderTableRow({
         open={confirmDelete.value}
         onClose={confirmDelete.onFalse}
         title="Delete"
-        content="Are you sure you want to delete this WhatsApp number?"
+        content="WhatsApp number once deleted will be permanently deleted."
         action={
           <Button variant="contained" color="error" onClick={onDeleteRow}>
             Delete
-          </Button>
-        }
-      />
-
-      <ConfirmDialog
-        open={confirmStatus.value}
-        onClose={confirmStatus.onFalse}
-        title={statusToToggle.charAt(0).toUpperCase() + statusToToggle.slice(1)}
-        content={`Are you sure you want to set this WhatsApp number as ${statusToToggle.toLowerCase()}?`}
-
-        action={
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() => {
-              handleStatusToggle(statusToToggle); // Toggle the status here
-              confirmStatus.onFalse(); // Close the dialog
-            }}
-          >
-            {statusToToggle.charAt(0).toUpperCase() + statusToToggle.slice(1)}
           </Button>
         }
       />
@@ -499,7 +367,7 @@ export function OrderTableRow({
         open={moveToFolderPopoverOpen}
         onClose={() => setMoveToFolderPopoverOpen(false)}
       />
-      
+     
     </>
   );
 }

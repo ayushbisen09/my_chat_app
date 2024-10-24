@@ -3,13 +3,14 @@ import { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import { Button } from '@mui/material';
 
-import ChatBox from 'src/components/chat-box/chat-box';
 import {
   Carousel,
   useCarousel,
   CarouselDotButtons,
   CarouselArrowBasicButtons,
 } from 'src/components/carousel';
+
+import AddTemplateChatBox from '../components/chatbox/chat-box';
 
 export function CarouselAlign() {
   const carousel = useCarousel({
@@ -101,7 +102,7 @@ export function CarouselAlign() {
       <Carousel carousel={carousel} sx={{ width: '335px' }}>
         {chatData.map((item) => (
           <Box key={item.id} sx={{ width: '335px' }}>
-            <ChatBox
+            <AddTemplateChatBox
               coverSrc={chatBoxImage}
               showImage
               text={

@@ -23,7 +23,7 @@ export default function AudioTemplateChatBox({ audioSrc, text, showLinks, showVi
           </audio>
         </Box>
       )}
-      <Typography variant="body1">{text}</Typography>
+      <Typography fontSize="14px">{text}</Typography>
       {showLinks && (
         <Box sx={{ mt: 3 }}>
           {showCall && (

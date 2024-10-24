@@ -12,6 +12,8 @@ import {
   TextField,
   Typography,
   useMediaQuery,
+  DialogActions,
+  DialogContent,
   InputAdornment,
 } from '@mui/material';
 
@@ -197,7 +199,7 @@ export function ImageTemplateTypeDialog({ title, content, action, open, onClose,
         }}
       >
         <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
-          <Typography variant="h6">Template Messages</Typography>
+          <Typography variant="h6">Image Template Messages</Typography>
           <Iconify
             onClick={handleCancel}
             icon="uil:times"
@@ -209,8 +211,10 @@ export function ImageTemplateTypeDialog({ title, content, action, open, onClose,
         </Typography>
       </DialogTitle>
       <Divider sx={{ borderStyle: 'dashed' }} />
+      <DialogContent>
+
       <Box sx={{ display: 'flex' }}>
-        <Box sx={{ px: 2, pb: 2, width: '60%' }}>
+        <Box sx={{ pr: 2, pb: 2, width: '60%' }}>
           {bodyFields.map((fieldValue, index) => (
             <TextField
               key={index}
@@ -296,7 +300,7 @@ export function ImageTemplateTypeDialog({ title, content, action, open, onClose,
             />
           </Box>
         </Box>
-        <Box sx={{ p: 2, width: '40%' }}>
+        <Box sx={{py: 2,pl:2, width: '40%' }}>
           <ImagePreviewTemplateChatBox
             coverSrc={isFileUploaded ? URL.createObjectURL(file) : Image}
             showImage
@@ -327,13 +331,16 @@ export function ImageTemplateTypeDialog({ title, content, action, open, onClose,
           />
         </Box>
       </Box>
-      <Box sx={{ px: 2, pb: 2 }}>
-        {/* <Button variant="contained" sx={{ mr: 1 }} onClick={handleSave}>
-          Save
-        </Button> */}
+      </DialogContent>
+     
+        <DialogActions>
+
+        <Button variant="outlined" onClick={handleCancel}>
+          Cancel
+        </Button>
         <Button
+        color='primary'
           variant="contained"
-          sx={{ mr: 1 }}
           onClick={() => {
             if (chosen === 'optIn') {
               handleSave();
@@ -344,10 +351,8 @@ export function ImageTemplateTypeDialog({ title, content, action, open, onClose,
         >
           Send
         </Button>
-        <Button variant="outlined" onClick={handleCancel}>
-          Cancel
-        </Button>
-      </Box>
+        </DialogActions>
+    
     </Dialog>
   );
 }

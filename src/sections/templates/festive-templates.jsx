@@ -174,8 +174,10 @@ export default function FestiveTemplatesRender() {
             showOnline={false} // Do not show online status
             showAvatar={false} // Do not show avatar
             showTimestamp={false} // Do not show timestamp
+            
           />
         ))}
+       
       </Box>
 
       <Pagination

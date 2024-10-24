@@ -1,9 +1,9 @@
 import IconButton from '@mui/material/IconButton';
-import { Box, Card, Button, Divider, CardMedia, CardHeader, Typography } from '@mui/material';
+import { Box, Divider, CardMedia, Typography } from '@mui/material';
 
-import { Iconify } from '../iconify';
+import { Iconify } from 'src/components/iconify';
 
-export default function ChatBox({
+export default function AddTemplateChatBox({
   text,
   coverSrc,
   showImage,
@@ -14,45 +14,15 @@ export default function ChatBox({
   title, // Default to true, can be overridden
 }) {
   return (
-    <Card
-      sx={{
-        border: '1px solid #919EAB33',
-        width: '100%',
-        maxWidth: '400px',
-        height: '500px',
-      }}
-    >
-      <CardHeader
-        sx={{ mb: 2, justifyContent:'space-between'}}
-        title={
-          <Typography variant="body2" sx={{
-              fontSize: 14,
-              fontWeight: 700,
-              whiteSpace: 'nowrap',
-              overflow: 'hidden',
-              textOverflow: 'ellipsis',
-              maxWidth: '150px', // Adjust this based on your layout
-              
-            }}>
-            {title} 
-          </Typography>
-        }
-        action={
-          <Button variant="outlined" color="primary">
-            Use Template
-          </Button>
-        }
-      />
-
-      <Divider />
-
+    
       <Box
         sx={{
           p: 2,
           pt: '16px',
           backgroundColor: '#CCF4FE',
           borderRadius: '8px',
-          m: 2,
+          width: 335
+        
         }}
       >
         {showImage && (
@@ -174,6 +144,6 @@ export default function ChatBox({
           </Box>
         )}
       </Box>
-    </Card>
+   
   );
 }

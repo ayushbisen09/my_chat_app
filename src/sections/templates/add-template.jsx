@@ -31,10 +31,10 @@ import { DashboardContent } from 'src/layouts/dashboard';
 import { Form } from 'src/components/hook-form';
 import { Iconify } from 'src/components/iconify';
 import FileUpload from 'src/components/upload/upload';
-import ChatBox from 'src/components/chat-box/chat-box';
 import PageHeader from 'src/components/page-header/page-header';
 
 import { CarouselAlign } from './hook/carousel-align';
+import AddTemplateChatBox from './components/chatbox/chat-box';
 import Image1 from '../../assets/images/chatImage/imagechat.png';
 import { TEMPLATE_LANGUAGES } from '../../assets/data/template-languages';
 import InteractiveActions from './hook/add-templates-components/interactive-actions';
@@ -375,7 +375,7 @@ export default function AddTemplate() {
         gap={3}
         display="flex"
       >
-        <Card sx={{ width: { md: '90%', xs: '100%', sm: '90%' } }}>
+        <Card sx={{ width: { md: '90%', xs: '100%', sm: '90%',  width: '1097.11px' } }}>
           <CardHeader title="Add New Template" sx={{ mb: 3 }} />
           <Divider />
           <FormControlLabel
@@ -1050,7 +1050,7 @@ export default function AddTemplate() {
           </Box>
         ) : (
           <Box>
-            <ChatBox
+            <AddTemplateChatBox
               coverSrc={templateType !== 'text' ? chatBoxImage : undefined}
               showImage={templateType !== 'text'}
               text={

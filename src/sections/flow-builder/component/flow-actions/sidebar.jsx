@@ -50,10 +50,12 @@ const Sidebar = () => {
         overflow: 'hidden',
         display: 'flex',
         flexDirection: 'column',
-        p: 5,
+        pt: 3,
+        px:5,
+        pb:5
       }}
     >
-      <Box sx={{ mb: 3 }}>
+      <Box sx={{ mb: 1 }}>
         <Box sx={{ pb: 1, m: 0 }}>
           <Typography variant="h6" fontWeight="600" gutterBottom>
             Flow Builder <Iconify icon="mingcute:pencil-fill" />
@@ -77,7 +79,7 @@ const Sidebar = () => {
         </Box>
       </Box>
 
-      <Box sx={{ mb: 3 }}>
+      <Box >
         <Tabs
           value={tabValue}
           onChange={handleTabChange}
@@ -94,7 +96,7 @@ const Sidebar = () => {
       <Box
         display="flex"
         flexDirection="column"
-        gap={3}
+        gap={2}
         sx={{ mb: 3 }}
       >
         {cardData.reduce((rows, card, index) => {
@@ -104,11 +106,11 @@ const Sidebar = () => {
         }, []).map((row, rowIndex) => (
           <Box key={rowIndex} display="flex" gap={3}>
             {row.map((card, cardIndex) => (
-              <Card key={cardIndex} sx={{ minWidth: 128 }}>
+              <Card key={cardIndex} sx={{width:"123px"}}>
                 <Box
                   sx={{
                     backgroundColor: 'rgba(145, 158, 171, 0.06)',
-                    height: 98,
+                    height: 68,
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
@@ -116,8 +118,8 @@ const Sidebar = () => {
                     '&:hover': {
                       backgroundColor: 'rgba(145, 158, 171, 0.2)',
                       '& .icon': {
-                        height: 50,
-                        width: 50,
+                        height: 36,
+                        width: 36,
                       },
                     },
                   }}
@@ -126,15 +128,15 @@ const Sidebar = () => {
                     icon={card.icon}
                     className="icon"
                     sx={{
-                      height: 40,
-                      width: 40,
+                      height: 32,
+                      width: 32,
                       color: 'rgba(145, 158, 171, 0.5)',
                       transition: 'all 0.3s ease',
                     }}
                   />
                 </Box>
-                <CardContent  sx={{ padding: '16px !important'}}>
-                  <Typography sx={{ fontSize: '14px', fontWeight: '400',
+                <CardContent  sx={{ px: '8px !important', py: '24px !important'}}>
+                  <Typography sx={{ fontSize: '14px', fontWeight: '600',
     textAlign: 'center'}}>{card.text}</Typography>
                 </CardContent>
               </Card>

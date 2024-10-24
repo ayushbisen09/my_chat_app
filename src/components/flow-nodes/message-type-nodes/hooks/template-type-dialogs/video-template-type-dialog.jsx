@@ -12,6 +12,8 @@ import {
   TextField,
   Typography,
   useMediaQuery,
+  DialogContent,
+  DialogActions,
   InputAdornment,
 } from '@mui/material';
 
@@ -86,12 +88,10 @@ export function VideoTemplateTypeDialog({ title, content, action, open, onClose,
         })
       );
     }
-    
 
     onClose(); // Close dialog
   };
   const handleSend = () => {
-  
     if (wellComeChosen === 'wellCome') {
       dispatch(wellComeSetTemplateType('video'));
       dispatch(
@@ -140,7 +140,7 @@ export function VideoTemplateTypeDialog({ title, content, action, open, onClose,
         }}
       >
         <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
-          <Typography variant="h6">Template Messages</Typography>
+          <Typography variant="h6">Video Template Messages</Typography>
           <Iconify
             onClick={handleCancel}
             icon="uil:times"
@@ -152,139 +152,146 @@ export function VideoTemplateTypeDialog({ title, content, action, open, onClose,
         </Typography>
       </DialogTitle>
       <Divider sx={{ borderStyle: 'dashed' }} />
-      <Box sx={{ display: 'flex' }}>
-        <Box sx={{ px: 2, pb: 2, width: '60%' }}>
-          {bodyFields.map((fieldValue, index) => (
-            <TextField
-              key={index}
-              sx={{ mt: '24px' }}
-              placeholder={`Enter a custom field for body field ${index + 1}`}
-              fullWidth
-              size="medium"
-              type="text"
-              margin="dense"
-              variant="outlined"
-              label={`Body Field ${index + 1} (Eg: Ankit)`}
-              helperText="This field is required. Leaving it empty may prevent message delivery."
-              InputLabelProps={{ shrink: true }}
-              value={fieldValue}
-              onChange={(e) => handleInputChange(index, e.target.value)}
-            />
-          ))}
-          <Box sx={{ mt: 1 }}>
-            <TextField
-              sx={{ mt: 0 }}
-              fullWidth
-              type="text"
-              margin="dense"
-              variant="outlined"
-              label="Header File URL"
-              helperText="Size < 5MB, Accepted formats : .png or .jpeg"
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <Tooltip
-                      title="Enter header url"
-                      arrow
-                      placement="top"
-                      sx={{ fontSize: '16px' }}
-                    >
-                      <Iconify
-                        icon="material-symbols:info-outline"
-                        style={{ width: 20, height: 20 }}
-                      />
-                    </Tooltip>
-                  </InputAdornment>
-                ),
-              }}
-            />
-            <Typography
-              sx={{
-                fontSize: '14px',
-                fontWeight: '600',
-                width: '100%',
-                padding: '24px 0px 24px 0px',
-                mr: 0,
-                ml: 0,
-              }}
-            >
-              OR
-            </Typography>
-            <FileUpload onFileUpload={handleFileUpload} />
-            <TextField
-              sx={{ mt: 3 }}
-              fullWidth
-              type="text"
-              margin="dense"
-              variant="outlined"
-              label="File Name"
-              helperText="Display name of media file, visible on download."
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <Tooltip
-                      title="Enter the name of media file, visible on download"
-                      arrow
-                      placement="top"
-                      sx={{ fontSize: '16px' }}
-                    >
-                      <Iconify
-                        icon="material-symbols:info-outline"
-                        style={{ width: 20, height: 20 }}
-                      />
-                    </Tooltip>
-                  </InputAdornment>
-                ),
-              }}
+
+      <DialogContent>
+        <Box sx={{ display: 'flex' }}>
+          <Box sx={{ pr: 2, pb: 2, width: '60%' }}>
+            {bodyFields.map((fieldValue, index) => (
+              <TextField
+                key={index}
+                sx={{ mt: '24px' }}
+                placeholder={`Enter a custom field for body field ${index + 1}`}
+                fullWidth
+                size="medium"
+                type="text"
+                margin="dense"
+                variant="outlined"
+                label={`Body Field ${index + 1} (Eg: Ankit)`}
+                helperText="This field is required. Leaving it empty may prevent message delivery."
+                InputLabelProps={{ shrink: true }}
+                value={fieldValue}
+                onChange={(e) => handleInputChange(index, e.target.value)}
+              />
+            ))}
+            <Box sx={{ mt: 1 }}>
+              <TextField
+                sx={{ mt: 0 }}
+                fullWidth
+                type="text"
+                margin="dense"
+                variant="outlined"
+                label="Header File URL"
+                helperText="Size < 5MB, Accepted formats : .png or .jpeg"
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <Tooltip
+                        title="Enter header url"
+                        arrow
+                        placement="top"
+                        sx={{ fontSize: '16px' }}
+                      >
+                        <Iconify
+                          icon="material-symbols:info-outline"
+                          style={{ width: 20, height: 20 }}
+                        />
+                      </Tooltip>
+                    </InputAdornment>
+                  ),
+                }}
+              />
+              <Typography
+                sx={{
+                  fontSize: '14px',
+                  fontWeight: '600',
+                  width: '100%',
+                  padding: '24px 0px 24px 0px',
+                  mr: 0,
+                  ml: 0,
+                }}
+              >
+                OR
+              </Typography>
+              <FileUpload onFileUpload={handleFileUpload} />
+              <TextField
+                sx={{ mt: 3 }}
+                fullWidth
+                type="text"
+                margin="dense"
+                variant="outlined"
+                label="File Name"
+                helperText="Display name of media file, visible on download."
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <Tooltip
+                        title="Enter the name of media file, visible on download"
+                        arrow
+                        placement="top"
+                        sx={{ fontSize: '16px' }}
+                      >
+                        <Iconify
+                          icon="material-symbols:info-outline"
+                          style={{ width: 20, height: 20 }}
+                        />
+                      </Tooltip>
+                    </InputAdornment>
+                  ),
+                }}
+              />
+            </Box>
+          </Box>
+          <Box sx={{ py: 2, pl: 2, width: '40%' }}>
+            <VideoTemplateChatBox
+              coverSrc={video}
+              showImage={!isFileUploaded}
+              videoSrc={isFileUploaded ? file : null}
+              text={
+                <>
+                  <span style={{ fontWeight: '600' }}>
+                    {replacePlaceholders(` Hi {{1}}! 🎧🛒`, bodyFields)}
+                  </span>
+                  <br /> <br />
+                  {` Congratulations! 🎉 Your order for the Headway Bassheads has been confirmed. 🙌`}
+                  <br /> <br />
+                  {` Order Details:`}
+                  <br />
+                  {replacePlaceholders(` Product: {{2}}`, bodyFields)}
+                  <br />
+                  {replacePlaceholders(`Quantity: {{3}}`, bodyFields)}
+                  <br />
+                  {replacePlaceholders(`Order ID: {{4}}`, bodyFields)}
+                  <br />
+                  {replacePlaceholders(`Delivery Address: {{5}}`, bodyFields)}
+                  <br />
+                  {replacePlaceholders(`Estimated Delivery Date: {{6}}`, bodyFields)}
+                </>
+              }
+              showLinks
+              showVisit
+              showCall
             />
           </Box>
         </Box>
-        <Box sx={{ p: 2, width: '40%' }}>
-          <VideoTemplateChatBox
-            coverSrc={video}
-            showImage={!isFileUploaded}
-            videoSrc={isFileUploaded ? file : null}
-            text={
-              <>
-                <span style={{ fontWeight: '600' }}>
-                  {replacePlaceholders(` Hi {{1}}! 🎧🛒`, bodyFields)}
-                </span>
-                <br /> <br />
-                {` Congratulations! 🎉 Your order for the Headway Bassheads has been confirmed. 🙌`}
-                <br /> <br />
-                {` Order Details:`}
-                <br />
-                {replacePlaceholders(` Product: {{2}}`, bodyFields)}
-                <br />
-                {replacePlaceholders(`Quantity: {{3}}`, bodyFields)}
-                <br />
-                {replacePlaceholders(`Order ID: {{4}}`, bodyFields)}
-                <br />
-                {replacePlaceholders(`Delivery Address: {{5}}`, bodyFields)}
-                <br />
-                {replacePlaceholders(`Estimated Delivery Date: {{6}}`, bodyFields)}
-              </>
-            }
-            showLinks
-            showVisit
-            showCall
-          />
-        </Box>
-      </Box>
-      <Box sx={{ px: 2, pb: 2 }}>
-        <Button variant="contained" sx={{ mr: 1 }} onClick={() => {
+      </DialogContent>
+      <DialogActions>
+        <Button variant="outlined" onClick={handleCancel}>
+          Cancel
+        </Button>
+        <Button
+          color="primary"
+          variant="contained"
+          onClick={() => {
             if (chosen === 'optIn') {
               handleSave();
             } else {
               handleSend();
             }
-          }}>
+          }}
+        >
           Send
         </Button>
-        <Button variant="outlined" onClick={handleCancel}>
-          Cancel
-        </Button>
-      </Box>
+      </DialogActions>
     </Dialog>
   );
 }
