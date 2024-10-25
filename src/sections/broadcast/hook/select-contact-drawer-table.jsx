@@ -85,7 +85,7 @@ export default function DrawerTable({ sx, icon, title, total, color = 'warning',
       >
         <Box sx={{ position: 'relative' }}>
           <TableSelectedAction
-            dense={table.dense}
+            
             numSelected={table.selected.length}
             rowCount={dataFiltered.length}
             onSelectAllRows={(checked) =>
@@ -142,7 +142,7 @@ export default function DrawerTable({ sx, icon, title, total, color = 'warning',
 
         <TablePaginationCustom
           page={table.page}
-          dense={table.dense}
+          
           count={dataFiltered.length}
           rowsPerPage={table.rowsPerPage}
           onPageChange={table.onChangePage}

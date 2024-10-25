@@ -156,7 +156,7 @@ export default function QuickRepliesTable({ sx, icon, title, total, color = 'war
 
         <Box sx={{ position: 'relative' }}>
           <TableSelectedAction
-            dense={table.dense}
+
             numSelected={table.selected.length}
             rowCount={dataFiltered.length}
             onSelectAllRows={(checked) =>

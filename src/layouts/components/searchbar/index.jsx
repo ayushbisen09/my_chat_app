@@ -153,7 +153,7 @@ export function Searchbar({ data: navItems = [], sx, ...other }) {
           display: { xs: 'none', md: 'inline-flex' },
         }}
         >
-        WhatsApp Number: +91 9425124879, Business Account ID: 117359445455733
+        WhatsApp Number: +91 9425124879
       </Label>
     </Box>
         </Tooltip>

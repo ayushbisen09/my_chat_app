@@ -188,7 +188,7 @@ export default function FlowBuilderTable({ sx, icon, title, total, color = 'warn
 
         <Box sx={{ position: 'relative' }}>
           <TableSelectedAction
-            dense={table.dense}
+
             numSelected={table.selected.length}
             rowCount={dataFiltered.length}
             onSelectAllRows={(checked) =>
@@ -252,7 +252,7 @@ export default function FlowBuilderTable({ sx, icon, title, total, color = 'warn
 
         <TablePaginationCustom
           page={table.page}
-          dense={table.dense}
+    
           count={dataFiltered.length}
           rowsPerPage={table.rowsPerPage}
           onPageChange={table.onChangePage}

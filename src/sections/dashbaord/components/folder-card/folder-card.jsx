@@ -36,7 +36,7 @@ const LABELS = {
   companyb: 'Company B',
   mainFolder: 'WhatsApp Database',
   whastappDatabase: 'Database 1',
-  childFolder2: 'WhataApp Number List',
+  childFolder2: 'WhatsApp Number List',
   grandChild1: 'Employee List',
   grandChild2: 'Total Member List',
   folder1: 'List 1',

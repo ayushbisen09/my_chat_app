@@ -168,7 +168,7 @@ export default function TemplateNodeChooseTemplateDailogTable({
 
         <TablePaginationCustom
           page={table.page}
-          dense={table.dense}
+        
           count={dataFiltered.length}
           rowsPerPage={table.rowsPerPage}
           onPageChange={table.onChangePage}

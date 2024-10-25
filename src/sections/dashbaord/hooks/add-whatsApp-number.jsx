@@ -1,6 +1,6 @@
-import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useTheme } from '@emotion/react';
+import { useState, useCallback } from 'react';
 
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
@@ -12,6 +12,7 @@ import {
   Divider,
   Tooltip,
   Snackbar,
+  MenuItem,
   TextField,
   useMediaQuery,
   InputAdornment,
@@ -20,9 +21,6 @@ import {
 import { useBoolean } from 'src/hooks/use-boolean';
 
 import { Iconify } from 'src/components/iconify';
-// import { Iconify } from './';
-
-// ----------------------------------------------------------------------
 
 export function WhatsAppDialog({ title, content, action, open, onClose, ...other }) {
   const theme = useTheme();
@@ -31,13 +29,38 @@ export function WhatsAppDialog({ title, content, action, open, onClose, ...other
   const [accessToken, setAccessToken] = useState('');
   const [accountId, setAccountId] = useState('');
   const [phoneNumberId, setPhoneNumberId] = useState('');
+  const [categoryError, setCategoryError] = useState(false);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [categorylist, setCategoryList] = useState('');
+
+  const FolderOptions = [
+    { value: '1', label: 'None' },
+    { value: '2', label: 'Company B' },
+    { value: '3', label: 'WhatsApp Database' },
+    { value: '4', label: '- Child Folder 1 - Subscription Billing' },
+    { value: '5', label: '- Child Folder 2' },
+    { value: '5', label: '-- Grand child 1' },
+    { value: '6', label: '-- Grand child 2' },
+    { value: '7', label: '--- Folder 1' },
+    { value: '8', label: '--- Folder 2' },
+  ];
+
+  const handleChangeCategoryList = useCallback((event) => {
+    const selectedValue = event.target.value; // Get the value from the event
+    setCategoryList(selectedValue); // Update the state with the selected value
+    if (selectedValue) {
+      setCategoryError(false); // Remove error if a value is selected
+    }
+  }, []);
 
   const handleAdd = () => {
-    // Implement your logic to add WhatsApp number here
-    // For example, you might want to validate the inputs first
+    // Validate if folder is selected
+    if (!categorylist || categorylist === 'None') {
+      setCategoryError(true); // Set error if no valid folder is selected
+      return; // Stop submission if validation fails
+    }
 
-    // Show the snackbar
+    // Show the snackbar if validation passes
     setSnackbarOpen(true);
 
     // Close the dialog after a short delay
@@ -180,17 +203,39 @@ export function WhatsAppDialog({ title, content, action, open, onClose, ...other
               ),
             }}
           />
+
+          <TextField
+            sx={{ width: '100%', mt: 1 }}
+            id="select-currency-label-x"
+            variant="outlined"
+            select
+            fullWidth
+            label="Select Folder"
+            value={categorylist}
+            onChange={handleChangeCategoryList}
+            helperText={categoryError ? "You must select a folder." : "Select folder name here."}
+            error={categoryError} // Add error prop based on validation
+            InputLabelProps={{ htmlFor: `outlined-select-currency-label` }}
+            inputProps={{ id: `outlined-select-currency-label` }}
+          >
+            {FolderOptions.map((option) => (
+              <MenuItem key={option.value} value={option.value}>
+                {option.label}
+              </MenuItem>
+            ))}
+          </TextField>
         </DialogContent>
 
         <DialogActions>
           <Button onClick={onClose} variant="outlined" color="inherit">
             Cancel
           </Button>
-          <Button onClick={handleAdd} variant="contained" color='primary'>
+          <Button onClick={handleAdd} variant="contained" color="primary">
             Add
           </Button>
         </DialogActions>
       </Dialog>
+
       <Snackbar
         open={snackbarOpen}
         autoHideDuration={10000}

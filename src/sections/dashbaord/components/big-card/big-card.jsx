@@ -1,13 +1,14 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useTheme } from '@emotion/react';
-import ModalVideo from 'react-modal-video';
+import { CloseIcon } from 'yet-another-react-lightbox';
 
 import {
   Box,
   Card,
   List,
   Button,
+  Dialog,
   Tooltip,
   ListItem,
   CardMedia,
@@ -28,7 +29,16 @@ import { WhatsAppDialog } from 'src/sections/dashbaord/hooks/add-whatsApp-number
 export default function BigCard({ sx, ...other }) {
   const videoId = 'CoIfgN0tfhE'; // Repalace with your YouTube video ID
   const coverSrc = `${CONFIG.site.basePath}/assets/background/Pabbly Broadcast Card.png`;
-  const [isOpen, setOpen] = useState(false);
+  
+  const [open, setOpen] = useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   const dialog = useBoolean();
   const theme = useTheme();
@@ -226,16 +236,30 @@ export default function BigCard({ sx, ...other }) {
         >
           <Iconify icon="icon-park-solid:play" width={50} height={50} />
         </IconButton>
+        <Dialog
+        open={open}
+        onClose={handleClose}
+        maxWidth="lg"
+        fullWidth
+        sx={{ '& .MuiDialog-paper': { width: 1080, height: 600 }, }}
+      >
+        <IconButton
+          onClick={handleClose}
+          sx={{ position: 'absolute', top: 10, right: 10, zIndex: 1 }}
+        >
+        <CloseIcon />
+        </IconButton>
+        <Box
+          component="iframe"
+          src="https://www.youtube.com/embed/mnJFZxwhiEQ?si=oxXcH4GoSTRxfsv8" // Replace with your video ID
+          sx={{ width: '100%', height: '100%', border: 'none', }}
+        />
+      </Dialog>
       </Box>
     </Card>
   </Tooltip>
-  <ModalVideo
-    channel="youtube"
-    autoplay="true"
-    isOpen={isOpen}
-    videoId={videoId}
-    onClose={() => setOpen(false)}
-  />
+  
+  
 </Box>
 
     </Box>

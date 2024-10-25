@@ -17,11 +17,14 @@ import {
 import { useBoolean } from 'src/hooks/use-boolean';
 
 import { Iconify } from 'src/components/iconify';
+import { ConfirmDialog } from 'src/components/custom-dialog';
 import { usePopover, CustomPopover } from 'src/components/custom-popover';
 
 import { AddContactsListDrawer } from './hook/add-contact-list';
+import { EditContactsListDrawer } from './hook/edit-contact-list-drawer';
 
 export default function ContactList({ onItemSelect }) {
+  const confirmDelete = useBoolean();
   const CustomListItemButton = styled(ListItemButton)(({ theme }) => ({
     borderRadius: '6px',
     transition: 'background-color 0.2s ease-in-out, color 0.2s ease-in-out',
@@ -62,6 +65,7 @@ export default function ContactList({ onItemSelect }) {
   }));
 
   const [selectedIndex, setSelectedIndex] = useState(0);
+  const [selectedContactName, setSelectedContactName] = useState('');
 
   const handleListItemClick = useCallback(
     (event, index) => {
@@ -72,6 +76,7 @@ export default function ContactList({ onItemSelect }) {
   );
 
   const addContactListDrawer = useBoolean();
+  const editContactListDrawer = useBoolean();
   const popover = usePopover();
 
   const contactLists = [
@@ -148,7 +153,9 @@ export default function ContactList({ onItemSelect }) {
                 onClick={(e) => {
                   e.stopPropagation();
                   popover.onOpen(e);
+                  setSelectedContactName(contact.name); // Set selected contact name
                 }}
+                sx={{ ml: 0.5 }}
               >
                 <Iconify icon="eva:more-vertical-fill" />
               </IconButton>
@@ -165,7 +172,12 @@ export default function ContactList({ onItemSelect }) {
       >
         <MenuList>
           <Tooltip title="Click here to edit the list." arrow placement="right">
-            <MenuItem>
+            <MenuItem
+              onClick={() => {
+                popover.onClose(); // Close the popover
+                editContactListDrawer.onTrue(); // Open the edit drawer
+              }}
+            >
               <Iconify icon="solar:bill-list-bold" />
               Edit List
             </MenuItem>
@@ -175,8 +187,8 @@ export default function ContactList({ onItemSelect }) {
           <Tooltip title="Click here to delete this contact list ." arrow placement="right">
             <MenuItem
               onClick={() => {
-                // confirm.onTrue();
-                popover.onClose();
+                confirmDelete.onTrue(); // Open confirm dialog
+                popover.onClose(); // Close popover
               }}
               sx={{ color: 'error.main' }}
             >
@@ -186,6 +198,28 @@ export default function ContactList({ onItemSelect }) {
           </Tooltip>
         </MenuList>
       </CustomPopover>
+      <EditContactsListDrawer
+        open={editContactListDrawer.value}
+        onClose={editContactListDrawer.onFalse}
+        contactName={selectedContactName} // Pass selected contact name
+      />
+      <ConfirmDialog
+        open={confirmDelete.value}
+        onClose={confirmDelete.onFalse}
+        title="Delete"
+        content="Are you sure you want to delete this contact list?"
+        action={
+          <Button
+            variant="contained"
+            color="error"
+            onClick={() => {
+              confirmDelete.onFalse(); // Close the dialog after deletion
+            }}
+          >
+            Delete
+          </Button>
+        }
+      />
     </Box>
   );
 }

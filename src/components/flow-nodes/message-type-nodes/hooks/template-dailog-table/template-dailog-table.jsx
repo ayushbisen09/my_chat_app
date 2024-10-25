@@ -169,7 +169,7 @@ export default function ChooseTemplateDailogTable({
 
         <TablePaginationCustom
           page={table.page}
-          dense={table.dense}
+          // dense={table.dense}
           count={dataFiltered.length}
           rowsPerPage={table.rowsPerPage}
           onPageChange={table.onChangePage}

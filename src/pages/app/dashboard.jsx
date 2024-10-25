@@ -24,8 +24,7 @@ import { AuthContext } from 'src/auth/context/auth-context';
 export default function Page({ sx, icon, title, total, color = 'warning', ...other }) {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
-  const workflowDialog = useBoolean();
-  const folderDialog = useBoolean();
+
   const [activeTable, setActiveTable] = useState('dashboard');
   const [selectedFolder, setSelectedFolder] = useState('Home'); // Add state to track selected folder
   const navigate = useNavigate();
@@ -167,19 +166,13 @@ export default function Page({ sx, icon, title, total, color = 'warning', ...oth
         >
           <BigCard />
 
-       
           {activeTable === 'trash' ? (
             <TrashTable />
           ) : (
-            <DashboardTable selectedFolder={selectedFolder} /> // Pass selected folder to DashboardTable2
+            <DashboardTable selectedFolder={selectedFolder} />
           )}
-
-          {/* <DashboardTable2 selectedFolder={selectedFolder} />  */}
         </Box>
       </Box>
-
-      {/* <CreateWorkflowDialog open={workflowDialog.value} onClose={workflowDialog.onFalse} />
-      <CreateFolderDialog open={folderDialog.value} onClose={folderDialog.onFalse} /> */}
     </DashboardContent>
   );
 }

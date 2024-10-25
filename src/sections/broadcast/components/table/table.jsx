@@ -200,7 +200,7 @@ export default function BroadcastTable({ sx, icon, title, total, color = 'warnin
 
         <Box sx={{ position: 'relative' }}>
           <TableSelectedAction
-            dense={table.dense}
+        
             numSelected={table.selected.length}
             rowCount={dataFiltered.length}
             onSelectAllRows={(checked) =>
@@ -266,7 +266,7 @@ export default function BroadcastTable({ sx, icon, title, total, color = 'warnin
 
         <TablePaginationCustom
           page={table.page}
-          dense={table.dense}
+          
           count={dataFiltered.length}
           rowsPerPage={table.rowsPerPage}
           onPageChange={table.onChangePage}

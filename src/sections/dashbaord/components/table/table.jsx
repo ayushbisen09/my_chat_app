@@ -238,7 +238,7 @@ export default function DashboardTable2({
 
           <Box sx={{ position: 'relative' }}>
             <TableSelectedAction
-              dense={table.dense}
+
               numSelected={table.selected.length}
               rowCount={dataFiltered.length}
               onSelectAllRows={(checked) =>
@@ -326,7 +326,7 @@ export default function DashboardTable2({
 
           <TablePaginationCustom
             page={table.page}
-            dense={table.dense}
+            
             count={dataFiltered.length}
             rowsPerPage={table.rowsPerPage}
             onPageChange={table.onChangePage}
