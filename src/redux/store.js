@@ -3,13 +3,14 @@ import { configureStore } from '@reduxjs/toolkit';
 
 import messageReplyReducer from './slices/messageReply';
 import includedArrayReducer from './slices/contactSlice'; // Import the new reducer
+import templateReducer from './slices/carouselslice';
 import listNodeReducer from './slices/listNodeMessagePreviewSlice';
 import mediaButtonNodeReducer from './slices/mediaButtonNodeSlice';
 import optOutMessageReducer from './slices/optOutRegularMessageSlice';
 import optInMessageReducer from './slices/regularMessageTemplateSlice';
 import optInTemplateTypeReducer from './slices/optInMessageTemplateTypeSlice';
-import textButtonNodeReducer from './slices/textButtonNodeMessagePreviewSlice';
-import optOutTemplateTypeReducer from './slices/optOutMessageTemplateTypeSlice'; 
+import textButtonNodeReducer from './slices/textButtonNodeMessagePreviewSlice'; 
+import optOutTemplateTypeReducer from './slices/optOutMessageTemplateTypeSlice';
 import wellComeMessageReducer from './slices/wellComeMessageRegularTemplateSlice';
 import offHourMessageTemplateTypeReducer from './slices/offHourMessageTemplateTypeSlice';
 import catalougeMessageNodeReducer from './slices/cataLougeMessageNodeMessagePreviewSlice'
@@ -32,6 +33,7 @@ const store = configureStore({
     listNode: listNodeReducer,
     mediaButtonNode: mediaButtonNodeReducer,
     catalougeMessageNode: catalougeMessageNodeReducer,
+    template: templateReducer,
   
   },
   middleware: (getDefaultMiddleware) =>

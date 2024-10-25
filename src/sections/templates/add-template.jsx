@@ -1,6 +1,7 @@
 import { toast } from 'sonner';
 import { useTheme } from '@emotion/react';
 import { useNavigate } from 'react-router';
+import { useDispatch, useSelector } from 'react-redux';
 import { useState, useEffect, useCallback } from 'react';
 import { useForm, FormProvider, useFieldArray } from 'react-hook-form';
 
@@ -27,10 +28,10 @@ import {
 } from '@mui/material';
 
 import { DashboardContent } from 'src/layouts/dashboard';
+import { setTemplateFormatInputText } from 'src/redux/slices/carouselslice';
 
 import { Form } from 'src/components/hook-form';
 import { Iconify } from 'src/components/iconify';
-import FileUpload from 'src/components/upload/upload';
 import PageHeader from 'src/components/page-header/page-header';
 
 import { CarouselAlign } from './hook/carousel-align';
@@ -40,6 +41,12 @@ import { TEMPLATE_LANGUAGES } from '../../assets/data/template-languages';
 import InteractiveActions from './hook/add-templates-components/interactive-actions';
 
 export default function AddTemplate() {
+  const dispatch = useDispatch();
+  const templateFormatInputText = useSelector((state) => state.template.templateFormatInputText);
+  const handleTemplateFormatInputChange = (event) => {
+    dispatch(setTemplateFormatInputText(event.target.value));
+  };
+
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const [carouselMediaType, setCarouselMediaType] = useState('');
@@ -351,8 +358,6 @@ export default function AddTemplate() {
     return regex.test(input);
   };
 
-  
-
   return (
     <DashboardContent maxWidth="xl">
       <Box
@@ -375,7 +380,7 @@ export default function AddTemplate() {
         gap={3}
         display="flex"
       >
-        <Card sx={{ width: { md: '90%', xs: '100%', sm: '90%',  width: '1097.11px' } }}>
+        <Card sx={{ width: { md: '90%', xs: '100%', sm: '90%', width: '1097.11px' } }}>
           <CardHeader title="Add New Template" sx={{ mb: 3 }} />
           <Divider />
           <FormControlLabel
@@ -541,6 +546,69 @@ export default function AddTemplate() {
                       }}
                     />
 
+                    <TextField
+                      sx={{ mt: 3 }}
+                      fullWidth
+                      type="text"
+                      margin="dense"
+                      multiline
+                      rows={4}
+                      variant="outlined"
+                      label="Template Format"
+                      helperText="Use text formatting - *bold*, _italic_, ~strikethrough~. For example - Hello {{1}}, your code will expire in {{2}} mins. You're allowed a maximum of 1024 characters."
+                      value={inputText}
+                      onChange={handleInputChange}
+                      onKeyPress={handleKeyPress}
+                      InputProps={{
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <Tooltip
+                              title="Use text formatting - *bold* , _italic_ & ~strikethrough~. For example -  Hello {{1}}, your code will expire in {{2}} mins.. You're allowed a maximum of 1024 characters."
+                              arrow
+                              placement="top"
+                              sx={{
+                                fontSize: '16px',
+                              }}
+                            >
+                              <Iconify
+                                icon="material-symbols:info-outline"
+                                style={{ width: 20, height: 20 }}
+                              />
+                            </Tooltip>
+                          </InputAdornment>
+                        ),
+                      }}
+                    />
+
+                    <TextField
+                      sx={{ mt: 3 }}
+                      fullWidth
+                      type="text"
+                      margin="dense"
+                      variant="outlined"
+                      label="Template Footer"
+                      helperText="You're allowed a maximum of 60 characters."
+                      InputProps={{
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <Tooltip
+                              title="You're allowed a maximum of 60 characters."
+                              arrow
+                              placement="top"
+                              sx={{
+                                fontSize: '16px',
+                              }}
+                            >
+                              <Iconify
+                                icon="material-symbols:info-outline"
+                                style={{ width: 20, height: 20 }}
+                              />
+                            </Tooltip>
+                          </InputAdornment>
+                        ),
+                      }}
+                    />
+
                     <Box sx={{ width: '100%', mr: 0, ml: 0 }}>
                       {headerFields.map((field, index) => (
                         <Box key={index} sx={{ display: 'flex', gap: 2, mb: 1 }}>
@@ -606,19 +674,25 @@ export default function AddTemplate() {
                 {templateType === 'image' && (
                   <>
                     <Divider sx={{ borderStyle: 'dashed', mt: '24px' }} />
+
                     <TextField
-                      sx={{ mt: '24px' }}
+                      sx={{ mt: 3 }}
                       fullWidth
                       type="text"
                       margin="dense"
+                      multiline
+                      rows={4}
                       variant="outlined"
-                      label="Template Header File URL"
-                      helperText="Size < 5MB, Accepted formats : .png or .jpeg"
+                      label="Template Format"
+                      helperText="Use text formatting - *bold*, _italic_, ~strikethrough~. For example - Hello {{1}}, your code will expire in {{2}} mins. You're allowed a maximum of 1024 characters."
+                      value={inputText}
+                      onChange={handleInputChange}
+                      onKeyPress={handleKeyPress}
                       InputProps={{
                         endAdornment: (
                           <InputAdornment position="end">
                             <Tooltip
-                              title="Enter header URL"
+                              title="Use text formatting - *bold* , _italic_ & ~strikethrough~. For example -  Hello {{1}}, your code will expire in {{2}} mins.. You're allowed a maximum of 1024 characters."
                               arrow
                               placement="top"
                               sx={{
@@ -634,38 +708,59 @@ export default function AddTemplate() {
                         ),
                       }}
                     />
-                    <Typography
-                      sx={{
-                        fontSize: '14px',
-                        fontWeight: '600',
-                        width: '100%',
-                        padding: '24px 0px 24px 0px',
-                        mr: 0,
-                        ml: 0,
+
+                    <TextField
+                      sx={{ mt: 3 }}
+                      fullWidth
+                      type="text"
+                      margin="dense"
+                      variant="outlined"
+                      label="Template Footer"
+                      helperText="You're allowed a maximum of 60 characters."
+                      InputProps={{
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <Tooltip
+                              title="You're allowed a maximum of 60 characters."
+                              arrow
+                              placement="top"
+                              sx={{
+                                fontSize: '16px',
+                              }}
+                            >
+                              <Iconify
+                                icon="material-symbols:info-outline"
+                                style={{ width: 20, height: 20 }}
+                              />
+                            </Tooltip>
+                          </InputAdornment>
+                        ),
                       }}
-                    >
-                      OR
-                    </Typography>
-                    <FileUpload />
-                    <Divider sx={{ borderStyle: 'dashed', mt: '24px' }} />
+                    />
                   </>
                 )}
                 {templateType === 'video' && (
                   <>
                     <Divider sx={{ borderStyle: 'dashed', mt: '24px' }} />
+
                     <TextField
-                      sx={{ mt: '24px' }}
+                      sx={{ mt: 3 }}
                       fullWidth
                       type="text"
                       margin="dense"
+                      multiline
+                      rows={4}
                       variant="outlined"
-                      label="Template Header File URL"
-                      helperText="Size < 5MB, Accepted formats : .mp4 or .mkv"
+                      label="Template Format"
+                      helperText="Use text formatting - *bold*, _italic_, ~strikethrough~. For example - Hello {{1}}, your code will expire in {{2}} mins. You're allowed a maximum of 1024 characters."
+                      value={inputText}
+                      onChange={handleInputChange}
+                      onKeyPress={handleKeyPress}
                       InputProps={{
                         endAdornment: (
                           <InputAdornment position="end">
                             <Tooltip
-                              title="Enter header URL"
+                              title="Use text formatting - *bold* , _italic_ & ~strikethrough~. For example -  Hello {{1}}, your code will expire in {{2}} mins.. You're allowed a maximum of 1024 characters."
                               arrow
                               placement="top"
                               sx={{
@@ -681,38 +776,59 @@ export default function AddTemplate() {
                         ),
                       }}
                     />
-                    <Typography
-                      sx={{
-                        fontSize: '14px',
-                        fontWeight: '600',
-                        width: '100%',
-                        padding: '24px 0px 24px 0px',
-                        mr: 0,
-                        ml: 0,
+
+                    <TextField
+                      sx={{ mt: 3 }}
+                      fullWidth
+                      type="text"
+                      margin="dense"
+                      variant="outlined"
+                      label="Template Footer"
+                      helperText="You're allowed a maximum of 60 characters."
+                      InputProps={{
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <Tooltip
+                              title="You're allowed a maximum of 60 characters."
+                              arrow
+                              placement="top"
+                              sx={{
+                                fontSize: '16px',
+                              }}
+                            >
+                              <Iconify
+                                icon="material-symbols:info-outline"
+                                style={{ width: 20, height: 20 }}
+                              />
+                            </Tooltip>
+                          </InputAdornment>
+                        ),
                       }}
-                    >
-                      OR
-                    </Typography>
-                    <FileUpload />
-                    <Divider sx={{ borderStyle: 'dashed', mt: '24px' }} />
+                    />
                   </>
                 )}
                 {templateType === 'document' && (
                   <>
                     <Divider sx={{ borderStyle: 'dashed', mt: '24px' }} />
+
                     <TextField
-                      sx={{ mt: '24px' }}
+                      sx={{ mt: 3 }}
                       fullWidth
                       type="text"
                       margin="dense"
+                      multiline
+                      rows={4}
                       variant="outlined"
-                      label="Template Header File URL"
-                      helperText="Size < 5MB"
+                      label="Template Format"
+                      helperText="Use text formatting - *bold*, _italic_, ~strikethrough~. For example - Hello {{1}}, your code will expire in {{2}} mins. You're allowed a maximum of 1024 characters."
+                      value={inputText}
+                      onChange={handleInputChange}
+                      onKeyPress={handleKeyPress}
                       InputProps={{
                         endAdornment: (
                           <InputAdornment position="end">
                             <Tooltip
-                              title="Enter header URL"
+                              title="Use text formatting - *bold* , _italic_ & ~strikethrough~. For example -  Hello {{1}}, your code will expire in {{2}} mins.. You're allowed a maximum of 1024 characters."
                               arrow
                               placement="top"
                               sx={{
@@ -728,55 +844,102 @@ export default function AddTemplate() {
                         ),
                       }}
                     />
-                    <Typography
-                      sx={{
-                        fontSize: '14px',
-                        fontWeight: '600',
-                        width: '100%',
-                        padding: '24px 0px 24px 0px',
-                        mr: 0,
-                        ml: 0,
+
+                    <TextField
+                      sx={{ mt: 3 }}
+                      fullWidth
+                      type="text"
+                      margin="dense"
+                      variant="outlined"
+                      label="Template Footer"
+                      helperText="You're allowed a maximum of 60 characters."
+                      InputProps={{
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <Tooltip
+                              title="You're allowed a maximum of 60 characters."
+                              arrow
+                              placement="top"
+                              sx={{
+                                fontSize: '16px',
+                              }}
+                            >
+                              <Iconify
+                                icon="material-symbols:info-outline"
+                                style={{ width: 20, height: 20 }}
+                              />
+                            </Tooltip>
+                          </InputAdornment>
+                        ),
                       }}
-                    >
-                      OR
-                    </Typography>
-                    <FileUpload />
-                    <Divider sx={{ borderStyle: 'dashed', mt: '24px' }} />
+                    />
                   </>
                 )}
                 {templateType === 'location' && (
-                  <FormControlLabel
-                    control={
-                      <TextField
-                        fullWidth
-                        type="text"
-                        margin="dense"
-                        variant="outlined"
-                        label="Location URL"
-                        helperText="You're allowed a maximum of 60 characters."
-                        InputProps={{
-                          endAdornment: (
-                            <InputAdornment position="end">
-                              <Tooltip
-                                title="You're allowed a maximum of 60 characters."
-                                arrow
-                                placement="top"
-                                sx={{
-                                  fontSize: '16px',
-                                }}
-                              >
-                                <Iconify
-                                  icon="material-symbols:info-outline"
-                                  style={{ width: 20, height: 20 }}
-                                />
-                              </Tooltip>
-                            </InputAdornment>
-                          ),
-                        }}
-                      />
-                    }
-                    sx={{ width: '100%', padding: '24px 0px 0px 0px', mr: 0, ml: 0 }}
-                  />
+                  <>
+                    <TextField
+                      sx={{ mt: 3 }}
+                      fullWidth
+                      type="text"
+                      margin="dense"
+                      multiline
+                      rows={4}
+                      variant="outlined"
+                      label="Template Format"
+                      helperText="Use text formatting - *bold*, _italic_, ~strikethrough~. For example - Hello {{1}}, your code will expire in {{2}} mins. You're allowed a maximum of 1024 characters."
+                      value={inputText}
+                      onChange={handleInputChange}
+                      onKeyPress={handleKeyPress}
+                      InputProps={{
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <Tooltip
+                              title="Use text formatting - *bold* , _italic_ & ~strikethrough~. For example -  Hello {{1}}, your code will expire in {{2}} mins.. You're allowed a maximum of 1024 characters."
+                              arrow
+                              placement="top"
+                              sx={{
+                                fontSize: '16px',
+                              }}
+                            >
+                              <Iconify
+                                icon="material-symbols:info-outline"
+                                style={{ width: 20, height: 20 }}
+                              />
+                            </Tooltip>
+                          </InputAdornment>
+                        ),
+                      }}
+                    />
+
+                    <TextField
+                      sx={{ mt: 3 }}
+                      fullWidth
+                      type="text"
+                      margin="dense"
+                      variant="outlined"
+                      label="Template Footer"
+                      helperText="You're allowed a maximum of 60 characters."
+                      InputProps={{
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <Tooltip
+                              title="You're allowed a maximum of 60 characters."
+                              arrow
+                              placement="top"
+                              sx={{
+                                fontSize: '16px',
+                              }}
+                            >
+                              <Iconify
+                                icon="material-symbols:info-outline"
+                                style={{ width: 20, height: 20 }}
+                              />
+                            </Tooltip>
+                          </InputAdornment>
+                        ),
+                      }}
+                    />
+                  </>
                 )}
                 {templateType === 'carousel' && (
                   <>
@@ -807,6 +970,40 @@ export default function AddTemplate() {
                         <MenuItem value="type2">Video</MenuItem>
                       </Select>
                     </FormControl>
+
+                    <TextField
+                      sx={{ mt: 3 }}
+                      fullWidth
+                      type="text"
+                      margin="dense"
+                      multiline
+                      rows={4}
+                      variant="outlined"
+                      label="Template Format"
+                      helperText="Use text formatting - *bold*, _italic_, ~strikethrough~. For example - Hello {{1}}, your code will expire in {{2}} mins. You're allowed a maximum of 1024 characters."
+                      value={templateFormatInputText}
+                      onChange={handleTemplateFormatInputChange}
+                      // onKeyPress={handleKeyPress}
+                      InputProps={{
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <Tooltip
+                              title="Use text formatting - *bold* , _italic_ & ~strikethrough~. For example -  Hello {{1}}, your code will expire in {{2}} mins.. You're allowed a maximum of 1024 characters."
+                              arrow
+                              placement="top"
+                              sx={{
+                                fontSize: '16px',
+                              }}
+                            >
+                              <Iconify
+                                icon="material-symbols:info-outline"
+                                style={{ width: 20, height: 20 }}
+                              />
+                            </Tooltip>
+                          </InputAdornment>
+                        ),
+                      }}
+                    />
                   </>
                 )}
                 {templateType === 'limited_time_offer' && (
@@ -883,43 +1080,7 @@ export default function AddTemplate() {
                   </>
                 )}
               </Box>
-              <FormControlLabel
-                control={
-                  <TextField
-                    fullWidth
-                    type="text"
-                    margin="dense"
-                    multiline
-                    rows={4}
-                    variant="outlined"
-                    label="Template Format"
-                    helperText="Use text formatting - *bold*, _italic_, ~strikethrough~. For example - Hello {{1}}, your code will expire in {{2}} mins. You're allowed a maximum of 1024 characters."
-                    value={inputText}
-                    onChange={handleInputChange}
-                    onKeyPress={handleKeyPress}
-                    InputProps={{
-                      endAdornment: (
-                        <InputAdornment position="end">
-                          <Tooltip
-                            title="Use text formatting - *bold* , _italic_ & ~strikethrough~. For example -  Hello {{1}}, your code will expire in {{2}} mins.. You're allowed a maximum of 1024 characters."
-                            arrow
-                            placement="top"
-                            sx={{
-                              fontSize: '16px',
-                            }}
-                          >
-                            <Iconify
-                              icon="material-symbols:info-outline"
-                              style={{ width: 20, height: 20 }}
-                            />
-                          </Tooltip>
-                        </InputAdornment>
-                      ),
-                    }}
-                  />
-                }
-                sx={{ width: '100%', padding: '0px 24px 24px 24px', mr: 0, ml: 0 }}
-              />
+
               {/* Display dynamically added fields */}
               <Box sx={{ width: '100%', px: 3, mr: 0, ml: 0 }}>
                 {fields.map((field, index) => (
@@ -987,40 +1148,8 @@ export default function AddTemplate() {
                 ))}
               </Box>
 
-              <FormControlLabel
-                control={
-                  <TextField
-                    fullWidth
-                    type="text"
-                    margin="dense"
-                    variant="outlined"
-                    label="Template Footer"
-                    helperText="You're allowed a maximum of 60 characters."
-                    InputProps={{
-                      endAdornment: (
-                        <InputAdornment position="end">
-                          <Tooltip
-                            title="You're allowed a maximum of 60 characters."
-                            arrow
-                            placement="top"
-                            sx={{
-                              fontSize: '16px',
-                            }}
-                          >
-                            <Iconify
-                              icon="material-symbols:info-outline"
-                              style={{ width: 20, height: 20 }}
-                            />
-                          </Tooltip>
-                        </InputAdornment>
-                      ),
-                    }}
-                  />
-                }
-                sx={{ width: '100%', padding: '0px 24px 24px 24px', mr: 0, ml: 0 }}
-              />
               <Box sx={{ width: '100%', padding: '0px 24px 24px 24px' }}>
-              <InteractiveActions/>
+                <InteractiveActions />
               </Box>
 
               <Box
@@ -1077,9 +1206,7 @@ export default function AddTemplate() {
             />
           </Box>
         )}
-        
       </Box>
-      
     </DashboardContent>
   );
 }

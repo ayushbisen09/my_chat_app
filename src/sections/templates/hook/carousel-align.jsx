@@ -1,7 +1,8 @@
+import { useSelector } from 'react-redux';
 import { useState, useEffect } from 'react';
 
 import Box from '@mui/material/Box';
-import { Button } from '@mui/material';
+import { Card, Button, Typography } from '@mui/material';
 
 import {
   Carousel,
@@ -13,6 +14,7 @@ import {
 import AddTemplateChatBox from '../components/chatbox/chat-box';
 
 export function CarouselAlign() {
+  const templateFormatInputText = useSelector((state) => state.template.templateFormatInputText);
   const carousel = useCarousel({
     containScroll: false,
     slideSpacing: '20px',
@@ -99,6 +101,18 @@ export function CarouselAlign() {
 
   return (
     <>
+      <Card sx={{ height: 110,  width: 335,p: 3, mb: 1.5, borderRadius: '8px',  }}>
+      <Typography
+        fontSize={14}
+        sx={{
+          wordBreak: 'break-word',
+          overflowWrap: 'break-word',
+          whiteSpace: 'pre-wrap',
+        }}
+      >
+        {templateFormatInputText || 'Enter template format'}
+      </Typography>
+      </Card>
       <Carousel carousel={carousel} sx={{ width: '335px' }}>
         {chatData.map((item) => (
           <Box key={item.id} sx={{ width: '335px' }}>
