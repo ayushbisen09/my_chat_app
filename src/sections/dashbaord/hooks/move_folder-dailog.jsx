@@ -104,7 +104,7 @@ export function MoveToFolderPopover({ title, content, action, open, onClose, ...
         sx={{ fontWeight: '700', display: 'flex', justifyContent: 'space-between' }}
         onClick={dialog.onFalse}
       >
-        Move To Folder{' '}
+        Move{' '}
         <Iconify
           onClick={handleDialogClose}
           icon="uil:times"

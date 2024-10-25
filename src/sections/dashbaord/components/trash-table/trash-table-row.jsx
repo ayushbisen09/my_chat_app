@@ -332,7 +332,7 @@ export function TrashTableRow({
             sx={{ color: 'secondary' }}
           >
             <Iconify icon="fluent:folder-move-16-filled" />
-            Move To Folder
+            Move
           </MenuItem>
           </Tooltip>
 

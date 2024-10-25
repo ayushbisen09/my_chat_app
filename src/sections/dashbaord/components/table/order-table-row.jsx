@@ -431,7 +431,7 @@ export function OrderTableRow({
               sx={{ color: 'secondary' }}
             >
               <Iconify icon="fluent:folder-move-16-filled" />
-              Move To Folder
+              Move
             </MenuItem>
           </Tooltip>
           <Tooltip title="Add team members for collaborative editing." arrow placement="left">

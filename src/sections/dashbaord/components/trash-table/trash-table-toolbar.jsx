@@ -253,7 +253,7 @@ export function TrashTableToolbar({ filters, onResetPage, numSelected, publish, 
               sx={{ color: 'secondary' }}
             >
               <Iconify icon="fluent:folder-move-16-filled" sx={{ mr: 2 }} />
-              Move To Folder
+              Move
             </MenuItem>
           </Tooltip>
 
