@@ -8,26 +8,26 @@ import { useTheme } from '@mui/material/styles';
 
 import { useBoolean } from 'src/hooks/use-boolean';
 
-// import PageHeader from 'src/components/page-header/page-header';
-// import AddTagNode from 'src/components/flow-nodes/action-nodes/add-tag-node';
-// import ListNode from 'src/components/flow-nodes/message-type-nodes/list-node';
-// import AskMediaNode from 'src/components/flow-nodes/action-nodes/ask-media-node';
-// import ConditionNode from 'src/components/flow-nodes/action-nodes/condition-node';
-// import AskAddressNode from 'src/components/flow-nodes/action-nodes/ask-address-node';
-// import APIRequestNode from 'src/components/flow-nodes/action-nodes/api-request-node';
-// import TemplateNode from 'src/components/flow-nodes/message-type-nodes/template-node';
-// import AskLocationNode from 'src/components/flow-nodes/action-nodes/ask-location-node';
-// import ConnectFlowNode from 'src/components/flow-nodes/action-nodes/connect-flow-node';
-// import AskQuestionNode from 'src/components/flow-nodes/action-nodes/ask-question-node';
-// import SingleProduct from 'src/components/flow-nodes/message-type-nodes/single-product';
-// import FlowStartNode from 'src/components/flow-nodes/message-type-nodes/flow-start-node';
-// import AskAttributeNode from 'src/components/flow-nodes/action-nodes/set-attribute-node';
-// import TextButtonNode from 'src/components/flow-nodes/message-type-nodes/text-button-node';
-// import MediaButtonNode from 'src/components/flow-nodes/message-type-nodes/media-button-node';
-// import MultiProductNode from 'src/components/flow-nodes/message-type-nodes/multi-product-node';
-// import CatalougeMessageNode from 'src/components/flow-nodes/message-type-nodes/catalogue-message-node';
+import AddTagNode from 'src/components/flow-nodes/action-nodes/add-tag-node';
+import ListNode from 'src/components/flow-nodes/message-type-nodes/list-node';
+import AskMediaNode from 'src/components/flow-nodes/action-nodes/ask-media-node';
+import ConditionNode from 'src/components/flow-nodes/action-nodes/condition-node';
+import AskAddressNode from 'src/components/flow-nodes/action-nodes/ask-address-node';
+import APIRequestNode from 'src/components/flow-nodes/action-nodes/api-request-node';
+import TemplateNode from 'src/components/flow-nodes/message-type-nodes/template-node';
+import AskLocationNode from 'src/components/flow-nodes/action-nodes/ask-location-node';
+import ConnectFlowNode from 'src/components/flow-nodes/action-nodes/connect-flow-node';
+import AskQuestionNode from 'src/components/flow-nodes/action-nodes/ask-question-node';
+import SingleProduct from 'src/components/flow-nodes/message-type-nodes/single-product';
+import FlowStartNode from 'src/components/flow-nodes/message-type-nodes/flow-start-node';
+import AskAttributeNode from 'src/components/flow-nodes/action-nodes/set-attribute-node';
+import TextButtonNode from 'src/components/flow-nodes/message-type-nodes/text-button-node';
+import MediaButtonNode from 'src/components/flow-nodes/message-type-nodes/media-button-node';
+import MultiProductNode from 'src/components/flow-nodes/message-type-nodes/multi-product-node';
+import CatalougeMessageNode from 'src/components/flow-nodes/message-type-nodes/catalogue-message-node';
 
 import Sidebar from './component/flow-actions/sidebar';
+import FlowBuilderHeader from './component/flowbuilderheader';
 
 // ----------------------------------------------------------------------
 
@@ -47,93 +47,66 @@ export default function Page({ sx, icon, title, total, color = 'warning', ...oth
       sx={{
         display: 'grid',
         gridTemplateColumns: {
-          xs: '1fr',  // Full width on extra small screens
-          // sm: '360px 1fr',  // Sidebar and main content on larger screens
+          xs: '1fr',
         },
-        justifyContent: 'start',  // Align content to the start (left)
-        alignItems: 'stretch',  // Stretch items to fill the container height
-        minHeight: '100vh',  // Ensure full viewport height
-        maxWidth: '100%',  // Prevent horizontal overflow
-        overflow: 'hidden',  // Hide overflow
+        justifyContent: 'start',
+        alignItems: 'stretch',
+        minHeight: '100vh',
+        maxWidth: '100%',
+        overflow: 'hidden',
       }}
     >
-      {/* Sidebar */}
       <Box
         sx={{
-          position: 'fixed',  // Fix the sidebar to the viewport
-          left: 88,  // Stick to the left
-          top: 70,  // Stick to the top
-          height: '100vh',  // Full viewport height
-          width: { sm: 'auto' },  // Width of the sidebar
+          position: 'fixed',
+          left: 88,
+          top: 70,
+          height: '100vh',
+          width: { sm: 'auto' },
           overflowY: 'auto',
           borderRight: '1px solid',
           bgcolor: '#F4F6F8',
           borderColor: 'divider',
-          // zIndex: 1100,  // Ensure it's above other content
         }}
       >
         <Sidebar />
       </Box>
 
-      {/* Main content area */}
+      <Box>
+        <FlowBuilderHeader />
+      </Box>
       <Box
         sx={{
-          marginLeft: { sm: '460px' },  // Offset content to account for fixed sidebar
-          py: 3,
-          pl:3,
-          pr:35.5,
-          overflowY: 'auto',
+          ml: 44,
+          mr:3,
+          mt: '40px',
+          display: 'grid',
+          gridTemplateColumns: {
+            xs: 'repeat(1, 1fr)',
+            sm: 'repeat(2, 1fr)',
+            md: 'repeat(3, 1fr)',
+            lg: 'repeat(4, 1fr)',
+          },
+          gap: 3,
         }}
       >
-        {/* First row */}
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: { xs: 'column', sm: 'row' },
-            alignItems: { xs: 'flex-start', sm: 'center' },
-            justifyContent: 'space-between',
-            mb: 2,
-          }}
-        >
-          {/* <PageHeader
-            title="Flow Builder"
-            Subheading="You can connect with Facebook to fetch catalog and manage it from our platform."
-            link_added="#"
-          /> */}
-        </Box>
-
-        {/* Second row */}
-        {/* <Box
-          sx={{
-            mt: '40px',
-            display: 'grid',
-            gridTemplateColumns: {
-              xs: 'repeat(1, 1fr)',
-              sm: 'repeat(2, 1fr)',
-              md: 'repeat(3, 1fr)',
-              lg: 'repeat(3, 1fr)',
-            },
-            gap: 3,
-          }}
-        >
-          <FlowStartNode />
-          <ConditionNode />
-          <TextButtonNode />
-          <ListNode />
-          <SingleProduct />
-          <AskLocationNode />
-          <ConnectFlowNode />
-          <AskAttributeNode />
-          <TemplateNode />
-          <AskAddressNode />
-          <AskQuestionNode />
-          <AddTagNode />
-          <CatalougeMessageNode />
-          <MultiProductNode />
-          <AskMediaNode />
-          <APIRequestNode />
-          <MediaButtonNode />
-        </Box> */}
+        <FlowStartNode />
+        <ConditionNode />
+        <TextButtonNode />
+        <ListNode />
+        <SingleProduct />
+        <AskLocationNode />
+        <ConnectFlowNode />
+        <AskAttributeNode />
+        <TemplateNode />
+        <AskAddressNode />
+        <AskQuestionNode />
+        <AddTagNode />
+        <CatalougeMessageNode />
+        <MultiProductNode />
+        <AskMediaNode />
+        <APIRequestNode />
+        <MediaButtonNode />
       </Box>
     </Box>
   );

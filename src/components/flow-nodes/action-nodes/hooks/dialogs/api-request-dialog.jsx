@@ -469,7 +469,7 @@ export function APIRequestDialog({ title, content, action, open, onClose, ...oth
           <Button onClick={handleTest} variant="contained">
             Test
           </Button>
-          <Button onClick={onClose} variant="outlined" color="inherit">
+          <Button onClick={onClose} variant="outlined" color="primary">
             Save
           </Button>
         </Box>

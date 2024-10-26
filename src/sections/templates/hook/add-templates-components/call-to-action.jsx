@@ -19,7 +19,7 @@ import {
 import { Form } from 'src/components/hook-form';
 import { Iconify } from 'src/components/iconify';
 
-export default function InteractiveActions() {
+export default function () {
   const theme = useTheme();
 
   const [actionType, setaActionType] = useState('none');

@@ -109,7 +109,7 @@ export default function Page() {
                     placement="top"
                     
                   >
-              <Button variant="contained" color="inherit" onClick={handleAdd}>
+              <Button variant="contained" color="primary" onClick={handleAdd}>
                 Save
               </Button>
               </Tooltip>

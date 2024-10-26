@@ -161,7 +161,7 @@ export default function Page() {
             <Tooltip title="Click 'Save' to apply the selected time zone to your account, ensuring that all workflow activities and task schedules reflect your local time." arrow placement="top">
 
 
-              <Button variant="contained" color="inherit" onClick={handleSave}>
+              <Button variant="contained" color="primary" onClick={handleSave}>
                 Save
               </Button>
 

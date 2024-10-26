@@ -398,7 +398,7 @@ export default function DashBoardFolderCard({
             >
               <Typography variant="h6" component="div">
                 <Tooltip
-                  title="You can create folders and manage workflows inside them."
+                  title="You can create folders and manage whatsApp number inside them."
                   arrow
                   placement="top"
                 >

@@ -426,7 +426,7 @@ export default function OptInRegularMessage(onClose) {
           </Tooltip>
         </Box>
         <Tooltip title="Click here to save regular message type" arrow placement="top">
-          <Button sx={{ mt: '24px', mr: 2 }} variant="contained" onClick={handleAdd}>
+          <Button sx={{ mt: '24px', mr: 2 }} variant="contained" onClick={handleAdd} color="primary">
             Save
           </Button>
         </Tooltip>

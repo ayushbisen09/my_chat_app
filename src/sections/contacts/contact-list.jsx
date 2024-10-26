@@ -10,6 +10,7 @@ import {
   MenuList,
   MenuItem,
   IconButton,
+  Typography,
   ListItemText,
   ListItemButton,
 } from '@mui/material';
@@ -99,26 +100,40 @@ export default function ContactList({ onItemSelect }) {
         },
       }}
     >
-      <Tooltip title="Click here to add new contact list." arrow placement="top">
-        <Button
-          sx={{ mb: '8px' }}
-          onClick={addContactListDrawer.onTrue}
-          fullWidth
-          color="inherit"
-          variant="contained"
-          startIcon={<Iconify icon="solar:pen-bold" />}
-        >
+      <Box display="flex" justifyContent="space-between" alignItems= "center" mb={2}>
+        
+        <Typography fontSize="18px" fontWeight={600}>
           Add Contact List
+        </Typography>
+        <Tooltip title="Click here to add new contact list." arrow placement="top">
+        <Button
+          sx={{
+            mb: '0px',
+            p: 1,
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            minWidth: 0,
+          }}
+          onClick={addContactListDrawer.onTrue}
+          maxWidth
+          color="primary"
+          variant="contained"
+        >
+          <Iconify icon="fa6-solid:plus" />
         </Button>
-      </Tooltip>
+        </Tooltip>
+      </Box>
+    <Divider sx={{mb:2}}/> 
       <AddContactsListDrawer
         open={addContactListDrawer.value}
         onClose={addContactListDrawer.onFalse}
       />
       <List sx={{ width: '100%' }}>
         {contactLists.map((contact, index) => (
-          <Tooltip key={index} title={`List name: ${contact.name}`} arrow placement="top">
+        
             <Box sx={{ display: 'flex' }}>
+            <Tooltip key={index} title={`List name: ${contact.name}`} arrow placement="top">
               <CustomListItemButton
                 selected={selectedIndex === index}
                 onClick={(event) => handleListItemClick(event, index)}
@@ -148,6 +163,7 @@ export default function ContactList({ onItemSelect }) {
                   }
                 />
               </CustomListItemButton>
+              </Tooltip>
               <IconButton
                 color={popover.open ? 'inherit' : 'default'}
                 onClick={(e) => {
@@ -160,7 +176,7 @@ export default function ContactList({ onItemSelect }) {
                 <Iconify icon="eva:more-vertical-fill" />
               </IconButton>
             </Box>
-          </Tooltip>
+          
         ))}
       </List>
 

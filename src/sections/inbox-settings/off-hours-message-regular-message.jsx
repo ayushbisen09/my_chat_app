@@ -359,7 +359,7 @@ export default function OffHourMessageRegularMessage() {
           </Tooltip>
         </Box>
         <Tooltip title="Click here to save regular message type" arrow placement="top">
-          <Button sx={{ mt: '24px' }} variant="contained" onClick={handleAdd}>
+          <Button sx={{ mt: '24px' }} variant="contained" onClick={handleAdd} color="primary">
             Save
           </Button>
         </Tooltip>

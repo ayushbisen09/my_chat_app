@@ -211,7 +211,7 @@ export function FallbackAndIntentDialog({ title, content, action, open, onClose,
           <Button onClick={onClose} variant="outlined" color="inherit">
             Cancel
           </Button>
-          <Button onClick={handleAdd} variant="contained">
+          <Button onClick={handleAdd} variant="contained" color="primary">
             Save
           </Button>
         </DialogActions>

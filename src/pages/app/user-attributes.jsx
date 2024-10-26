@@ -143,7 +143,7 @@ export default function Page() {
             </Button>
 
             <Box sx={{ mt: 3 }}>
-              <Button onClick={saveAttributes} variant="contained" color="inherit">
+              <Button onClick={saveAttributes} variant="contained" color="primary">
                 Save
               </Button>
             </Box>

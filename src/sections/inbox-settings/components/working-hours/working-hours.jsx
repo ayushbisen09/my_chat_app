@@ -118,7 +118,7 @@ export default function WorkingHours() {
           ))}
           <Box sx={{ padding: '0px 24px 24px 24px' }}>
             <Tooltip title="Click here to save" arrow placement="top">
-              <Button variant="contained" color="inherit">
+              <Button variant="contained" color="primary">
                 Save
               </Button>
             </Tooltip>

@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 
-import { Box, Tab, Card, Tabs, Switch, Button, Typography } from '@mui/material';
+import { Box, Tab, Card, Tabs, Tooltip, Typography } from '@mui/material';
 
 import { useBoolean } from 'src/hooks/use-boolean';
 
 import { Iconify } from 'src/components/iconify';
 
-import { FallbackAndIntentDialog } from '../../hook/fallback-&-intent-dialog';
 
 const Sidebar = () => {
   const [tabValue, setTabValue] = useState(0); // 0 for Messages, 1 for Actions
@@ -54,49 +53,25 @@ const Sidebar = () => {
         pb: 5,
       }}
     >
-      <Box sx={{ mb: 1 }}>
-        <Box sx={{ pb: 1, m: 0 }}>
-          <Typography variant="h6" fontWeight="600" gutterBottom>
-            Flow Builder <Iconify icon="mingcute:pencil-fill" />
-          </Typography>
-        </Box>
-
-        <Box display="flex" alignItems="center" justifyContent="space-between" sx={{ mb: 1.5, p: 0 }}>
-          <Typography sx={{ fontSize: '14px', fontWeight: '500' }}>Flow On/Off</Typography>
-          <Switch />
-        </Box>
-
-        <Box display="flex" alignItems="center" justifyContent="space-between" sx={{ mb: 2 }}>
-          <Typography sx={{ fontSize: '14px', fontWeight: '500' }}>Set Flow</Typography>
-          <Button variant="outlined" color="primary" onClick={dialog.onTrue}>
-            Fallback & Intents
-          </Button>
-          <FallbackAndIntentDialog open={dialog.value} onClose={dialog.onFalse} />
-        </Box>
-
-        <Box display="flex" alignItems="center" justifyContent="space-between">
-          <Typography sx={{ fontSize: '14px', fontWeight: '500' }}>Save your flow</Typography>
-          <Button variant="contained" color="inherit">
-            Save
-          </Button>
-        </Box>
-      </Box>
-
       <Box>
         <Tabs
           value={tabValue}
           onChange={handleTabChange}
           variant="fullWidth"
           aria-label="scrollable tabs example"
-          sx={{ position: 'static', mb: 2 }}
+          sx={{ position: 'static', mb: 5 }}
         >
+           <Tooltip title="Message type nodes" arrow placement="top">
           <Tab label="Messages" />
+          </Tooltip>
+          <Tooltip title="Action type nodes" arrow placement="top">
           <Tab label="Actions" />
+          </Tooltip>
         </Tabs>
       </Box>
 
       {/* Cards based on selected tab */}
-      <Box display="flex" flexDirection="column" gap={1.5} >
+      <Box display="flex" flexDirection="column" gap={1.5}>
         {cardData
           .reduce((rows, card, index) => {
             if (index % 2 === 0) rows.push([]);
@@ -106,11 +81,16 @@ const Sidebar = () => {
           .map((row, rowIndex) => (
             <Box key={rowIndex} display="flex" gap={1.5}>
               {row.map((card, cardIndex) => (
-                <Card key={cardIndex} >
+                <Card key={cardIndex} sx={{ borderRadius: '8px' }}>
+                  <Tooltip 
+      title={`Drag and drop this node ${card.text}`} 
+      arrow 
+      placement="top"
+    >
                   <Box
                     sx={{
                       backgroundColor: 'rgba(145, 158, 171, 0.06)',
-                      height: 104,
+                      height: 90,
                       width: '120px',
                       display: 'flex',
                       flexDirection: 'column',
@@ -130,20 +110,27 @@ const Sidebar = () => {
                       icon={card.icon}
                       className="icon"
                       sx={{
-                        height: 26,
-                        width: 26,
-                        color: 'rgba(145, 158, 171, 0.5)',
+                        height: 24,
+                        width: 24,
+                        color: 'rgba(145, 158, 171, 0.9)',
                         transition: 'all 0.3s ease',
-                        mb:0.5,
-                        mt:0.2
+
+                        mt: 0.2,
                       }}
                     />
                     <Typography
-                      sx={{ fontSize: '12px', fontWeight: '600', textAlign: 'center', mt: 1.5 , px:0.5,mb:0.5 }}
+                      sx={{
+                        fontSize: '12px',
+                        fontWeight: '500',
+                        textAlign: 'center',
+                        mt: 1.5,
+                        px: 0.5,
+                      }}
                     >
                       {card.text}
                     </Typography>
                   </Box>
+                  </Tooltip>
 
                   {/* <CardContent sx={{ px: '8px !important', py: '24px !important' }}>
                   </CardContent> */}
