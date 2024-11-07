@@ -3,7 +3,7 @@ import 'react-modal-video/css/modal-video.min.css';
 import Box from '@mui/material/Box';
 import { useTheme } from '@mui/material/styles';
 import Grid from '@mui/material/Unstable_Grid2';
-import { Button, Tooltip,useMediaQuery } from '@mui/material';
+import { Button, Tooltip, useMediaQuery } from '@mui/material';
 
 import { useBoolean } from 'src/hooks/use-boolean';
 
@@ -43,18 +43,18 @@ export default function Page({ sx, icon, title, total, color = 'warning', ...oth
           link_added="#"
         />
         <Tooltip title="Click here to add team member" arrow placement="top">
-        <Button
-          onClick={dialog.onTrue}
-          sx={{ mt: isMobile ? 2 : 0 }}
-          startIcon={
-            <Iconify icon="heroicons:plus-circle-16-solid" style={{ width: 18, height: 18 }} />
-          }
-          size="large"
-          variant="contained"
-          color="primary"
-        >
-          Add Team Member
-        </Button>
+          <Button
+            onClick={dialog.onTrue}
+            sx={{ mt: isMobile ? 2 : 0 }}
+            startIcon={
+              <Iconify icon="heroicons:plus-circle-16-solid" style={{ width: 18, height: 18 }} />
+            }
+            size="large"
+            variant="contained"
+            color="primary"
+          >
+            Add Team Member
+          </Button>
         </Tooltip>
         <TeamMemberDialog open={dialog.value} onClose={dialog.onFalse} />
       </Box>
@@ -71,47 +71,40 @@ export default function Page({ sx, icon, title, total, color = 'warning', ...oth
         {/* WhatsApp Number Added */}
         <Tooltip title="Team members added by you" arrow placement="top">
           <div>
-        <StatsCards
-          cardtitle="Unique Team Members Added"
-          cardstats="2"
-          icon_name="unique.png"
-          icon_color="#1A76FF"
-          bg_gradient="#1A76FF"
-        />
-        </div>
+            <StatsCards
+              cardtitle="Unique Team Members Added"
+              cardstats="2"
+              icon_name="unique.png"
+              icon_color="#1A76FF"
+              bg_gradient="#1A76FF"
+            />
+          </div>
         </Tooltip>
         {/* WhatsApp Numbers Shared By You */}
         <Tooltip title="WhatsApp number shared by you with team members." arrow placement="top">
           <div>
-
-          <StatsCards
-          cardtitle="WhatsApp Numbers Shared By You"
-          cardstats="2"
-          icon_name="byyou.png"
-          icon_color="#009C53"
-          bg_gradient="#009C53"
-        />
+            <StatsCards
+              cardtitle="WhatsApp Numbers Shared By You"
+              cardstats="2"
+              icon_name="byyou.png"
+              icon_color="#009C53"
+              bg_gradient="#009C53"
+            />
           </div>
-        
         </Tooltip>
 
         {/* WhatsApp Numbers Shared With You */}
-       
-          
-      
+
         <Tooltip title="WhatsApp number shared with you by admins." arrow placement="top">
           <div>
-          <StatsCards
-          cardtitle="WhatsApp Numbers Shared With You"
-          cardstats="10,000"
-          icon_name="sharedwithyou.png"
-          icon_color="#009CBB"
-          bg_gradient="#009CBB"
-        />
-
-
+            <StatsCards
+              cardtitle="WhatsApp Numbers Shared With You"
+              cardstats="10,000"
+              icon_name="sharedwithyou.png"
+              icon_color="#009CBB"
+              bg_gradient="#009CBB"
+            />
           </div>
-        
         </Tooltip>
       </Box>
 

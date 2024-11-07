@@ -97,7 +97,7 @@ export default function WellComeMessage() {
 
       <Box sx={{ px: 3 }}>
         <Box sx={{ width: '380px' }}>
-          <Tooltip title="Opt-Out response preview" arrow placement="top">
+          <Tooltip title="Well-come message preview" arrow placement="top">
             <Box sx={{ width: '380px' }}>
               {wellComeMessageType === 'regular' && (
                 <Box sx={{ p: 2, backgroundColor: '#CCF4FE', borderRadius: '8px', m: 2 }}>
@@ -130,7 +130,7 @@ export default function WellComeMessage() {
               {wellComeTemplateType === 'text' &&
                 wellComeMessageType === 'pre' &&
                 wellComeTemplateFields.length > 0 && (
-                  <Box sx={{ mt: 3 }}>
+                  <Box sx={{ mb: 3 }}>
                     <PreviewTemplateChatBox
                       coverSrc="/assets/images/templateImage/template-image1.jpg"
                       text={
@@ -167,7 +167,7 @@ export default function WellComeMessage() {
               {wellComeTemplateType === 'file' &&
                 wellComeMessageType === 'pre' &&
                 wellComeFileTemplateFields.length > 0 && (
-                  <Box sx={{ mt: 3 }}>
+                  <Box sx={{ mb: 3 }}>
                     <FilePreviewTemplateChatBox
                       coverSrc={wellComeUploadedFile || FileImage} // Show the uploaded file or a default image
                       showImage
@@ -208,7 +208,7 @@ export default function WellComeMessage() {
               {wellComeTemplateType === 'audio' &&
                 wellComeMessageType === 'pre' &&
                 wellComeAudioBodyFields.length > 0 && (
-                  <Box sx={{ mt: 3 }}>
+                  <Box sx={{ mb: 3 }}>
                     <AudioTemplateChatBox
                       audioSrc={wellComeAudioUrl}
                       text={
@@ -242,7 +242,7 @@ export default function WellComeMessage() {
               {wellComeTemplateType === 'video' &&
                 wellComeMessageType === 'pre' &&
                 wellComeVideoBodyFields.length > 0 && (
-                  <Box sx={{ mt: 3 }}>
+                  <Box sx={{ mb: 3 }}>
                     <VideoTemplateChatBox
                       coverSrc={video}
                       showImage={!wellComeVideoUrl}
@@ -322,8 +322,8 @@ export default function WellComeMessage() {
       <Box sx={{ px: 3, pb: 3 }}>
         <Tooltip title="Configure wellcome message response" arrow placement="top">
           <Button
-            sx={{ mt: 3 }}
             variant="contained"
+            color="primary"
             onClick={() => {
               dispatch(wellComeSetChosen('wellCome'));
               setWellComeMessageDrawer(true);

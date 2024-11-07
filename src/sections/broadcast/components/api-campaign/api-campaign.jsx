@@ -1,5 +1,4 @@
 import { useTheme } from '@emotion/react';
-import { FormProvider } from 'react-hook-form';
 import React, { useState, useCallback } from 'react';
 
 import {
@@ -13,7 +12,6 @@ import {
   InputAdornment,
 } from '@mui/material';
 
-import { Form } from 'src/components/hook-form';
 import { Iconify } from 'src/components/iconify';
 
 export default function ApiCampaign() {
@@ -66,116 +64,104 @@ export default function ApiCampaign() {
   ];
 
   return (
-    <FormProvider>
-      <Form>
-        <>
-          <Box sx={{ px: 3 }}>
-            <TextField
-              fullWidth
-              label=" Enter Campaign Name"
-              placeholder="Enter Campaign Name"
-              value={apiEndpoint}
-              onChange={handleApiEndpointChange}
-              helperText="Pick something that describes your audience & goals."
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <Tooltip
-                      title="Pick something that describes your audience & goals."
-                      arrow
-                      placement="top"
-                      sx={{ fontSize: '16px' }}
-                    >
-                      <Iconify
-                        icon="material-symbols:info-outline"
-                        style={{ width: 20, height: 20 }}
-                      />
-                    </Tooltip>
-                  </InputAdornment>
-                ),
-              }}
-            />
-          </Box>
-          <Box sx={{ px: 3, pt: 3 }}>
-            <TextField
-              sx={{ mb: 3 }}
-              select
-              fullWidth
-              label="Select Template here"
-              value={templateType}
-              onChange={handleChangeMessageType}
-              helperText="Select Template here among Text, Audio, Image, Video." // Adjust helperText if needed
-            >
-              {MESSAGETYPES.map((option) => (
-                <MenuItem key={option.value} value={option.value}>
-                  <Box sx={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
-                    <span>{option.label.split(' [')[0]}</span>
-                    <span>{option.label.match(/\[.*\]/)}</span>{' '}
-                    {/* Extracts text inside brackets */}
-                  </Box>
-                </MenuItem>
-              ))}
-            </TextField>
-          </Box>
+    <>
+      <TextField
+      sx={{ mb: 3 }}
+        fullWidth
+        label=" Enter Campaign Name"
+        placeholder="Enter Campaign Name"
+        value={apiEndpoint}
+        onChange={handleApiEndpointChange}
+        helperText="Pick something that describes your audience & goals."
+        InputProps={{
+          endAdornment: (
+            <InputAdornment position="end">
+              <Tooltip
+                title="Pick something that describes your audience & goals."
+                arrow
+                placement="top"
+                sx={{ fontSize: '16px' }}
+              >
+                <Iconify icon="material-symbols:info-outline" style={{ width: 20, height: 20 }} />
+              </Tooltip>
+            </InputAdornment>
+          ),
+        }}
+      />
 
-          <Box sx={{ px: 3, pb: 3 }}>
-            <Tooltip title="Regular message preview" arrow placement="top">
-              <Box width={isMobile ? '100%' : '40%'} sx={{ mt: isMobile ? 3 : 0 }}>
-                
-                  <Box sx={{ width:'380px', p: 2, backgroundColor: '#CCF4FE', borderRadius: 1,  }}>
-                    {chatBoxImage && (
-                      <Box sx={{ mb: 2 }}>
-                        <img
-                          src={chatBoxImage}
-                          alt="Chat Preview"
-                          style={{ width: '100%', borderRadius: 8 }}
-                        />
-                      </Box>
-                    )}
-                    <Typography variant="body2" sx={{ fontSize: 14, fontWeight: 500 }}>
-                      {`Hi {{1}}! 🎧🛒`}
-                      <br />
-                      <br />
-                      Congratulations! 🎉 Your order for the Headway Bassheads has been confirmed.
-                      🙌
-                      <br />
-                      <br />
-                      Order Details:
-                      <br />
-                      {`Product: {{2}}`}
-                      <br />
-                      {`Quantity: {{3}}`}
-                      <br />
-                      {`Order ID: {{4}}`}
-                      <br />
-                      {`Delivery Address: {{5}}`}
-                      <br />
-                      {`Estimated Delivery Date: {{6}}`}
-                    </Typography>
-                  </Box>
-             
+      
+        <TextField
+          sx={{ mb: 3 }}
+          select
+          fullWidth
+          label="Select Template here"
+          value={templateType}
+          onChange={handleChangeMessageType}
+          helperText="Select Template here among Text, Audio, Image, Video." // Adjust helperText if needed
+        >
+          {MESSAGETYPES.map((option) => (
+            <MenuItem key={option.value} value={option.value}>
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
+                <span>{option.label.split(' [')[0]}</span>
+                <span>{option.label.match(/\[.*\]/)}</span> {/* Extracts text inside brackets */}
               </Box>
-            </Tooltip>
+            </MenuItem>
+          ))}
+        </TextField>
+  
+
+      
+        <Tooltip title="Regular message preview" arrow placement="top">
+          <Box width={380}  sx={{ mb: 3 }}>
+            <Box sx={{ width: '380px', p: 2, backgroundColor: '#CCF4FE', borderRadius: 1 }}>
+              {chatBoxImage && (
+                <Box sx={{ mb: 2 }}>
+                  <img
+                    src={chatBoxImage}
+                    alt="Chat Preview"
+                    style={{ width: '100%', borderRadius: 8 }}
+                  />
+                </Box>
+              )}
+              <Typography variant="body2" sx={{ fontSize: 14, fontWeight: 400 }}>
+                {`Hi {{1}}! 🎧🛒`}
+                <br />
+                <br />
+                Congratulations! 🎉 Your order for the Headway Bassheads has been confirmed. 🙌
+                <br />
+                <br />
+                Order Details:
+                <br />
+                {`Product: {{2}}`}
+                <br />
+                {`Quantity: {{3}}`}
+                <br />
+                {`Order ID: {{4}}`}
+                <br />
+                {`Delivery Address: {{5}}`}
+                <br />
+                {`Estimated Delivery Date: {{6}}`}
+              </Typography>
+            </Box>
           </Box>
-          <Box
-            sx={{
-              display: 'flex',
-              gap: 2,
-              width: '100%',
-              padding: '0px 24px 24px 24px',
-              mr: 0,
-              ml: 0,
-            }}
-          >
-            <Button variant="contained" size="large" color="inherit">
-              Add Broadcast
-            </Button>
-            <Button variant="outlined" size="large" color="inherit">
-              Cancel
-            </Button>
-          </Box>
-        </>
-      </Form>
-    </FormProvider>
+        </Tooltip>
+   
+      <Box
+        sx={{
+          display: 'flex',
+          gap: 2,
+          
+          mr: 0,
+          ml: 0,
+        }}
+      >
+        <Button variant="contained" size="medium" color="primary">
+          Add Broadcast
+        </Button>
+        <Button variant="outlined" size="medium" color="inherit">
+          Cancel
+        </Button>
+      </Box>
+    </>
   );
 }

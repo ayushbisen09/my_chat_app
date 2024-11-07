@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import Stack from '@mui/material/Stack';
 import LinearProgress from '@mui/material/LinearProgress';
-import { Box, Divider, Typography, IconButton } from '@mui/material';
+import { Box, Card, Divider, Typography, IconButton } from '@mui/material';
 
 import {
   setIsVisible,
@@ -42,7 +42,6 @@ const HoverActions = ({ position = 'left', type }) => {
     dispatch(setOriginalReplyText());
     dispatch(setOriginalImageVisibility());
   };
-
   return (
     <Stack
       className="message-actions"
@@ -60,6 +59,65 @@ const HoverActions = ({ position = 'left', type }) => {
         <Iconify icon="basil:reply-solid" width={24} />
       </IconButton>
     </Stack>
+  );
+};
+
+// eslint-disable-next-line arrow-body-style
+const HoverChatStatus = ({ position = 'left' }) => {
+  
+  return (
+    <Box
+      className="message-actions"
+      sx={{
+        [position]: 0,
+        mt: '4px',
+        mb: '8px',
+        opacity: 0,
+        transition: (theme) =>
+          theme.transitions.create(['opacity'], { duration: theme.transitions.duration.shorter }),
+      }}
+      justifyContent="center"
+    >
+      <Card
+        sx={{
+          px: 1,
+          py: 2,
+          display: 'flex',
+          flexDirection: 'column',
+          borderRadius: 1,
+          border: '1px solid #e6e6e6',
+        }}
+      >
+        <Box display="flex" mb="4px">
+          <Iconify width={20} icon="solar:unread-broken" sx={{ mr: 1 }} />
+          <Box>
+            <Typography fontSize={12} >Sent</Typography>
+            <Typography fontSize={12} sx={{ color: 'text.secondary' }}>
+              Oct 23, 2024 17:45:32
+            </Typography>
+          </Box>
+        </Box>
+        <Box display="flex" mb="4px">
+          <Iconify width={20} icon="solar:check-read-broken" sx={{ mr: 1 }} />
+
+          <Box>
+            <Typography fontSize={12}> Delivered</Typography>
+            <Typography fontSize={12} sx={{ color: 'text.secondary' }}>
+              Oct 23, 2024 18:57:32
+            </Typography>
+          </Box>
+        </Box>
+        <Box display="flex">
+          <Iconify width={20} icon="solar:check-read-broken" sx={{ color: '#007BFF', mr: 1 }} />
+          <Box>
+            <Typography fontSize={12}>Read</Typography>
+            <Typography fontSize={12} sx={{ color: 'text.secondary' }}>
+              Oct 23, 2024 18:58:32
+            </Typography>
+          </Box>
+        </Box>
+      </Card>
+    </Box>
   );
 };
 
@@ -83,7 +141,10 @@ const CustomMessage = ({ text1, text2, text3, src }) => {
           '&:hover .message-actions': { opacity: 1 },
         }}
       >
-        <HoverActions />
+        <Box display="flex" justifyContent="center" alignItems="center">
+          <HoverChatStatus />
+          <HoverActions />
+        </Box>
 
         <Box
           sx={{
@@ -314,6 +375,7 @@ export function ChatMessageList({ messages = [], participants, loading }) {
             <VideoPlayer videoSrc={vide} />
 
             <HoverActions />
+            
           </Box>
         </div>
 
@@ -334,6 +396,7 @@ export function ChatMessageList({ messages = [], participants, loading }) {
           >
             <AudioPlayer audioSrc={audio} />
             <HoverActions />
+            
           </Box>
         </div>
 
@@ -354,6 +417,7 @@ export function ChatMessageList({ messages = [], participants, loading }) {
             }}
           >
             <FileMessage onButtonClick={() => alert('Button clicked!')} />
+
             <Box
               className="message-actions" // Ensure the class name matches your CSS or style
               sx={{
@@ -410,7 +474,10 @@ export function ChatMessageList({ messages = [], participants, loading }) {
               location="New York City, NY"
               image="https://example.com/image.jpg" // Replace with your image URL
             />
-            <HoverActions position="left" />
+            <Box display="flex" justifyContent="center" alignItems="center">
+              <HoverActions />
+              
+            </Box>
           </Box>
         </div>
 
@@ -429,7 +496,10 @@ export function ChatMessageList({ messages = [], participants, loading }) {
             }}
           >
             <ShareContact />
-            <HoverActions />
+            <Box display="flex" justifyContent="center" alignItems="center">
+              <HoverActions />
+              
+            </Box>
           </Box>
         </div>
 
@@ -457,7 +527,10 @@ export function ChatMessageList({ messages = [], participants, loading }) {
               onOpenLightbox={() => handleOpenModal(messages[5].body || defaultMessage.body)}
             />
 
-            <HoverActions position="left" type="Image" />
+            <Box display="flex" justifyContent="center" alignItems="center">
+              <HoverActions position="left" type="Image" />
+              <HoverChatStatus />
+            </Box>
           </Box>
         </div>
         <Box

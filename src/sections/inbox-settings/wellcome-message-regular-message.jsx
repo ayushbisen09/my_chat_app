@@ -1,4 +1,3 @@
-
 import { useDispatch } from 'react-redux';
 import { useState, useCallback } from 'react';
 
@@ -6,15 +5,12 @@ import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import {
   Box,
-  Card,
   Alert,
   Button,
-  Divider,
   Tooltip,
   MenuItem,
   Snackbar,
   TextField,
-  CardHeader,
   Typography,
   InputAdornment,
 } from '@mui/material';
@@ -28,7 +24,6 @@ import { ConfirmDialog } from 'src/components/custom-dialog';
 import FileType from '../optIn-management/hook/messages-type/file';
 import VideoType from '../optIn-management/hook/messages-type/video';
 import AudioType from '../optIn-management/hook/messages-type/audio';
-
 
 export default function WellcomeMessageRegularMessage(onClose) {
   const dispatch = useDispatch();
@@ -46,7 +41,6 @@ export default function WellcomeMessageRegularMessage(onClose) {
     setSnackbarOpen(true);
     onClose();
   };
- 
 
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
@@ -73,8 +67,6 @@ export default function WellcomeMessageRegularMessage(onClose) {
   const [message, setMessage] = useState(
     'Thank you for opting-out. In future if you ever want to connect again just send "Hello".'
   ); // State to store the entered message
-
-  
 
   const handleSnackbarClose = (event, reason) => {
     if (reason === 'clickaway') {
@@ -362,69 +354,53 @@ export default function WellcomeMessageRegularMessage(onClose) {
               width={isMobile ? '100%' : '40%'}
               sx={{ pl: isMobile ? 0 : '12px', mt: isMobile ? '24px' : 0 }}
             >
-              <Card
+              <Box
                 sx={{
-                  border: '1px solid #919EAB33',
-                  width: '100%',
-                  maxWidth: '500px',
+                  p: 2,
+                  backgroundColor: '#CCF4FE',
+                  borderRadius: '8px',
                 }}
               >
-                <CardHeader
-                  sx={{ mb: 2 }}
-                 
-                  title={
-                    <Typography variant="h7" sx={{ fontSize: 14, fontWeight: '700' }}>
-                      Mireya Conner
-                    </Typography>
-                  }
-                  
-                />
-                <Divider />
-                
-                <Box
-                  sx={{
-                    p: 2,
-                    backgroundColor: '#CCF4FE',
-                    borderRadius: '8px',
-                    m: 2,
-                  }}
-                >
-                  {messagetype === 'video' && (
-                    <VideoType
-                      videoSrc="../../../public/assets/videos/chat-videos/advertisement.mp4"
-                      captionsSrc="../../assets/captions/sample.vtt"
+                {messagetype === 'video' && (
+                  <VideoType
+                    videoSrc="../../../public/assets/videos/chat-videos/advertisement.mp4"
+                    captionsSrc="../../assets/captions/sample.vtt"
+                  />
+                )}
+
+                {messagetype === 'audio' && (
+                  <AudioType audioSrc="../../../public/assets/audios/new-instrumental.mp3" />
+                )}
+
+                {messagetype === 'file' && <FileType />}
+
+                <Box sx={{ mb: 2 }}>
+                  {chatBoxImage && (
+                    <img
+                      src={chatBoxImage}
+                      alt="Chat Preview"
+                      style={{ width: '100%', borderRadius: '8px' }}
                     />
                   )}
-
-                  {messagetype === 'audio' && (
-                    <AudioType audioSrc="../../../public/assets/audios/new-instrumental.mp3" />
-                  )}
-
-                  {messagetype === 'file' && <FileType />}
-
-                  <Box sx={{ mb: 2 }}>
-                    {chatBoxImage && (
-                      <img
-                        src={chatBoxImage}
-                        alt="Chat Preview"
-                        style={{ width: '100%', borderRadius: '8px' }}
-                      />
-                    )}
-                  </Box>
-                  <Typography
-                    variant="body2"
-                    color="text.primary"
-                    sx={{ fontSize: 14, fontWeight: '500', mb: chatBoxImage ? 0 : 0 }}
-                  >
-                    {message}
-                  </Typography>
                 </Box>
-              </Card>
+                <Typography
+                  variant="body2"
+                  color="text.primary"
+                  sx={{ fontSize: 14, fontWeight: '500', mb: chatBoxImage ? 0 : 0 }}
+                >
+                  {message}
+                </Typography>
+              </Box>
             </Box>
           </Tooltip>
         </Box>
         <Tooltip title="Click here to save regular message type" arrow placement="top">
-          <Button sx={{ mt: '24px', mr: 2 }} variant="contained" onClick={handleAdd} color="primary">
+          <Button
+            sx={{ mt: '24px', mr: 2 }}
+            variant="contained"
+            onClick={handleAdd}
+            color="primary"
+          >
             Save
           </Button>
         </Tooltip>

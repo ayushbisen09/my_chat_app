@@ -189,15 +189,15 @@ export function TagDialog({ open, onClose }) {
         </DialogContent>
 
         <DialogActions>
+          <Tooltip title="Click here to add tag" arrow placement="top">
+            <Button onClick={handleAdd} variant="contained" color='primary'>
+              Add
+            </Button>
+          </Tooltip>
         <Tooltip title="if you don't want to add a new tag click cancle button" arrow placement="top">
           <Button onClick={onClose} variant="outlined" color="inherit">
             Cancel
           </Button>
-          </Tooltip>
-          <Tooltip title="Click here to add tag" arrow placement="top">
-            <Button onClick={handleAdd} variant="contained">
-              Add
-            </Button>
           </Tooltip>
         </DialogActions>
       </Dialog>

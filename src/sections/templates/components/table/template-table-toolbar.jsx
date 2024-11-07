@@ -5,11 +5,10 @@ import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import Popover from '@mui/material/Popover';
-import MenuItem from '@mui/material/MenuItem';
 import TextField from '@mui/material/TextField';
 import FormControl from '@mui/material/FormControl';
 import InputAdornment from '@mui/material/InputAdornment';
-import { Tooltip ,Typography, useMediaQuery} from '@mui/material';
+import { Tooltip, Typography, Autocomplete, useMediaQuery } from '@mui/material';
 
 import { useBoolean } from 'src/hooks/use-boolean';
 
@@ -30,9 +29,17 @@ export function OrderTableToolbar({ filters, onResetPage, dateError }) {
   const [operator, setOperator] = useState('contains');
   const [filterValue, setFilterValue] = useState('');
 
-  const status = ['Approved', 'Draft', 'Rejected' , 'Pending ' , 'Deleted']; // Add your actual column names here
-  const type = ['Text', 'Image' , 'Video' , ' Document' , ' Location' , ' Carousel' , ' Limited time offer']; // Add your actual column names here
-  const health = ['Good', 'Poor' , 'Low']; // Add your actual column names here
+  const status = ['Approved', 'Draft', 'Rejected', 'Pending ', 'Deleted']; // Add your actual column names here
+  const type = [
+    'Text',
+    'Image',
+    'Video',
+    ' Document',
+    ' Location',
+    ' Carousel',
+    ' Limited time offer',
+  ]; // Add your actual column names here
+  const health = ['Good', 'Poor', 'Low']; // Add your actual column names here
 
   const handleFilterName = useCallback(
     (event) => {
@@ -82,195 +89,268 @@ export function OrderTableToolbar({ filters, onResetPage, dateError }) {
         sx={{ p: 2.5, pr: { xs: 2.5, md: 1 } }}
       >
         <Stack direction="row" alignItems="center" spacing={2} flexGrow={1} sx={{ width: 1 }}>
-        <Tooltip title="Click here to Search template by Name or Category" arrow placement="top">
-          <TextField
-            sx={{ mr: '5px' }}
-            fullWidth
-            value={filters.state.name}
-            onChange={handleFilterName}
-            placeholder="Search template by Name or Category..."
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <Iconify icon="eva:search-fill" sx={{ color: 'text.disabled' }} />
-                </InputAdornment>
-              ),
-            }}
-          />
+          <Tooltip title="Click here to Search template by Name or Category" arrow placement="top">
+            <TextField
+              sx={{ mr: '5px' }}
+              fullWidth
+              value={filters.state.name}
+              onChange={handleFilterName}
+              placeholder="Search template by Name or Category..."
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <Iconify icon="eva:search-fill" sx={{ color: 'text.disabled' }} />
+                  </InputAdornment>
+                ),
+              }}
+            />
           </Tooltip>
           <Tooltip title="Click here to apply filters" arrow placement="top">
-          <Button
-            sx={{ ml: '5px' }}
-            size="large"
-            variant=""
-            startIcon={<Iconify icon="mdi:filter" />}
-            onClick={handleFilterClick}
-          >
-            Filters
-          </Button>
+            <Button
+              sx={{ ml: '5px' }}
+              size="large"
+              variant=""
+              startIcon={<Iconify icon="mdi:filter" />}
+              onClick={handleFilterClick}
+            >
+              Filters
+            </Button>
           </Tooltip>
-          
         </Stack>
       </Stack>
-      
-       
 
       <Popover
         open={Boolean(filterAnchorEl)}
         anchorEl={filterAnchorEl}
         onClose={handleFilterClose}
-        anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'right',
-        }}
-        transformOrigin={{
-          vertical: 'top',
-          horizontal: 'right',
-        }}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+        transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       >
         <Box
           sx={{
-            p: 2,
             width: {
-              xs: '300px',
+              xs: '100%',
               sm: '100%',
-              md: 800,
+              md: 650,
             },
-            display: 'flex',
             flexDirection: {
               xs: 'column',
               sm: 'column',
               md: 'row',
             },
-            gap: 2,
           }}
         >
-          <FormControl fullWidth sx={{ mb: { xs: 2, sm: 2, md: 0 }, justifyContent: 'center' }}>
-            <Typography sx={{ fontSize: '16px', fontWeight: '600' }}>Status</Typography>
-          </FormControl>
-
-          <FormControl fullWidth sx={{ mb: { xs: 2, sm: 2, md: 0 } }}>
-            <TextField
-              id="select-currency-label-x"
-              variant="outlined"
-              fullWidth
-              label="Equals to"
-              disabled
+          {/* Filter Header */}
+          <Box
+            sx={{
+              borderBottom: '1px dashed #919eab33',
+              p: 2,
+              display: 'flex',
+              height: '100%',
+              width: '100%',
+            }}
+          >
+            <Box sx={{ width: '100%' }}>
+              <Typography variant="h6" sx={{ fontWeight: '600' }}>
+                Filter Request
+              </Typography>
+            </Box>
+            <Iconify
+              icon="uil:times"
+              onClick={handleFilterClose}
+              style={{
+                width: 20,
+                height: 20,
+                cursor: 'pointer',
+                color: '#637381',
+              }}
             />
-          </FormControl>
-          <FormControl fullWidth sx={{ mb: { xs: 2, sm: 2, md: 0 } }}>
-            <TextField
-              id="Status"
-              variant="outlined"
-              select
-              fullWidth
-              label="Status"
-              // value={importingStatus}
-              // onChange={(e) => setImportingStatus(e.target.value)}
-            >
-              {status.map((column) => (
-                <MenuItem key={column} value={column}>
-                  {column}
-                </MenuItem>
-              ))}
-            </TextField>
-          </FormControl>
-        </Box>
-        <Box
-          sx={{
-            p: 2,
-            width: {
-              xs: '300px',
-              sm: '100%',
-              md: 800,
-            },
-            display: 'flex',
-            flexDirection: {
-              xs: 'column',
-              sm: 'column',
-              md: 'row',
-            },
-            gap: 2,
-          }}
-        >
-          <FormControl fullWidth sx={{ mb: { xs: 2, sm: 2, md: 0 }, justifyContent: 'center' }}>
-            <Typography sx={{ fontSize: '16px', fontWeight: '600' }}>Type</Typography>
-          </FormControl>
+          </Box>
 
-          <FormControl fullWidth sx={{ mb: { xs: 2, sm: 2, md: 0 } }}>
-            <TextField
-              id="select-currency-label-x"
-              variant="outlined"
-              fullWidth
-              label="Equals to"
-              disabled
-            />
-          </FormControl>
-          <FormControl fullWidth sx={{ mb: { xs: 2, sm: 2, md: 0 } }}>
-            <TextField
-              id="Type"
-              variant="outlined"
-              select
-              fullWidth
-              label="Type"
-              // value={incomingStatus}
-              // onChange={(e) => setIncomingStatus(e.target.value)}
+          {/* Filter Options */}
+          <Box
+            sx={{
+              p: '16px 16px 0px 16px',
+              gap: 2,
+              flexDirection: {
+                xs: 'column',
+                sm: 'column',
+                md: 'row',
+              },
+            }}
+          >
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: {
+                  xs: 'column',
+                  sm: 'column',
+                  md: 'row',
+                },
+                gap: 2,
+                mb: 2,
+              }}
             >
-              {type.map((column) => (
-                <MenuItem key={column} value={column}>
-                  {column}
-                </MenuItem>
-              ))}
-            </TextField>
-          </FormControl>
-        </Box>
-        <Box
-          sx={{
-            p: 2,
-            width: {
-              xs: '300px',
-              sm: '100%',
-              md: 800,
-            },
-            display: 'flex',
-            flexDirection: {
-              xs: 'column',
-              sm: 'column',
-              md: 'row',
-            },
-            gap: 2,
-          }}
-        >
-          <FormControl fullWidth sx={{ mb: { xs: 2, sm: 2, md: 0 }, justifyContent: 'center' }}>
-            <Typography sx={{ fontSize: '16px', fontWeight: '600' }}>Health</Typography>
-          </FormControl>
+              <FormControl fullWidth sx={{ mb: { xs: 2, sm: 2, md: 0 }, justifyContent: 'center' }}>
+                <Typography sx={{ fontSize: '14px', fontWeight: '600' }}>Status</Typography>
+              </FormControl>
 
-          <FormControl fullWidth sx={{ mb: { xs: 2, sm: 2, md: 0 } }}>
-            <TextField
-              id="select-currency-label-x"
-              variant="outlined"
-              fullWidth
-              label="Equals to"
-              disabled
-            />
-          </FormControl>
-          <FormControl fullWidth sx={{ mb: { xs: 2, sm: 2, md: 0 } }}>
-            <TextField
-              id="health"
-              variant="outlined"
-              select
-              fullWidth
-              label="Health"
-              // value={hoursStatus}
-              // onChange={(e) => setHoursStatus(e.target.value)}
+              <FormControl
+                fullWidth
+                sx={{
+                  mb: { xs: 2, sm: 2, md: 0 },
+                  width: { xs: '100%', sm: '100%', md: '390px' },
+                }}
+              >
+                <TextField
+                  id="select-currency-label-x"
+                  variant="outlined"
+                  fullWidth
+                  label="Equals to"
+                  disabled
+                  size="small"
+                />
+              </FormControl>
+
+              <FormControl fullWidth sx={{ mb: { xs: 2, sm: 2, md: 0 } }}>
+                <Autocomplete
+                  sx={{
+                    '& .MuiInputBase-input': {
+                      fontSize: '14px',
+                    },
+                    '& .MuiInputLabel-root': {
+                      fontSize: '14px',
+                    },
+                  }}
+                  size="small"
+                  options={status}
+                  renderInput={(params) => <TextField {...params} label="Select" />}
+                  // sx={{ width: 300 }}
+                />
+              </FormControl>
+            </Box>
+
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: {
+                  xs: 'column',
+                  sm: 'column',
+                  md: 'row',
+                },
+                gap: 2,
+                mb: 2,
+              }}
             >
-              {health.map((column) => (
-                <MenuItem key={column} value={column}>
-                  {column}
-                </MenuItem>
-              ))}
-            </TextField>
-          </FormControl>
+              <FormControl fullWidth sx={{ mb: { xs: 2, sm: 2, md: 0 }, justifyContent: 'center' }}>
+                <Typography sx={{ fontSize: '14px', fontWeight: '600' }}>Type</Typography>
+              </FormControl>
+
+              <FormControl
+                fullWidth
+                sx={{
+                  mb: { xs: 2, sm: 2, md: 0 },
+                  width: { xs: '100%', sm: '100%', md: '390px' },
+                }}
+              >
+                <TextField
+                  id="select-currency-label-x"
+                  variant="outlined"
+                  fullWidth
+                  label="Equals to"
+                  disabled
+                  size="small"
+                />
+              </FormControl>
+
+              <FormControl fullWidth sx={{ mb: { xs: 2, sm: 2, md: 0 } }}>
+                <Autocomplete
+                  sx={{
+                    '& .MuiInputBase-input': {
+                      fontSize: '14px',
+                    },
+                    '& .MuiInputLabel-root': {
+                      fontSize: '14px',
+                    },
+                  }}
+                  size="small"
+                  options={type}
+                  renderInput={(params) => <TextField {...params} label="Select" />}
+                  // sx={{ width: 300 }}
+                />
+              </FormControl>
+            </Box>
+
+            {/* Folder */}
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: {
+                  xs: 'column',
+                  sm: 'column',
+                  md: 'row',
+                },
+                gap: 2,
+                mb: 2,
+              }}
+            >
+              <FormControl fullWidth sx={{ mb: { xs: 2, sm: 2, md: 0 }, justifyContent: 'center' }}>
+                <Typography sx={{ fontSize: '14px', fontWeight: '600' }}>Health</Typography>
+              </FormControl>
+
+              <FormControl
+                fullWidth
+                sx={{
+                  mb: { xs: 2, sm: 2, md: 0 },
+                  width: { xs: '100%', sm: '100%', md: '390px' },
+                }}
+              >
+                <TextField
+                  id="select-currency-label-x"
+                  variant="outlined"
+                  fullWidth
+                  label="Equals To"
+                  disabled
+                  size="small"
+                />
+              </FormControl>
+
+              <FormControl fullWidth sx={{ mb: { xs: 2, sm: 2, md: 0 } }}>
+                <Autocomplete
+                  sx={{
+                    '& .MuiInputBase-input': {
+                      fontSize: '14px',
+                    },
+                    '& .MuiInputLabel-root': {
+                      fontSize: '14px',
+                    },
+                  }}
+                  size="small"
+                  options={health}
+                  renderInput={(params) => <TextField {...params} label="Select" />}
+                  // sx={{ width: 300 }}
+                />
+              </FormControl>
+            </Box>
+          </Box>
+
+          {/* Filter Footer */}
+          <Box
+            sx={{
+              p: 2,
+              gap: 2,
+              display: 'flex',
+              justifyContent: 'flex-end',
+              borderTop: '1px dashed #919eab33',
+            }}
+          >
+            {/* <Button variant="outlined" color="inherit" onClick={handleFilterClose}>
+              Cancel
+            </Button> */}
+            <Button variant="contained" color="primary" onClick={handleApplyFilter}>
+              Apply Filter
+            </Button>
+          </Box>
         </Box>
       </Popover>
     </>

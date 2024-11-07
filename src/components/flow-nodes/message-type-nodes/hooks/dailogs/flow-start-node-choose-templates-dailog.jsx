@@ -2,7 +2,7 @@ import { useTheme } from '@emotion/react';
 
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
-import { Box, Divider, Typography, useMediaQuery } from '@mui/material';
+import { Divider, Typography, DialogContent, useMediaQuery } from '@mui/material';
 
 import { useBoolean } from 'src/hooks/use-boolean';
 
@@ -51,11 +51,12 @@ export function ChooseTemplate({ title, content, action, open, onClose, ...other
       </DialogTitle>
       <Divider sx={{ borderStyle: 'dashed' }} />
 
-      <Box sx={{ px: 2, pb: 2 }}>
-        {' '}
-        {/* Add padding here */}
+      
+       <DialogContent sx={{pb:3}}>
+
         <ChooseTemplateDailogTable />
-      </Box>
+       </DialogContent>
+     
     </Dialog>
   );
 }

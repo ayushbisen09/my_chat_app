@@ -22,14 +22,13 @@ import { Iconify } from 'src/components/iconify';
 import { ConfirmDialog } from 'src/components/custom-dialog';
 import { usePopover, CustomPopover } from 'src/components/custom-popover';
 
-import teamMemberRoute from '../../../../pages/app/team-members'
 import { MoveToFolderPopover } from '../../hooks/move_folder-dailog';
+
 
 
 export function OrderTableRow({
   row,
   selected,
-  onViewRow,
   onSelectRow,
   onDeleteRow,
   dashboardTableIndex,
@@ -43,7 +42,7 @@ export function OrderTableRow({
 
   const [moveToFolderPopoverOpen, setMoveToFolderPopoverOpen] = useState(false);
  
-  const navigate = useNavigate();
+ 
   const confirm = useBoolean(); // Assuming you have a useBoolean hook for handling confirmation
 
   const handleToggleToken = () => {
@@ -384,6 +383,11 @@ export function OrderTableRow({
     </TableRow>
   );
 
+  const navigate = useNavigate();
+  const handleNavigateToTeamMembers = () => {
+    navigate('/app/settings/teammembers'); // Adjust the path if needed
+  };
+
   return (
     <>
       {renderPrimary}
@@ -436,11 +440,7 @@ export function OrderTableRow({
           </Tooltip>
           <Tooltip title="Add team members for collaborative editing." arrow placement="left">
             <MenuItem
-              component="a"
-              // href={paths.dashboard.setting.root}
-              onClick={() => {
-                navigate(teamMemberRoute);
-              }}
+              onClick={handleNavigateToTeamMembers}
               sx={{ color: 'secondary' }}
             >
               <Iconify icon="fluent:people-team-add-24-filled" />

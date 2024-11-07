@@ -6,15 +6,12 @@ import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import {
   Box,
-  Card,
   Alert,
   Button,
-  Divider,
   Tooltip,
   MenuItem,
   Snackbar,
   TextField,
-  CardHeader,
   Typography,
   InputAdornment,
 } from '@mui/material';
@@ -364,31 +361,16 @@ export default function OptInRegularMessage(onClose) {
               width={isMobile ? '100%' : '40%'}
               sx={{ pl: isMobile ? 0 : '12px', mt: isMobile ? '24px' : 0 }}
             >
-              <Card
-                sx={{
-                  border: '1px solid #919EAB33',
-                  width: '100%',
-                  maxWidth: '500px',
-                }}
-              >
-                <CardHeader
-                  sx={{ mb: 2 }}
-                  
-                  title={
-                    <Typography variant="h7" sx={{ fontSize: 14, fontWeight: '700' }}>
-                      Mireya Conner
-                    </Typography>
-                  }
-                  
-                />
-                <Divider />
+             
+                
+              
                 
                 <Box
                   sx={{
                     p: 2,
                     backgroundColor: '#CCF4FE',
                     borderRadius: '8px',
-                    m: 2,
+                  
                   }}
                 >
                   {messagetype === 'video' && (
@@ -421,7 +403,7 @@ export default function OptInRegularMessage(onClose) {
                     {message}
                   </Typography>
                 </Box>
-              </Card>
+             
             </Box>
           </Tooltip>
         </Box>

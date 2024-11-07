@@ -8,7 +8,7 @@ import MenuItem from '@mui/material/MenuItem';
 import TextField from '@mui/material/TextField';
 import FormControl from '@mui/material/FormControl';
 import InputAdornment from '@mui/material/InputAdornment';
-import { Button, Divider, Tooltip, MenuList, useMediaQuery } from '@mui/material';
+import { Button, Divider, Tooltip, MenuList, Typography, Autocomplete, useMediaQuery } from '@mui/material';
 
 import { useBoolean } from 'src/hooks/use-boolean';
 
@@ -201,55 +201,136 @@ export function OrderTableToolbar({ filters, onResetPage, numSelected, publish, 
         open={Boolean(filterAnchorEl)}
         anchorEl={filterAnchorEl}
         onClose={handleFilterClose}
-        anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'right',
-        }}
-        transformOrigin={{
-          vertical: 'top',
-          horizontal: 'right',
-        }}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+        transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       >
         <Box
           sx={{
-            p: 2,
             width: {
-              xs: '300px', // 100% width on extra-small screens
-              sm: '100%', // 100% width on small screens
-              md: 800, // 800px width on medium screens and above
+              xs: '100%',
+              sm: '100%',
+              md: 650,
             },
-            display: 'flex',
             flexDirection: {
-              xs: 'column', // column direction on extra-small screens
-              sm: 'column', // column direction on small screens
-              md: 'row', // row direction on medium screens and above
+              xs: 'column',
+              sm: 'column',
+              md: 'row',
             },
-            gap: 2,
           }}
         >
-          <FormControl fullWidth sx={{ mb: { xs: 2, sm: 2, md: 0 } }}>
-            {/* <InputLabel>Whatsapp number Status</InputLabel> */}
-            <TextField id="select-currency-label-x" variant="outlined" fullWidth value="Folder" />
-          </FormControl>
+          {/* Filter Header */}
+          <Box
+            sx={{
+              borderBottom: '1px dashed #919eab33',
+              p: 2,
+              display: 'flex',
+              height: '100%',
+              width: '100%',
+            }}
+          >
+            <Box sx={{ width: '100%' }}>
+              <Typography variant="h6" sx={{ fontWeight: '600' }}>
+                Filter Request
+              </Typography>
+            </Box>
+            <Iconify
+              icon="uil:times"
+              onClick={handleFilterClose}
+              style={{
+                width: 20,
+                height: 20,
+                cursor: 'pointer',
+                color: '#637381',
+              }}
+            />
+          </Box>
 
-          <FormControl fullWidth sx={{ mb: { xs: 2, sm: 2, md: 0 } }}>
-            <TextField id="select-currency-label-x" variant="outlined" value="In" fullWidth />
-          </FormControl>
-          <FormControl fullWidth sx={{ mb: { xs: 2, sm: 2, md: 0 } }}>
-            <TextField
-              id="select-currency-label-x"
-              variant="outlined"
-              select
-              fullWidth
-              label="Folder"
+          {/* Filter Options */}
+          <Box
+            sx={{
+              p: '16px 16px 0px 16px',
+              gap: 2,
+              flexDirection: {
+                xs: 'column',
+                sm: 'column',
+                md: 'row',
+              },
+            }}
+          >
+          
+
+          
+
+            {/* Folder */}
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: {
+                  xs: 'column',
+                  sm: 'column',
+                  md: 'row',
+                },
+                gap: 2,
+                mb: 2,
+              }}
             >
-              {columns.map((column) => (
-                <MenuItem key={column} value={column}>
-                  {column}
-                </MenuItem>
-              ))}
-            </TextField>
-          </FormControl>
+              <FormControl fullWidth sx={{ mb: { xs: 2, sm: 2, md: 0 }, justifyContent: 'center' }}>
+                <Typography sx={{ fontSize: '14px', fontWeight: '600' }}>Folder</Typography>
+              </FormControl>
+
+              <FormControl
+                fullWidth
+                sx={{
+                  mb: { xs: 2, sm: 2, md: 0 },
+                  width: { xs: '100%', sm: '100%', md: '390px' },
+                }}
+              >
+                <TextField
+                  id="select-currency-label-x"
+                  variant="outlined"
+                  fullWidth
+                  label="In"
+                  disabled
+                  size="small"
+                />
+              </FormControl>
+
+              <FormControl fullWidth sx={{ mb: { xs: 2, sm: 2, md: 0 } }}>
+                <Autocomplete
+                  sx={{
+                    '& .MuiInputBase-input': {
+                      fontSize: '14px',
+                    },
+                    '& .MuiInputLabel-root': {
+                      fontSize: '14px',
+                    },
+                  }}
+                  size="small"
+                  options={folder}
+                  renderInput={(params) => <TextField {...params} label="Select" />}
+                  // sx={{ width: 300 }}
+                />
+              </FormControl>
+            </Box>
+          </Box>
+
+          {/* Filter Footer */}
+          <Box
+            sx={{
+              p: 2,
+              gap: 2,
+              display: 'flex',
+              justifyContent: 'flex-end',
+              borderTop: '1px dashed #919eab33',
+            }}
+          >
+            {/* <Button variant="outlined" color="inherit" onClick={handleFilterClose}>
+              Cancel
+            </Button> */}
+            <Button variant="contained" color="primary" onClick={handleApplyFilter}>
+              Apply Filter
+            </Button>
+          </Box>
         </Box>
       </Popover>
       <Popover

@@ -5,14 +5,12 @@ import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import Popover from '@mui/material/Popover';
-import MenuItem from '@mui/material/MenuItem';
 import TextField from '@mui/material/TextField';
 import FormControl from '@mui/material/FormControl';
 import InputAdornment from '@mui/material/InputAdornment';
-import { Tooltip, Typography, useMediaQuery } from '@mui/material';
+import { Tooltip, Typography, Autocomplete, useMediaQuery } from '@mui/material';
 
 import { Iconify } from 'src/components/iconify';
-
 
 // ----------------------------------------------------------------------
 
@@ -39,6 +37,10 @@ export function QuickRepliesTableToolbar({ filters, onResetPage }) {
 
   const handleFilterClose = () => {
     setFilterAnchorEl(null);
+  };
+
+  const handleApplyFilter = () => {
+    handleFilterClose();
   };
 
   return (
@@ -84,62 +86,133 @@ export function QuickRepliesTableToolbar({ filters, onResetPage }) {
         open={Boolean(filterAnchorEl)}
         anchorEl={filterAnchorEl}
         onClose={handleFilterClose}
-        anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'right',
-        }}
-        transformOrigin={{
-          vertical: 'top',
-          horizontal: 'right',
-        }}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+        transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       >
         <Box
           sx={{
-            p: 2,
             width: {
-              xs: '300px',
+              xs: '100%',
               sm: '100%',
-              md: 800,
+              md: 650,
             },
-            display: 'flex',
             flexDirection: {
               xs: 'column',
               sm: 'column',
               md: 'row',
             },
-            gap: 2,
           }}
         >
-          <FormControl fullWidth sx={{ mb: { xs: 2, sm: 2, md: 0 }, justifyContent: 'center' }}>
-            <Typography sx={{ fontSize: '16px', fontWeight: '600' }}> Quick Replies Type</Typography>
-          </FormControl>
-
-          <FormControl fullWidth sx={{ mb: { xs: 2, sm: 2, md: 0 } }}>
-            <TextField
-              id="select-currency-label-x"
-              variant="outlined"
-              fullWidth
-              label="Equals to"
-              disabled
+          {/* Filter Header */}
+          <Box
+            sx={{
+              borderBottom: '1px dashed #919eab33',
+              p: 2,
+              display: 'flex',
+              height: '100%',
+              width: '100%',
+            }}
+          >
+            <Box sx={{ width: '100%' }}>
+              <Typography variant="h6" sx={{ fontWeight: '600' }}>
+                Filter Request
+              </Typography>
+            </Box>
+            <Iconify
+              icon="uil:times"
+              onClick={handleFilterClose}
+              style={{
+                width: 20,
+                height: 20,
+                cursor: 'pointer',
+                color: '#637381',
+              }}
             />
-          </FormControl>
-          <FormControl fullWidth sx={{ mb: { xs: 2, sm: 2, md: 0 } }}>
-            <TextField
-              id="Type"
-              variant="outlined"
-              select
-              fullWidth
-              label="Type"
-              // value={incomingStatus}
-              // onChange={(e) => setIncomingStatus(e.target.value)}
+          </Box>
+
+          {/* Filter Options */}
+          <Box
+            sx={{
+              p: '16px 16px 0px 16px',
+              gap: 2,
+              flexDirection: {
+                xs: 'column',
+                sm: 'column',
+                md: 'row',
+              },
+            }}
+          >
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: {
+                  xs: 'column',
+                  sm: 'column',
+                  md: 'row',
+                },
+                gap: 2,
+                mb: 2,
+              }}
             >
-              {type.map((column) => (
-                <MenuItem key={column} value={column}>
-                  {column}
-                </MenuItem>
-              ))}
-            </TextField>
-          </FormControl>
+              <FormControl fullWidth sx={{ mb: { xs: 2, sm: 2, md: 0 }, justifyContent: 'center' }}>
+                <Typography sx={{ fontSize: '14px', fontWeight: '600' }}>
+                  Importing Status
+                </Typography>
+              </FormControl>
+
+              <FormControl
+                fullWidth
+                sx={{
+                  mb: { xs: 2, sm: 2, md: 0 },
+                  width: { xs: '100%', sm: '100%', md: '390px' },
+                }}
+              >
+                <TextField
+                  id="select-currency-label-x"
+                  variant="outlined"
+                  fullWidth
+                  label="Equals to"
+                  disabled
+                  size="small"
+                />
+              </FormControl>
+
+              <FormControl fullWidth sx={{ mb: { xs: 2, sm: 2, md: 0 } }}>
+                <Autocomplete
+                  sx={{
+                    '& .MuiInputBase-input': {
+                      fontSize: '14px',
+                    },
+                    '& .MuiInputLabel-root': {
+                      fontSize: '14px',
+                    },
+                  }}
+                  size="small"
+                  options={type}
+                  renderInput={(params) => <TextField {...params} label="Select" />}
+                  // sx={{ width: 300 }}
+                />
+              </FormControl>
+            </Box>
+          </Box>
+
+          {/* Filter Footer */}
+          <Box
+            sx={{
+              p: 2,
+              gap: 2,
+              display: 'flex',
+              justifyContent: 'flex-end',
+              borderTop: '1px dashed #919eab33',
+            }}
+          >
+            {/* <Button variant="outlined" color="inherit" onClick={handleFilterClose}>
+              Cancel
+            </Button> */}
+            <Button variant="contained" color="primary" onClick={handleApplyFilter}>
+              Apply Filter
+            </Button>
+          </Box>
         </Box>
       </Popover>
     </>

@@ -8,7 +8,6 @@ import { Scrollbar } from 'src/components/scrollbar';
 import { NavSectionMini, NavSectionVertical } from 'src/components/nav-section';
 
 import { NavUpgrade } from '../components/nav-upgrade';
-import { NavToggleButton } from '../components/nav-toggle-button';
 
 // ----------------------------------------------------------------------
 
@@ -72,16 +71,7 @@ export function NavVertical({ sx, data, slots, isNavMini, layoutQuery, onToggleN
         ...sx,
       }}
     >
-      <NavToggleButton
-        isNavMini={isNavMini}
-        onClick={onToggleNav}
-        sx={{
-          display: 'none',
-          [theme.breakpoints.up(layoutQuery)]: {
-            display: 'inline-flex',
-          },
-        }}
-      />
+      
       {isNavMini ? renderNavMini : renderNavVertical}
     </Box>
   );

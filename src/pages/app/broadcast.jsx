@@ -1,7 +1,7 @@
 import { useTheme } from '@emotion/react';
 import { useNavigate } from 'react-router';
 
-import { Box, Button, Tooltip ,useMediaQuery} from '@mui/material';
+import { Box, Button, Tooltip, useMediaQuery } from '@mui/material';
 
 import { CONFIG } from 'src/config-global';
 import { DashboardContent } from 'src/layouts/dashboard';
@@ -45,19 +45,19 @@ export default function Page() {
           Subheading="Launch a campaign now to initiate new conversations with users on WhatsApp."
           link_added="#"
         />
- <Tooltip title="Clear here to clone the flow" arrow placement="top">
-        <Button
-          onClick={handleAddContact}
-          sx={{ mt: isMobile ? 2 : 0 }}
-          startIcon={
-            <Iconify icon="heroicons:plus-circle-16-solid" style={{ width: 18, height: 18 }} />
-          }
-          size="large"
-          variant="contained"
-          color="primary"
-        >
-          Add Broadcast
-        </Button>
+        <Tooltip title="Clear here to add broadcast." arrow placement="top">
+          <Button
+            onClick={handleAddContact}
+            sx={{ mt: isMobile ? 2 : 0 }}
+            startIcon={
+              <Iconify icon="heroicons:plus-circle-16-solid" style={{ width: 18, height: 18 }} />
+            }
+            size="large"
+            variant="contained"
+            color="primary"
+          >
+            Add Broadcast
+          </Button>
         </Tooltip>
       </Box>
       <Box
@@ -74,58 +74,52 @@ export default function Page() {
             gridTemplateColumns: { xs: 'repeat(1, 1fr)', md: 'repeat(4, 1fr)' },
           }}
         >
-        
           <Tooltip title="Total broadcast you have created" arrow placement="top">
-<div>
+            <div>
+              <StatsCards
+                cardtitle="Total Broadcast"
+                cardstats="18"
+                icon_name="TotalCampaign.png"
+                icon_color="#28A645"
+                bg_gradient="#22C55E"
+              />
+            </div>
+          </Tooltip>
 
-          <StatsCards
-            cardtitle="Total Broadcast"
-            cardstats="18"
-            icon_name="TotalCampaign.png"
-            icon_color="#28A645"
-            bg_gradient="#22C55E"
-          />
-</div>
-</Tooltip>
-          
           <Tooltip title="Total live broadcast " arrow placement="top">
             <div>
-
-          <StatsCards
-            cardtitle="Live Broadcast "
-            cardstats="22"
-            icon_name="LiveCampaign.png"
-            icon_color="#FFA92E"
-            bg_gradient="#FFA92E"
-          />
+              <StatsCards
+                cardtitle="Live Broadcast "
+                cardstats="22"
+                icon_name="LiveCampaign.png"
+                icon_color="#FFA92E"
+                bg_gradient="#FFA92E"
+              />
             </div>
-            </Tooltip>
+          </Tooltip>
 
-          
           <Tooltip title="Total send broadcast" arrow placement="top">
             <div>
-
-          <StatsCards
-            cardtitle="Sent Broadcast"
-            cardstats="23"
-            icon_name="SentCampaign.png"
-            icon_color="#05A6C6"
-            bg_gradient="#05A6C6"
-          />
+              <StatsCards
+                cardtitle="Sent Broadcast"
+                cardstats="23"
+                icon_name="SentCampaign.png"
+                icon_color="#05A6C6"
+                bg_gradient="#05A6C6"
+              />
             </div>
-            </Tooltip>
-            <Tooltip title="Total scheduled broadcast " arrow placement="top">
-              <div>
-
-          <StatsCards
-            cardtitle="Scheduled  Broadcast"
-            cardstats="11"
-            icon_name="ScheduledBroadcast.png"
-            icon_color="#F86672"
-            bg_gradient="#F86672"
-          />
-              </div>
-              </Tooltip>
+          </Tooltip>
+          <Tooltip title="Total scheduled broadcast " arrow placement="top">
+            <div>
+              <StatsCards
+                cardtitle="Scheduled  Broadcast"
+                cardstats="11"
+                icon_name="ScheduledBroadcast.png"
+                icon_color="#F86672"
+                bg_gradient="#F86672"
+              />
+            </div>
+          </Tooltip>
         </Box>
         <BroadcastTable />
       </Box>

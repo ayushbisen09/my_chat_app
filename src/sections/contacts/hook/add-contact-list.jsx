@@ -507,7 +507,7 @@ const AddContactsListDrawer = ({ open, onClose }) => {
             <Divider sx={{ borderStyle: 'dashed' }} />
             <Box sx={{ p: 3 }}>
             <Tooltip title="Click here to add contact list." arrow placement='top'>
-              <Button variant="contained" size="medium" sx={{ mr: 1.5 }} onClick={handleAddClick}>
+              <Button variant="contained" size="medium" color='primary' sx={{ mr: 1.5 }} onClick={handleAddClick}>
                 Add
               </Button>
               </Tooltip>

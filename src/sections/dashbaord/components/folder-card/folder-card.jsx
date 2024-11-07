@@ -1,7 +1,6 @@
-
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 import { useTheme } from '@emotion/react';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { styled } from '@mui/material/styles';
 import { RichTreeView } from '@mui/x-tree-view/RichTreeView';
@@ -236,6 +235,10 @@ const CustomTreeItem = React.forwardRef((props, ref) => {
       onToggle?.(event);
     }
   };
+  const navigate = useNavigate();
+  const handleNavigateToTeamMembers = () => {
+    navigate('/app/settings/teammembers'); // Adjust the path if needed
+  };
 
   return (
     <>
@@ -302,7 +305,11 @@ const CustomTreeItem = React.forwardRef((props, ref) => {
                   <Iconify icon="fluent:rename-16-filled" />
                   Rename
                 </MenuItem>
-                <MenuItem onClick={handleQuickShareDialogClick}>
+                {/* <MenuItem onClick={handleNavigateToTeamMembers}>
+                  <Iconify icon="jam:share-alt-f" />
+                  Share
+                </MenuItem> */}
+                <MenuItem onClick={handleNavigateToTeamMembers}>
                   <Iconify icon="jam:share-alt-f" />
                   Share
                 </MenuItem>
@@ -318,9 +325,9 @@ const CustomTreeItem = React.forwardRef((props, ref) => {
         {...other}
       />
 
-       <CreateFolderDialog open={folderDialogOpen} onClose={handleFolderDialogClose} />
+      <CreateFolderDialog open={folderDialogOpen} onClose={handleFolderDialogClose} />
       <RenameFolderDialog open={renameDialogOpen} onClose={handleRenameFolderClose} />
-      <QuickShareDialog open={quickShareDialogOpen} onClose={handleQuickShareDialogClose} /> 
+      <QuickShareDialog open={quickShareDialogOpen} onClose={handleQuickShareDialogClose} />
 
       <ConfirmDialog
         open={confirmDeleteOpen}
@@ -328,7 +335,8 @@ const CustomTreeItem = React.forwardRef((props, ref) => {
         title="Do you really want to delete this folder?"
         content={
           <>
-            Deleting a folder also deletes its subfolders, and WhatsApp number are moved to the home folder.
+            Deleting a folder also deletes its subfolders, and WhatsApp number are moved to the home
+            folder.
             <Link href="/learn-more" target="_blank" rel="noopener noreferrer">
               Learn more
             </Link>
@@ -359,169 +367,171 @@ export default function DashBoardFolderCard({
   const folderDialog = useBoolean();
 
   return (
-    <Card
-      sx={{
-        boxShadow: '0px 12px 24px -4px rgba(145, 158, 171, 0.2)',
-        height: '100%',
-        backgroundColor: 'common.white',
-        width: { xs: '100%', md: '354.2px' },
-        borderRadius: '16px',
-        p: 0,
-        ...sx,
-      }}
-      {...other}
-    >
-      <CardContent>
-        <Box
-          sx={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            mb: 2.6,
-          }}
-        >
+    <>
+      <Card
+        sx={{
+          boxShadow: '0px 12px 24px -4px rgba(145, 158, 171, 0.2)',
+          height: '100%',
+          backgroundColor: 'common.white',
+          width: { xs: '100%', md: '354.2px' },
+          borderRadius: '16px',
+          p: 0,
+          ...sx,
+        }}
+        {...other}
+      >
+        <CardContent>
           <Box
             sx={{
-              minHeight: '100%',
-              width: '100%',
-              borderBottom: '1px dashed',
-              borderColor: varAlpha(theme.vars.palette.grey['500Channel'], 0.3),
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              mb: 2.6,
             }}
           >
             <Box
               sx={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                mb: 2.6,
+                minHeight: '100%',
+                width: '100%',
+                borderBottom: '1px dashed',
+                borderColor: varAlpha(theme.vars.palette.grey['500Channel'], 0.3),
               }}
             >
-              <Typography variant="h6" component="div">
-                <Tooltip
-                  title="You can create folders and manage whatsApp number inside them."
-                  arrow
-                  placement="top"
-                >
-                  Folders
-                </Tooltip>
-              </Typography>
+              <Box
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  mb: 2.6,
+                }}
+              >
+                <Typography variant="h6" component="div">
+                  <Tooltip
+                    title="You can create folders and manage whatsApp number inside them."
+                    arrow
+                    placement="top"
+                  >
+                    Folders
+                  </Tooltip>
+                </Typography>
 
-              <Tooltip title="Create a new folder." arrow placement="top">
-                <Button
-                  sx={{
-                    mb: '0px',
-                    p: 1,
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    minWidth: 0,
-                  }}
-                  onClick={folderDialog.onTrue}
-                  maxWidth
-                  color="primary"
-                  variant="contained"
-                >
-                  <Iconify icon="fa6-solid:plus" />
-                </Button>
-              </Tooltip>
+                <Tooltip title="Create a new folder." arrow placement="top">
+                  <Button
+                    sx={{
+                      mb: '0px',
+                      p: 1,
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      minWidth: 0,
+                    }}
+                    onClick={folderDialog.onTrue}
+                    maxWidth
+                    color="primary"
+                    variant="contained"
+                  >
+                    <Iconify icon="fa6-solid:plus" />
+                  </Button>
+                </Tooltip>
+              </Box>
             </Box>
           </Box>
-        </Box>
 
-        <Box sx={{ minHeight: '100%', width: '100%' }}>
-          <RichTreeView
-            onClick={onHomeClick}
-            defaultExpandedItems={['25']}
-            sx={{ overflowX: 'hidden', minHeight: 'auto' }}
-            slots={{
-              item: (props) => (
-                <CustomTreeItem
-                  {...props}
-                  onFolderClick={onFolderClick}
-                  onHomeClick={onHomeClick}
-                />
-              ), // Pass the folder click handler
-            }}
-            items={HOMEITEMS}
-          />
-          <RichTreeView
-            defaultExpandedItems={['0']}
-            sx={{ overflowX: 'hidden', minHeight: 'auto' }}
-            slots={{
-              item: (props) => (
-                <CustomTreeItem
-                  {...props}
-                  onFolderClick={onFolderClick}
-                  onHomeClick={onHomeClick}
-                />
-              ), // Pass the folder click handler
-            }}
-            items={ITEMS}
-          />
-        </Box>
+          <Box sx={{ minHeight: '100%', width: '100%' }}>
+            <RichTreeView
+              onClick={onHomeClick}
+              defaultExpandedItems={['25']}
+              sx={{ overflowX: 'hidden', minHeight: 'auto' }}
+              slots={{
+                item: (props) => (
+                  <CustomTreeItem
+                    {...props}
+                    onFolderClick={onFolderClick}
+                    onHomeClick={onHomeClick}
+                  />
+                ), // Pass the folder click handler
+              }}
+              items={HOMEITEMS}
+            />
+            <RichTreeView
+              defaultExpandedItems={['0']}
+              sx={{ overflowX: 'hidden', minHeight: 'auto' }}
+              slots={{
+                item: (props) => (
+                  <CustomTreeItem
+                    {...props}
+                    onFolderClick={onFolderClick}
+                    onHomeClick={onHomeClick}
+                  />
+                ), // Pass the folder click handler
+              }}
+              items={ITEMS}
+            />
+          </Box>
 
-        <Box
-          sx={{
-            minHeight: '100%',
-            width: '100%',
-            pt: '21px',
-            mt: '21px',
-            borderTop: '1px dashed',
-            borderColor: varAlpha(theme.vars.palette.grey['500Channel'], 0.3),
-          }}
-        >
-          <RichTreeView
-            onClick={onTrashClick}
-            defaultExpandedItems={['24']}
+          <Box
             sx={{
-              overflowX: 'hidden',
-              minHeight: 'auto',
+              minHeight: '100%',
               width: '100%',
+              pt: '21px',
+              mt: '21px',
+              borderTop: '1px dashed',
+              borderColor: varAlpha(theme.vars.palette.grey['500Channel'], 0.3),
             }}
-            slots={{
-              item: (props) => (
-                <CustomTreeItem
-                  {...props}
-                  hideEllipsis
-                  label={
-                    <Box
-                      sx={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'space-between',
-                        width: '100%',
-                      }}
-                    >
-                      <Typography
-                        variant="body2"
+          >
+            <RichTreeView
+              onClick={onTrashClick}
+              defaultExpandedItems={['24']}
+              sx={{
+                overflowX: 'hidden',
+                minHeight: 'auto',
+                width: '100%',
+              }}
+              slots={{
+                item: (props) => (
+                  <CustomTreeItem
+                    {...props}
+                    hideEllipsis
+                    label={
+                      <Box
                         sx={{
                           display: 'flex',
-                          flexGrow: 1,
-                          mr: 'auto',
+                          alignItems: 'center',
+                          justifyContent: 'space-between',
+                          width: '100%',
                         }}
                       >
-                        {props.label}
-                      </Typography>
+                        <Typography
+                          variant="body2"
+                          sx={{
+                            display: 'flex',
+                            flexGrow: 1,
+                            mr: 'auto',
+                          }}
+                        >
+                          {props.label}
+                        </Typography>
 
-                      <Iconify
-                        mr="3.1px"
-                        icon="solar:trash-bin-trash-bold"
-                        style={{
-                          height: '18px',
-                          color: '#6c757d',
-                        }}
-                      />
-                    </Box>
-                  }
-                  onHomeClick={onHomeClick}
-                />
-              ),
-            }}
-            items={ITEMS2}
-          />
-        </Box>
-      </CardContent>
+                        <Iconify
+                          mr="3.1px"
+                          icon="solar:trash-bin-trash-bold"
+                          style={{
+                            height: '18px',
+                            color: '#6c757d',
+                          }}
+                        />
+                      </Box>
+                    }
+                    onHomeClick={onHomeClick}
+                  />
+                ),
+              }}
+              items={ITEMS2}
+            />
+          </Box>
+        </CardContent>
+      </Card>
       <CreateFolderDialog open={folderDialog.value} onClose={folderDialog.onFalse} />
-    </Card>
+    </>
   );
 }

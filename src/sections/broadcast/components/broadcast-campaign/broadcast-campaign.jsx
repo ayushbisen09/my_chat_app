@@ -33,7 +33,7 @@ import { ChooseTemplate } from 'src/components/flow-nodes/message-type-nodes/hoo
 import ChatBox from '../chat-box/chat-box';
 import RegularMessage from '../../regular-message';
 import { SelectContactDrawer } from '../../hook/drawer';
-import TemplateImage from '../../../../../public/assets/images/chatImage/limitedtimeoffer.png'
+import TemplateImage from '../../../../../public/assets/images/chatImage/limitedtimeoffer.png';
 
 export default function BroadcastCampaign() {
   const theme = useTheme();
@@ -69,53 +69,46 @@ export default function BroadcastCampaign() {
   const closeTemplateDialog = () => setIsTemplateDialogOpen(false);
   const [isTemplateDialogOpen, setIsTemplateDialogOpen] = useState(false); // Moved inside the component
   const text = 'Congratulations! 🎉 Your order for the Headway Bassheads has been confirmed. 🙌';
-  const showImage = true; 
-  const showLinks = true; 
+  const showImage = true;
+  const showLinks = true;
   const showCall = true;
-  const showCoupon = true; 
-  const showVisit = true; 
+  const showCoupon = true;
+  const showVisit = true;
 
   return (
     <FormProvider>
       <Form>
-        <FormControlLabel
-          control={
-            <TextField
-              fullWidth
-              type="text"
-              margin="dense"
-              variant="outlined"
-              label="Broadcast Name"
-              helperText="Enter the name of the broadcast."
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <Tooltip
-                      title="Enter the name of the broadcast."
-                      arrow
-                      placement="top"
-                      sx={{ fontSize: '16px' }}
-                    >
-                      <Iconify
-                        icon="material-symbols:info-outline"
-                        style={{ width: 20, height: 20 }}
-                      />
-                    </Tooltip>
-                  </InputAdornment>
-                ),
-              }}
-            />
-          }
-          sx={{ width: '100%', padding: '0px 24px 24px 24px', mr: 0, ml: 0 }}
+        <TextField
+          sx={{ mb: 3 }}
+          fullWidth
+          type="text"
+          margin="dense"
+          variant="outlined"
+          label="Broadcast Name"
+          helperText="Enter the name of the broadcast."
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <Tooltip
+                  title="Enter the name of the broadcast."
+                  arrow
+                  placement="top"
+                  sx={{ fontSize: '16px' }}
+                >
+                  <Iconify icon="material-symbols:info-outline" style={{ width: 20, height: 20 }} />
+                </Tooltip>
+              </InputAdornment>
+            ),
+          }}
         />
 
         <Tooltip title="Click here to select contact list in broadcast" arrow placement="top">
           <Button
+            sx={{ mb: 3 }}
             size="medium"
             variant="outlined"
             color="primary"
             startIcon={<Iconify icon="mingcute:add-line" />}
-            sx={{ m: '0px 24px 24px 24px', alignSelf: 'flex-start' }}
             onClick={handleOpenDrawer1}
           >
             Select Contacts
@@ -129,10 +122,7 @@ export default function BroadcastCampaign() {
             display: 'flex',
             gap: 1,
             width: '100%',
-            padding: '0px 24px 8px 24px',
-            mr: 0,
-            ml: 0,
-            mb: 0.5,
+            mb: 3,
           }}
         >
           <Tooltip title="Included contact list in broadcast " arrow placement="left">
@@ -147,10 +137,7 @@ export default function BroadcastCampaign() {
           sx={{
             display: 'flex',
             gap: 1,
-            width: '100%',
-            padding: '0px 24px 24px 24px',
-            mr: 0,
-            ml: 0,
+            mb: 3,
           }}
         >
           <Tooltip title="Excluded contact list in broadcast " arrow placement="left">
@@ -161,15 +148,10 @@ export default function BroadcastCampaign() {
           </Tooltip>
         </Box>
 
-        <Divider sx={{ borderStyle: 'dashed', margin: '0px 24px 24px 24px' }} />
+        <Divider sx={{ borderStyle: 'dashed', mb:3 }} />
 
         <Box
-          sx={{
-            width: '100%',
-            padding: '0px 24px 24px 24px',
-            mr: 0,
-            ml: 0,
-          }}
+          sx={{ mb: 3 }}
         >
           <Typography variant="h7" sx={{ fontSize: '14px', fontWeight: '600' }}>
             Select Message Type
@@ -192,30 +174,27 @@ export default function BroadcastCampaign() {
           </RadioGroup>
           {messageType === 'pre_approved_message' && (
             <form>
-            
-              
-                  <Button
-                    variant="outlined"
-                    color="primary"
-                    size="Medium"
-                    onClick={openTemplateDialog}
-                    sx={{ width: '230px', mt: 2,mb:3 }}
-                  >
-                    Select WhatsApp Template
-                  </Button>
-                
-                <Box width="380px">
-                  <ChatBox
-                    text={text}
-                    coverSrc={TemplateImage}
-                    showImage={showImage}
-                    showLinks={showLinks}
-                    showCall={showCall}
-                    showCoupon={showCoupon}
-                    showVisit={showVisit}
-                  />
-                </Box>
-              
+              <Button
+                variant="outlined"
+                color="primary"
+                size="Medium"
+                onClick={openTemplateDialog}
+                sx={{ width: '230px', mt: 2, mb: 3 }}
+              >
+                Select WhatsApp Template
+              </Button>
+
+              <Box width="380px">
+                <ChatBox
+                  text={text}
+                  coverSrc={TemplateImage}
+                  showImage={showImage}
+                  showLinks={showLinks}
+                  showCall={showCall}
+                  showCoupon={showCoupon}
+                  showVisit={showVisit}
+                />
+              </Box>
             </form>
           )}
           {messageType === 'regular_message' && (
@@ -227,103 +206,94 @@ export default function BroadcastCampaign() {
 
         <ChooseTemplate open={isTemplateDialogOpen} onClose={closeTemplateDialog} />
 
-        <Divider sx={{ borderStyle: 'dashed', margin: '0px 24px 24px 24px' }} />
-
-        <FormControlLabel
-          control={
-            <Box
-              width="100%"
-              sx={{ display: 'flex', flexWrap: { xs: 'wrap', lg: 'nowrap', md: 'nowrap' } }}
-              gap={2}
-            >
-              <Tooltip
-                title="Enter Phone number here also select the country code"
-                arrow
-                placement="top"
-              >
-                <TextField
-                  fullWidth
-                  helperText="Enter the contact's mobile number."
-                  placeholder="Enter mobile number"
-                  label="Phone Number"
-                  value={phoneNumber}
-                  onChange={handlePhoneNumberChange}
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <Select
-                          value={selectedCountry.code}
-                          onChange={handleCountryChange}
-                          renderValue={(value) => (
-                            <Box
-                              sx={{
-                                display: 'flex',
-                                alignItems: 'center',
-                                marginRight: 2,
-                                ml: '-14px',
-                              }}
-                            >
-                              <ReactCountryFlag
-                                countryCode={value}
-                                svg
-                                style={{ marginRight: 8, width: '24px', height: '24px' }}
-                              />
-                              {updatedCountries.find((country) => country.code === value).phone}
-                            </Box>
-                          )}
-                          sx={{
-                            mr: 1,
-                            minWidth: 100,
-                            '& .MuiOutlinedInput-notchedOutline': { border: 'none' },
-                            '& .MuiSelect-select': { paddingRight: '24px' },
-                          }}
-                          MenuProps={{
-                            PaperProps: {
-                              style: {
-                                maxHeight: 300,
-                              },
-                            },
-                          }}
-                        >
-                          {updatedCountries.map((country) => (
-                            <MenuItem key={country.code} value={country.code}>
-                              <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                                <ReactCountryFlag
-                                  countryCode={country.code}
-                                  svg
-                                  style={{ marginRight: 8, width: '24px', height: '24px' }}
-                                />
-                                {country.label} ({country.phone})
-                              </Box>
-                            </MenuItem>
-                          ))}
-                        </Select>
-                      </InputAdornment>
-                    ),
-                  }}
-                />
-              </Tooltip>
-              <Tooltip title="Click here to send text message" arrow placement="top">
-                <Button
-                  sx={{ height: '55px', width: { xs: '50%', md: '20%', lg: '20%' } }}
-                  variant="contained"
-                  color="inherit"
-                >
-                  Send Test Message
-                </Button>
-              </Tooltip>
-            </Box>
-          }
-          sx={{ width: '100%', padding: '0px 24px 32px 24px', mr: 0, ml: 0 }}
-        />
+        <Divider sx={{ borderStyle: 'dashed', mb:3 }} />
 
         <Box
-          sx={{
-            width: '100%',
-            padding: '0px 24px 24px 24px',
-            mr: 0,
-            ml: 0,
-          }}
+          width="100%"
+          sx={{ display: 'flex', flexWrap: { xs: 'wrap', lg: 'nowrap', md: 'nowrap' } }}
+          gap={2}
+        >
+          <Tooltip
+            title="Enter Phone number here also select the country code"
+            arrow
+            placement="top"
+          >
+            <TextField
+            sx={{ mb: 3 }}
+              fullWidth
+              helperText="Enter the contact's mobile number."
+              placeholder="Enter mobile number"
+              label="Phone Number"
+              value={phoneNumber}
+              onChange={handlePhoneNumberChange}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <Select
+                      value={selectedCountry.code}
+                      onChange={handleCountryChange}
+                      renderValue={(value) => (
+                        <Box
+                          sx={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            marginRight: 2,
+                            ml: '-14px',
+                          }}
+                        >
+                          <ReactCountryFlag
+                            countryCode={value}
+                            svg
+                            style={{ marginRight: 8, width: '24px', height: '24px' }}
+                          />
+                          {updatedCountries.find((country) => country.code === value).phone}
+                        </Box>
+                      )}
+                      sx={{
+                        mr: 1,
+                        minWidth: 100,
+                        '& .MuiOutlinedInput-notchedOutline': { border: 'none' },
+                        '& .MuiSelect-select': { paddingRight: '24px' },
+                      }}
+                      MenuProps={{
+                        PaperProps: {
+                          style: {
+                            maxHeight: 300,
+                          },
+                        },
+                      }}
+                    >
+                      {updatedCountries.map((country) => (
+                        <MenuItem key={country.code} value={country.code}>
+                          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                            <ReactCountryFlag
+                              countryCode={country.code}
+                              svg
+                              style={{ marginRight: 8, width: '24px', height: '24px' }}
+                            />
+                            {country.label} ({country.phone})
+                          </Box>
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </InputAdornment>
+                ),
+              }}
+            />
+          </Tooltip>
+          <Tooltip title="Click here to send text message" arrow placement="top">
+            <Button
+              sx={{ height: '55px', width: { xs: '50%', md: '20%', lg: '20%' } }}
+              variant="contained"
+              color="primary"
+            >
+              Send Test Message
+            </Button>
+          </Tooltip>
+        </Box>
+
+        <Box
+          sx={{ mb: 3 }}
         >
           <Typography variant="h7" sx={{ fontSize: '14px', fontWeight: '600' }}>
             Schedule Broadcast
@@ -376,23 +346,14 @@ export default function BroadcastCampaign() {
           )}
         </Box>
 
-        <Box
-          sx={{
-            display: 'flex',
-            gap: 2,
-            width: '100%',
-            padding: '0px 24px 24px 24px',
-            mr: 0,
-            ml: 0,
-          }}
-        >
-          <Button variant="contained" size="large" color="inherit">
+        
+          <Button variant="contained" size="medium" color="primary" sx={{mr:2}}>
             Add Broadcast
           </Button>
-          <Button variant="outlined" size="large" color="inherit">
+          <Button variant="outlined" size="medium">
             Cancel
           </Button>
-        </Box>
+       
       </Form>
     </FormProvider>
   );

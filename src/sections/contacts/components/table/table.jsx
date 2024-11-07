@@ -1,11 +1,23 @@
 import 'react-modal-video/css/modal-video.min.css';
 
+import { useSelector } from 'react-redux';
 import { useState, useCallback } from 'react';
 
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import { useTheme } from '@mui/material/styles';
-import { Tab, Tabs, Table, Tooltip, TableBody, IconButton, useMediaQuery } from '@mui/material';
+import {
+  Tab,
+  Tabs,
+  Table,
+  Tooltip,
+  Divider,
+  TableBody,
+  IconButton,
+  CardHeader,
+  Typography,
+  useMediaQuery,
+} from '@mui/material';
 
 import { paths } from 'src/routes/paths';
 import { useRouter } from 'src/routes/hooks';
@@ -47,15 +59,35 @@ const metadata = { title: `Page one | Dashboard - ${CONFIG.site.name}` };
 const STATUS_OPTIONS = [{ value: 'all', label: 'All' }, ...CONTACT_STATUS_OPTIONS];
 
 const TABLE_HEAD = [
-  { id: 'orderNumber', label: 'Status/Created at', width: 353,tooltip: 'Contact number opted status and date of number added.' },
-  { id: 'name', label: 'WhatsApp Number/Name', width: 298,tooltip: 'WhatsApp number and Name of the contact.' },
-  { id: 'createdAt', label: 'State/Incoming status', width: 262,tooltip: 'State shows how the number is imported and incoming status.' },
-  { id: 'status', label: '24 Hours Status/Last active', width: 515,tooltip: 'Contact 24 hours status and contact last active date & time.' },
+  {
+    id: 'orderNumber',
+    label: 'Status/Created at',
+    width: 353,
+    tooltip: 'Contact number opted status and date of number added.',
+  },
+  {
+    id: 'name',
+    label: 'WhatsApp Number/Name',
+    width: 298,
+    tooltip: 'WhatsApp number and Name of the contact.',
+  },
+  {
+    id: 'createdAt',
+    label: 'State/Incoming status',
+    width: 262,
+    tooltip: 'State shows how the number is imported and incoming status.',
+  },
+  {
+    id: 'status',
+    label: '24 Hours Status/Last active',
+    width: 515,
+    tooltip: 'Contact 24 hours status and contact last active date & time.',
+  },
 
   { id: '', width: 88 },
 ];
 
-export default function ContactsTable({ sx, icon, title, total, color = 'warning', ...other }) {
+export default function ContactsTable({ sx, icon, title, total, color = 'warning',  ...other }) {
   const theme = useTheme();
 
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
@@ -132,6 +164,7 @@ export default function ContactsTable({ sx, icon, title, total, color = 'warning
     },
     [filters, table]
   );
+  const selectedContactName = useSelector((state) => state.selectedList.name);
 
   return (
     <>
@@ -143,6 +176,9 @@ export default function ContactsTable({ sx, icon, title, total, color = 'warning
           mt: '24px',
         }}
       >
+       <CardHeader title={<Typography variant="h6">{selectedContactName || "Pabbly Connect List" }</Typography>} sx={{ p: 3 }} />
+
+        <Divider />
         <Tabs
           value={filters.state.status}
           onChange={handleFilterStatus}
@@ -196,7 +232,6 @@ export default function ContactsTable({ sx, icon, title, total, color = 'warning
 
         <Box sx={{ position: 'relative' }}>
           <TableSelectedAction
-            
             numSelected={table.selected.length}
             rowCount={dataFiltered.length}
             onSelectAllRows={(checked) =>
@@ -253,7 +288,7 @@ export default function ContactsTable({ sx, icon, title, total, color = 'warning
                   emptyRows={emptyRows(table.page, table.rowsPerPage, dataFiltered.length)}
                 />
 
-                <TableNoData notFound={!dataFiltered.length}/>
+                <TableNoData notFound={!dataFiltered.length} />
               </TableBody>
             </Table>
           </Scrollbar>
@@ -261,7 +296,6 @@ export default function ContactsTable({ sx, icon, title, total, color = 'warning
 
         <TablePaginationCustom
           page={table.page}
-          
           count={dataFiltered.length}
           rowsPerPage={table.rowsPerPage}
           onPageChange={table.onChangePage}
@@ -289,8 +323,10 @@ function applyFilter({ inputData, comparator, filters, dateError }) {
     inputData = inputData.filter(
       (order) =>
         (order.orderNumber && order.orderNumber.toLowerCase().indexOf(name.toLowerCase()) !== -1) ||
-        (order.customer?.name && order.customer.name.toLowerCase().indexOf(name.toLowerCase()) !== -1) ||
-        (order.customer?.email && order.customer.email.toLowerCase().indexOf(name.toLowerCase()) !== -1)
+        (order.customer?.name &&
+          order.customer.name.toLowerCase().indexOf(name.toLowerCase()) !== -1) ||
+        (order.customer?.email &&
+          order.customer.email.toLowerCase().indexOf(name.toLowerCase()) !== -1)
     );
   }
 

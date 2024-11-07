@@ -146,7 +146,7 @@ export function OrderTableRow({ row, selected, onViewRow, onSelectRow, onDeleteR
             sx={{ color: 'error.main' }}
           >
             <Iconify icon="solar:trash-bin-trash-bold" />
-            Remove
+            Delete
           </MenuItem>
           </Tooltip>
         </MenuList>
@@ -159,7 +159,7 @@ export function OrderTableRow({ row, selected, onViewRow, onSelectRow, onDeleteR
         content="Are you sure want to remove this template? (Removed template will go to deleted section)"
         action={
           <Button variant="contained" color="error" onClick={onDeleteRow}>
-            Remove
+            Delete
           </Button>
         }
       />

@@ -1,19 +1,15 @@
-
 import { useState, useCallback } from 'react';
 
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import {
   Box,
-  Card,
   Alert,
   Button,
-  Divider,
   Tooltip,
   MenuItem,
   Snackbar,
   TextField,
-  CardHeader,
   Typography,
   InputAdornment,
 } from '@mui/material';
@@ -29,7 +25,9 @@ export default function OffHourMessageRegularMessage() {
   const [isFileUploaded, setIsFileUploaded] = useState(false);
   const [file, setFile] = useState(null); // To store uploaded file
   const [chatBoxImage, setChatBoxImage] = useState(''); // State for the image based on the selected type
-  const [message, setMessage] = useState('Thank you for opting-out. In future if you ever want to connect again just send "Hello".'); // State to store the entered message
+  const [message, setMessage] = useState(
+    'Thank you for opting-out. In future if you ever want to connect again just send "Hello".'
+  ); // State to store the entered message
 
   const handleAdd = () => {
     // Implement your logic to add WhatsApp number here
@@ -65,8 +63,8 @@ export default function OffHourMessageRegularMessage() {
     const selectedType = event.target.value;
     setCurrency(selectedType);
     if (selectedType === 'file' || selectedType === 'audio' || selectedType === 'video') {
-      setMessage('');}
-    
+      setMessage('');
+    }
 
     // Update the chat box image based on the selected type
     switch (selectedType) {
@@ -139,19 +137,17 @@ export default function OffHourMessageRegularMessage() {
               <>
                 <Tooltip title="Enter caption here" arrow placement="top">
                   <TextField
-                  sx={
-                    {mb: 3}
-                  }
+                    sx={{ mb: 3 }}
                     fullWidth
                     label="Caption"
                     value={message}
                     onChange={handleMessageChange} // Update state on text change
-                    helperText='You are allowed a maximum of 4096 characters.'
+                    helperText="You are allowed a maximum of 4096 characters."
                   />
                 </Tooltip>
 
                 <TextField
-                  sx={{ mt:0}}
+                  sx={{ mt: 0 }}
                   fullWidth
                   type="text"
                   margin="dense"
@@ -193,7 +189,7 @@ export default function OffHourMessageRegularMessage() {
 
                 <FileUpload onFileUpload={handleFileUpload} />
                 <TextField
-                  sx={{ mt:3}}
+                  sx={{ mt: 3 }}
                   fullWidth
                   type="text"
                   margin="dense"
@@ -268,7 +264,7 @@ export default function OffHourMessageRegularMessage() {
 
                 <FileUpload onFileUpload={handleFileUpload} />
                 <TextField
-                  sx={{ mt:3}}
+                  sx={{ mt: 3 }}
                   fullWidth
                   type="text"
                   margin="dense"
@@ -303,58 +299,30 @@ export default function OffHourMessageRegularMessage() {
               width={isMobile ? '100%' : '40%'}
               sx={{ pl: isMobile ? 0 : '12px', mt: isMobile ? '24px' : 0 }}
             >
-              <Card
+              <Box
                 sx={{
-                  border: '1px solid #919EAB33',
-                  width: '100%',
-                  maxWidth: '500px',
+                  p: 2,
+                  backgroundColor: '#CCF4FE',
+                  borderRadius: '8px',
                 }}
               >
-                <CardHeader
-                  sx={{ mb: 2 }}
-                  
-                  title={
-                    <Typography variant="h7" sx={{ fontSize: 14, fontWeight: '700' }}>
-                      Mireya Conner
-                    </Typography>
-                  }
-                  
-                />
-                <Divider />
-                <Typography
-                  variant="caption"
-                  sx={{
-                    pr: 2,
-                    pt: 3,
-                    display: 'flex',
-                    color: '#919EAB',
-                    justifyContent: 'end',
-                  }}
-                >
-                  4:02 PM
-                </Typography>
-                <Box
-                  sx={{
-                    p: 2,
-                    backgroundColor: '#CCF4FE',
-                    borderRadius: '8px',
-                    m: 2,
-                  }}
-                >
-                  <Box sx={{ mb: 2 }}>
-                    {chatBoxImage && (
-                      <img src={chatBoxImage} alt="Chat Preview" style={{ width: '100%', borderRadius: '8px' }} />
-                    )}
-                  </Box>
-                  <Typography
-                    variant="body2"
-                    color="text.primary"
-                    sx={{ fontSize: 14, fontWeight: '500', mb: chatBoxImage ? 0: 0,  }}
-                  >
-                    {message}
-                  </Typography>
+                <Box sx={{ mb: 2 }}>
+                  {chatBoxImage && (
+                    <img
+                      src={chatBoxImage}
+                      alt="Chat Preview"
+                      style={{ width: '100%', borderRadius: '8px' }}
+                    />
+                  )}
                 </Box>
-              </Card>
+                <Typography
+                  variant="body2"
+                  color="text.primary"
+                  sx={{ fontSize: 14, fontWeight: '500', mb: chatBoxImage ? 0 : 0 }}
+                >
+                  {message}
+                </Typography>
+              </Box>
             </Box>
           </Tooltip>
         </Box>

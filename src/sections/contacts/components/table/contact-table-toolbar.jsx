@@ -8,36 +8,42 @@ import Popover from '@mui/material/Popover';
 import MenuList from '@mui/material/MenuList';
 import MenuItem from '@mui/material/MenuItem';
 import TextField from '@mui/material/TextField';
-import IconButton from '@mui/material/IconButton';
-import FormControl from '@mui/material/FormControl';
 import InputAdornment from '@mui/material/InputAdornment';
-import { Tooltip, Typography, useMediaQuery } from '@mui/material';
+import {
+  Tooltip,
+  Typography,
+  IconButton,
+  FormControl,
+  Autocomplete,
+  useMediaQuery,
+} from '@mui/material';
 
 import { useBoolean } from 'src/hooks/use-boolean';
 
 import { Iconify } from 'src/components/iconify';
 import { usePopover, CustomPopover } from 'src/components/custom-popover';
 
-// ----------------------------------------------------------------------
-
 export function OrderTableToolbar({ filters, onResetPage, dateError }) {
   const theme = useTheme();
-
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const confirm = useBoolean();
-
   const popover = usePopover();
+
   const [filterAnchorEl, setFilterAnchorEl] = useState(null);
   const [selectedColumn, setSelectedColumn] = useState('');
   const [operator, setOperator] = useState('contains');
   const [filterValue, setFilterValue] = useState('');
 
-  const [importingStatus, setImportingStatus] = useState('');
-  const [incomingStatus, setIncomingStatus] = useState('');
-  const [hoursStatus, setHoursStatus] = useState('');
+  // Updated arrays with sample data
+  const importingStatusOptions = ['Imported Manually', 'Imported via API'];
+  const incomingStatusOptions = ['Active', 'Inactive'];
+  const hoursStatusOptions = ['Within 24 hours', 'More than 24 hours'];
 
-  const whatsapp_status = ['Imported Manually', 'Imported via API']; // Add your actual column names here
-  const columns = ['Active', 'Inactive']; // Add your actual column names here
+  const handleApplyFilter = () => {
+    filters.setState({ [selectedColumn.toLowerCase()]: filterValue });
+    onResetPage();
+    handleFilterClose();
+  };
 
   const handleFilterName = useCallback(
     (event) => {
@@ -84,7 +90,6 @@ export function OrderTableToolbar({ filters, onResetPage, dateError }) {
             <Button
               sx={{ ml: '5px' }}
               size="large"
-              variant=""
               startIcon={<Iconify icon="mdi:filter" />}
               onClick={handleFilterClick}
             >
@@ -98,6 +103,7 @@ export function OrderTableToolbar({ filters, onResetPage, dateError }) {
           </Tooltip>
         </Stack>
       </Stack>
+
       <CustomPopover
         open={popover.open}
         anchorEl={popover.anchorEl}
@@ -123,162 +129,245 @@ export function OrderTableToolbar({ filters, onResetPage, dateError }) {
           </Tooltip>
         </MenuList>
       </CustomPopover>
+
       <Popover
         open={Boolean(filterAnchorEl)}
         anchorEl={filterAnchorEl}
         onClose={handleFilterClose}
-        anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'right',
-        }}
-        transformOrigin={{
-          vertical: 'top',
-          horizontal: 'right',
-        }}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+        transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       >
         <Box
           sx={{
-            p: 2,
             width: {
-              xs: '300px',
+              xs: '100%',
               sm: '100%',
-              md: 800,
+              md: 650,
             },
-            display: 'flex',
             flexDirection: {
               xs: 'column',
               sm: 'column',
               md: 'row',
             },
-            gap: 2,
           }}
         >
-          <FormControl fullWidth sx={{ mb: { xs: 2, sm: 2, md: 0 }, justifyContent: 'center' }}>
-            <Typography sx={{ fontSize: '16px', fontWeight: '600' }}>Importing State</Typography>
-          </FormControl>
-
-          <FormControl fullWidth sx={{ mb: { xs: 2, sm: 2, md: 0 } }}>
-            <TextField
-              id="select-currency-label-x"
-              variant="outlined"
-              fullWidth
-              label="Equals to"
-              disabled
+          {/* Filter Header */}
+          <Box
+            sx={{
+              borderBottom: '1px dashed #919eab33',
+              p: 2,
+              display: 'flex',
+              height: '100%',
+              width: '100%',
+            }}
+          >
+            <Box sx={{ width: '100%' }}>
+              <Typography variant="h6" sx={{ fontWeight: '600' }}>
+                Filter Request
+              </Typography>
+            </Box>
+            <Iconify
+              icon="uil:times"
+              onClick={handleFilterClose}
+              style={{
+                width: 20,
+                height: 20,
+                cursor: 'pointer',
+                color: '#637381',
+              }}
             />
-          </FormControl>
-          <FormControl fullWidth sx={{ mb: { xs: 2, sm: 2, md: 0 } }}>
-            <TextField
-              id="importing-status"
-              variant="outlined"
-              select
-              fullWidth
-              label="Importing Status"
-              value={importingStatus}
-              onChange={(e) => setImportingStatus(e.target.value)}
-            >
-              {whatsapp_status.map((column) => (
-                <MenuItem key={column} value={column}>
-                  {column}
-                </MenuItem>
-              ))}
-            </TextField>
-          </FormControl>
-        </Box>
-        <Box
-          sx={{
-            p: 2,
-            width: {
-              xs: '300px',
-              sm: '100%',
-              md: 800,
-            },
-            display: 'flex',
-            flexDirection: {
-              xs: 'column',
-              sm: 'column',
-              md: 'row',
-            },
-            gap: 2,
-          }}
-        >
-          <FormControl fullWidth sx={{ mb: { xs: 2, sm: 2, md: 0 }, justifyContent: 'center' }}>
-            <Typography sx={{ fontSize: '16px', fontWeight: '600' }}>Incoming Status</Typography>
-          </FormControl>
+          </Box>
 
-          <FormControl fullWidth sx={{ mb: { xs: 2, sm: 2, md: 0 } }}>
-            <TextField
-              id="select-currency-label-x"
-              variant="outlined"
-              fullWidth
-              label="Equals to"
-              disabled
-            />
-          </FormControl>
-          <FormControl fullWidth sx={{ mb: { xs: 2, sm: 2, md: 0 } }}>
-            <TextField
-              id="incoming-status"
-              variant="outlined"
-              select
-              fullWidth
-              label="Status"
-              value={incomingStatus}
-              onChange={(e) => setIncomingStatus(e.target.value)}
+          {/* Filter Options */}
+          <Box
+            sx={{
+              p: '16px 16px 0px 16px',
+              gap: 2,
+              flexDirection: {
+                xs: 'column',
+                sm: 'column',
+                md: 'row',
+              },
+            }}
+          >
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: {
+                  xs: 'column',
+                  sm: 'column',
+                  md: 'row',
+                },
+                gap: 2,
+                mb: 2,
+              }}
             >
-              {columns.map((column) => (
-                <MenuItem key={column} value={column}>
-                  {column}
-                </MenuItem>
-              ))}
-            </TextField>
-          </FormControl>
-        </Box>
-        <Box
-          sx={{
-            p: 2,
-            width: {
-              xs: '300px',
-              sm: '100%',
-              md: 800,
-            },
-            display: 'flex',
-            flexDirection: {
-              xs: 'column',
-              sm: 'column',
-              md: 'row',
-            },
-            gap: 2,
-          }}
-        >
-          <FormControl fullWidth sx={{ mb: { xs: 2, sm: 2, md: 0 }, justifyContent: 'center' }}>
-            <Typography sx={{ fontSize: '16px', fontWeight: '600' }}>24 Hours Status</Typography>
-          </FormControl>
+              <FormControl fullWidth sx={{ mb: { xs: 2, sm: 2, md: 0 }, justifyContent: 'center' }}>
+                <Typography sx={{ fontSize: '14px', fontWeight: '600' }}>
+                  Importing Status
+                </Typography>
+              </FormControl>
 
-          <FormControl fullWidth sx={{ mb: { xs: 2, sm: 2, md: 0 } }}>
-            <TextField
-              id="select-currency-label-x"
-              variant="outlined"
-              fullWidth
-              label="Equals to"
-              disabled
-            />
-          </FormControl>
-          <FormControl fullWidth sx={{ mb: { xs: 2, sm: 2, md: 0 } }}>
-            <TextField
-              id="hours-status"
-              variant="outlined"
-              select
-              fullWidth
-              label="Status"
-              value={hoursStatus}
-              onChange={(e) => setHoursStatus(e.target.value)}
+              <FormControl
+                fullWidth
+                sx={{
+                  mb: { xs: 2, sm: 2, md: 0 },
+                  width: { xs: '100%', sm: '100%', md: '390px' },
+                }}
+              >
+                <TextField
+                  id="select-currency-label-x"
+                  variant="outlined"
+                  fullWidth
+                  label="Equals to"
+                  disabled
+                  size="small"
+                />
+              </FormControl>
+
+              <FormControl fullWidth sx={{ mb: { xs: 2, sm: 2, md: 0 } }}>
+                <Autocomplete
+                  sx={{
+                    '& .MuiInputBase-input': {
+                      fontSize: '14px',
+                    },
+                    '& .MuiInputLabel-root': {
+                      fontSize: '14px',
+                    },
+                  }}
+                  size="small"
+                  options={importingStatusOptions}
+                  renderInput={(params) => <TextField {...params} label="Select" />}
+                  // sx={{ width: 300 }}
+                />
+              </FormControl>
+            </Box>
+
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: {
+                  xs: 'column',
+                  sm: 'column',
+                  md: 'row',
+                },
+                gap: 2,
+                mb: 2,
+              }}
             >
-              {columns.map((column) => (
-                <MenuItem key={column} value={column}>
-                  {column}
-                </MenuItem>
-              ))}
-            </TextField>
-          </FormControl>
+              <FormControl fullWidth sx={{ mb: { xs: 2, sm: 2, md: 0 }, justifyContent: 'center' }}>
+                <Typography sx={{ fontSize: '14px', fontWeight: '600' }}>
+                  Incoming Status
+                </Typography>
+              </FormControl>
+
+              <FormControl
+                fullWidth
+                sx={{
+                  mb: { xs: 2, sm: 2, md: 0 },
+                  width: { xs: '100%', sm: '100%', md: '390px' },
+                }}
+              >
+                <TextField
+                  id="select-currency-label-x"
+                  variant="outlined"
+                  fullWidth
+                  label="Equals to"
+                  disabled
+                  size="small"
+                />
+              </FormControl>
+
+              <FormControl fullWidth sx={{ mb: { xs: 2, sm: 2, md: 0 } }}>
+                <Autocomplete
+                  sx={{
+                    '& .MuiInputBase-input': {
+                      fontSize: '14px',
+                    },
+                    '& .MuiInputLabel-root': {
+                      fontSize: '14px',
+                    },
+                  }}
+                  size="small"
+                  options={incomingStatusOptions}
+                  renderInput={(params) => <TextField {...params} label="Select" />}
+                  // sx={{ width: 300 }}
+                />
+              </FormControl>
+            </Box>
+
+            {/* Folder */}
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: {
+                  xs: 'column',
+                  sm: 'column',
+                  md: 'row',
+                },
+                gap: 2,
+                mb: 2,
+              }}
+            >
+              <FormControl fullWidth sx={{ mb: { xs: 2, sm: 2, md: 0 }, justifyContent: 'center' }}>
+                <Typography sx={{ fontSize: '14px', fontWeight: '600' }}>
+                  24 Hours Status
+                </Typography>
+              </FormControl>
+
+              <FormControl
+                fullWidth
+                sx={{
+                  mb: { xs: 2, sm: 2, md: 0 },
+                  width: { xs: '100%', sm: '100%', md: '390px' },
+                }}
+              >
+                <TextField
+                  id="select-currency-label-x"
+                  variant="outlined"
+                  fullWidth
+                  label="Equals To"
+                  disabled
+                  size="small"
+                />
+              </FormControl>
+
+              <FormControl fullWidth sx={{ mb: { xs: 2, sm: 2, md: 0 } }}>
+                <Autocomplete
+                  sx={{
+                    '& .MuiInputBase-input': {
+                      fontSize: '14px',
+                    },
+                    '& .MuiInputLabel-root': {
+                      fontSize: '14px',
+                    },
+                  }}
+                  size="small"
+                  options={hoursStatusOptions}
+                  renderInput={(params) => <TextField {...params} label="Select" />}
+                  // sx={{ width: 300 }}
+                />
+              </FormControl>
+            </Box>
+          </Box>
+
+          {/* Filter Footer */}
+          <Box
+            sx={{
+              p: 2,
+              gap: 2,
+              display: 'flex',
+              justifyContent: 'flex-end',
+              borderTop: '1px dashed #919eab33',
+            }}
+          >
+            {/* <Button variant="outlined" color="inherit" onClick={handleFilterClose}>
+              Cancel
+            </Button> */}
+            <Button variant="contained" color="primary" onClick={handleApplyFilter}>
+              Apply Filter
+            </Button>
+          </Box>
         </Box>
       </Popover>
     </>

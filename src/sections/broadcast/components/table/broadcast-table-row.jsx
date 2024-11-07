@@ -21,22 +21,9 @@ import { usePopover, CustomPopover } from 'src/components/custom-popover';
 import { ConfirmDialog } from '../../hook/confirm-dialog';
 import { TestCampaignDrawer } from '../../hook/test-broadcast-drawer';
 
-const templatename = [
-  'Classic Layout',
-  '-',
-  'Elegant Presentation',
-  '-',
-  'Educational Content',
-  // Add more flow names as needed
-];
+const templatename = ['Classic Layout', '-', 'Elegant Presentation', '-', 'Educational Content'];
 
-const templatetype = [
-  'Broadcast',
-  'API Broadcast',
-  'Scheduled Broadcast',
-
-  // Add more flow names as needed
-];
+const templatetype = ['Broadcast', 'API Broadcast', 'Scheduled Broadcast'];
 
 const broadcastname = [
   'Weekly Digest',
@@ -44,16 +31,20 @@ const broadcastname = [
   'Product Launch',
   'Seasonal Campaign',
   'New Feature Alert',
-  // Add more flow names as needed
 ];
 
 export function OrderTableRow({ row, selected, onSelectRow, onDeleteRow, broadcastIndex }) {
   const confirm = useBoolean();
   const collapse = useBoolean();
   const popover = usePopover();
-  const isApiBroadcast = templatetype[broadcastIndex % templatetype.length] === 'API Broadcast';
+  const editpopover = usePopover();
+  const resumePopover = usePopover(); // New popover for Resume and Stop
 
+  const isApiBroadcast = templatetype[broadcastIndex % templatetype.length] === 'API Broadcast';
   const [openTestCampaignDrawer, setOpenTestCampaignDrawer] = useState(false);
+
+  // State to manage row status
+  const [currentStatus, setCurrentStatus] = useState(row.status);
 
   const handleOpenTestCampaignDrawer = () => {
     setOpenTestCampaignDrawer(true);
@@ -61,6 +52,24 @@ export function OrderTableRow({ row, selected, onSelectRow, onDeleteRow, broadca
 
   const handleCloseTestCampaignDrawer = () => {
     setOpenTestCampaignDrawer(false);
+  };
+
+  // Handle the stop action
+  const handleStopAction = () => {
+    setCurrentStatus('stopped'); // Change the status to 'stopped'
+    editpopover.onClose(); // Close the edit popover
+  };
+
+  // Handle the pause action
+  const handlePauseAction = () => {
+    setCurrentStatus('paused'); // Change the status to 'paused'
+    editpopover.onClose(); // Close the edit popover
+  };
+
+  // Handle the resume action
+  const handleResumeAction = () => {
+    setCurrentStatus('live'); // Change the status to 'live' or whatever status you want
+    resumePopover.onClose(); // Close the resume popover
   };
 
   const renderPrimary = (
@@ -74,34 +83,22 @@ export function OrderTableRow({ row, selected, onSelectRow, onDeleteRow, broadca
       </TableCell>
       <TableCell width={900}>
         <Stack spacing={2} direction="row" alignItems="center">
-          <Stack
-            sx={{
-              typography: 'body2',
-              flex: '1 1 auto',
-              alignItems: 'flex-start',
-            }}
-          >
+          <Stack sx={{ typography: 'body2', flex: '1 1 auto', alignItems: 'flex-start' }}>
             <Tooltip title="Broadcast name " arrow placement="top">
               <Box component="span">{broadcastname[broadcastIndex % broadcastname.length]}</Box>
             </Tooltip>
             <Tooltip title="Template type " arrow placement="top">
               <Box component="span" sx={{ color: 'text.disabled' }}>
                 {templatetype[broadcastIndex % templatetype.length]}
+                {/* Show Edit icon if the template type is API Broadcast and status is not 'stopped' */}
               </Box>
             </Tooltip>
           </Stack>
         </Stack>
       </TableCell>
-
       <TableCell width={1000}>
         <Stack spacing={2} direction="row" alignItems="center">
-          <Stack
-            sx={{
-              typography: 'body2',
-              flex: '1 1 auto',
-              alignItems: 'flex-start',
-            }}
-          >
+          <Stack sx={{ typography: 'body2', flex: '1 1 auto', alignItems: 'flex-start' }}>
             <Tooltip title="Template name " arrow placement="top">
               <Box component="span">{templatename[broadcastIndex % templatename.length]}</Box>
             </Tooltip>
@@ -110,13 +107,7 @@ export function OrderTableRow({ row, selected, onSelectRow, onDeleteRow, broadca
       </TableCell>
       <TableCell width={800}>
         <Stack spacing={2} direction="row" alignItems="center">
-          <Stack
-            sx={{
-              typography: 'body2',
-              flex: '1 1 auto',
-              alignItems: 'flex-start',
-            }}
-          >
+          <Stack sx={{ typography: 'body2', flex: '1 1 auto', alignItems: 'flex-start' }}>
             <Tooltip title="Date when broadcast is created " arrow placement="top">
               <Box component="span">Jan 19, 2024</Box>
             </Tooltip>
@@ -130,35 +121,47 @@ export function OrderTableRow({ row, selected, onSelectRow, onDeleteRow, broadca
       </TableCell>
 
       <TableCell width={110}>
-      {row.status === 'live' ? (
-    <Tooltip title="This broadcast is live" arrow placement="top">
-      <Label variant="soft" color="success">
-        {row.status}
-      </Label>
-    </Tooltip>
-  ) : row.status === 'sent' ? (
-    <Tooltip title="This broadcast is sent" arrow placement="top">
-      <Label variant="soft" color="warning">
-        {row.status}
-      </Label>
-    </Tooltip>
-  ) : row.status === 'scheduled' ? (
-    <Tooltip title="This broadcast is scheduled" arrow placement="top">
-      <Label variant="soft" color="info">
-        {row.status}
-      </Label>
-    </Tooltip>
-  ) : row.status === 'failed' ? (
-    <Tooltip title="This broadcast has failed" arrow placement="top">
-      <Label variant="soft" color="error">
-        {row.status}
-      </Label>
-    </Tooltip>
-  ) : (
-    <Label variant="soft" color="default">
-      {row.status}
-    </Label>
-  )}
+        {currentStatus === 'live' ? (
+          <Tooltip title="This broadcast is live" arrow placement="top">
+            <Label variant="soft" color="success">
+              {currentStatus}
+            </Label>
+          </Tooltip>
+        ) : currentStatus === 'sent' ? (
+          <Tooltip title="This broadcast is sent" arrow placement="top">
+            <Label variant="soft" color="warning">
+              {currentStatus}
+            </Label>
+          </Tooltip>
+        ) : currentStatus === 'scheduled' ? (
+          <Tooltip title="This broadcast is scheduled" arrow placement="top">
+            <Label variant="soft" color="info">
+              {currentStatus}
+            </Label>
+          </Tooltip>
+        ) : currentStatus === 'paused' ? ( // Render 'paused' state
+          <Tooltip title="This broadcast is paused" arrow placement="top">
+            <Label variant="soft" color="warning">
+              {currentStatus}
+            </Label>
+          </Tooltip>
+        ) : currentStatus === 'failed' ? (
+          <Tooltip title="This broadcast has failed" arrow placement="top">
+            <Label variant="soft" color="error">
+              {currentStatus}
+            </Label>
+          </Tooltip>
+        ) : (
+          <Label variant="soft" color="error">
+            {currentStatus}
+          </Label>
+        )}
+
+        {isApiBroadcast && currentStatus !== 'stopped' && (
+          <IconButton sx={{ ml: 1 }} onClick={editpopover.onOpen}>
+            <Iconify icon="solar:pen-bold" sx={{ width: '16px', height: '16px' }} />
+          </IconButton>
+        )}
       </TableCell>
 
       <TableCell align="right" sx={{ px: 1, whiteSpace: 'nowrap' }}>
@@ -171,10 +174,10 @@ export function OrderTableRow({ row, selected, onSelectRow, onDeleteRow, broadca
         )}
       </TableCell>
 
-      <TestCampaignDrawer open={openTestCampaignDrawer} onClose={handleCloseTestCampaignDrawer} />
+      
 
       <TableCell align="right" sx={{ px: 1, whiteSpace: 'nowrap' }}>
-        <Tooltip title="Click here to see reciver list and stats" arrow placement="top">
+        <Tooltip title="Click here to see receiver list and stats" arrow placement="top">
           <IconButton
             color={collapse.value ? 'inherit' : 'default'}
             onClick={collapse.onToggle}
@@ -206,7 +209,7 @@ export function OrderTableRow({ row, selected, onSelectRow, onDeleteRow, broadca
                 <Typography variant="subtitle2" fontWeight="bold" gutterBottom>
                   Receivers List
                 </Typography>
-                <Tooltip title="Included reciever list" arrow placement="left">
+                <Tooltip title="Included receiver list" arrow placement="left">
                   <Typography sx={{ mb: '2px' }} fontSize="14px" color="text.secondary">
                     <Box component="span" fontWeight="medium" color="text.primary">
                       Included:
@@ -214,7 +217,7 @@ export function OrderTableRow({ row, selected, onSelectRow, onDeleteRow, broadca
                     Pabbly Connect List, Pabbly Subscription Billing, Pabbly Support.
                   </Typography>
                 </Tooltip>
-                <Tooltip title="Excluded reciever list" arrow placement="left">
+                <Tooltip title="Excluded receiver list" arrow placement="left">
                   <Typography fontSize="14px" color="text.secondary">
                     <Box component="span" fontWeight="medium" color="text.primary">
                       Excluded:
@@ -230,8 +233,6 @@ export function OrderTableRow({ row, selected, onSelectRow, onDeleteRow, broadca
                     Stats
                   </Typography>
                   <Stack spacing={0.5}>
-                    {' '}
-                    {/* 0.5 * 8px = 4px gap, adjust to 2px using 0.25 */}
                     {[
                       { label: 'Sent', value: '700 (20%)' },
                       { label: 'Delivered', value: '565 (45%)' },
@@ -250,16 +251,6 @@ export function OrderTableRow({ row, selected, onSelectRow, onDeleteRow, broadca
                   </Stack>
                 </Box>
               </Tooltip>
-              {/* <Box sx={{ p: '6px 24px 24px 24px' }}>
-                <Stack direction="row" spacing={1}>
-                  <Button variant="outlined" color="primary" sx={{ textTransform: 'none' }}>
-                    Add to Existing list
-                  </Button>
-                  <Button variant="outlined" color="primary" sx={{ textTransform: 'none' }}>
-                    Add to New list
-                  </Button>
-                </Stack>
-              </Box> */}
             </Stack>
           </Paper>
         </Collapse>
@@ -270,9 +261,7 @@ export function OrderTableRow({ row, selected, onSelectRow, onDeleteRow, broadca
   return (
     <>
       {renderPrimary}
-
       {renderSecondary}
-
       <CustomPopover
         open={popover.open}
         anchorEl={popover.anchorEl}
@@ -280,15 +269,7 @@ export function OrderTableRow({ row, selected, onSelectRow, onDeleteRow, broadca
         slotProps={{ arrow: { placement: 'right-top' } }}
       >
         <MenuList>
-          {/* <Tooltip title="Click here to edit broadcast" arrow placement="left">
-          <MenuItem sx={{ color: '' }}>
-            <Iconify icon="solar:pen-bold" />
-            Edit Broadcast
-          </MenuItem>
-          </Tooltip> */}
-
-          {/* <Divider style={{ borderStyle: 'dashed' }} /> */}
-          <Tooltip title="Click here to detele the broadcast" arrow placement="left">
+          <Tooltip title="Click here to delete the broadcast" arrow placement="left">
             <MenuItem
               onClick={() => {
                 confirm.onTrue();
@@ -298,6 +279,69 @@ export function OrderTableRow({ row, selected, onSelectRow, onDeleteRow, broadca
             >
               <Iconify icon="solar:trash-bin-trash-bold" />
               Delete
+            </MenuItem>
+          </Tooltip>
+        </MenuList>
+      </CustomPopover>
+
+      <CustomPopover
+        open={editpopover.open}
+        anchorEl={editpopover.anchorEl}
+        onClose={editpopover.onClose}
+        slotProps={{ arrow: { placement: 'right-top' } }}
+      >
+        <MenuList>
+          <Tooltip title="Click here to stop the broadcast" arrow placement="left">
+            <MenuItem
+              onClick={handleStopAction} // Handle Stop action
+            >
+              <Iconify icon="ant-design:stop-outlined" />
+              Stop
+            </MenuItem>
+          </Tooltip>
+          {currentStatus === 'paused' ? ( // Conditional rendering for Resume
+            <Tooltip title="Click here to resume the broadcast" arrow placement="left">
+              <MenuItem
+                onClick={handleResumeAction} // Handle Resume action
+              >
+                <Iconify icon="ant-design:play-circle-outlined" />
+                Resume
+              </MenuItem>
+            </Tooltip>
+          ) : (
+            <Tooltip title="Click here to pause the broadcast" arrow placement="left">
+              <MenuItem
+                onClick={handlePauseAction} // Handle Pause action
+              >
+                <Iconify icon="zondicons:pause-outline" />
+                Pause
+              </MenuItem>
+            </Tooltip>
+          )}
+        </MenuList>
+      </CustomPopover>
+
+      <CustomPopover
+        open={resumePopover.open}
+        anchorEl={resumePopover.anchorEl}
+        onClose={resumePopover.onClose}
+        slotProps={{ arrow: { placement: 'right-top' } }}
+      >
+        <MenuList>
+          <Tooltip title="Click here to resume the broadcast" arrow placement="left">
+            <MenuItem
+              onClick={handleResumeAction} // Handle Resume action
+            >
+              <Iconify icon="ant-design:play-circle-outlined" />
+              Resume
+            </MenuItem>
+          </Tooltip>
+          <Tooltip title="Click here to stop the broadcast" arrow placement="left">
+            <MenuItem
+              onClick={handleStopAction} // Handle Stop action
+            >
+              <Iconify icon="ant-design:stop-outlined" />
+              Stop
             </MenuItem>
           </Tooltip>
         </MenuList>
@@ -314,6 +358,7 @@ export function OrderTableRow({ row, selected, onSelectRow, onDeleteRow, broadca
           </Button>
         }
       />
+      <TestCampaignDrawer open={openTestCampaignDrawer} onClose={handleCloseTestCampaignDrawer} />
     </>
   );
 }

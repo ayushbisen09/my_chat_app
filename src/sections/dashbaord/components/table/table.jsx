@@ -326,7 +326,6 @@ export default function DashboardTable2({
 
           <TablePaginationCustom
             page={table.page}
-            
             count={dataFiltered.length}
             rowsPerPage={table.rowsPerPage}
             onPageChange={table.onChangePage}

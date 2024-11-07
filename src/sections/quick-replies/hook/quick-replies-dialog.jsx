@@ -366,16 +366,15 @@ Customize messages with dynamic parameters e.g. - Your verification code is {{1
             </Box>
           </Box>
 
-         
-            <Box>
-              <Divider />
-              <Tooltip title="Quick replies message type preview" arrow placement="top">
+          <Box>
+            <Divider />
+            <Tooltip title="Quick replies message type preview" arrow placement="top">
               <Box
                 sx={{
                   p: 2,
                   backgroundColor: '#CCF4FE',
                   borderRadius: '8px',
-                  mt: 2 
+                  mt: 2,
                 }}
               >
                 <Box sx={{ mb: 2 }}>
@@ -395,15 +394,15 @@ Customize messages with dynamic parameters e.g. - Your verification code is {{1
                   {message}
                 </Typography>
               </Box>
-          </Tooltip>
-            </Box>
+            </Tooltip>
+          </Box>
         </DialogContent>
 
         <DialogActions>
-          <Button onClick={onClose} variant="outlined" color="inherit">
+          <Button onClick={onClose} variant="outlined" >
             Cancel
           </Button>
-          <Button onClick={handleAdd} variant="contained">
+          <Button onClick={handleAdd} variant="contained" color='primary' >
             Add
           </Button>
         </DialogActions>

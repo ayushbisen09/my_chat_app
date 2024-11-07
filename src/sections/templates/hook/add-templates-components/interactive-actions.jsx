@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useTheme } from '@emotion/react';
 import { useForm, FormProvider, useFieldArray } from 'react-hook-form';
 
@@ -16,13 +17,16 @@ import {
   FormControlLabel,
 } from '@mui/material';
 
+import { setCouponCode } from 'src/redux/slices/interactiveAllActionslice';
+
 import { Form } from 'src/components/hook-form';
 import { Iconify } from 'src/components/iconify';
 
-export default function InteractiveActions() {
+export default function InteractiveActions({ isLimitedTimeOfferActive }) {
+  const dispatch = useDispatch();
   const theme = useTheme();
 
-  const [actionType, setaActionType] = useState('none');
+  const [actionType, setaActionType] = useState('all');
 
   // const [fields, setFields] = useState([]);
 
@@ -47,7 +51,7 @@ export default function InteractiveActions() {
     control,
     name: 'items',
   });
-  
+
   const handleRemove = (index) => {
     setFields(fields.filter((_, i) => i !== index));
   };
@@ -169,11 +173,11 @@ export default function InteractiveActions() {
                 value={option.value}
                 control={<Radio size="small" />}
                 label={option.label}
+                // Disable only "None," "Call To Actions," and "Quick Replies" if Limited Time Offer is active
+                disabled={isLimitedTimeOfferActive && option.value !== 'all'}
                 sx={{
                   m: 0,
-                  '& .MuiFormControlLabel-label': {
-                    fontSize: '14px',
-                  },
+                  '& .MuiFormControlLabel-label': { fontSize: '14px' },
                 }}
               />
             ))}
@@ -955,6 +959,7 @@ export default function InteractiveActions() {
                           variant="outlined"
                           fullWidth
                           label="Enter Coupon Code"
+                          onChange={(e) => dispatch(setCouponCode(e.target.value))}
                           InputProps={{
                             endAdornment: (
                               <InputAdornment position="end">

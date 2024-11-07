@@ -8,21 +8,16 @@ import DialogTitle from '@mui/material/DialogTitle';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import {
-  Chip,
   Alert,
   Divider,
   Tooltip,
   Snackbar,
-  MenuItem,
   TextField,
-  Autocomplete,
   useMediaQuery,
   InputAdornment,
 } from '@mui/material';
 
 import { useBoolean } from 'src/hooks/use-boolean';
-
-import { whatsappnumbers } from 'src/assets/data/whatsappnumbers';
 
 import { Iconify } from 'src/components/iconify';
 
@@ -113,7 +108,7 @@ export function TeamMemberDialog({ title, content, action, open, onClose, ...oth
             }}
           />
 
-          <Autocomplete
+          {/* <Autocomplete
             disableClearable
             multiple
             freeSolo
@@ -161,15 +156,15 @@ export function TeamMemberDialog({ title, content, action, open, onClose, ...oth
               </MenuItem>
             )}
             sx={{ width: '100%' }}
-          />
+          /> */}
         </DialogContent>
 
         <DialogActions>
+          <Button onClick={handleAdd} variant="contained" color='primary'>
+            Add
+          </Button>
           <Button onClick={onClose} variant="outlined" color="inherit">
             Cancel
-          </Button>
-          <Button onClick={handleAdd} variant="contained">
-            Add
           </Button>
         </DialogActions>
       </Dialog>

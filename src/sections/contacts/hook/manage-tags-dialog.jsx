@@ -1,24 +1,23 @@
 import { useState } from 'react';
 import { useTheme } from '@emotion/react';
 
-import Chip from '@mui/material/Chip';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
-import Autocomplete from '@mui/material/Autocomplete';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import {
   Box,
+  Alert,
   Divider,
+  Snackbar,
   TextField,
+  Typography,
   useMediaQuery,
-  InputAdornment,
 } from '@mui/material';
 
 import { useBoolean } from 'src/hooks/use-boolean';
 
-import { Label } from 'src/components/label';
 import { Iconify } from 'src/components/iconify';
 // import { Iconify } from './';
 
@@ -43,7 +42,7 @@ export function ManageTagsDialog({ title, content, action, open, onClose, ...oth
     // Close the dialog after a short delay
     setTimeout(() => {
       onClose();
-    }, 500);
+    }, 2000);
   };
 
   const handleSnackbarClose = (event, reason) => {
@@ -60,8 +59,11 @@ export function ManageTagsDialog({ title, content, action, open, onClose, ...oth
       setTagInput('');
     }
   };
+  const [orderId, setOrderId] = useState('#56767');
+  const [email, setEmail] = useState('ankit.mandli@pabbly.com');
   return (
-    <Dialog
+    <>
+      <Dialog
         open={open}
         onClose={onClose}
         {...other}
@@ -71,7 +73,7 @@ export function ManageTagsDialog({ title, content, action, open, onClose, ...oth
           sx={{ fontWeight: '700', display: 'flex', justifyContent: 'space-between' }}
           onClick={dialog.onFalse}
         >
-          Manage Tags{' '}
+          Manage Attributes{' '}
           <Iconify
             onClick={onClose}
             icon="uil:times"
@@ -81,64 +83,63 @@ export function ManageTagsDialog({ title, content, action, open, onClose, ...oth
         <Divider sx={{ mb: '16px', borderStyle: 'dashed' }} />
 
         <DialogContent sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-        <Box sx={{ width: '100%', textAlign: 'center' }}>
-          <Label color="primary" sx={{ width: '100%', display: 'block', fontSize: '16px', p: 3 ,my : '16px' }}>
+          <Box sx={{ width: '100%', display: 'flex', justifyContent: 'space-between' }}>
+            {/* <Label color="primary" sx={{ width: '100%', display: 'block', fontSize: '16px', p: 3 ,my : '16px' }}>
             1 Contact Selected
-          </Label>
-        </Box>
-        <Autocomplete
-              multiple
-              freeSolo
-              sx={{p:'0.5'}}
-              options={[]}
-              value={tags}
-              onChange={(event, newValue) => setTags(newValue)}
-              inputValue={tagInput}
-              onInputChange={(event, newInputValue) => {
-                setTagInput(newInputValue);
+          </Label> */}
+            <Box width="40%">
+              <Typography mb={2} fontWeight={600}>
+                Attribute Name
+              </Typography>
+            </Box>
+            <Box width="60%">
+              <Typography mb={2} fontWeight={600}>
+                Attribute Value
+              </Typography>
+            </Box>
+          </Box>
+          <Box display="flex" flexDirection="column" gap={2}>
+            <Box
+              sx={{
+                width: '100%',
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
               }}
-              onKeyDown={(event) => {
-                if (event.key === 'Enter' && tagInput.trim()) {
-                  setTags([...tags, tagInput.trim()]);
-                  setTagInput('');
-                  event.preventDefault();
-                }
-              }}
-              renderTags={(value, getTagProps) =>
-                value.map((option, index) => (
-                  <Chip
-                    variant="soft"
-                    color="info"
-                    size="small"
-                    label={option}
-                    {...getTagProps({ index })}
-                  />
-                ))
-              }
-              renderInput={(params) => (
+            >
+              <Box width="40%">
+                <Typography fontSize={14}>Order Id</Typography>
+              </Box>
+              <Box width="60%">
                 <TextField
-                  onClick={handleAddTag}
-                  {...params}
-                  variant="outlined"
-                  size="large"
-                  helperText="Manage Tags"
-                  placeholder="+ Add a tag"
-                  InputProps={{
-                    ...params.InputProps,
-                    endAdornment: <InputAdornment position="Start" />,
-                  }}
-                  sx={{
-                    '& .MuiAutocomplete-inputRoot': {
-                      minHeight: 'auto',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'start',
-                    },
-                  }}
+                  fullWidth
+                  size="small"
+                  value={orderId}
+                  onChange={(e) => setOrderId(e.target.value)}
                 />
-              )}
-            />
-          
+              </Box>
+            </Box>
+            <Box
+              sx={{
+                width: '100%',
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+              }}
+            >
+              <Box width="40%">
+                <Typography fontSize={14}>Email</Typography>
+              </Box>
+              <Box width="60%">
+                <TextField
+                  fullWidth
+                  size="small"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </Box>
+            </Box>
+          </Box>
         </DialogContent>
 
         <DialogActions>
@@ -150,5 +151,30 @@ export function ManageTagsDialog({ title, content, action, open, onClose, ...oth
           </Button>
         </DialogActions>
       </Dialog>
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={1000}
+        onClose={handleSnackbarClose}
+        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+        sx={{
+          boxShadow: '0px 8px 16px 0px rgba(145, 158, 171, 0.16)',
+          mt: '50px',
+        }}
+      >
+        <Alert
+          onClose={handleSnackbarClose}
+          severity="success"
+          sx={{
+            width: '100%',
+            fontSize: '14px',
+            fontWeight: 'bold',
+            backgroundColor: theme.palette.background.paper,
+            color: theme.palette.text.primary,
+          }}
+        >
+          Attributes Updated Successfully!
+        </Alert>
+      </Snackbar>
+    </>
   );
 }

@@ -105,7 +105,7 @@ export default function BigCard({ sx, ...other }) {
                   <Typography fontSize={14} component="span" fontWeight="bold">
                     Step 1:
                   </Typography>{' '}
-                  Click on the {`"Add Contact"`} button available in the top right section.
+                  Press {`"Add Contact"`} in the top-right section.
                 </>
               }
             />
@@ -135,7 +135,7 @@ export default function BigCard({ sx, ...other }) {
                   <Typography fontSize={14} component="span" fontWeight="bold">
                     Step 3:
                   </Typography>{' '}
-                  Once the contact is added or imported click on {`"Add Contact"`} Button.{' '}
+                  After adding or importing the contact, click on {`"Add Contact"`}. 
                   <Link style={{ color: '#078DEE' }} href="#" underline="always">
                     Learn more
                   </Link>
@@ -157,7 +157,6 @@ export default function BigCard({ sx, ...other }) {
               <Iconify icon="heroicons:plus-circle-16-solid" style={{ width: 18, height: 18 }} />
             }
           >
-            
             Add Contact
           </Button>
         </Tooltip>

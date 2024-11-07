@@ -19,6 +19,7 @@ import {
 import { Form } from 'src/components/hook-form';
 import { Iconify } from 'src/components/iconify';
 
+// eslint-disable-next-line func-names
 export default function () {
   const theme = useTheme();
 

@@ -9,7 +9,6 @@ import {
   Box,
   Card,
   Alert,
-  Stack,
   Drawer,
   styled,
   Button,
@@ -59,10 +58,14 @@ const TestCampaignDrawer = ({ open, onClose }) => {
     setShowAdditionalEditor(true);
   };
 
-  const additionalEditorValue = JSON.stringify({
-    success: "true",
-    submitted_message_id: "6b5d5c61-af21-4d28-9d22-2c5438185139"
-  }, null, 2);
+  const additionalEditorValue = JSON.stringify(
+    {
+      success: 'true',
+      submitted_message_id: '6b5d5c61-af21-4d28-9d22-2c5438185139',
+    },
+    null,
+    2
+  );
 
   const handleCodeChange = (value) => {
     setCode(value); // Update code as a string
@@ -85,19 +88,19 @@ const TestCampaignDrawer = ({ open, onClose }) => {
     color: '#078DEE',
   });
 
-
   const onCopyClick = () => {
-    setSnackbarOpen(true);  // Show the Snackbar
+    setSnackbarOpen(true); // Show the Snackbar
 
     // Optional: Copy JSON to clipboard
-    navigator.clipboard.writeText(code).then(() => {
-      console.log("JSON copied to clipboard");
-    }).catch(err => {
-      console.error("Failed to copy JSON: ", err);
-    });
+    navigator.clipboard
+      .writeText(code)
+      .then(() => {
+        console.log('JSON copied to clipboard');
+      })
+      .catch((err) => {
+        console.error('Failed to copy JSON: ', err);
+      });
   };
-
-  
 
   const [messageType, setMessageType] = useState('g');
 
@@ -134,13 +137,6 @@ const TestCampaignDrawer = ({ open, onClose }) => {
     name: 'items',
   });
 
-  const handleAdd = () => {
-    append({
-      title: '',
-      description: '',
-    });
-  };
-
   const [confirmDelete, setConfirmDelete] = useState({ open: false, index: null });
 
   const handleRemove = () => {
@@ -151,8 +147,8 @@ const TestCampaignDrawer = ({ open, onClose }) => {
   };
 
   const handleDrawerClose = () => {
-    setShowAdditionalEditor(false);  // Reset the state
-    onClose();  // Call the provided onClose function
+    setShowAdditionalEditor(false); // Reset the state
+    onClose(); // Call the provided onClose function
   };
 
   return (
@@ -160,7 +156,7 @@ const TestCampaignDrawer = ({ open, onClose }) => {
       <Drawer
         anchor="right"
         open={open}
-        onClose={handleDrawerClose}  // Attach modified handleDrawerClose
+        onClose={handleDrawerClose} // Attach modified handleDrawerClose
         PaperProps={{
           sx: {
             p: 2,
@@ -212,49 +208,8 @@ const TestCampaignDrawer = ({ open, onClose }) => {
                   </Box>
                 )}
               </Box>
-              <Stack spacing={3}>
-                {fields.map((item, index) => (
-                  <Stack key={item.id} spacing={isTabletOrMobile ? 1 : 0}>
-                    <Stack direction={{ xs: 'column', md: 'row' }} spacing={2} alignItems="center">
-                      <TextField fullWidth label="WhatsApp Number" />
-                      {!isTabletOrMobile && (
-                        <Tooltip title="Click here to delete WhatsApp number" arrow placement="top">
-                          <Button
-                            size="small"
-                            sx={{ color: 'grey.600', minWidth: 'auto' }}
-                            onClick={() => handleConfirmRemove(index)}
-                            disabled={fields.length === 1}
-                          >
-                            <Iconify width={24} icon="solar:trash-bin-trash-bold" />
-                          </Button>
-                        </Tooltip>
-                      )}
-                    </Stack>
-                    {isTabletOrMobile && (
-                      <Box sx={{ display: 'flex', justifyContent: 'flex-end', width: '100%' }}>
-                        <Button
-                          size="small"
-                          sx={{ color: 'grey.600', minWidth: 'auto' }}
-                          onClick={() => handleConfirmRemove(index)}
-                          disabled={fields.length === 1}
-                        >
-                          <Iconify width={24} icon="solar:trash-bin-trash-bold" />
-                        </Button>
-                      </Box>
-                    )}
-                  </Stack>
-                ))}
-              </Stack>
 
-              <Button
-                size="small"
-                color="primary"
-                startIcon={<Iconify icon="mingcute:add-line" />}
-                onClick={handleAdd}
-                sx={{ mt: 3 }}
-              >
-                Add More WhatsApp Number
-              </Button>
+              <TextField fullWidth label="WhatsApp Number" />
 
               <Box
                 sx={{
@@ -274,16 +229,17 @@ const TestCampaignDrawer = ({ open, onClose }) => {
               </Box>
 
               <Box sx={{ mt: 3 }}>
-              <Tooltip title="Clear here to copy the URL" arrow placement="top">
-                <Button
-                  sx={{ mr: 2 }}
-                  startIcon={<Iconify icon="solar:copy-bold" style={{ width: 18, height: 18 }} />}
-                  size="medium"
-                  variant="contained"
-                  onClick={onCopyClick}  // Attach onCopyClick handler
-                >
-                  Copy URL
-                </Button>
+                <Tooltip title="Clear here to copy the URL" arrow placement="top">
+                  <Button
+                    sx={{ mr: 2 }}
+                    startIcon={<Iconify icon="solar:copy-bold" style={{ width: 18, height: 18 }} />}
+                    size="medium"
+                    variant="contained"
+                    onClick={onCopyClick} // Attach onCopyClick handler
+                    color='primary'
+                  >
+                    Copy URL
+                  </Button>
                 </Tooltip>
                 <Tooltip title="Clear here to send API campaign for testing" arrow placement="top">
                   <Button
@@ -299,24 +255,23 @@ const TestCampaignDrawer = ({ open, onClose }) => {
                 </Tooltip>
 
                 {showAdditionalEditor && (
-              <Box
-                sx={{
-                  border: '1px dashed #ccc',
-                  borderRadius: 1,
-                  padding: 1,
-                  mt: 2,
-                }}
-              >
-                <CodeMirror
-                  value= {additionalEditorValue}
-                  height="auto"
-                  extensions={[javascript()]}
-                  onChange={(value) => handleCodeChange(value, false)}
-                  theme="light"
-                />
-              </Box>
-            )}
-
+                  <Box
+                    sx={{
+                      border: '1px dashed #ccc',
+                      borderRadius: 1,
+                      padding: 1,
+                      mt: 2,
+                    }}
+                  >
+                    <CodeMirror
+                      value={additionalEditorValue}
+                      height="auto"
+                      extensions={[javascript()]}
+                      onChange={(value) => handleCodeChange(value, false)}
+                      theme="light"
+                    />
+                  </Box>
+                )}
               </Box>
             </Box>
           </Card>

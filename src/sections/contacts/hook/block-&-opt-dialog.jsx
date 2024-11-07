@@ -16,7 +16,7 @@ import {
   DialogActions,
   DialogContent,
   useMediaQuery,
-  FormHelperText
+  FormHelperText,
 } from '@mui/material';
 
 import { useBoolean } from 'src/hooks/use-boolean';
@@ -41,7 +41,7 @@ export function BlockandOptDialog({ title, content, action, open, onClose, ...ot
   const [snackbarOpen, setSnackbarOpen] = useState(false);
 
   const handleStatusChange1 = (event) => {
-    const {value} = event.target;
+    const { value } = event.target;
     setIncoming(value);
 
     switch (value) {
@@ -60,7 +60,7 @@ export function BlockandOptDialog({ title, content, action, open, onClose, ...ot
   };
 
   const handleStatusChange2 = (event) => {
-    const {value} = event.target;
+    const { value } = event.target;
     setOptedIn(value);
 
     switch (value) {
@@ -92,10 +92,6 @@ export function BlockandOptDialog({ title, content, action, open, onClose, ...ot
     setSnackbarOpen(false);
   };
 
-  
-
-  
-
   return (
     <>
       <Dialog
@@ -115,17 +111,20 @@ export function BlockandOptDialog({ title, content, action, open, onClose, ...ot
             style={{ width: 20, height: 20, cursor: 'pointer', color: '#637381' }}
           />
         </DialogTitle>
-        <Divider sx={{ mb: '16px', borderStyle: 'dashed' }} />
+        <Divider sx={{ borderStyle: 'dashed' }} />
 
         <DialogContent sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-        <Box sx={{ width: '100%', textAlign: 'center' }}>
-          <Label color="primary" sx={{ width: '100%', display: 'block', fontSize: '16px', p: 3 ,my : '16px' }}>
-            1 Contact Selected
-          </Label>
-        </Box>
+          <Box sx={{ width: '100%', textAlign: 'center' }}>
+            <Label
+              color="primary"
+              sx={{ width: '100%', display: 'block', fontSize: '16px', p: 3, my: 3 }}
+            >
+              1 Contact Selected
+            </Label>
+          </Box>
 
           {/* First FormControl */}
-          <FormControl fullWidth>
+          <FormControl fullWidth sx={{ mb: 3, mt: 0 }}>
             <InputLabel id="status-select-label-1">Incoming</InputLabel>
             <Select
               labelId="status-select-label-1"
@@ -143,7 +142,7 @@ export function BlockandOptDialog({ title, content, action, open, onClose, ...ot
           </FormControl>
 
           {/* Second FormControl */}
-          <FormControl fullWidth>
+          <FormControl fullWidth sx={{ mt: 0 }}>
             <InputLabel id="status-select-label-2">Opted In</InputLabel>
             <Select
               labelId="status-select-label-2"
@@ -159,7 +158,6 @@ export function BlockandOptDialog({ title, content, action, open, onClose, ...ot
             </Select>
             <FormHelperText>{helperText2}</FormHelperText>
           </FormControl>
-
         </DialogContent>
 
         <DialogActions>
@@ -171,8 +169,6 @@ export function BlockandOptDialog({ title, content, action, open, onClose, ...ot
           </Button>
         </DialogActions>
       </Dialog>
-
-      {/* Snackbar component */}
       <Snackbar
         open={snackbarOpen}
         autoHideDuration={1000}
@@ -181,7 +177,7 @@ export function BlockandOptDialog({ title, content, action, open, onClose, ...ot
         sx={{
           boxShadow: '0px 8px 16px 0px rgba(145, 158, 171, 0.16)',
           zIndex: theme.zIndex.drawer + 10000000000,
-          overflow: 'visible'
+          overflow: 'visible',
         }}
       >
         <Alert

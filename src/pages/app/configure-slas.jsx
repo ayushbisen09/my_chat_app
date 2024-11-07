@@ -8,7 +8,6 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import {
   Box,
   Card,
-  Grid,
   Alert,
   Button,
   Divider,
@@ -16,7 +15,7 @@ import {
   Snackbar,
   CardHeader,
   useMediaQuery,
-  InputAdornment
+  InputAdornment,
 } from '@mui/material';
 
 import { CONFIG } from 'src/config-global';
@@ -55,7 +54,6 @@ export default function Page() {
 
   const [startDate, setStartDate] = useState(dayjs(new Date()));
 
-
   return (
     <DashboardContent maxWidth="xl">
       <PageHeader
@@ -68,50 +66,35 @@ export default function Page() {
           <CardHeader title="Configure SLAs" sx={{ px: 0, pt: 0, pb: 3 }} />
           <Divider sx={{ mx: -3 }} />
           <Box sx={{ mt: 3 }}>
-            <Grid container spacing={2} sx={{ width: '100%', maxWidth: 'md' }}>
-              
-              <Grid item xs={12} sm={6}>
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <MobileTimePicker
-                      label="Start Time"
-                      value={startDate}
-                      minDate={dayjs('2017-01-01')}
-                      onChange={(newValue) => setStartDate(newValue)}
-                      
-                      ampm={false}
-                      slotProps={{
-                        textField: {
-                          fullWidth: true,
-                          InputProps: {
-                            endAdornment: (
-                              <InputAdornment position="end">
-                                <Tooltip
-                    title="select configure SLAs start time "
-                    arrow
-                    placement="top"
-                    
-                  >
-                                <Iconify icon="carbon:time" width={24} height={24} />
-                                </Tooltip>
-                              </InputAdornment>
-                            ),
-                          },
-                        },
-                      }}
-                    />
-                  </LocalizationProvider>
-              </Grid>
-            </Grid>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <MobileTimePicker
+                label="Start Time"
+                value={startDate}
+                minDate={dayjs('2017-01-01')}
+                onChange={(newValue) => setStartDate(newValue)}
+                ampm={false}
+                slotProps={{
+                  textField: {
+                    fullWidth: true,
+                    InputProps: {
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <Tooltip title="select configure SLAs start time " arrow placement="top">
+                            <Iconify icon="carbon:time" width={24} height={24} />
+                          </Tooltip>
+                        </InputAdornment>
+                      ),
+                    },
+                  },
+                }}
+              />
+            </LocalizationProvider>
+
             <Box sx={{ mt: 2 }}>
-            <Tooltip
-                    title="click here to save configure SLAs time"
-                    arrow
-                    placement="top"
-                    
-                  >
-              <Button variant="contained" color="primary" onClick={handleAdd}>
-                Save
-              </Button>
+              <Tooltip title="click here to save configure SLAs time" arrow placement="top">
+                <Button variant="contained" color="primary" onClick={handleAdd}>
+                  Save
+                </Button>
               </Tooltip>
             </Box>
           </Box>

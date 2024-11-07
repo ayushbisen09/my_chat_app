@@ -336,7 +336,7 @@ export function ApiWebhookTable() {
         title="Change Status"
         content={`Are you sure you want to mark this Webhook as ${statusToToggle}?`}
         action={
-          <Button variant="contained" color="inherit" onClick={handleConfirmStatusChange}>
+          <Button variant="contained" color="primary" onClick={handleConfirmStatusChange}>
             Yes
           </Button>
         }

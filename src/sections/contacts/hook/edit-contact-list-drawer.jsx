@@ -508,7 +508,7 @@ const EditContactsListDrawer = ({ open, onClose ,contactName }) => {
             <Divider sx={{ borderStyle: 'dashed' }} />
             <Box sx={{ p: 3 }}>
             <Tooltip title="Click here to update contact list." arrow placement='top'>
-              <Button variant="contained" size="medium" sx={{ mr: 1.5 }} onClick={handleAddClick}>
+              <Button variant="contained" size="medium"  color='primary' sx={{ mr: 1.5 }} onClick={handleAddClick}>
                 Update
               </Button>
               </Tooltip>

@@ -188,12 +188,8 @@ export function CreateFolderDialog({ title, content, action, open, onClose, ...o
 
             <Autocomplete
               sx={{
-                '& .MuiInputBase-input': {
-                  fontSize: '14px',
-                },
-                '& .MuiInputLabel-root': {
-                  fontSize: '14px',
-                },
+                '& .MuiInputBase-input': { fontSize: '14px' },
+                '& .MuiInputLabel-root': { fontSize: '14px' },
               }}
               options={folder}
               value={categorylist}
@@ -204,30 +200,28 @@ export function CreateFolderDialog({ title, content, action, open, onClose, ...o
                   {...params}
                   label={
                     <Tooltip
-                      title="Select the parent folder where the folder will be created."
+                      title="Choose the parent folder where the new folder will be created."
                       arrow
                       placement="top"
                     >
-                      <span>Select Parent Folder </span>
+                      <span>Select Parent Folder</span>
                     </Tooltip>
                   }
                   helperText={
-                    <span>
-                      {categoryError ? (
-                        'Please select a folder.'
-                      ) : (
-                        <>
-                          Select the parent folder where you want to create the folder.{' '}
-                          <Link
-                            href="https://forum.pabbly.com/threads/folders.20987/"
-                            style={{ color: '#078DEE' }}
-                            underline="always"
-                          >
-                            Learn more
-                          </Link>
-                        </>
-                      )}
-                    </span>
+                    categoryError ? (
+                      'Please select a folder.'
+                    ) : (
+                      <>
+                        Choose the parent folder where the new folder should be created.{' '}
+                        <Link
+                          href="https://forum.pabbly.com/threads/folders.20987/"
+                          style={{ color: '#078DEE' }}
+                          underline="always"
+                        >
+                          Learn more
+                        </Link>
+                      </>
+                    )
                   }
                   error={categoryError}
                 />
@@ -237,9 +231,11 @@ export function CreateFolderDialog({ title, content, action, open, onClose, ...o
         </DialogContent>
 
         <DialogActions>
-          <Button onClick={handleAdd} color="primary" variant="contained">
-            Create Folder
-          </Button>
+          <Tooltip title="Click here to Create folder" arrow placement="top">
+            <Button onClick={handleAdd} color="primary" variant="contained">
+              Create Folder
+            </Button>
+          </Tooltip>
           {/* <Button onClick={onClose} variant="outlined" color="inherit">
             Cancel
           </Button> */}

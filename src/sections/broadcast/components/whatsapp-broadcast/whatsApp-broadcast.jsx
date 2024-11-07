@@ -1,10 +1,7 @@
 import { useTheme } from '@emotion/react';
-import { FormProvider } from 'react-hook-form';
 import React, { useState, useCallback } from 'react';
 
-import { Box, Card, Divider, MenuItem, TextField, CardHeader } from '@mui/material';
-
-import { Form } from 'src/components/hook-form';
+import { Card, Divider, MenuItem, TextField, CardHeader, CardContent } from '@mui/material';
 
 import ApiCampaign from '../api-campaign/api-campaign';
 import BroadcastCampaign from '../broadcast-campaign/broadcast-campaign';
@@ -35,32 +32,27 @@ export default function WhatsAppBroadcast() {
     <Card sx={{ mt: '40px' }}>
       <CardHeader title="Whatsapp Broadcast" sx={{ mb: 3 }} />
       <Divider />
-      <FormProvider>
-        <Form>
-          <Box sx={{ p: 3 }}>
-            <TextField
-              id="select-currency-label-x"
-              select
-              fullWidth
-              label="Select Broadcast Type"
-              placeholder="Select Broadcast Type"
-              value={template}
-              onChange={handleChangeTemplate}
-              helperText={helperTexts[template]} // Use helperTexts object
-            >
-              {TEMPLATES.map((option) => (
-                <MenuItem key={option.value} value={option.value}>
-                  {option.label}
-                </MenuItem>
-              ))}
-            </TextField>
-          </Box>
-
-          {/* Conditionally render components based on selected template */}
-          {template === 'broadcastCampaign' && <BroadcastCampaign />}
-          {template === 'apiCampaign' && <ApiCampaign />}
-        </Form>
-      </FormProvider>
+      <CardContent>
+        <TextField
+        sx={{ mb: 3 }}
+          id="select-currency-label-x"
+          select
+          fullWidth
+          label="Select Broadcast Type"
+          placeholder="Select Broadcast Type"
+          value={template}
+          onChange={handleChangeTemplate}
+          helperText={helperTexts[template]} // Use helperTexts object
+        >
+          {TEMPLATES.map((option) => (
+            <MenuItem key={option.value} value={option.value}>
+              {option.label}
+            </MenuItem>
+          ))}
+        </TextField>
+      {template === 'broadcastCampaign' && <BroadcastCampaign />}
+      {template === 'apiCampaign' && <ApiCampaign />}
+      </CardContent>
     </Card>
   );
 }

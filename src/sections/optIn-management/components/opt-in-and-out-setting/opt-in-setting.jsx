@@ -170,32 +170,32 @@ on which they should be automatically opted-in."
             <Tooltip title="Opt-Out response preview" arrow placement="top">
               <Box sx={{ width: '380px' }}>
                 {optInMessageType === 'regular' && (
-                  <Box sx={{ p: 2, backgroundColor: '#CCF4FE', borderRadius: '8px', m: 2 }}>
-                      {messageType === 'video' && (
-                        <VideoType videoSrc="../../../public/assets/videos/chat-videos/advertisement.mp4" />
-                      )}
-                      {messageType === 'audio' && (
-                        <AudioType audioSrc="../../../public/assets/audios/new-instrumental.mp3" />
-                      )}
-                      {messageType === 'file' && <FileType />}
+                  <Box sx={{ p: 2, backgroundColor: '#CCF4FE', borderRadius: '8px' }}>
+                    {messageType === 'video' && (
+                      <VideoType videoSrc="../../../public/assets/videos/chat-videos/advertisement.mp4" />
+                    )}
+                    {messageType === 'audio' && (
+                      <AudioType audioSrc="../../../public/assets/audios/new-instrumental.mp3" />
+                    )}
+                    {messageType === 'file' && <FileType />}
 
-                      <Box sx={{ mb: 2 }}>
-                        {chatBoxImage && (
-                          <img
-                            src={chatBoxImage}
-                            alt="Chat Preview"
-                            style={{ width: '100%', borderRadius: '8px' }}
-                          />
-                        )}
-                      </Box>
-                      <Typography
-                        variant="body2"
-                        color="text.primary"
-                        sx={{ fontSize: 14, fontWeight: '500' }}
-                      >
-                        {messageContent}
-                      </Typography>
+                    <Box sx={{ mb: 2 }}>
+                      {chatBoxImage && (
+                        <img
+                          src={chatBoxImage}
+                          alt="Chat Preview"
+                          style={{ width: '100%', borderRadius: '8px' }}
+                        />
+                      )}
                     </Box>
+                    <Typography
+                      variant="body2"
+                      color="text.primary"
+                      sx={{ fontSize: 14, fontWeight: '500' }}
+                    >
+                      {messageContent}
+                    </Typography>
+                  </Box>
                 )}
                 {optInTemplateType === 'text' &&
                   optInMessageType === 'pre' &&
@@ -394,6 +394,7 @@ on which they should be automatically opted-in."
             <Button
               sx={{ mt: 3 }}
               variant="contained"
+              color="primary"
               onClick={() => {
                 dispatch(setChosen('optIn'));
                 setOptInDrawer(true);

@@ -123,7 +123,7 @@ export function DeleteContactDialog({ title, content, action, open, onClose, ...
           <Button onClick={onClose} variant="outlined" color="inherit">
             Cancel
           </Button>
-          <Button onClick={handleDelete} variant="contained">
+          <Button onClick={handleDelete} variant="contained" color='error'>
             Delete
           </Button>
         </DialogActions>

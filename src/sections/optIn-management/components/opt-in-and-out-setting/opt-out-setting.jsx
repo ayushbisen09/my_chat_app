@@ -10,7 +10,6 @@ import {
   Card,
   Chip,
   Stack,
-  Avatar,
   Button,
   Switch,
   Divider,
@@ -171,20 +170,8 @@ on which they should be automatically opted-out"
             <Tooltip title="Opt-Out response preview" arrow placement="top">
               <Box sx={{ width: '380px' }}>
                 {optOutMessageType === 'regular' && (
-                  <Card sx={{ border: '1px solid #919EAB33', width: '100%', maxWidth: '500px' }}>
-                    <CardHeader
-                      avatar={<Avatar aria-label="profile picture">MC</Avatar>}
-                      title="Mireya Conner"
-                      subheader="Online"
-                    />
-                    <Divider />
-                    <Typography
-                      variant="caption"
-                      sx={{ pr: 2, pt: 3, display: 'flex', justifyContent: 'end' }}
-                    >
-                      4:02 PM
-                    </Typography>
-                    <Box sx={{ p: 2, backgroundColor: '#CCF4FE', borderRadius: '8px', m: 2 }}>
+                  
+                    <Box sx={{ p: 2, backgroundColor: '#CCF4FE', borderRadius: '8px',  }}>
                       {messageType === 'video' && (
                         <VideoType videoSrc="../../../public/assets/videos/chat-videos/advertisement.mp4" />
                       )}
@@ -210,7 +197,7 @@ on which they should be automatically opted-out"
                         {messageContent}
                       </Typography>
                     </Box>
-                  </Card>
+                 
                 )}
                 {optOutTemplateType === 'text' &&
                   optOutMessageType === 'pre' &&
@@ -408,6 +395,7 @@ on which they should be automatically opted-out"
             <Button
               sx={{ mt: 3 }}
               variant="contained"
+              color="primary"
               onClick={() => {
                 dispatch(setChosen('optOut'));
                 setOptOutDrawer(true);

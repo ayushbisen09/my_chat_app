@@ -35,72 +35,72 @@ export default function EcommTemplatesRender() {
     {
       coverSrc: '../../assets/images/chatImage/e1.png',
       text: `Hi {{1}}! 🎉 Thank you for shopping with us! Your order for {{2}} has been confirmed. Order ID: {{4}}. Track your order here! 📦`,
-      title: 'Order Confirmation'
+      title: 'Order Confirmation',
     },
     {
       coverSrc: '../../assets/images/chatImage/e2.png',
       text: `Hi {{1}}! 🚚 Your order for {{2}} has been shipped and is on its way! Estimated Delivery Date: {{6}}. Stay tuned for more updates. 📱`,
-      title: 'Shipping Update'
+      title: 'Shipping Update',
     },
     {
       coverSrc: '../../assets/images/chatImage/e3.png',
       text: `Hi {{1}}! 🛒 Great news! Our exclusive sale is live now. Enjoy up to 50% off on selected items. Shop now and save big! 💸`,
-      title: 'Exclusive Sale'
+      title: 'Exclusive Sale',
     },
     {
       coverSrc: '../../assets/images/chatImage/e4.png',
       text: `Hi {{1}}! 🎁 Congratulations! You have received a gift voucher worth $2. Use code {{4}} at checkout to redeem it. Happy Shopping! 🎊`,
-      title: 'Gift Voucher'
+      title: 'Gift Voucher',
     },
     {
       coverSrc: '../../assets/images/chatImage/e1.png',
       text: `Hi {{1}}! 💬 Need help with your recent purchase? Our customer support team is here for you. Contact us anytime, and we’ll be happy to assist! 📞`,
-      title: 'Customer Support'
+      title: 'Customer Support',
     },
     {
       coverSrc: '../../assets/images/chatImage/e2.png',
       text: `Hi {{1}}! 🛍️ New arrivals alert! Check out our latest collection and be the first to get your hands on these trending products. Shop now! 👗`,
-      title: 'New Arrivals'
+      title: 'New Arrivals',
     },
     {
       coverSrc: '../../assets/images/chatImage/e3.png',
       text: `Hi {{1}}! 🔔 Your return request for Order ID {{4}} has been processed. You will receive a confirmation once the refund is completed. Thank you! 🙏`,
-      title: 'Return Processed'
+      title: 'Return Processed',
     },
     {
       coverSrc: '../../assets/images/chatImage/e4.png',
       text: `Hi {{1}}! 🎯 Looking for more? Check out our 'Recommended for You' section based on your shopping history and discover products you’ll love! 🛍️`,
-      title: 'Recommended for You'
+      title: 'Recommended for You',
     },
     {
       coverSrc: '../../assets/images/chatImage/e4.png',
       text: `Hi {{1}}! 📦 Your package for Order ID {{4}} is out for delivery today. Please ensure someone is available to receive it. Thank you! 🚚`,
-      title: 'Out for Delivery'
+      title: 'Out for Delivery',
     },
     {
       coverSrc: '../../assets/images/chatImage/e3.png',
       text: `Hi {{1}}! 🎈 Celebrate with us! Enjoy a special discount of 20% on your next purchase using code {{4}}. Valid till {{6}}. 🎉`,
-      title: 'Special Discount'
+      title: 'Special Discount',
     },
     {
       coverSrc: '../../assets/images/chatImage/e2.png',
       text: `Hi {{1}}! 🛒 Your cart is waiting! Complete your purchase today and enjoy free shipping on orders above $50. 🛍️`,
-      title: 'Cart Reminder'
+      title: 'Cart Reminder',
     },
     {
       coverSrc: '../../assets/images/chatImage/e1.png',
       text: `Hi {{1}}! 🌟 Your feedback matters to us! Please rate your recent purchase of {{2}}. Your opinion helps us improve our services. ✨`,
-      title: 'Feedback Request'
+      title: 'Feedback Request',
     },
     {
       coverSrc: '../../assets/images/chatImage/e3.png',
       text: `Hi {{1}}! 📢 Don’t miss out on our flash sale! Limited time only! Grab your favorite items at unbeatable prices. Shop now! 🛒`,
-      title: 'Flash Sale'
+      title: 'Flash Sale',
     },
     {
       coverSrc: '../../assets/images/chatImage/e4.png',
       text: `Hi {{1}}! 💌 Thank you for being a loyal customer! Enjoy a special offer exclusively for you. Use code {{4}} and get 15% off on your next order. 🎁`,
-      title: 'Loyalty Offer'
+      title: 'Loyalty Offer',
     },
   ];
 
@@ -129,12 +129,7 @@ export default function EcommTemplatesRender() {
           disableRipple
           color="inherit"
           onClick={popover.onOpen}
-          endIcon={
-            <Iconify
-              icon="eva:arrow-ios-upward-fill"
-              sx={{ color: 'text.disabled' }}
-            />
-          }
+          endIcon={<Iconify icon="eva:arrow-ios-upward-fill" sx={{ color: 'text.disabled' }} />}
           sx={{ fontWeight: 'fontWeightSemiBold' }}
         >
           Sort by:
@@ -144,11 +139,7 @@ export default function EcommTemplatesRender() {
           />
         </Button>
 
-        <CustomPopover
-          open={popover.open}
-          anchorEl={popover.anchorEl}
-          onClose={popover.onClose}
-        >
+        <CustomPopover open={popover.open} anchorEl={popover.anchorEl} onClose={popover.onClose}>
           <MenuList>
             <MenuItem>Latest</MenuItem>
             <MenuItem>Popular</MenuItem>

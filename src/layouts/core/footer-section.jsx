@@ -4,9 +4,6 @@ import { useTheme } from '@mui/material/styles';
 
 import { layoutClasses } from '../classes';
 
-// ----------------------------------------------------------------------
-
-// ----------------------------------------------------------------------
 export function FooterSection({
   sx,
   slots,
@@ -40,7 +37,7 @@ export function FooterSection({
           textAlign: 'center',
         }}
       >
-        Pabbly © 2024 Pabbly Chatflow
+        Pabbly © 2024. All Rights Reserved.
       </Container>
 
       {slots?.bottomArea}

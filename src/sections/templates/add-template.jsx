@@ -29,6 +29,7 @@ import {
 
 import { DashboardContent } from 'src/layouts/dashboard';
 import { setTemplateFormatInputText } from 'src/redux/slices/carouselslice';
+import { setOfferExpiring, setLimitedTimeText } from 'src/redux/slices/interactiveAllActionslice';
 
 import { Form } from 'src/components/hook-form';
 import { Iconify } from 'src/components/iconify';
@@ -38,15 +39,27 @@ import PageHeader from 'src/components/page-header/page-header';
 import { CarouselAlign } from './hook/carousel-align';
 import AddTemplateChatBox from './components/chatbox/chat-box';
 import Image1 from '../../assets/images/chatImage/imagechat.png';
+// import Image2 from '../../assets/images/chatImage/video.png';
+
 import AuthenticationTemplate from './components/chatbox/authontecation';
 import { TEMPLATE_LANGUAGES } from '../../assets/data/template-languages';
 import InteractiveActions from './hook/add-templates-components/interactive-actions';
+import LimitedTimeOfferTemplatePreview from './components/chatbox/limited-time-offer-template';
 
 export default function AddTemplate() {
   const dispatch = useDispatch();
+  const handleSwitchChange = (event) => {
+    dispatch(setOfferExpiring(event.target.checked));
+  };
+
   const templateFormatInputText = useSelector((state) => state.template.templateFormatInputText);
   const handleTemplateFormatInputChange = (event) => {
     dispatch(setTemplateFormatInputText(event.target.value));
+  };
+  const [templateText, setTemplateText] = useState('');
+
+  const handleTemplateTextChange = (event) => {
+    setTemplateText(event.target.value);
   };
 
   const theme = useTheme();
@@ -548,6 +561,7 @@ export default function AddTemplate() {
                         value="limited_time_offer"
                         control={<Radio />}
                         label="Limited Time Offer"
+                        disabled={!categorylist}
                       />
                     </>
                   )}
@@ -1053,6 +1067,52 @@ export default function AddTemplate() {
                     {templateType === 'limited_time_offer' && (
                       <>
                         <Divider sx={{ borderStyle: 'dashed', mt: '24px' }} />
+
+                        <FormControl fullWidth sx={{ mt: 3 }}>
+                          <InputLabel id="carousel-select-label">Header Type</InputLabel>
+                          <Select
+                            labelId="header-select-label"
+                            id="header-select"
+                            value={headerType}
+                            label="Header Type"
+                            onChange={(e) => setHeaderType(e.target.value)}
+                          >
+                            <MenuItem value="type1">Image</MenuItem>
+                            <MenuItem value="type2">Video</MenuItem>
+                          </Select>
+                        </FormControl>
+
+                        <TextField
+                          sx={{ mt: 3 }}
+                          fullWidth
+                          type="text"
+                          margin="dense"
+                          multiline
+                          rows={4}
+                          variant="outlined"
+                          label="Template Format"
+                          helperText="Use text formatting - *bold*, _italic_, ~strikethrough~. For example - Hello {{1}}, your code will expire in {{2}} mins. You're allowed a maximum of 1024 characters."
+                          onChange={handleTemplateTextChange}
+                          InputProps={{
+                            endAdornment: (
+                              <InputAdornment position="end">
+                                <Tooltip
+                                  title="Use text formatting - *bold* , _italic_ & ~strikethrough~. For example -  Hello {{1}}, your code will expire in {{2}} mins.. You're allowed a maximum of 1024 characters."
+                                  arrow
+                                  placement="top"
+                                  sx={{
+                                    fontSize: '16px',
+                                  }}
+                                >
+                                  <Iconify
+                                    icon="material-symbols:info-outline"
+                                    style={{ width: 20, height: 20 }}
+                                  />
+                                </Tooltip>
+                              </InputAdornment>
+                            ),
+                          }}
+                        />
                         <FormControlLabel
                           control={
                             <TextField
@@ -1062,6 +1122,7 @@ export default function AddTemplate() {
                               variant="outlined"
                               label="Limited Time Offer Text"
                               helperText="You're allowed a maximum of 16 characters."
+                              onChange={(e) => dispatch(setLimitedTimeText(e.target.value))}
                               InputProps={{
                                 endAdornment: (
                                   <InputAdornment position="end">
@@ -1092,7 +1153,7 @@ export default function AddTemplate() {
                           sx={{ padding: '16px 0px 0px 0px' }}
                         >
                           <FormControlLabel
-                            control={<Switch />}
+                            control={<Switch onChange={handleSwitchChange} />}
                             label="Offer Expires"
                             sx={{ marginRight: '0px' }}
                           />
@@ -1112,20 +1173,6 @@ export default function AddTemplate() {
                             </IconButton>
                           </Tooltip>
                         </Box>
-
-                        <FormControl fullWidth sx={{ mt: 2 }}>
-                          <InputLabel id="carousel-select-label">Header Type</InputLabel>
-                          <Select
-                            labelId="header-select-label"
-                            id="header-select"
-                            value={headerType}
-                            label="Header Type"
-                            onChange={handleHeaderTypeChange}
-                          >
-                            <MenuItem value="type1">Image</MenuItem>
-                            <MenuItem value="type2">Video</MenuItem>
-                          </Select>
-                        </FormControl>
                       </>
                     )}
                   </Box>
@@ -1200,7 +1247,9 @@ export default function AddTemplate() {
               )}
 
               <Box sx={{ width: '100%', padding: '0px 24px 24px 24px' }}>
-                <InteractiveActions />
+                <InteractiveActions
+                  isLimitedTimeOfferActive={templateType === 'limited_time_offer'}
+                />
               </Box>
 
               <Box
@@ -1240,11 +1289,9 @@ export default function AddTemplate() {
                     `Congratulations! 🎉 Your order for the Headway Bassheads has been confirmed. 🙌`,
                     sampleValues
                   )}
-                  
                 </>
               }
               showLinks
-              
               showCoupon
               showCall
             />
@@ -1253,6 +1300,22 @@ export default function AddTemplate() {
           // Show CarouselAlign component when templateType is "carousel"
           <Box>
             <CarouselAlign />
+          </Box>
+        ) : templateType === 'limited_time_offer' ? (
+          // Show Limited Time Offer Template
+          <Box>
+            <LimitedTimeOfferTemplatePreview
+              coverSrc={
+                headerType === 'type1'
+                  ? Image1
+                  : headerType === 'type2'
+                    ? '../../assets/images/chatImage/video.png'
+                    : '../../assets/images/chatImage/limitedtimeoffer.png'
+              }
+              showImage={headerType !== 'text'}
+              text={templateText} // Use the state here
+              showLinks
+            />
           </Box>
         ) : (
           // Show AddTemplateChatBox for other template types

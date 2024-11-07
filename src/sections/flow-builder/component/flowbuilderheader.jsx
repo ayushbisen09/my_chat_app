@@ -82,13 +82,13 @@ const FlowBuilder = () => {
           arrow
           placement="top"
         >
-          <Switch checked={isSwitchOn} onChange={handleSwitchChange} />
+          <Switch checked={isSwitchOn} onChange={handleSwitchChange}  size='medium'/>
         </Tooltip>
         <Tooltip title="Click here to open fallback and intent dialog box" arrow placement="top">
         <Button
           variant="outlined"
           color="primary"
-          size="small"
+          size="medium"
           onClick={dialog.onTrue}
           sx={{ mr: 2 }}
         >
@@ -96,7 +96,7 @@ const FlowBuilder = () => {
         </Button>
         </Tooltip>
         <Tooltip title="Click here to save flow" arrow placement="top">
-        <Button variant="contained" color="primary" size="small">
+        <Button variant="contained" color="primary" size="medium">
           Save
         </Button>
         </Tooltip>

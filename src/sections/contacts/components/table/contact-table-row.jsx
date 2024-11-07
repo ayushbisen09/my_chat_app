@@ -371,7 +371,7 @@ export function OrderTableRow({ row, selected, onSelectRow, onDeleteRow }) {
           <Tooltip title="Click here to manage tags for this contact." arrow placement="left">
             <MenuItem onClick={handleManageTagsClick}>
               <Iconify icon="solar:bill-list-bold" />
-              Manage Tags
+              Manage Attributes
             </MenuItem>
           </Tooltip>
           <Tooltip title="Click here to block and Opt for this contact." arrow placement="left">

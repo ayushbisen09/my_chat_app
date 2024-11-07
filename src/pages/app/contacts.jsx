@@ -15,6 +15,7 @@ import ContactList from 'src/sections/contacts/contact-list';
 import BigCard from 'src/sections/contacts/components/big-card/big-card';
 import ContactsTable from 'src/sections/contacts/components/table/table';
 
+
 // import { BlankView } from 'src/sections/blank/view';
 
 // ----------------------------------------------------------------------
@@ -41,6 +42,60 @@ export default function Page() {
       totalContacts: 54,
       optedInContacts: 40,
       optedOutContacts: 14,
+    },
+    {
+      name: 'SaaS Innovators',
+      totalContacts: 21,
+      optedInContacts: 9,
+      optedOutContacts: 12,
+    },
+    {
+      name: 'Form Builder Users',
+      totalContacts: 50,
+      optedInContacts: 30,
+      optedOutContacts: 20,
+    },
+    {
+      name: 'Support Squad',
+      totalContacts: 30,
+      optedInContacts: 7,
+      optedOutContacts: 23,
+    },
+    {
+      name: 'Engaged Audience',
+      totalContacts: 3,
+      optedInContacts: 0,
+      optedOutContacts: 3,
+    },
+    {
+      name: 'Loyal Subscribers',
+      totalContacts: 10,
+      optedInContacts: 4,
+      optedOutContacts: 6,
+    },
+    {
+      name: 'Product Champions',
+      totalContacts: 9,
+      optedInContacts: 1,
+      optedOutContacts: 8,
+    },
+    {
+      name: 'Webinar Attendees',
+      totalContacts: 9,
+      optedInContacts: 6,
+      optedOutContacts: 2,
+    },
+    {
+      name: 'Launch Day Users',
+      totalContacts: 10,
+      optedInContacts: 9,
+      optedOutContacts: 1,
+    },
+    {
+      name: 'Prime Contacts',
+      totalContacts: 5,
+      optedInContacts: 5,
+      optedOutContacts: 0,
     },
   ];
   const handleListItemSelect = (index) => {
@@ -73,21 +128,19 @@ export default function Page() {
           link_added="#"
         />
         <Tooltip title="Click here to add contact." arrow placement="top">
-
-        <Button
-          onClick={handleAddContact}
-          sx={{ mt: isMobile ? 2 : 0 }}
-          startIcon={
-            <Iconify icon="heroicons:plus-circle-16-solid" style={{ width: 18, height: 18 }} />
-          }
-          size="large"
-          variant="contained"
-          color="primary"
-        >
-          Add Contact
-        </Button>
+          <Button
+            onClick={handleAddContact}
+            sx={{ mt: isMobile ? 2 : 0 }}
+            startIcon={
+              <Iconify icon="heroicons:plus-circle-16-solid" style={{ width: 18, height: 18 }} />
+            }
+            size="large"
+            variant="contained"
+            color="primary"
+          >
+            Add Contact
+          </Button>
         </Tooltip>
-
       </Box>
       <Box
         sx={{
@@ -111,41 +164,54 @@ export default function Page() {
             }}
           >
             {/* WhatsApp Number Added */}
-            <Tooltip title="Total Number of Contacts you have in this list." arrow placement="top" disableInteractive>
-            <div>
-            <StatsCards
-              cardtitle="Total contacts"
-              cardstats={currentData.totalContacts.toString()}
-              icon_name="total-contacts.png"
-              icon_color="#FFA92E"
-              bg_gradient="#FFA92E"
-            />
-            </div>
+            <Tooltip
+              title="Total Number of Contacts you have in this list."
+              arrow
+              placement="top"
+              disableInteractive
+            >
+              <div>
+                <StatsCards
+                  cardtitle="Total contacts"
+                  cardstats={currentData.totalContacts.toString()}
+                  icon_name="total-contacts.png"
+                  icon_color="#FFA92E"
+                  bg_gradient="#FFA92E"
+                />
+              </div>
             </Tooltip>
             {/* WhatsApp Message Quota (Outgoing) */}
-            <Tooltip title="Total Number of Opted-In Contacts you have in this list." arrow placement="top">
-            <div>
-            <StatsCards
-              cardtitle="Opted-In contacts"
-              cardstats={currentData.optedInContacts.toString()}
-              icon_name="Opted_in.png"
-              icon_color="#12B66A"
-              bg_gradient="#12B66A"
-            />
-             </div>
-             </Tooltip>
+            <Tooltip
+              title="Total Number of Opted-In Contacts you have in this list."
+              arrow
+              placement="top"
+            >
+              <div>
+                <StatsCards
+                  cardtitle="Opted-In contacts"
+                  cardstats={currentData.optedInContacts.toString()}
+                  icon_name="Opted_in.png"
+                  icon_color="#12B66A"
+                  bg_gradient="#12B66A"
+                />
+              </div>
+            </Tooltip>
 
             {/* Messaage Quota Used */}
-            <Tooltip title="Total Number of Opted-Out Contacts you have in this list." arrow placement="top">
-            <div>
-            <StatsCards
-              cardtitle="Opted-Out contacts"
-              cardstats={currentData.optedOutContacts.toString()}
-              icon_name="Opted_out.png"
-              icon_color="#F86672"
-              bg_gradient="#F86672"
-            />
-            </div>
+            <Tooltip
+              title="Total Number of Opted-Out Contacts you have in this list."
+              arrow
+              placement="top"
+            >
+              <div>
+                <StatsCards
+                  cardtitle="Opted-Out contacts"
+                  cardstats={currentData.optedOutContacts.toString()}
+                  icon_name="Opted_out.png"
+                  icon_color="#F86672"
+                  bg_gradient="#F86672"
+                />
+              </div>
             </Tooltip>
           </Box>
           <BigCard />

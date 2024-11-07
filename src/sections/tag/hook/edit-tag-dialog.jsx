@@ -199,7 +199,7 @@ export function EditTagDialog({ open, onClose }) {
             </Button>
           </Tooltip>
           <Tooltip title="Click here to add tag" arrow placement="top">
-            <Button onClick={handleAdd} variant="contained">
+            <Button onClick={handleAdd} variant="contained" color='primary'>
               Add
             </Button>
           </Tooltip>
