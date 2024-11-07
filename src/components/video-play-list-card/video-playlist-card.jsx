@@ -78,7 +78,7 @@ export default function VideoPlayListCards({
         <Box>
           <Button
             variant="contained"
-            color="inherit"
+            color="primary"
             width="105px"
             sx={{ mb: 2 }}
             onClick={() => setOpen(true)} // Open modal on button click

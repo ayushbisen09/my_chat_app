@@ -35,8 +35,13 @@ const broadcastname = [
 
 export function OrderTableRow({ row, selected, onSelectRow, onDeleteRow, broadcastIndex }) {
   const confirm = useBoolean();
+  const stopApiBroadcastConfirmDialog = useBoolean();
+  const pauseApiBroadcastConfirmDialog = useBoolean();
+  const resumeApiBroadcastConfirmDialog = useBoolean();
+
   const collapse = useBoolean();
   const popover = usePopover();
+
   const editpopover = usePopover();
   const resumePopover = usePopover(); // New popover for Resume and Stop
 
@@ -174,8 +179,6 @@ export function OrderTableRow({ row, selected, onSelectRow, onDeleteRow, broadca
         )}
       </TableCell>
 
-      
-
       <TableCell align="right" sx={{ px: 1, whiteSpace: 'nowrap' }}>
         <Tooltip title="Click here to see receiver list and stats" arrow placement="top">
           <IconButton
@@ -293,7 +296,10 @@ export function OrderTableRow({ row, selected, onSelectRow, onDeleteRow, broadca
         <MenuList>
           <Tooltip title="Click here to stop the broadcast" arrow placement="left">
             <MenuItem
-              onClick={handleStopAction} // Handle Stop action
+              // onClick={handleStopAction} // Handle Stop action
+              onClick={() => {
+                stopApiBroadcastConfirmDialog.onTrue();
+              }}
             >
               <Iconify icon="ant-design:stop-outlined" />
               Stop
@@ -302,7 +308,10 @@ export function OrderTableRow({ row, selected, onSelectRow, onDeleteRow, broadca
           {currentStatus === 'paused' ? ( // Conditional rendering for Resume
             <Tooltip title="Click here to resume the broadcast" arrow placement="left">
               <MenuItem
-                onClick={handleResumeAction} // Handle Resume action
+                // onClick={handleResumeAction} // Handle Resume action
+                onClick={() => {
+                  resumeApiBroadcastConfirmDialog.onTrue();
+                }}
               >
                 <Iconify icon="ant-design:play-circle-outlined" />
                 Resume
@@ -311,7 +320,10 @@ export function OrderTableRow({ row, selected, onSelectRow, onDeleteRow, broadca
           ) : (
             <Tooltip title="Click here to pause the broadcast" arrow placement="left">
               <MenuItem
-                onClick={handlePauseAction} // Handle Pause action
+                // onClick={handlePauseAction} // Handle Pause action
+                onClick={() => {
+                  pauseApiBroadcastConfirmDialog.onTrue();
+                }}
               >
                 <Iconify icon="zondicons:pause-outline" />
                 Pause
@@ -330,7 +342,9 @@ export function OrderTableRow({ row, selected, onSelectRow, onDeleteRow, broadca
         <MenuList>
           <Tooltip title="Click here to resume the broadcast" arrow placement="left">
             <MenuItem
-              onClick={handleResumeAction} // Handle Resume action
+              onClick={() => {
+                resumeApiBroadcastConfirmDialog.onTrue();
+              }}
             >
               <Iconify icon="ant-design:play-circle-outlined" />
               Resume
@@ -358,6 +372,96 @@ export function OrderTableRow({ row, selected, onSelectRow, onDeleteRow, broadca
           </Button>
         }
       />
+      <ConfirmDialog
+        open={stopApiBroadcastConfirmDialog.value}
+        onClose={stopApiBroadcastConfirmDialog.onFalse}
+        title={`Stopping "${broadcastname[broadcastIndex % broadcastname.length]}" `}
+        content={
+          <>
+            <Box mb={1}>Are you sure you want to stop this broadcast?</Box>
+            <Box ml={2}>
+            <ul>
+              <ul> ● API campaign will stop functioning immediately.</ul>
+              <ul> ● You won&apos;t be able to resume this broadcast.</ul>
+            </ul>
+            </Box>
+            
+          </>
+        }
+        action={
+          <Button
+            variant="contained"
+            color="error"
+            onClick={() => {
+              handleStopAction(); // Perform the stop action
+              stopApiBroadcastConfirmDialog.onFalse(); // Close the dialog
+              
+            }}
+            
+          >
+            Stop
+          </Button>
+        }
+      />
+
+      <ConfirmDialog
+        open={pauseApiBroadcastConfirmDialog.value}
+        onClose={pauseApiBroadcastConfirmDialog.onFalse}
+        title={`Pausing "${broadcastname[broadcastIndex % broadcastname.length]}" `}
+        content={
+          <>
+            <Box mb={1}>Are you sure you want to stop this broadcast?</Box>
+            <Box ml={2}>
+              <ul>
+                <ul> ● API broadcast will pause immediately.</ul>
+                <ul> ● You can resume this broadcast anytime.</ul>
+              </ul>
+            </Box>
+          </>
+        }
+        action={
+          <Button
+            variant="contained"
+            color="warning"
+            onClick={() => {
+              handlePauseAction(); // Perform the stop action
+              pauseApiBroadcastConfirmDialog.onFalse(); // Close the dialog
+            }}
+          >
+            Pause
+          </Button>
+        }
+      />
+
+      <ConfirmDialog
+        open={resumeApiBroadcastConfirmDialog.value}
+        onClose={resumeApiBroadcastConfirmDialog.onFalse}
+        title={`Resuming "${broadcastname[broadcastIndex % broadcastname.length]}" `}
+        content={
+          <>
+            <Box mb={1}>Are you sure you want to resume this broadcast?</Box>
+            <Box ml={2}>
+            <ul>
+              <ul> ● API broadcast will start to function immediately.</ul>
+            </ul>
+            </Box>
+           
+          </>
+        }
+        action={
+          <Button
+            variant="contained"
+            color="success"
+            onClick={() => {
+              handleResumeAction(); // Perform the stop action
+              resumeApiBroadcastConfirmDialog.onFalse(); // Close the dialog
+            }}
+          >
+            Resume
+          </Button>
+        }
+      />
+
       <TestCampaignDrawer open={openTestCampaignDrawer} onClose={handleCloseTestCampaignDrawer} />
     </>
   );

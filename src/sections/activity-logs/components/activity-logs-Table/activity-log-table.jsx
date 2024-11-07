@@ -260,7 +260,6 @@ export default function ActivityLogTable({ sx, icon, title, total, color = 'warn
 
         <TablePaginationCustom
           page={table.page}
-          
           count={dataFiltered.length}
           rowsPerPage={table.rowsPerPage}
           onPageChange={table.onChangePage}
