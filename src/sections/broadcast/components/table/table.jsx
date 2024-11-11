@@ -52,7 +52,7 @@ const TABLE_HEAD = [
   { id: 'templateused', label: 'Template Name', width: 400 , tooltip : "Template type with the broadcast" },
   { id: 'date', label: 'Date', width: 262 , tooltip : "Date and Time when broadcast is created" },
   { id: 'status', label: 'Status', width: 515 , tooltip : "Broadcast status weather it is Live/Scheduled/Sent"},
-  { id: 'testcampaign', label: 'Test Campaign', width: 515 , tooltip : "Broadcast status weather it is Live/Scheduled/Sent" , align: 'right'},
+  { id: 'testcampaign', label: 'Test Broadcast', width: 515 , tooltip : "Test Broadcast Action" , align: 'right'},
 
   { id: '', width: 88 },
 ];

@@ -6,6 +6,7 @@ import {
   Table,
   Button,
   Divider,
+  Tooltip,
   TableRow,
   Checkbox,
   MenuItem,
@@ -122,6 +123,7 @@ export function Tagtable() {
             ),
           }}
         />
+        <Tooltip title="Click here to apply filter in this table data" arrow placement='top'>
         <Button
           variant="outlined"
           sx={{
@@ -132,6 +134,7 @@ export function Tagtable() {
         >
           Filters
         </Button>
+        </Tooltip>
       </Box>
 
       <TableContainer sx={{ position: 'relative', overflow: 'unset' }}>

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import styled from '@emotion/styled';
 import { useDispatch } from 'react-redux';
-import { useState, useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 
 import {
   Box,
@@ -11,6 +11,7 @@ import {
   Divider,
   MenuList,
   MenuItem,
+  Skeleton,
   IconButton,
   Typography,
   Pagination,
@@ -31,6 +32,14 @@ import { AddContactsListDrawer } from './hook/add-contact-list';
 import { EditContactsListDrawer } from './hook/edit-contact-list-drawer';
 
 export default function ContactList({ onItemSelect, itemsPerPage = 10, currentPage }) {
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false); // Set loading to false after 3 seconds
+    }, 1000);
+
+    return () => clearTimeout(timer); // Cleanup timer if the component is unmounted
+  }, []);
   const dispatch = useDispatch();
   const confirmDelete = useBoolean();
   const CustomListItemButton = styled(ListItemButton)(({ theme }) => ({
@@ -149,16 +158,17 @@ export default function ContactList({ onItemSelect, itemsPerPage = 10, currentPa
       <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
         <Typography fontSize="18px" fontWeight={600}>
           Add Contact List&nbsp;
-          <Tooltip title="Total number of lists" arrow placement='top'>
-          <Typography
-            component="span" // Makes it inline
-            fontSize="18px" fontWeight={600}
-            color="text.secondary" // Use secondary color
-          >
-             ({totalItems})
-          </Typography>
+          <Tooltip title="Total number of lists" arrow placement="top">
+            <Typography
+              component="span" // Makes it inline
+              fontSize="18px"
+              fontWeight={600}
+              color="text.secondary" // Use secondary color
+              sx={{ display: 'inline-flex', alignItems: 'center' }} // Ensures inline placement
+            >
+              {loading ? <Skeleton variant="text" width={40} height={28} /> : `(${totalItems})`}
+            </Typography>
           </Tooltip>
-          
         </Typography>
         <Tooltip title="Click here to add new contact list." arrow placement="top">
           <Button
@@ -185,54 +195,64 @@ export default function ContactList({ onItemSelect, itemsPerPage = 10, currentPa
         onClose={addContactListDrawer.onFalse}
       />
       <List sx={{ width: '100%', mb: 1.5 }}>
-        {currentContacts.map((contact, index) => (
-          <Box sx={{ display: 'flex' }} key={index}>
-            <Tooltip title={`List name: ${contact.name}`} arrow placement="top">
-              <CustomListItemButton
-                selected={selectedIndex === index + startIndex}
-                onClick={(event) => handleListItemClick(event, index + startIndex)}
-              >
-                <ListItemText
-                  primary={
-                    <div
-                      style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        width: '100%',
-                        overflow: 'hidden',
-                      }}
-                    >
-                      <span
-                        style={{
-                          flexGrow: 1,
-                          whiteSpace: 'nowrap',
-                          overflow: 'hidden',
-                          textOverflow: 'ellipsis',
-                        }}
-                      >
-                        {contact.name}
-                      </span>
-                      <span style={{ marginLeft: '8px', flexShrink: 0 }}>({contact.count})</span>
-                    </div>
-                  }
-                />
-              </CustomListItemButton>
-            </Tooltip>
-            {contact.name !== 'All' && (
-              <IconButton
-                color={popover.open ? 'inherit' : 'default'}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  popover.onOpen(e);
-                  setSelectedContactName(contact.name);
-                }}
-                sx={{ ml: 0.5 }}
-              >
-                <Iconify icon="eva:more-vertical-fill" />
-              </IconButton>
-            )}
-          </Box>
-        ))}
+        {loading
+          ? // Skeleton Loader when contacts are loading
+            Array.from(new Array(5)).map((_, index) => (
+              <Box sx={{ display: 'flex' }} key={index}>
+                <Skeleton variant="text" width="100%" height={42} />
+              </Box>
+            ))
+          : // Render the actual list once contacts are available
+            currentContacts.map((contact, index) => (
+              <Box sx={{ display: 'flex' }} key={index}>
+                <Tooltip title={`List name: ${contact.name}`} arrow placement="top">
+                  <CustomListItemButton
+                    selected={selectedIndex === index + startIndex}
+                    onClick={(event) => handleListItemClick(event, index + startIndex)}
+                  >
+                    <ListItemText
+                      primary={
+                        <div
+                          style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            width: '100%',
+                            overflow: 'hidden',
+                          }}
+                        >
+                          <span
+                            style={{
+                              flexGrow: 1,
+                              whiteSpace: 'nowrap',
+                              overflow: 'hidden',
+                              textOverflow: 'ellipsis',
+                            }}
+                          >
+                            {contact.name}
+                          </span>
+                          <span style={{ marginLeft: '8px', flexShrink: 0 }}>
+                            ({contact.count})
+                          </span>
+                        </div>
+                      }
+                    />
+                  </CustomListItemButton>
+                </Tooltip>
+                {contact.name !== 'All' && (
+                  <IconButton
+                    color={popover.open ? 'inherit' : 'default'}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      popover.onOpen(e);
+                      setSelectedContactName(contact.name);
+                    }}
+                    sx={{ ml: 0.5 }}
+                  >
+                    <Iconify icon="eva:more-vertical-fill" />
+                  </IconButton>
+                )}
+              </Box>
+            ))}
       </List>
 
       <Divider sx={{ mb: 2 }} />
@@ -294,7 +314,9 @@ export default function ContactList({ onItemSelect, itemsPerPage = 10, currentPa
         onClose={confirmDelete.onFalse}
         title="Delete"
         content="Are you sure you want to delete this contact list?"
+        
         action={
+          <Tooltip title={`List name: ${contactLists.name}`} arrow placement='top'>
           <Button
             variant="contained"
             color="error"
@@ -304,6 +326,7 @@ export default function ContactList({ onItemSelect, itemsPerPage = 10, currentPa
           >
             Delete
           </Button>
+          </Tooltip>
         }
       />
     </Box>

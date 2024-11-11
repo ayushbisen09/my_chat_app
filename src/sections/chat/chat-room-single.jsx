@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 
 import Chip from '@mui/material/Chip';
-import { Button } from '@mui/material';
 import Stack from '@mui/material/Stack';
 import Select from '@mui/material/Select';
 import Collapse from '@mui/material/Collapse';
 import MenuItem from '@mui/material/MenuItem';
+import { Button, Tooltip } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import InputLabel from '@mui/material/InputLabel';
@@ -114,27 +114,34 @@ export function ChatRoomSingle({ participant }) {
 
   const renderContact = (
     <Stack spacing={1} sx={{ px: 2, py: 2.5 }}>
-      <Stack>
+      <Stack><Tooltip title="This is the last active status of the contact" arrow placement="top">
         <Typography sx={{ fontSize: '14px', fontWeight: 'regular' }}>Last Active</Typography>
+        </Tooltip>
         <Typography sx={{ fontSize: '12px', fontWeight: 'regular', color: 'text.secondary' }}>
           01 Aug 2022 11:00 AM{' '}
         </Typography>
       </Stack>
 
       <Stack>
+      <Tooltip title="This is the 24 hour status it is active or not of this contact" arrow placement="top">
         <Typography sx={{ fontSize: '14px', fontWeight: 'regular' }}>24 Hours Status</Typography>
+        </Tooltip>
         <Typography sx={{ fontSize: '12px', fontWeight: 'regular', color: 'text.secondary' }}>
           Active{' '}
         </Typography>
       </Stack>
       <Stack>
+      <Tooltip title="This is the due date of this contact" arrow placement="top">
         <Typography sx={{ fontSize: '14px', fontWeight: 'regular' }}>Due date</Typography>
+        </Tooltip>
         <Typography sx={{ fontSize: '12px', fontWeight: 'regular', color: 'text.secondary' }}>
           Apr 08, 2024 11:48:29{' '}
         </Typography>
       </Stack>
       <Stack>
+      <Tooltip title="This is the service level aggrement of this contact it indicates how many time left for this contact that SLA's expires" arrow placement="top">
         <Typography sx={{ fontSize: '14px', fontWeight: 'regular' }}>SLA</Typography>
+        </Tooltip>
         <Typography sx={{ fontSize: '12px', fontWeight: 'regular', color: 'text.secondary' }}>
           23:04 hours left{' '}
         </Typography>
@@ -145,6 +152,7 @@ export function ChatRoomSingle({ participant }) {
   const renderAdditionalInfo = (
     <Stack spacing={1} sx={{ px: 2, py: 2.5 }}>
       <Stack>
+      <Tooltip title="Click here to edit the attributes" arrow placement="top">
         <Button
           variant="outlined"
           color="inherit"
@@ -154,6 +162,7 @@ export function ChatRoomSingle({ participant }) {
         >
           {isEditing ? 'Save' : 'Edit'}
         </Button>
+        </Tooltip>
       </Stack>
       {['email', 'city', 'pincode'].map((attribute) => (
         <Stack key={attribute}>
@@ -180,21 +189,25 @@ export function ChatRoomSingle({ participant }) {
   const rendergeneraldetails = (
     <Stack spacing={1} sx={{ px: 2, py: 2.5 }}>
       <Stack>
+      <Tooltip title="This shows when this contact send his first message." arrow placement="top">
         <Typography sx={{ fontSize: '14px', fontWeight: 'regular' }}>First Message</Typography>
+        </Tooltip>
         <Typography sx={{ fontSize: '12px', fontWeight: 'regular', color: 'text.secondary' }}>
           01 Aug 2022 11:00 AM{' '}
         </Typography>
       </Stack>
 
-      <Stack>
+      {/* <Stack>
         <Typography sx={{ fontSize: '14px', fontWeight: 'regular' }}>24 Hours Status</Typography>
         <Typography sx={{ fontSize: '12px', fontWeight: 'regular', color: 'text.secondary' }}>
           Active
         </Typography>
-      </Stack>
+      </Stack> */}
 
       <Stack>
+      <Tooltip title="This is the Order ID of this contact." arrow placement="top">
         <Typography sx={{ fontSize: '14px', fontWeight: 'regular' }}>Order ID</Typography>
+        </Tooltip>
         <Typography sx={{ fontSize: '12px', fontWeight: 'regular', color: 'text.secondary' }}>
           #87887656
         </Typography>
@@ -203,7 +216,7 @@ export function ChatRoomSingle({ participant }) {
         <Typography sx={{ fontSize: '14px', fontWeight: 'regular', mb: '10px' }}>
           Team Member
         </Typography>
-
+        <Tooltip title="Click here to assign this contact to team member" arrow placement="top">
         <FormControl fullWidth size="small">
           <InputLabel id="chat-owner-select-label">Team Member</InputLabel>
           <Select
@@ -219,10 +232,11 @@ export function ChatRoomSingle({ participant }) {
             <MenuItem value="Rajendra Jatav">Rajendra Jatav</MenuItem>
           </Select>
         </FormControl>
+        </Tooltip>
       </Stack>
       <Stack>
         <Typography sx={{ fontSize: '14px', fontWeight: 'regular', mb: '10px' }}>Status</Typography>
-
+        <Tooltip title="Click here to set the status of the chat either it is open, closed, resolved, replied, on hold ." arrow placement="top">
         <FormControl fullWidth size="small">
           <InputLabel id="status-select-label">Status</InputLabel>
           <Select
@@ -239,10 +253,11 @@ export function ChatRoomSingle({ participant }) {
             <MenuItem value="Closed">Closed</MenuItem>
           </Select>
         </FormControl>
+        </Tooltip>
       </Stack>
       <Stack>
         <Typography sx={{ fontSize: '14px', fontWeight: 'regular', mb: '10px' }}>Tags</Typography>
-
+        <Tooltip title="This is the tags that is assign this contact." arrow placement="top">
         <Autocomplete
           multiple
           freeSolo
@@ -284,12 +299,15 @@ export function ChatRoomSingle({ participant }) {
             />
           )}
         />
+        </Tooltip>
       </Stack>
       <Stack>
+     
         <Typography sx={{ fontSize: '14px', fontWeight: 'regular', mb: '10px' }}>
           Incoming Status
         </Typography>
-
+    
+        <Tooltip title="This shows the incoming status of this contact this include allowed and blocked." arrow placement="top">
         <FormControl fullWidth size="small">
           <InputLabel id="incoming-status-select-label">Incoming Status</InputLabel>
           <Select
@@ -303,12 +321,15 @@ export function ChatRoomSingle({ participant }) {
             <MenuItem value="Blocked">Blocked</MenuItem>
           </Select>
         </FormControl>
+        </Tooltip>
       </Stack>
       <Stack>
+      
         <Typography sx={{ fontSize: '14px', fontWeight: 'regular', mb: '10px' }}>
           User Status
         </Typography>
-
+   
+        <Tooltip title="This shows the user status of this contact this include opt-in and opt-out." arrow placement="top">
         <FormControl fullWidth size="small">
           <InputLabel id="user-status-select-label">User Status</InputLabel>
           <Select
@@ -323,6 +344,7 @@ export function ChatRoomSingle({ participant }) {
             <MenuItem value="Opt-Out">Opt-Out</MenuItem>
           </Select>
         </FormControl>
+        </Tooltip>
       </Stack>
     </Stack>
   );
@@ -330,25 +352,28 @@ export function ChatRoomSingle({ participant }) {
   return (
     <>
       {/* {renderInfo} */}
-
+      <Tooltip title="Click here to see chat information of this contact" arrow placement="top">
       <CollapseButton selected={collapse.value} onClick={collapse.onToggle}>
         CHAT INFORMATION
       </CollapseButton>
+      </Tooltip>
 
       <Collapse in={collapse.value}>{renderContact}</Collapse>
-
+      <Tooltip title="Click here to see user attributes of this contact" arrow placement="top">
       <CollapseButton selected={collapseAdditional.value} onClick={collapseAdditional.onToggle}>
         USER ATTRIBUTE
       </CollapseButton>
+      </Tooltip>
 
       <Collapse in={collapseAdditional.value}>{renderAdditionalInfo}</Collapse>
-
+<Tooltip title="Click here to see general details of this contact" arrow placement="top">
       <CollapseButton
         selected={collapsegeneraldetails.value}
         onClick={collapsegeneraldetails.onToggle}
       >
         GENERAL DETAILS
       </CollapseButton>
+      </Tooltip>
 
       <Collapse in={collapsegeneraldetails.value}>{rendergeneraldetails}</Collapse>
     </>

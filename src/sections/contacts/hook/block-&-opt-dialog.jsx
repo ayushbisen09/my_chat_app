@@ -8,6 +8,7 @@ import {
   Dialog,
   Select,
   Divider,
+  Tooltip,
   MenuItem,
   Snackbar,
   InputLabel,
@@ -29,15 +30,12 @@ export function BlockandOptDialog({ title, content, action, open, onClose, ...ot
   const isWeb = useMediaQuery(theme.breakpoints.up('sm'));
   const dialog = useBoolean();
 
-  // State for the first FormControl
   const [Incoming, setIncoming] = useState('Open');
   const [helperText1, setHelperText1] = useState('Make no change to incoming message behaviour.');
 
-  // State for the second FormControl
   const [OptedIn, setOptedIn] = useState('Open');
   const [helperText2, setHelperText2] = useState('Make no change to Opt-in preferences.');
 
-  // Snackbar state
   const [snackbarOpen, setSnackbarOpen] = useState(false);
 
   const handleStatusChange1 = (event) => {
@@ -126,47 +124,55 @@ export function BlockandOptDialog({ title, content, action, open, onClose, ...ot
           {/* First FormControl */}
           <FormControl fullWidth sx={{ mb: 3, mt: 0 }}>
             <InputLabel id="status-select-label-1">Incoming</InputLabel>
-            <Select
-              labelId="status-select-label-1"
-              id="status-select-1"
-              value={Incoming}
-              label="Incoming 1"
-              onChange={handleStatusChange1}
-              size="large"
-            >
-              <MenuItem value="Open">None</MenuItem>
-              <MenuItem value="On Hold">Block</MenuItem>
-              <MenuItem value="Replied">Unblock</MenuItem>
-            </Select>
+            <Tooltip title={helperText1} arrow placement='top'>
+              <Select
+                labelId="status-select-label-1"
+                id="status-select-1"
+                value={Incoming}
+                label="Incoming"
+                onChange={handleStatusChange1}
+                size="large"
+              >
+                <MenuItem value="Open">None</MenuItem>
+                <MenuItem value="On Hold">Block</MenuItem>
+                <MenuItem value="Replied">Unblock</MenuItem>
+              </Select>
+            </Tooltip>
             <FormHelperText>{helperText1}</FormHelperText>
           </FormControl>
 
           {/* Second FormControl */}
           <FormControl fullWidth sx={{ mt: 0 }}>
             <InputLabel id="status-select-label-2">Opted In</InputLabel>
-            <Select
-              labelId="status-select-label-2"
-              id="status-select-2"
-              value={OptedIn}
-              label="Incoming 2"
-              onChange={handleStatusChange2}
-              size="large"
-            >
-              <MenuItem value="Open">None</MenuItem>
-              <MenuItem value="On Hold">Yes</MenuItem>
-              <MenuItem value="Replied">No</MenuItem>
-            </Select>
+            <Tooltip title={helperText2} arrow placement='top'>
+              <Select
+                labelId="status-select-label-2"
+                id="status-select-2"
+                value={OptedIn}
+                label="Opted In"
+                onChange={handleStatusChange2}
+                size="large"
+              >
+                <MenuItem value="Open">None</MenuItem>
+                <MenuItem value="On Hold">Yes</MenuItem>
+                <MenuItem value="Replied">No</MenuItem>
+              </Select>
+            </Tooltip>
             <FormHelperText>{helperText2}</FormHelperText>
           </FormControl>
         </DialogContent>
 
         <DialogActions>
+        <Tooltip title="If you don't want to change the block and opt click this cancel button ." arrow placement="top">
           <Button onClick={onClose} variant="outlined" color="inherit">
             Cancel
           </Button>
-          <Button onClick={handleAdd} variant="contained" color="primary">
-            Save
-          </Button>
+          </Tooltip>
+          <Tooltip title="Click to save changes" arrow placement='top'>
+            <Button onClick={handleAdd} variant="contained" color="primary">
+              Save
+            </Button>
+          </Tooltip>
         </DialogActions>
       </Dialog>
       <Snackbar

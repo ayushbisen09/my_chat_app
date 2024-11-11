@@ -39,11 +39,11 @@ import { ChooseTemplateDailogTableToolbar } from './template-dailog-table-toolba
 const metadata = { title: `Page one | Dashboard - ${CONFIG.site.name}` };
 
 const TABLE_HEAD = [
-  { id: 'orderNumber', label: 'Name', width: 300 },
-  { id: 'name', label: 'Status ', width: 300 },
-  { id: 'createdAt', label: 'Type', width: 100 },
-  { id: 'status', label: 'Created At', width: 110 },
-  { id: 'totalAmount', label: 'Action', width: 140, align: 'right' },
+  { id: 'name', label: 'Name', width: 300 },
+  { id: 'Status', label: 'Status ', width: 300 },
+  { id: 'type', label: 'Type', width: 100 },
+  { id: 'create', label: 'Created At', width: 110 },
+  { id: 'action', label: 'Action', width: 140, align: 'right' },
 ];
 
 export default function ChooseTemplateDailogTable({

@@ -89,11 +89,13 @@ export function WhatsAppDialog({ title, content, action, open, onClose, ...other
           onClick={dialog.onFalse}
         >
           Add WhatsApp Number{' '}
+          <Tooltip title="Click here to close the dialog box" arrow placement='top'>
           <Iconify
             onClick={onClose}
             icon="uil:times"
             style={{ width: 20, height: 20, cursor: 'pointer', color: '#637381' }}
           />
+          </Tooltip>
         </DialogTitle>
         <Divider sx={{ mb: '16px', borderStyle: 'dashed' }} />
 
@@ -108,9 +110,11 @@ export function WhatsAppDialog({ title, content, action, open, onClose, ...other
             helperText={
               <span>
                 Enter your access token here.{' '}
+                <Tooltip title="If you have any doubt in this click learn more as it contains the forum Support" arrow placement='top'>
                 <Link href="#" style={{ color: '#078DEE' }} underline="always">
                   Learn more
                 </Link>
+                </Tooltip>
               </span>
             }
             InputProps={{
@@ -143,9 +147,11 @@ export function WhatsAppDialog({ title, content, action, open, onClose, ...other
             helperText={
               <span>
                 Enter your WhatsApp business account ID here.{' '}
+                <Tooltip title="If you have any doubt in this click learn more as it contains the forum Support" arrow placement='top'>
                 <Link href="#" style={{ color: '#078DEE' }} underline="always">
                   Learn more
                 </Link>
+                </Tooltip>
               </span>
             }
             InputProps={{
@@ -178,9 +184,11 @@ export function WhatsAppDialog({ title, content, action, open, onClose, ...other
             helperText={
               <span>
                 Enter your phone number ID here.{' '}
+                <Tooltip title="If you have any doubt in this click learn more as it contains the forum Support" arrow placement='top'>
                 <Link href="#" style={{ color: '#078DEE' }} underline="always">
                   Learn more
                 </Link>
+                </Tooltip>
               </span>
             }
             InputProps={{
@@ -203,7 +211,7 @@ export function WhatsAppDialog({ title, content, action, open, onClose, ...other
               ),
             }}
           />
-
+<Tooltip title="Click here to select the existing folder to store whatsapp number" arrow placement='top'>
           <TextField
             sx={{ width: '100%', mt: 1 }}
             id="select-currency-label-x"
@@ -224,15 +232,20 @@ export function WhatsAppDialog({ title, content, action, open, onClose, ...other
               </MenuItem>
             ))}
           </TextField>
+          </Tooltip>
         </DialogContent>
 
         <DialogActions>
+        <Tooltip title="Click here to cancel" arrow placement='top'>
           <Button onClick={onClose} variant="outlined" color="inherit">
             Cancel
           </Button>
+          </Tooltip>
+          <Tooltip title="Click here to add WhatsApp number" arrow placement='top'>
           <Button onClick={handleAdd} variant="contained" color="primary">
             Add
           </Button>
+          </Tooltip>
         </DialogActions>
       </Dialog>
 

@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 import { useTheme } from '@emotion/react';
 
 import {
@@ -38,21 +37,48 @@ const CustomBackdrop = (props) => (
 );
 
 const AddContactsListDrawer = ({ open, onClose }) => {
-  const [openSnackbar, setOpenSnackbar] = useState(false);
-  const [openDrawer, setOpenDrawer] = useState(false);
-  const handleAddClick = () => {
-    // Perform the Add action logic here
+  const [optstatus, setOptStatus] = useState('');
+  const [incomingStatus, setIncomingStatus] = useState('');
+  const [attributes, setAttributes] = useState(['']);
+  const [attributeConditions, setAttributeConditions] = useState(['']);
+  const [attributeValues, setAttributeValues] = useState(['']);
+  const [contactName, seContactName] = useState('');
+  const [tags, setTags] = useState(['Purchase', 'Pabbly Connect', 'Pabbly Subscription Billing']);
+  const [tagInput, setTagInput] = useState('');
 
-    // Show the Snackbar
-    setOpenSnackbar(true);
-    onClose();
+  const [errors, setErrors] = useState({
+    contactName: false,
+    optstatus: false,
+    incomingStatus: false,
+  });
+
+  const contactNameChange = (event) => {
+    seContactName(event.target.value);
+    setErrors((prev) => ({ ...prev, contactName: false }));
   };
 
+  const optstatusChange = (event) => {
+    setOptStatus(event.target.value);
+    setErrors((prev) => ({ ...prev, optstatus: false }));
+  };
+
+  const incomingStatusChange = (event) => {
+    seContactName(event.target.value);
+    setErrors((prev) => ({ ...prev, contactName: false }));
+  };
+
+  const handleAdd = () => {
+    const newErrors = {
+      contactName: contactName.trim() === '',
+      optstatus: optstatus.trim() === '',
+      incomingStatus: incomingStatus.trim() === '',
+    };
+    setErrors(newErrors);
+  };
+
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+
   const handleCancelClick = () => {
-    // Perform the Add action logic here
-
-    // Show the Snackbar
-
     onClose();
   };
 
@@ -63,14 +89,11 @@ const AddContactsListDrawer = ({ open, onClose }) => {
   const isTabletOrMobile = useMediaQuery(theme.breakpoints.down('md'));
 
   const handleBackdropClick = (event) => {
-    // Prevent clicks inside the drawer from closing it
     if (event.target === event.currentTarget) {
       onClose();
     }
   };
 
-  const [tags, setTags] = useState(['Purchase', 'Pabbly Connect', 'Pabbly Subscription Billing']);
-  const [tagInput, setTagInput] = useState('');
   const handleAddTag = () => {
     if (tagInput.trim()) {
       setTags((prevTags) => [...prevTags, tagInput.trim()]);
@@ -78,20 +101,9 @@ const AddContactsListDrawer = ({ open, onClose }) => {
     }
   };
 
-  const handleOptStatusChange = (event) => {
-    setOptStatus(event.target.value);
-  };
-
   const handleIncomingStatusChange = (event) => {
     setIncomingStatus(event.target.value);
   };
-
-  const [optstatus, setOptStatus] = useState('Opt In'); // Default to "Opt Out"
-  const [incomingStatus, setIncomingStatus] = useState('Allowed'); // Default to "Blocked"
-
-  const [attributes, setAttributes] = useState(['']);
-  const [attributeConditions, setAttributeConditions] = useState(['']);
-  const [attributeValues, setAttributeValues] = useState(['']);
 
   const ATTRIBUTES = [
     { value: 'name', label: 'Name' },
@@ -261,13 +273,19 @@ const AddContactsListDrawer = ({ open, onClose }) => {
                   margin="dense"
                   variant="outlined"
                   label="Contact List Name"
+                  // helperText={
+                  //   <span>
+                  //     Enter your contact list name.{' '}
+                  //     <Link href="#" style={{ color: '#078DEE' }} underline="always">
+                  //       Learn more
+                  //     </Link>
+                  //   </span>
+                  // }
+                  value={contactName}
+                  onChange={contactNameChange}
+                  error={errors.contactName} // Error style if validation fails
                   helperText={
-                    <span>
-                      Enter your contact list name.{' '}
-                      <Link href="#" style={{ color: '#078DEE' }} underline="always">
-                        Learn more
-                      </Link>
-                    </span>
+                    errors.contactName ? 'Contact name is required.' : 'Enter contact name here.'
                   }
                   InputProps={{
                     endAdornment: (
@@ -349,40 +367,65 @@ const AddContactsListDrawer = ({ open, onClose }) => {
                 sx={{ mb: 3 }}
               />
 
-              
-                <FormControl fullWidth size="medium" sx={{ mb: 3 }}>
-                  <InputLabel id="chat-owner-select-label">Opted Status</InputLabel>
-                  <Tooltip title="Contact must have opted in to receive messages. Check status before messaging." arrow placement='top' >
+              <FormControl fullWidth size="medium" sx={{ mb: 3 }}>
+                <InputLabel id="chat-owner-select-label">Opted Status</InputLabel>
+                <Tooltip
+                  title="Contact must have opted in to receive messages. Check status before messaging."
+                  arrow
+                  placement="top"
+                >
                   <Select
                     labelId="Opt-status"
                     id="Opt-status"
                     value={optstatus}
                     label="Opted Status"
-                    onChange={handleOptStatusChange}
+                    onChange={optstatusChange}
+                    error={errors.optstatus}
                   >
-                    
                     <MenuItem value="Opt In">Opt In</MenuItem>
                     <MenuItem value="Opt Out">Opt Out</MenuItem>
                   </Select>
-                  </Tooltip>
-                </FormControl>
-              
+                </Tooltip>
+                {errors.optstatus ? (
+                  <Typography color="error" fontSize="12px" mt={1} mx="14px">
+                    Opted status is required.
+                  </Typography>
+                ) : (
+                  <Typography fontSize="12px" color="textSecondary" mt={1} mx="14px">
+                    Select opted status here.
+                  </Typography>
+                )}
+              </FormControl>
 
               <FormControl fullWidth size="medium">
                 <InputLabel id="status-select-label">Incoming Status</InputLabel>
-                <Tooltip title="Shows the status of recent incoming messages for this contact list" arrow placement='top'>
-                <Select
-                  labelId="status-select-label"
-                  id="status-select"
-                  value={incomingStatus}
-                  label="Incoming Status"
-                  onChange={handleIncomingStatusChange}
+                <Tooltip
+                  title="Shows the status of recent incoming messages for this contact list"
+                  arrow
+                  placement="top"
                 >
-                  <MenuItem value="Allowed">Allowed</MenuItem>
-                  <MenuItem value="Bloked">Blocked</MenuItem>
-                  <MenuItem value="Both">Both</MenuItem>
-                </Select>
+                  <Select
+                    labelId="status-select-label"
+                    id="status-select"
+                    label="Incoming Status"
+                    value={incomingStatus}
+                    onChange={incomingStatusChange}
+                    error={errors.incomingStatus}
+                  >
+                    <MenuItem value="Allowed">Allowed</MenuItem>
+                    <MenuItem value="Bloked">Blocked</MenuItem>
+                    <MenuItem value="Both">Both</MenuItem>
+                  </Select>
                 </Tooltip>
+                {errors.incomingStatus ? (
+                  <Typography color="error" fontSize="12px" mt={1} mx="14px">
+                    incoming status is required.
+                  </Typography>
+                ) : (
+                  <Typography fontSize="12px" color="textSecondary" mt={1} mx="14px">
+                    Select incoming status here.
+                  </Typography>
+                )}
               </FormControl>
 
               <Box sx={{ mt: 4 }}>
@@ -398,69 +441,79 @@ const AddContactsListDrawer = ({ open, onClose }) => {
                         sx={{ width: 1 }}
                         alignItems="center"
                       >
-                        <Tooltip title="Attributes help categorize or add notes to each contact List." arrow placement='top'>
-                        <TextField
-                          variant="outlined"
-                          select
-                          fullWidth
-                          label="Attributes"
-                          value={attributes[index] || ''}
-                          onChange={(event) => handleAttributeChange(index, event)}
-                          helperText="Click here to select Attributes"
+                        <Tooltip
+                          title="Attributes help categorize or add notes to each contact List."
+                          arrow
+                          placement="top"
                         >
-                         
-                          {ATTRIBUTES.map((option) => (
-                            <MenuItem key={option.value} value={option.value}>
-                              {option.label}
-                            </MenuItem>
-                          ))}
-                        </TextField>
-                        </Tooltip>
-                        <Tooltip title=" Condition for attributes help categorize or add notes to each contact List." arrow placement='top'>
-                        <TextField
-                          variant="outlined"
-                          select
-                          fullWidth
-                          label="Attributes Condition"
-                          value={attributeConditions[index] || ''}
-                          onChange={(event) => handleAttributeConditionChange(index, event)}
-                          helperText="Click here to select condition"
-                        >
-                          {getFilteredConditions(attributes[index]).map((option) => (
-                            <MenuItem key={option.value} value={option.value}>
-                              {option.label}
-                            </MenuItem>
-                          ))}
-                        </TextField>
-                        </Tooltip>
-                        <Tooltip title="Attributes values which helps categorize or add notes to each contact List." arrow placement='top'>
-                        {shouldEnableSelectForAttributeValue(attributes[index]) ? (
-                          
                           <TextField
                             variant="outlined"
                             select
                             fullWidth
-                            label="Attributes Value"
-                            value={attributeValues[index] || ''}
-                            onChange={(event) => handleAttributeValueChange(index, event)}
-                            helperText="Select Attribute value"
+                            label="Attributes"
+                            value={attributes[index] || ''}
+                            onChange={(event) => handleAttributeChange(index, event)}
+                            helperText="Click here to select Attributes"
                           >
-                            {getAttributeValueOptions(attributes[index]).map((option) => (
-                              <MenuItem key={option} value={option}>
-                                {option}
+                            {ATTRIBUTES.map((option) => (
+                              <MenuItem key={option.value} value={option.value}>
+                                {option.label}
                               </MenuItem>
                             ))}
                           </TextField>
-                        ) : (
+                        </Tooltip>
+                        <Tooltip
+                          title=" Condition for attributes help categorize or add notes to each contact List."
+                          arrow
+                          placement="top"
+                        >
                           <TextField
                             variant="outlined"
+                            select
                             fullWidth
-                            label="Attributes Value"
-                            value={attributeValues[index] || ''}
-                            onChange={(event) => handleAttributeValueChange(index, event)}
-                            helperText="Enter Attribute value here"
-                          />
-                        )}
+                            label="Attributes Condition"
+                            value={attributeConditions[index] || ''}
+                            onChange={(event) => handleAttributeConditionChange(index, event)}
+                            helperText="Click here to select condition"
+                          >
+                            {getFilteredConditions(attributes[index]).map((option) => (
+                              <MenuItem key={option.value} value={option.value}>
+                                {option.label}
+                              </MenuItem>
+                            ))}
+                          </TextField>
+                        </Tooltip>
+                        <Tooltip
+                          title="Attributes values which helps categorize or add notes to each contact List."
+                          arrow
+                          placement="top"
+                        >
+                          {shouldEnableSelectForAttributeValue(attributes[index]) ? (
+                            <TextField
+                              variant="outlined"
+                              select
+                              fullWidth
+                              label="Attributes Value"
+                              value={attributeValues[index] || ''}
+                              onChange={(event) => handleAttributeValueChange(index, event)}
+                              helperText="Select Attribute value"
+                            >
+                              {getAttributeValueOptions(attributes[index]).map((option) => (
+                                <MenuItem key={option} value={option}>
+                                  {option}
+                                </MenuItem>
+                              ))}
+                            </TextField>
+                          ) : (
+                            <TextField
+                              variant="outlined"
+                              fullWidth
+                              label="Attributes Value"
+                              value={attributeValues[index] || ''}
+                              onChange={(event) => handleAttributeValueChange(index, event)}
+                              helperText="Enter Attribute value here"
+                            />
+                          )}
                         </Tooltip>
 
                         {!isTabletOrMobile && (
@@ -506,15 +559,25 @@ const AddContactsListDrawer = ({ open, onClose }) => {
             </Box>
             <Divider sx={{ borderStyle: 'dashed' }} />
             <Box sx={{ p: 3 }}>
-            <Tooltip title="Click here to add contact list." arrow placement='top'>
-              <Button variant="contained" size="medium" color='primary' sx={{ mr: 1.5 }} onClick={handleAddClick}>
-                Add
-              </Button>
+              <Tooltip title="Click here to add contact list." arrow placement="top">
+                <Button
+                  variant="contained"
+                  size="medium"
+                  color="primary"
+                  sx={{ mr: 1.5 }}
+                  onClick={handleAdd}
+                >
+                  Add
+                </Button>
               </Tooltip>
-              <Tooltip title="If you don't want to add the contact list at this time click cancel button." arrow placement='top'>
-              <Button variant="outlined" size="medium" onClick={handleCancelClick}>
-                Cancel
-              </Button>
+              <Tooltip
+                title="If you don't want to add the contact list at this time click cancel button."
+                arrow
+                placement="top"
+              >
+                <Button variant="outlined" size="medium" onClick={handleCancelClick}>
+                  Cancel
+                </Button>
               </Tooltip>
 
               <Snackbar

@@ -297,27 +297,31 @@ const CustomTreeItem = React.forwardRef((props, ref) => {
               }}
             >
               <MenuList>
+              <Tooltip title="Click here to open create folder dialog box" arrow placement='right'>
                 <MenuItem onClick={handleCreateFolderClick}>
                   <Iconify icon="fa6-solid:square-plus" />
                   Create Folder
                 </MenuItem>
+                </Tooltip>
+                <Tooltip title="Click here to rename the folder name." arrow placement='right'>
                 <MenuItem onClick={handleRenameFolderClick}>
                   <Iconify icon="fluent:rename-16-filled" />
                   Rename
                 </MenuItem>
-                {/* <MenuItem onClick={handleNavigateToTeamMembers}>
-                  <Iconify icon="jam:share-alt-f" />
-                  Share
-                </MenuItem> */}
+                </Tooltip>
+                <Tooltip title="Click here to share the folder with team member , this will open the team member settings page" arrow placement='right'>
                 <MenuItem onClick={handleNavigateToTeamMembers}>
                   <Iconify icon="jam:share-alt-f" />
                   Share
                 </MenuItem>
+                </Tooltip>
                 <Divider style={{ borderStyle: 'dashed' }} />
+                <Tooltip title="Click here to delete the folder" arrow placement='right'>
                 <MenuItem onClick={handleDeleteClick} sx={{ color: 'error.main' }}>
                   <Iconify icon="solar:trash-bin-trash-bold" />
                   Delete
                 </MenuItem>
+                </Tooltip>
               </MenuList>
             </CustomPopover>
           </>
@@ -337,15 +341,18 @@ const CustomTreeItem = React.forwardRef((props, ref) => {
           <>
             Deleting a folder also deletes its subfolders, and WhatsApp number are moved to the home
             folder.
-            <Link href="/learn-more" target="_blank" rel="noopener noreferrer">
-              Learn more
-            </Link>
+            <Link href="#" style={{ color: '#078DEE' }} underline="always">
+                      Learn more
+                    </Link>
           </>
         }
+        
         action={
+          <Tooltip title="Click here to delete this folder" arrow placement='top'>
           <Button variant="contained" color="error" onClick={handleConfirmDeleteClose}>
             Delete
           </Button>
+          </Tooltip>
         }
       />
     </>

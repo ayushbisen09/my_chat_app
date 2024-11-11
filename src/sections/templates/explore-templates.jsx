@@ -58,6 +58,7 @@ export default function ExploreTemplate() {
     >
       <TemplateList onItemSelect={handleListItemSelect} />
       {renderSelectedTemplate()}
+      
     </Box>
   );
 }

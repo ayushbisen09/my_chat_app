@@ -1,9 +1,7 @@
-import { toast } from 'sonner';
 import { useTheme } from '@emotion/react';
-import { useNavigate } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
+import { useForm, FormProvider } from 'react-hook-form';
 import { useState, useEffect, useCallback } from 'react';
-import { useForm, FormProvider, useFieldArray } from 'react-hook-form';
 
 import {
   Box,
@@ -39,14 +37,63 @@ import PageHeader from 'src/components/page-header/page-header';
 import { CarouselAlign } from './hook/carousel-align';
 import AddTemplateChatBox from './components/chatbox/chat-box';
 import Image1 from '../../assets/images/chatImage/imagechat.png';
-// import Image2 from '../../assets/images/chatImage/video.png';
-
 import AuthenticationTemplate from './components/chatbox/authontecation';
 import { TEMPLATE_LANGUAGES } from '../../assets/data/template-languages';
 import InteractiveActions from './hook/add-templates-components/interactive-actions';
 import LimitedTimeOfferTemplatePreview from './components/chatbox/limited-time-offer-template';
 
 export default function AddTemplate() {
+  const [isDisclaimerOn, setIsDisclaimerOn] = useState(false);
+  const handleExpirationSwitchChange = (event) => {
+    setIsDisclaimerOn(event.target.checked);
+  };
+  const [Expirationvalue, setExpirationValue] = useState('');
+  const [helperText, setHelperText] = useState('The time should be between 1 to 90 minutes.');
+  const [error, setError] = useState(false);
+
+  const handleChange = (event) => {
+    const inputValue = event.target.value;
+    setExpirationValue(inputValue);
+
+    // Check if input is empty
+    if (inputValue === '') {
+      setHelperText('The time should be between 1 to 90 minutes.');
+      setError(false); // No error if the field is empty (optional)
+    } else if (inputValue < 1 || inputValue > 90) {
+      setHelperText('Only values between 1 and 90 are allowed.');
+      setError(true);
+    } else {
+      setHelperText('The time should be between 1 to 90 minutes.');
+      setError(false);
+    }
+  };
+
+  const [errors, setErrors] = useState({
+    categorylist: false,
+    templateName: false,
+  });
+
+  const [categorylist, setCategorytList] = useState('');
+  const [templateName, setTemplateName] = useState('');
+
+  const CategorylistChange = (event) => {
+    setCategorytList(event.target.value);
+    setErrors((prev) => ({ ...prev, categorylist: false }));
+  };
+
+  const TemplateNameChange = (event) => {
+    setTemplateName(event.target.value);
+    setErrors((prev) => ({ ...prev, templateName: false }));
+  };
+
+  const addTemplate = () => {
+    const newErrors = {
+      categorylist: categorylist.trim() === '',
+      templateName: templateName.trim() === '',
+    };
+    setErrors(newErrors);
+  };
+
   const dispatch = useDispatch();
   const handleSwitchChange = (event) => {
     dispatch(setOfferExpiring(event.target.checked));
@@ -66,11 +113,10 @@ export default function AddTemplate() {
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const [carouselMediaType, setCarouselMediaType] = useState('');
   const [headerType, setHeaderType] = useState('');
-  const [categorylist, setCategorytList] = useState('');
   const [selectedLanguage, setSelectedLanguage] = useState('English');
   const [anchorEl, setAnchorEl] = useState(null);
-  const [templateType, setTemplateType] = useState('text');
-  const [actionType, setaActionType] = useState('none');
+  const [templateType, setTemplateType] = useState('');
+  // const [actionType, setaActionType] = useState('none');
   const [chatBoxImage, setChatBoxImage] = useState(Image1); // Initial image
   const [chatBoxes, setChatBoxes] = useState([
     {
@@ -188,10 +234,6 @@ export default function AddTemplate() {
     // Optional: you can handle some other key-specific behavior if required
   };
 
-  const handleChangeCategoryList = useCallback((event) => {
-    setCategorytList(event.target.value);
-  }, []);
-
   const CATEGORYLISTS = [
     { value: 'Marketing', label: 'Marketing' },
     { value: 'Utility', label: 'Utility' },
@@ -200,10 +242,6 @@ export default function AddTemplate() {
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
   };
 
   const handleChangeLanguage = useCallback((event) => {
@@ -236,12 +274,6 @@ export default function AddTemplate() {
     }
   };
 
-  const handleActionTypeChange = (event) => {
-    setaActionType(event.target.value);
-  };
-
-  const isTabletOrMobile = useMediaQuery(theme.breakpoints.down('md'));
-
   const methods = useForm({
     defaultValues: {
       items: [{ title: '', description: '' }],
@@ -251,101 +283,10 @@ export default function AddTemplate() {
     },
   });
 
-  const { control } = methods;
-
-  const {
-    fields: formFields,
-    append,
-    remove,
-  } = useFieldArray({
-    control,
-    name: 'items',
-  });
-
-  const handleAdd = () => {
-    append({
-      title: '',
-      description: '',
-    });
-  };
-
-  const handleRemove = (index) => {
-    if (fields.length > 1) {
-      remove(index);
-    }
-  };
-
-  const {
-    fields: callToAction1Fields,
-    append: appendCallToAction1,
-    remove: removeCallToAction1,
-  } = useFieldArray({
-    control,
-    name: 'callToAction1Urls',
-  });
-
-  const handleAddCallToAction1 = () => {
-    appendCallToAction1({
-      label: '',
-      url: '',
-    });
-  };
-
-  const handleRemoveCallToAction1 = (index) => {
-    if (callToAction1Fields.length > 1) {
-      removeCallToAction1(index);
-    }
-  };
-
-  const {
-    fields: callToAction2Fields,
-    append: appendCallToAction2,
-    remove: removeCallToAction2,
-  } = useFieldArray({
-    control,
-    name: 'callToAction2PhoneNumbers',
-  });
-
-  const handleAddCallToAction2 = () => {
-    appendCallToAction2({
-      label: '',
-      phoneNumber: '',
-    });
-  };
-
-  const handleRemoveCallToAction2 = (index) => {
-    if (callToAction2Fields.length > 1) {
-      removeCallToAction2(index);
-    }
-  };
-
-  const {
-    fields: couponCodeFields,
-    append: appendCouponCode,
-    remove: removeCouponCode,
-  } = useFieldArray({
-    control,
-    name: 'couponCodes',
-  });
-
-  const handleAddCouponCode = () => {
-    appendCouponCode({
-      code: '',
-      description: '',
-    });
-  };
-
-  const handleRemoveCouponCode = (index) => {
-    if (couponCodeFields.length > 1) {
-      removeCouponCode(index);
-    }
-  };
-
   const handleSubmit = (event) => {
     event.preventDefault();
   };
 
-  const navigate = useNavigate();
   const [isConfirmDialogOpen, setIsConfirmDialogOpen] = useState(false);
 
   const handleCancel = () => {
@@ -357,31 +298,32 @@ export default function AddTemplate() {
   };
 
   const handleDelete = () => {
-    // Perform delete action here
-    setIsConfirmDialogOpen(false); // Close dialog after delete
+    setIsConfirmDialogOpen(false);
   };
 
-  const showToast = () => {
-    toast.success('Template Submitted Successfully!');
-  };
-
-  const addTemplate = () => {
-    showToast();
-    navigate('/app/template');
-  };
+  // const addTemplate = () => {
+  //   showToast();
+  //   navigate('/app/template');
+  // };
 
   const handleCarouselMediaTypeChange = (event) => {
     setCarouselMediaType(event.target.value);
-  };
-
-  const handleHeaderTypeChange = (event) => {
-    setHeaderType(event.target.value);
   };
 
   const isTemplateFormat = (input) => {
     const regex = /^\{\{.*\}\}$/;
     return regex.test(input);
   };
+
+  const options = [
+    { value: 'text', label: 'Text' },
+    { value: 'image', label: 'Image' },
+    { value: 'video', label: 'Video' },
+    { value: 'document', label: 'Document' },
+    { value: 'location', label: 'Location' },
+    { value: 'carousel', label: 'Carousel' },
+    { value: 'limited_time_offer', label: 'Limited Time Offer' },
+  ];
 
   return (
     <DashboardContent maxWidth="xl">
@@ -417,11 +359,16 @@ export default function AddTemplate() {
                 select
                 fullWidth
                 label="Select Template Category"
-                value={categorylist}
-                onChange={handleChangeCategoryList}
-                helperText="Select template category."
                 InputLabelProps={{ htmlFor: 'outlined-select-currency-label' }}
                 inputProps={{ id: 'outlined-select-currency-label' }}
+                value={categorylist}
+                onChange={CategorylistChange}
+                error={errors.categorylist}
+                helperText={
+                  errors.categorylist
+                    ? 'Template Category is required for add new template.'
+                    : 'Select template category.'
+                }
               >
                 {CATEGORYLISTS.map((option) => (
                   <MenuItem key={option.value} value={option.value}>
@@ -442,7 +389,14 @@ export default function AddTemplate() {
                     margin="dense"
                     variant="outlined"
                     label="Template Name"
-                    helperText="Enter the name of the template."
+                    value={templateName}
+                    onChange={TemplateNameChange}
+                    error={errors.templateName}
+                    helperText={
+                      errors.templateName
+                        ? 'Template name is required for add new template.'
+                        : 'Enter the name of the template.'
+                    }
                     InputProps={{
                       endAdornment: (
                         <InputAdornment position="end">
@@ -507,64 +461,22 @@ export default function AddTemplate() {
                   Template Type
                 </Typography>
 
-                {/* Radio Group - Show only "Text" option when "Authentication" is selected */}
                 <RadioGroup
                   sx={{ mt: '12px' }}
                   row
-                  value={templateType}
+                  value={categorylist === 'Authentication' ? 'text' : templateType}
                   onChange={handleTemplateTypeChange}
-                  disabled={!categorylist}
+                  
                 >
-                  {categorylist === 'Authentication' ? (
-                    // Show only "Text" when category is Authentication
-                    <FormControlLabel value="text" control={<Radio />} label="Text" />
-                  ) : (
-                    // Show all options when category is not Authentication
-                    <>
-                      <FormControlLabel
-                        value="text"
-                        control={<Radio />}
-                        label="Text"
-                        disabled={!categorylist}
-                      />
-                      <FormControlLabel
-                        value="image"
-                        control={<Radio />}
-                        label="Image"
-                        disabled={!categorylist}
-                      />
-                      <FormControlLabel
-                        value="video"
-                        control={<Radio />}
-                        label="Video"
-                        disabled={!categorylist}
-                      />
-                      <FormControlLabel
-                        value="document"
-                        control={<Radio />}
-                        label="Document"
-                        disabled={!categorylist}
-                      />
-                      <FormControlLabel
-                        value="location"
-                        control={<Radio />}
-                        label="Location"
-                        disabled={!categorylist}
-                      />
-                      <FormControlLabel
-                        value="carousel"
-                        control={<Radio />}
-                        label="Carousel"
-                        disabled={!categorylist}
-                      />
-                      <FormControlLabel
-                        value="limited_time_offer"
-                        control={<Radio />}
-                        label="Limited Time Offer"
-                        disabled={!categorylist}
-                      />
-                    </>
-                  )}
+                  {options.map((option) => (
+                    <FormControlLabel
+                      key={option.value}
+                      value={option.value}
+                      control={<Radio />}
+                      label={option.label}
+                      disabled={categorylist === 'Authentication' && option.value !== 'text' || !categorylist }
+                    />
+                  ))}
                 </RadioGroup>
 
                 {(categorylist === 'Marketing' || categorylist === 'Utility') && (
@@ -1041,7 +953,7 @@ export default function AddTemplate() {
                           helperText="Use text formatting - *bold*, _italic_, ~strikethrough~. For example - Hello {{1}}, your code will expire in {{2}} mins. You're allowed a maximum of 1024 characters."
                           value={templateFormatInputText}
                           onChange={handleTemplateFormatInputChange}
-                          // onKeyPress={handleKeyPress}
+                          onKeyPress={handleKeyPress}
                           InputProps={{
                             endAdornment: (
                               <InputAdornment position="end">
@@ -1182,7 +1094,10 @@ export default function AddTemplate() {
               {categorylist === 'Authentication' && (
                 <Box sx={{ width: '100%', px: 3 }}>
                   <Divider sx={{ borderStyle: 'dashed', mb: '24px' }} />
-                  <Box sx={{ display: 'flex', gap: 2, mb: 1 }}>
+                  <Typography mb={1} sx={{ fontSize: '14px', fontWeight: '600' }}>
+                    Sample Values
+                  </Typography>
+                  <Box sx={{ display: 'flex', gap: 2, mb: 3 }}>
                     <TextField
                       fullWidth
                       margin="dense"
@@ -1243,6 +1158,59 @@ export default function AddTemplate() {
                       sx={{ mt: 0 }}
                     />
                   </Box>
+
+                  <TextField
+                    fullWidth
+                    margin="dense"
+                    variant="outlined"
+                    label="Expiration Warning"
+                    placeholder="Enter Numeric value between 1 to 90"
+                    value={Expirationvalue}
+                    onChange={handleChange}
+                    helperText={helperText}
+                    error={error}
+                    type="number"
+                    InputProps={{
+                      inputProps: { min: 1, max: 90 },
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <Tooltip
+                            title="Enter time between 1 to 90 mins."
+                            arrow
+                            placement="top"
+                            sx={{
+                              fontSize: '16px',
+                            }}
+                          >
+                            <Iconify
+                              icon="material-symbols:info-outline"
+                              style={{ width: 20, height: 20 }}
+                            />
+                          </Tooltip>
+                        </InputAdornment>
+                      ),
+                    }}
+                    sx={{ mt: 0, mb: 2 }}
+                  />
+                  <Box display="flex" alignItems="center" mb={3}>
+                    <FormControlLabel
+                      value="text"
+                      control={
+                        <Switch checked={isDisclaimerOn} onChange={handleExpirationSwitchChange} />
+                      }
+                      label="Add Security Disclaimer"
+                    />
+                    <Tooltip
+                      title="Turn on the switch to include the security recommendation message"
+                      arrow
+                      placement="top"
+                    >
+                      <Iconify
+                        icon="material-symbols:info-outline"
+                        style={{ width: 20, height: 20 }}
+                      />
+                    </Tooltip>
+                  </Box>
                 </Box>
               )}
 
@@ -1288,6 +1256,11 @@ export default function AddTemplate() {
                   {replacePlaceholders(
                     `Congratulations! 🎉 Your order for the Headway Bassheads has been confirmed. 🙌`,
                     sampleValues
+                  )}
+                  {isDisclaimerOn && (
+                    <Typography mt={1} fontWeight={600} fontSize="14px">
+                      For your security, do not share this code.
+                    </Typography>
                   )}
                 </>
               }

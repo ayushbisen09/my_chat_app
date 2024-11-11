@@ -29,7 +29,7 @@ import { WhatsAppDialog } from 'src/sections/dashbaord/hooks/add-whatsApp-number
 export default function BigCard({ sx, ...other }) {
   const videoId = 'CoIfgN0tfhE'; // Repalace with your YouTube video ID
   const coverSrc = `${CONFIG.site.basePath}/assets/background/Pabbly Broadcast Card.png`;
-  
+
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
@@ -57,7 +57,7 @@ export default function BigCard({ sx, ...other }) {
       sx={{
         boxShadow: '0px 12px 24px -4px rgba(145, 158, 171, 0.2)',
         backgroundColor: 'common.white',
-        p:5,
+        p: 5,
         gap: 5,
         borderRadius: 2,
         display: 'flex',
@@ -80,8 +80,7 @@ export default function BigCard({ sx, ...other }) {
           flex: '1 1 auto',
           flexDirection: 'column',
           alignItems: { xs: 'flex-start', md: 'flex-start' },
-          width: '564px'
-          
+          width: '564px',
         }}
       >
         <Typography variant="h6" sx={{ color: 'grey.800', mb: 1 }}>
@@ -163,105 +162,103 @@ export default function BigCard({ sx, ...other }) {
           </ListItem>
           {/* Add more list items as needed */}
         </List>
-
-        <Button
-          onClick={dialog.onTrue}
-          sx={{ mt: isMobile ? 2 : 2 }}
-          size="large"
-          variant="outlined"
-          color="primary"
-          startIcon={
-            <Iconify icon="heroicons:plus-circle-16-solid" style={{ width: 18, height: 18 }} />
-          }
-        >
-          Add WhatsApp Number
-        </Button>
+        <Tooltip title="Click here to add whatsApp number" arrow placement="top">
+          <Button
+            onClick={dialog.onTrue}
+            sx={{ mt: isMobile ? 2 : 2 }}
+            size="large"
+            variant="outlined"
+            color="primary"
+            startIcon={
+              <Iconify icon="heroicons:plus-circle-16-solid" style={{ width: 18, height: 18 }} />
+            }
+          >
+            Add WhatsApp Number
+          </Button>
+        </Tooltip>
         <WhatsAppDialog open={dialog.value} onClose={dialog.onFalse} />
       </Box>
 
       {/* {img && <Box sx={{ maxWidth: 260 }}>{img}</Box>} */}
       <Box
-  sx={{
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    width:'400px',
-    
-    ...(isMobile && {
-      marginRight: '0px', // Adjusted margin-right for screens matching 'sm' breakpoint and up
-    }),
-  }}
->
-  <Tooltip title="Click here to see Video Tutorial." arrow placement="top">
-    <Card>
-      <Box position="relative">
-        <CardMedia
-          component="img"
-          src={coverSrc}
-          title="Cover Image"
-          sx={{
-            height: '100%',
-            width: '100%',
-            cursor: 'pointer',
-            objectFit: 'contain',
-          }}
-          onClick={() => setOpen(true)}
-        />
-        <IconButton
-          aria-label="play"
-          onClick={() => setOpen(true)}
-          sx={{
-            padding: '0px',
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            color: '#078DEE',
-            animation: 'pulse 2s infinite',
-            '@keyframes pulse': {
-              '0%': {
-                transform: 'translate(-50%, -50%) scale(1)',
-                boxShadow: '0 0 0 0 rgba(7, 141, 238, 0.7)',
-              },
-              '70%': {
-                transform: 'translate(-50%, -50%) scale(1.1)',
-                boxShadow: '0 0 0 10px rgba(7, 141, 238, 0)',
-              },
-              '100%': {
-                transform: 'translate(-50%, -50%) scale(1)',
-                boxShadow: '0 0 0 0 rgba(7, 141, 238, 0)',
-              },
-            },
-          }}
-        >
-          <Iconify icon="icon-park-solid:play" width={50} height={50} />
-        </IconButton>
-        <Dialog
-        open={open}
-        onClose={handleClose}
-        maxWidth="lg"
-        fullWidth
-        sx={{ '& .MuiDialog-paper': { width: 1080, height: 600 }, }}
-      >
-        <IconButton
-          onClick={handleClose}
-          sx={{ position: 'absolute', top: 10, right: 10, zIndex: 1 }}
-        >
-        <CloseIcon />
-        </IconButton>
-        <Box
-          component="iframe"
-          src="https://www.youtube.com/embed/mnJFZxwhiEQ?si=oxXcH4GoSTRxfsv8" // Replace with your video ID
-          sx={{ width: '100%', height: '100%', border: 'none', }}
-        />
-      </Dialog>
-      </Box>
-    </Card>
-  </Tooltip>
-  
-  
-</Box>
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          width: '400px',
 
+          ...(isMobile && {
+            marginRight: '0px', // Adjusted margin-right for screens matching 'sm' breakpoint and up
+          }),
+        }}
+      >
+        <Tooltip title="Click here to see Video Tutorial." arrow placement="top">
+          <Card>
+            <Box position="relative">
+              <CardMedia
+                component="img"
+                src={coverSrc}
+                title="Cover Image"
+                sx={{
+                  height: '100%',
+                  width: '100%',
+                  cursor: 'pointer',
+                  objectFit: 'contain',
+                }}
+                onClick={() => setOpen(true)}
+              />
+              <IconButton
+                aria-label="play"
+                onClick={() => setOpen(true)}
+                sx={{
+                  padding: '0px',
+                  position: 'absolute',
+                  top: '50%',
+                  left: '50%',
+                  transform: 'translate(-50%, -50%)',
+                  color: '#078DEE',
+                  animation: 'pulse 2s infinite',
+                  '@keyframes pulse': {
+                    '0%': {
+                      transform: 'translate(-50%, -50%) scale(1)',
+                      boxShadow: '0 0 0 0 rgba(7, 141, 238, 0.7)',
+                    },
+                    '70%': {
+                      transform: 'translate(-50%, -50%) scale(1.1)',
+                      boxShadow: '0 0 0 10px rgba(7, 141, 238, 0)',
+                    },
+                    '100%': {
+                      transform: 'translate(-50%, -50%) scale(1)',
+                      boxShadow: '0 0 0 0 rgba(7, 141, 238, 0)',
+                    },
+                  },
+                }}
+              >
+                <Iconify icon="icon-park-solid:play" width={50} height={50} />
+              </IconButton>
+              <Dialog
+                open={open}
+                onClose={handleClose}
+                maxWidth="lg"
+                fullWidth
+                sx={{ '& .MuiDialog-paper': { width: 1080, height: 600 } }}
+              >
+                <IconButton
+                  onClick={handleClose}
+                  sx={{ position: 'absolute', top: 10, right: 10, zIndex: 1 }}
+                >
+                  <CloseIcon />
+                </IconButton>
+                <Box
+                  component="iframe"
+                  src="https://www.youtube.com/embed/mnJFZxwhiEQ?si=oxXcH4GoSTRxfsv8" // Replace with your video ID
+                  sx={{ width: '100%', height: '100%', border: 'none' }}
+                />
+              </Dialog>
+            </Box>
+          </Card>
+        </Tooltip>
+      </Box>
     </Box>
   );
 }

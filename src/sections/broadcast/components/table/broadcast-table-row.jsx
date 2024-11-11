@@ -161,23 +161,27 @@ export function OrderTableRow({ row, selected, onSelectRow, onDeleteRow, broadca
             {currentStatus}
           </Label>
         )}
-
+<Tooltip title="Click here to change the status of broadcast" arrow placement="top">
         {isApiBroadcast && currentStatus !== 'stopped' && (
           <IconButton sx={{ ml: 1 }} onClick={editpopover.onOpen}>
             <Iconify icon="solar:pen-bold" sx={{ width: '16px', height: '16px' }} />
           </IconButton>
         )}
+        </Tooltip>
       </TableCell>
-
+      
       <TableCell align="right" sx={{ px: 1, whiteSpace: 'nowrap' }}>
         {isApiBroadcast ? (
+          <Tooltip title="Click here to send test broadcast" arrow placement='top'>
           <Button variant="outlined" color="primary" onClick={handleOpenTestCampaignDrawer}>
             Test Broadcast
           </Button>
+          </Tooltip>
         ) : (
           '-'
         )}
       </TableCell>
+      
 
       <TableCell align="right" sx={{ px: 1, whiteSpace: 'nowrap' }}>
         <Tooltip title="Click here to see receiver list and stats" arrow placement="top">

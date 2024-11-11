@@ -1,3 +1,4 @@
+import { Tooltip } from '@mui/material';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
@@ -15,10 +16,11 @@ export function ConfirmDialog({ title, content, action, open, onClose, ...other 
 
       <DialogActions>
         {action}
-
+        <Tooltip title="Click here to cancel" arrow placement='top'>
         <Button variant="outlined" color="inherit" onClick={onClose}>
           Cancel
         </Button>
+        </Tooltip>
       </DialogActions>
     </Dialog>
   );

@@ -61,8 +61,8 @@ export default function Agentlist({ onItemSelect }) {
         },
       }}
     >
-      <Typography fontSize={18} fontWeight={700}>
-        Agents List
+      <Typography fontSize={18} fontWeight={700} mb={1}>
+        Team List
       </Typography>
 
       <List sx={{ width: '100%' }}>

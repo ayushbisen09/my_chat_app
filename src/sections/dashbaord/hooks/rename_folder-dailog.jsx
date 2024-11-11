@@ -8,6 +8,7 @@ import {
   Dialog,
   Button,
   Divider,
+  Tooltip,
   Snackbar,
   TextField,
   DialogTitle,
@@ -66,16 +67,19 @@ export function RenameFolderDialog({ open, onClose, workflowName }) {
           onClick={dialog.onFalse}
         >
           Rename Folder
+          <Tooltip title="Click here to close the dialog box" arrow placement='top'>
           <Iconify
             onClick={onClose}
             icon="uil:times"
             style={{ width: 20, height: 20, cursor: 'pointer', color: '#637381' }}
           />
+          </Tooltip>
         </DialogTitle>
         <Divider sx={{ mb: 3, borderStyle: 'dashed' }} />
 
         <DialogContent>
           <Box display="flex" flexDirection="column" gap={2}>
+          <Tooltip title="Enter new name of folder here." arrow placement='top'>
             <TextField
               autoFocus
               fullWidth
@@ -92,23 +96,30 @@ export function RenameFolderDialog({ open, onClose, workflowName }) {
                 ) : (
                   <span>
                     You can rename folder from here.{' '}
+                    <Tooltip title="If you have any doubt in this click learn more as it contains the forum Support" arrow placement='top'>
                     <Link href="#" style={{ color: '#078DEE' }} underline="always">
                       Learn more
                     </Link>
+                    </Tooltip>
                   </span>
                 )
               }
             />
+            </Tooltip>
           </Box>
         </DialogContent>
 
         <DialogActions>
+        <Tooltip title="Click here to update the new name of the folder" arrow placement='top'>
           <Button onClick={handleAdd} variant="contained" color="primary">
             Update
           </Button>
+          </Tooltip>
+          <Tooltip title="If you don't want to change the folder name click here." arrow placement='top'>
           <Button onClick={onClose} variant="outlined" color="inherit">
             Cancel
           </Button>
+          </Tooltip>
         </DialogActions>
       </Dialog>
 

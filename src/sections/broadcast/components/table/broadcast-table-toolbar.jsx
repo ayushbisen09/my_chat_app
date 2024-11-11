@@ -79,6 +79,7 @@ export function OrderTableToolbar({ filters, onResetPage, dateError }) {
     >
       <Stack direction="row" alignItems="center" spacing={2} flexGrow={1} sx={{ width: 1 }}>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
+
           <DatePicker
             label="Start Date"
             value={startDate}
@@ -88,6 +89,7 @@ export function OrderTableToolbar({ filters, onResetPage, dateError }) {
             }}
             slotProps={{ textField: { fullWidth: false } }}
           />
+
         </LocalizationProvider>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DatePicker

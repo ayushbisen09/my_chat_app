@@ -8,7 +8,15 @@ import MenuItem from '@mui/material/MenuItem';
 import TextField from '@mui/material/TextField';
 import FormControl from '@mui/material/FormControl';
 import InputAdornment from '@mui/material/InputAdornment';
-import { Button, Divider, Tooltip, MenuList, Typography, Autocomplete, useMediaQuery } from '@mui/material';
+import {
+  Button,
+  Divider,
+  Tooltip,
+  MenuList,
+  Typography,
+  Autocomplete,
+  useMediaQuery,
+} from '@mui/material';
 
 import { useBoolean } from 'src/hooks/use-boolean';
 
@@ -20,8 +28,7 @@ import { MoveToFolderPopover } from '../../hooks/move_folder-dailog';
 
 // ----------------------------------------------------------------------
 
-export function OrderTableToolbar({ filters, onResetPage, numSelected, publish, onDeleteRow, }) {
-  
+export function OrderTableToolbar({ filters, onResetPage, numSelected, publish, onDeleteRow }) {
   const theme = useTheme();
 
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
@@ -181,19 +188,19 @@ export function OrderTableToolbar({ filters, onResetPage, numSelected, publish, 
             </Button>
           )}
 
-        
-
-          <Button
-            sx={{
-              ...buttonStyle,
-              width: '120px', // Fixed width for "Filters"
-            }}
-            // variant="outlined"
-            startIcon={<Iconify icon="mdi:filter" />}
-            onClick={handleFilterClick}
-          >
-            Filters
-          </Button>
+          <Tooltip title="Click here to apply filter in this table data" arrow placement="top">
+            <Button
+              sx={{
+                ...buttonStyle,
+                width: '120px', // Fixed width for "Filters"
+              }}
+              // variant="outlined"
+              startIcon={<Iconify icon="mdi:filter" />}
+              onClick={handleFilterClick}
+            >
+              Filters
+            </Button>
+          </Tooltip>
         </Stack>
       </Stack>
 
@@ -257,10 +264,6 @@ export function OrderTableToolbar({ filters, onResetPage, numSelected, publish, 
               },
             }}
           >
-          
-
-          
-
             {/* Folder */}
             <Box
               sx={{
@@ -327,9 +330,11 @@ export function OrderTableToolbar({ filters, onResetPage, numSelected, publish, 
             {/* <Button variant="outlined" color="inherit" onClick={handleFilterClose}>
               Cancel
             </Button> */}
-            <Button variant="contained" color="primary" onClick={handleApplyFilter}>
-              Apply Filter
-            </Button>
+            <Tooltip title="Click here to apply filter in this table data" arrow placement="top">
+              <Button variant="contained" color="primary" onClick={handleApplyFilter}>
+                Apply Filter
+              </Button>
+            </Tooltip>
           </Box>
         </Box>
       </Popover>
@@ -341,9 +346,6 @@ export function OrderTableToolbar({ filters, onResetPage, numSelected, publish, 
         transformOrigin={{ vertical: 'top', horizontal: 'left' }}
       >
         <MenuList>
-          
-           
-         
           <Tooltip title="Activate selected WhatsApp numbers." arrow placement="left">
             <MenuItem>
               <Iconify icon="ion:toggle-sharp" sx={{ mr: 2 }} />
@@ -351,31 +353,33 @@ export function OrderTableToolbar({ filters, onResetPage, numSelected, publish, 
             </MenuItem>
           </Tooltip>
 
-
-
           <Tooltip title="Deactivate selected WhatsApp numbers." arrow placement="left">
             <MenuItem>
               <Iconify icon="ph:toggle-left-fill" sx={{ mr: 2 }} />
               Disable
             </MenuItem>
-            </Tooltip>
-            <Tooltip title="Click here to move whatsapp number to folder." arrow placement="left">
-            <MenuItem onClick={() => {
+          </Tooltip>
+          <Tooltip title="Click here to move whatsapp number to folder." arrow placement="left">
+            <MenuItem
+              onClick={() => {
                 setMoveToFolderPopoverOpen(true); // Open the Move To Folder dialog
                 popover.onClose();
-              }}> 
+              }}
+            >
               <Iconify icon="fluent:folder-move-16-filled" sx={{ mr: 2 }} />
               Move
             </MenuItem>
-            </Tooltip>
-         
+          </Tooltip>
 
           <Divider style={{ borderStyle: 'dashed' }} />
           <Tooltip title="Click here to delete selected whatsapp numbers." arrow placement="left">
-            <MenuItem sx={{ color: 'error.main' }} onClick={() => {
+            <MenuItem
+              sx={{ color: 'error.main' }}
+              onClick={() => {
                 confirmDelete.onTrue();
                 popover.onClose();
-              }}>
+              }}
+            >
               <Iconify icon="solar:trash-bin-trash-bold" sx={{ mr: 2 }} />
               Delete
             </MenuItem>

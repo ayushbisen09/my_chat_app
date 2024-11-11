@@ -40,8 +40,8 @@ export default function Page() {
         }}
       >
         <PageHeader
-          title="Agent Queues"
-          Subheading="Agent queues shows the list of chats assigned to team member."
+          title="Team Queues"
+          Subheading="Team queues shows the list of chats assigned to team member."
           link_added="#"
         />
       </Box>

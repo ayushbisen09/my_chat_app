@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import CodeMirror from '@uiw/react-codemirror';
+import ReactCountryFlag from 'react-country-flag';
 import { useForm, useFieldArray } from 'react-hook-form';
 import { javascript } from '@codemirror/lang-javascript';
 
@@ -12,15 +13,20 @@ import {
   Drawer,
   styled,
   Button,
+  Select,
   Divider,
   Tooltip,
   Snackbar,
+  MenuItem,
   TextField,
   Typography,
   IconButton,
   useMediaQuery,
+  InputAdornment,
   Backdrop as MuiBackdrop,
 } from '@mui/material';
+
+import { countries } from 'src/assets/data';
 
 import { Iconify } from 'src/components/iconify';
 import { ConfirmDialog } from 'src/components/custom-dialog';
@@ -151,6 +157,16 @@ const TestCampaignDrawer = ({ open, onClose }) => {
     onClose(); // Call the provided onClose function
   };
 
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const handlePhoneNumberChange = (event) => setPhoneNumber(event.target.value);
+  const [selectedCountry, setSelectedCountry] = useState(countries[0]);
+  const handleCountryChange = (event) =>
+    setSelectedCountry(countries.find((country) => country.code === event.target.value));
+  const updatedCountries = countries.map((country) => ({
+    ...country,
+    phone: `+${country.phone}`,
+  }));
+
   return (
     <>
       <Drawer
@@ -209,7 +225,70 @@ const TestCampaignDrawer = ({ open, onClose }) => {
                 )}
               </Box>
 
-              <TextField fullWidth label="WhatsApp Number" />
+              <TextField
+                fullWidth
+                placeholder="Enter mobile number"
+                label="Phone Number"
+                value={phoneNumber}
+                onChange={handlePhoneNumberChange}
+                // error={errors.phoneNumber} // Error style if validation fails
+                // helperText={
+                //   errors.phoneNumber ? 'Phone number is required.' : 'Enter the mobile number.'
+                // }
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <Select
+                        value={selectedCountry.code}
+                        onChange={handleCountryChange}
+                        renderValue={(value) => (
+                          <Box
+                            sx={{
+                              display: 'flex',
+                              alignItems: 'center',
+                              marginRight: 2,
+                              ml: '-14px',
+                            }}
+                          >
+                            <ReactCountryFlag
+                              countryCode={value}
+                              svg
+                              style={{ marginRight: 8, width: '24px', height: '24px' }}
+                            />
+                            {updatedCountries.find((country) => country.code === value).phone}
+                          </Box>
+                        )}
+                        sx={{
+                          mr: 1,
+                          minWidth: 100,
+                          '& .MuiOutlinedInput-notchedOutline': { border: 'none' },
+                          '& .MuiSelect-select': { paddingRight: 3 },
+                        }}
+                        MenuProps={{
+                          PaperProps: {
+                            style: {
+                              maxHeight: 300,
+                            },
+                          },
+                        }}
+                      >
+                        {updatedCountries.map((country) => (
+                          <MenuItem key={country.code} value={country.code}>
+                            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                              <ReactCountryFlag
+                                countryCode={country.code}
+                                svg
+                                style={{ marginRight: 8, width: 24, height: '24px' }}
+                              />
+                              {country.label} ({country.phone})
+                            </Box>
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </InputAdornment>
+                  ),
+                }}
+              />
 
               <Box
                 sx={{
@@ -236,7 +315,7 @@ const TestCampaignDrawer = ({ open, onClose }) => {
                     size="medium"
                     variant="contained"
                     onClick={onCopyClick} // Attach onCopyClick handler
-                    color='primary'
+                    color="primary"
                   >
                     Copy URL
                   </Button>

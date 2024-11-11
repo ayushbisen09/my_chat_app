@@ -6,6 +6,7 @@ import {
   Dialog,
   Select,
   Divider,
+  Tooltip,
   MenuItem,
   InputLabel,
   DialogTitle,
@@ -13,7 +14,7 @@ import {
   DialogActions,
   DialogContent,
   useMediaQuery,
-  FormHelperText
+  FormHelperText,
 } from '@mui/material';
 
 import { useBoolean } from 'src/hooks/use-boolean';
@@ -80,6 +81,17 @@ export function DeleteContactDialog({ title, content, action, open, onClose, ...
     setSnackbarOpen(false);
   };
 
+  const getTooltipMessage = () => {
+    switch (deleteContact) {
+      case 'Current List':
+        return 'This option will delete contacts only from the currently selected list.';
+      case 'All List':
+        return 'This option will delete contacts from all lists.';
+      default:
+        return 'Please choose an option to see the effect.';
+    }
+  };
+
   return (
     <>
       <Dialog
@@ -104,28 +116,34 @@ export function DeleteContactDialog({ title, content, action, open, onClose, ...
         <DialogContent sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
           <FormControl fullWidth sx={{ mt: 1 }}>
             <InputLabel id="status-select-label-1">Choose List</InputLabel>
-            <Select
-              labelId="status-select-label-1"
-              id="status-select-1"
-              value={deleteContact}
-              label="Choose List"
-              onChange={handleStatusChange1}
-              size="large"
-            >
-              <MenuItem value="Current List">Current List</MenuItem>
-              <MenuItem value="All List">All List</MenuItem>
-            </Select>
+            <Tooltip title={getTooltipMessage()} arrow placement="top">
+              <Select
+                labelId="status-select-label-1"
+                id="status-select-1"
+                value={deleteContact}
+                label="Choose List"
+                onChange={handleStatusChange1}
+                size="large"
+              >
+                <MenuItem value="Current List">Current List</MenuItem>
+                <MenuItem value="All List">All List</MenuItem>
+              </Select>
+            </Tooltip>
             <FormHelperText>{helperText}</FormHelperText>
           </FormControl>
         </DialogContent>
 
         <DialogActions>
+        <Tooltip title="If you don't want to delete contact click this cancel button." arrow placement="top">
           <Button onClick={onClose} variant="outlined" color="inherit">
             Cancel
           </Button>
-          <Button onClick={handleDelete} variant="contained" color='error'>
-            Delete
-          </Button>
+          </Tooltip>
+          <Tooltip title="Click here to delete." arrow placement="top">
+            <Button onClick={handleDelete} variant="contained" color="error">
+              Delete
+            </Button>
+          </Tooltip>
         </DialogActions>
       </Dialog>
 
@@ -135,11 +153,7 @@ export function DeleteContactDialog({ title, content, action, open, onClose, ...
         title={confirmDialogTitle}
         content={confirmDialogContent}
         action={
-          <Button
-            variant="contained"
-            color="error"
-            onClick={() => handleConfirmClose(true)}
-          >
+          <Button variant="contained" color="error" onClick={() => handleConfirmClose(true)}>
             Confirm
           </Button>
         }

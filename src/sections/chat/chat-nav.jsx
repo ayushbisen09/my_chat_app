@@ -148,6 +148,7 @@ export function ChatNav({ loading, contacts, conversations, collapseNav, selecte
 
   const renderSearchInput = (
     <ClickAwayListener onClickAway={handleClickAwaySearch}>
+         <Tooltip title="Click here to search contacts enter name or number ." arrow placement="top">
       <TextField
         fullWidth
         size="small"
@@ -163,6 +164,7 @@ export function ChatNav({ loading, contacts, conversations, collapseNav, selecte
         }}
         sx={{ mt: 2.5 }}
       />
+      </Tooltip>
     </ClickAwayListener>
   );
 

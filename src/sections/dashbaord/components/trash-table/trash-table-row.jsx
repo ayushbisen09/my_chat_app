@@ -266,12 +266,14 @@ export function TrashTableRow({
               }}
             >
               <ListItemText
-                primary={`Verification Token: ${showToken ? '4545656565' : '●●●●●●●●●'}`}
+                primary={`Access Token: ${showToken ? '4545656565' : '●●●●●●●●●'}`}
                 primaryTypographyProps={{ typography: 'body2' }}
               />
+              <Tooltip title="Click here to see/hide access token" arrow placement='top'>
               <IconButton onClick={handleToggleToken}>
                 <Iconify icon={showToken ? 'solar:eye-bold' : 'solar:eye-closed-bold'} />
               </IconButton>
+              </Tooltip>
             </Stack>
 
             <Stack
@@ -284,10 +286,12 @@ export function TrashTableRow({
                 },
               }}
             >
+                <Tooltip title="Privacy policy URL of your website." arrow placement="top">
               <ListItemText
                 primary="Privacy Policy URL: https://www.pabbly.com/privacy-policy/"
                 primaryTypographyProps={{ typography: 'body2' }}
               />
+              </Tooltip>  
             </Stack>
             <Stack
               direction="row"
@@ -299,10 +303,12 @@ export function TrashTableRow({
                 },
               }}
             >
+   <Tooltip title="Terms of service URL of your website." arrow placement="top">
               <ListItemText
                 primary="Terms of Service URL: https://www.pabbly.com/terms-conditions/"
                 primaryTypographyProps={{ typography: 'body2' }}
               />
+              </Tooltip>
             </Stack>
           </Paper>
         </Collapse>
@@ -358,9 +364,11 @@ export function TrashTableRow({
         title="Delete"
         content="WhatsApp number once deleted will be permanently deleted."
         action={
+          <Tooltip title="Click here to permantly delete the whatsapp number this action if irriversible." arrow placement="top">
           <Button variant="contained" color="error" onClick={onDeleteRow}>
             Delete
           </Button>
+          </Tooltip>
         }
       />
       <MoveToFolderPopover

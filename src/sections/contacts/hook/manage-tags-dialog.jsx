@@ -10,6 +10,7 @@ import {
   Box,
   Alert,
   Divider,
+  Tooltip,
   Snackbar,
   TextField,
   Typography,
@@ -87,15 +88,18 @@ export function ManageTagsDialog({ title, content, action, open, onClose, ...oth
             {/* <Label color="primary" sx={{ width: '100%', display: 'block', fontSize: '16px', p: 3 ,my : '16px' }}>
             1 Contact Selected
           </Label> */}
-            <Box width="40%">
+            <Box width="40%"><Tooltip title="Attribute name." arrow placement="top">
               <Typography mb={2} fontWeight={600}>
                 Attribute Name
               </Typography>
+              </Tooltip>
             </Box>
             <Box width="60%">
+            <Tooltip title="Attribute value if you want to enter or change the value of attribute enter the text following below input field." arrow placement="top">
               <Typography mb={2} fontWeight={600}>
                 Attribute Value
               </Typography>
+              </Tooltip>
             </Box>
           </Box>
           <Box display="flex" flexDirection="column" gap={2}>
@@ -143,12 +147,16 @@ export function ManageTagsDialog({ title, content, action, open, onClose, ...oth
         </DialogContent>
 
         <DialogActions>
+        <Tooltip title="If you don't want to change the attribute click this cancel button." arrow placement="top">
           <Button onClick={onClose} variant="outlined" color="inherit">
             Cancel
           </Button>
+          </Tooltip>
+          <Tooltip title="Click here to save the attribute for this contact." arrow placement="top">
           <Button onClick={handleAdd} variant="contained" color="primary">
             Save
           </Button>
+          </Tooltip>
         </DialogActions>
       </Dialog>
       <Snackbar

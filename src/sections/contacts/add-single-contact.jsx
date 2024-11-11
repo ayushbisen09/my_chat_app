@@ -1,6 +1,4 @@
-import { toast } from 'sonner';
-import { useForm } from 'react-hook-form';
-import { useState, useCallback } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ReactCountryFlag from 'react-country-flag';
 
@@ -26,55 +24,46 @@ import { countries } from 'src/assets/data';
 import { Iconify } from 'src/components/iconify';
 
 export default function AddSingleContact() {
-  const methods = useForm();
+  const [errors, setErrors] = useState({
+    optstatus: false,
+    phoneNumber: false,
+  });
 
-  // Contact List Events
-  const [contactlist, setContatList] = useState('Pabbly_Connect_list');
+  const [optstatus, setOptStatus] = useState('');
 
-  const handleChangeContactList = useCallback((event) => {
-    setContatList(event.target.value);
-  }, []);
-
-  const CONTACTLISTS = [
-    { value: 'Pabbly_Connect_list', label: 'Pabbly Connect list' },
-    { value: 'Pabbly_Subscription_Billing_list', label: 'Pabbly Subscription Billing list' },
-    { value: 'Pabbly_Form_Builder_list', label: 'Pabbly Form Builder list' },
-  ];
-
-  // Optin Status Events
-  const [optinstatus, setOptinStatus] = useState('Opted_in');
-
-  const optinStatusChange = useCallback((event) => {
-    setOptinStatus(event.target.value);
-  }, []);
+  const optStatusChange = (event) => {
+    setOptStatus(event.target.value);
+    setErrors((prev) => ({ ...prev, optstatus: false }));
+  };
 
   const OPTINSTATUS = [
     { value: 'Opted_in', label: 'Opted In' },
     { value: 'Opted_out', label: 'Opted Out' },
   ];
 
-  // Country code Events
-  const [selectedCountry, setSelectedCountry] = useState(countries[0]);
   const [phoneNumber, setPhoneNumber] = useState('');
+  const handlePhoneNumberChange = (event) => {
+    setPhoneNumber(event.target.value);
+    setErrors((prev) => ({ ...prev, phoneNumber: false }));
+  };
 
+  const [selectedCountry, setSelectedCountry] = useState(countries[0]);
   const handleCountryChange = (event) => {
     setSelectedCountry(countries.find((country) => country.code === event.target.value));
   };
 
-  const handlePhoneNumberChange = (event) => {
-    setPhoneNumber(event.target.value);
+  const handleAdd = () => {
+    const newErrors = {
+      optstatus: optstatus.trim() === '',
+      phoneNumber: phoneNumber.trim() === '',
+    };
+    setErrors(newErrors);
   };
 
   const updatedCountries = countries.map((country) => ({
     ...country,
     phone: `+${country.phone}`,
   }));
-
-  // Form Events
-  const onSubmit = (data) => {
-    console.log(data);
-    // Handle form submission
-  };
 
   // Tag Events
   const TAGS = [
@@ -88,17 +77,7 @@ export default function AddSingleContact() {
   const navigate = useNavigate();
 
   const handleCancel = () => {
-    // Replace '/your-page' with the path you want to navigate to
     navigate('/dashboard/contact');
-  };
-
-  const showToast = () => {
-    toast.success('Contact Added Successfully!');
-  };
-
-  const addContact = () => {
-    showToast();
-    navigate('/app/contact');
   };
 
   return (
@@ -108,117 +87,131 @@ export default function AddSingleContact() {
         <Divider />
 
         <CardContent>
-          <TextField
-            sx={{ mb: 3 }}
-            fullWidth
-            helperText="Enter the contact's mobile number."
-            placeholder="Enter mobile number"
-            label="Phone Number"
-            value={phoneNumber}
-            onChange={handlePhoneNumberChange}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <Select
-                    value={selectedCountry.code}
-                    onChange={handleCountryChange}
-                    renderValue={(value) => (
-                      <Box
-                        sx={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          marginRight: 2,
-                          ml: '-14px',
-                        }}
-                      >
-                        <ReactCountryFlag
-                          countryCode={value}
-                          svg
-                          style={{ marginRight: 8, width: '24px', height: '24px' }}
-                        />
-                        {updatedCountries.find((country) => country.code === value).phone}
-                      </Box>
-                    )}
-                    sx={{
-                      mr: 1,
-                      minWidth: 100,
-                      '& .MuiOutlinedInput-notchedOutline': { border: 'none' },
-                      '& .MuiSelect-select': { paddingRight: 3 },
-                    }}
-                    MenuProps={{
-                      PaperProps: {
-                        style: {
-                          maxHeight: 300,
-                        },
-                      },
-                    }}
-                  >
-                    {updatedCountries.map((country) => (
-                      <MenuItem key={country.code} value={country.code}>
-                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <Tooltip title="Enter phone number here." arrow placement="top">
+            <TextField
+              sx={{ mb: 3 }}
+              fullWidth
+              placeholder="Enter mobile number"
+              label="Phone Number"
+              value={phoneNumber}
+              onChange={handlePhoneNumberChange}
+              error={errors.phoneNumber} // Error style if validation fails
+              helperText={
+                errors.phoneNumber ? 'Phone number is required.' : 'Enter the mobile number.'
+              }
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <Select
+                      value={selectedCountry.code}
+                      onChange={handleCountryChange}
+                      renderValue={(value) => (
+                        <Box
+                          sx={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            marginRight: 2,
+                            ml: '-14px',
+                          }}
+                        >
                           <ReactCountryFlag
-                            countryCode={country.code}
+                            countryCode={value}
                             svg
-                            style={{ marginRight: 8, width: 24, height: '24px' }}
+                            style={{ marginRight: 8, width: '24px', height: '24px' }}
                           />
-                          {country.label} ({country.phone})
+                          {updatedCountries.find((country) => country.code === value).phone}
                         </Box>
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </InputAdornment>
-              ),
-            }}
-          />
-
-          <TextField
-            sx={{ mb: 3 }}
-            id="select-currency-label-x"
-            variant="outlined"
-            select
-            fullWidth
-            label="Optin Status (Required)"
-            value={optinstatus}
-            onChange={optinStatusChange}
-            helperText="Select opt-in status here."
-            InputLabelProps={{ htmlFor: `outlined-select-currency-label` }}
-            inputProps={{ id: `outlined-select-currency-label` }}
+                      )}
+                      sx={{
+                        mr: 1,
+                        minWidth: 100,
+                        '& .MuiOutlinedInput-notchedOutline': { border: 'none' },
+                        '& .MuiSelect-select': { paddingRight: 3 },
+                      }}
+                      MenuProps={{
+                        PaperProps: {
+                          style: {
+                            maxHeight: 300,
+                          },
+                        },
+                      }}
+                    >
+                      {updatedCountries.map((country) => (
+                        <MenuItem key={country.code} value={country.code}>
+                          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                            <ReactCountryFlag
+                              countryCode={country.code}
+                              svg
+                              style={{ marginRight: 8, width: 24, height: '24px' }}
+                            />
+                            {country.label} ({country.phone})
+                          </Box>
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </InputAdornment>
+                ),
+              }}
+            />
+          </Tooltip>
+          <Tooltip title="Click here to select the opt status ." arrow placement="top">
+            <TextField
+              sx={{ mb: 3 }}
+              id="select-currency-label-x"
+              variant="outlined"
+              select
+              fullWidth
+              label="Opt Status (Required)"
+              error={errors.optstatus} // Error style if validation fails
+              value={optstatus}
+              onChange={optStatusChange}
+              helperText={
+                errors.phoneNumber ? 'Opt status is required.' : 'Select opt-in status here.'
+              }
+              InputLabelProps={{ htmlFor: `outlined-select-currency-label` }}
+              inputProps={{ id: `outlined-select-currency-label` }}
+            >
+              {OPTINSTATUS.map((option) => (
+                <MenuItem key={option.value} value={option.value}>
+                  {option.label}
+                </MenuItem>
+              ))}
+            </TextField>
+          </Tooltip>
+          <Tooltip
+            title="Enter contact name here this input field is optional."
+            arrow
+            placement="top"
           >
-            {OPTINSTATUS.map((option) => (
-              <MenuItem key={option.value} value={option.value}>
-                {option.label}
-              </MenuItem>
-            ))}
-          </TextField>
-
-          <TextField
-            sx={{ mb: 3, mt: 0 }}
-            fullWidth
-            type="text"
-            margin="dense"
-            variant="outlined"
-            label="Name (Optional)"
-            helperText="Enter the name of the contact."
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <Tooltip
-                    title="Enter the name of the contact."
-                    arrow
-                    placement="top"
-                    sx={{
-                      fontSize: '16px', // Adjust the font size as needed
-                    }}
-                  >
-                    <Iconify
-                      icon="material-symbols:info-outline"
-                      style={{ width: 20, height: 20 }}
-                    />
-                  </Tooltip>
-                </InputAdornment>
-              ),
-            }}
-          />
+            <TextField
+              sx={{ mb: 3, mt: 0 }}
+              fullWidth
+              type="text"
+              margin="dense"
+              variant="outlined"
+              label="Name (Optional)"
+              helperText="Enter the name of the contact."
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <Tooltip
+                      title="Enter the name of the contact."
+                      arrow
+                      placement="top"
+                      sx={{
+                        fontSize: '16px', // Adjust the font size as needed
+                      }}
+                    >
+                      <Iconify
+                        icon="material-symbols:info-outline"
+                        style={{ width: 20, height: 20 }}
+                      />
+                    </Tooltip>
+                  </InputAdornment>
+                ),
+              }}
+            />
+          </Tooltip>
 
           <Autocomplete
             sx={{ mb: 3, mt: 0 }}
@@ -252,33 +245,39 @@ export default function AddSingleContact() {
               ))
             }
             renderInput={(params) => (
-              <TextField
-                helperText="Select the tag you want to assign to this contact."
-                label="Tags Optional"
-                {...params}
-                variant="outlined"
-                size="large"
-                placeholder="+ Add a tag"
-                InputProps={{
-                  ...params.InputProps,
-                  endAdornment: (
-                    <>
-                      {params.InputProps.endAdornment}
-                      <InputAdornment position="end">
-                        <Iconify icon="mingcute:down-line" style={{ width: 20, height: 20 }} />
-                      </InputAdornment>
-                    </>
-                  ),
-                }}
-                sx={{
-                  '& .MuiAutocomplete-inputRoot': {
-                    minHeight: 'auto',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'start',
-                  },
-                }}
-              />
+              <Tooltip
+                title="Click here to enter the tags for the contact this field is optional."
+                arrow
+                placement="top"
+              >
+                <TextField
+                  helperText="Select the tag you want to assign to this contact."
+                  label="Tags Optional"
+                  {...params}
+                  variant="outlined"
+                  size="large"
+                  placeholder="+ Add a tag"
+                  InputProps={{
+                    ...params.InputProps,
+                    endAdornment: (
+                      <>
+                        {params.InputProps.endAdornment}
+                        <InputAdornment position="end">
+                          <Iconify icon="mingcute:down-line" style={{ width: 20, height: 20 }} />
+                        </InputAdornment>
+                      </>
+                    ),
+                  }}
+                  sx={{
+                    '& .MuiAutocomplete-inputRoot': {
+                      minHeight: 'auto',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'start',
+                    },
+                  }}
+                />
+              </Tooltip>
             )}
             renderOption={(props, option) => (
               <MenuItem {...props} value={option.value}>
@@ -320,15 +319,17 @@ export default function AddSingleContact() {
                   ),
                 }}
               />
-              <TextField
-                fullWidth
-                // placeholder="Enter value"
+              <Tooltip title="Enter user attribute value here." arrow placement="top">
+                <TextField
+                  fullWidth
+                  // placeholder="Enter value"
 
-                type="text"
-                margin="dense"
-                variant="outlined"
-                label="Enter Value"
-              />
+                  type="text"
+                  margin="dense"
+                  variant="outlined"
+                  label="Enter Value"
+                />
+              </Tooltip>
             </Box>
             <Box sx={{ width: '100%', display: 'flex', gap: 2, mb: 3 }}>
               <TextField
@@ -358,15 +359,17 @@ export default function AddSingleContact() {
                   ),
                 }}
               />
-              <TextField
-                fullWidth
-                // placeholder="Enter value"
+              <Tooltip title="Enter user attribute value here." arrow placement="top">
+                <TextField
+                  fullWidth
+                  // placeholder="Enter value"
 
-                type="text"
-                margin="dense"
-                variant="outlined"
-                label="Enter Value"
-              />
+                  type="text"
+                  margin="dense"
+                  variant="outlined"
+                  label="Enter Value"
+                />
+              </Tooltip>
             </Box>
             <Box sx={{ width: '100%', display: 'flex', gap: 2 }}>
               <TextField
@@ -396,15 +399,15 @@ export default function AddSingleContact() {
                   ),
                 }}
               />
-              <TextField
-                fullWidth
-                // placeholder="Enter value"
-
-                type="text"
-                margin="dense"
-                variant="outlined"
-                label="Enter Value"
-              />
+              <Tooltip title="Enter user attribute value here." arrow placement="top">
+                <TextField
+                  fullWidth
+                  type="text"
+                  margin="dense"
+                  variant="outlined"
+                  label="Enter Value"
+                />
+              </Tooltip>
             </Box>
           </Box>
 
@@ -417,12 +420,20 @@ export default function AddSingleContact() {
               ml: 0,
             }}
           >
-            <Button onClick={addContact} variant="contained" size="medium" color="primary">
-              Add Contact
-            </Button>
-            <Button onClick={handleCancel} variant="outlined" size="medium">
-              Cancel
-            </Button>
+            <Tooltip title="Click here to add the contact" arrow placement="top">
+              <Button onClick={handleAdd} variant="contained" size="medium" color="primary">
+                Add Contact
+              </Button>
+            </Tooltip>
+            <Tooltip
+              title="If you don't want to add new contact click this cancel button"
+              arrow
+              placement="top"
+            >
+              <Button onClick={handleCancel} variant="outlined" size="medium">
+                Cancel
+              </Button>
+            </Tooltip>
           </Box>
         </CardContent>
       </Card>

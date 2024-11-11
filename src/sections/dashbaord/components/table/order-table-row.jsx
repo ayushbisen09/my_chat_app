@@ -307,7 +307,7 @@ export function OrderTableRow({
                 </Typography>
               </Tooltip>
 
-              <Tooltip title="Click here to show/hide verification token." arrow placement="top">
+              <Tooltip title="Click here to show/hide access token." arrow placement="top">
                 <IconButton onClick={handleToggleToken}>
                   <Iconify icon={showToken ? 'solar:eye-bold' : 'solar:eye-closed-bold'} />
                 </IconButton>
@@ -449,7 +449,7 @@ export function OrderTableRow({
           </Tooltip>
 
           <Divider style={{ borderStyle: 'dashed' }} />
-          <Tooltip title="This will remove this WhatsApp number" arrow placement="left">
+          <Tooltip title="This will delete this WhatsApp number" arrow placement="left">
             <MenuItem
               onClick={() => {
                 confirmDelete.onTrue();
@@ -469,11 +469,15 @@ export function OrderTableRow({
         onClose={confirmDelete.onFalse}
         title="Delete"
         content="Are you sure you want to delete this WhatsApp number?"
+        
         action={
+          <Tooltip title="Click here to delete the whatsapp number" arrow placement='top'>
           <Button variant="contained" color="error" onClick={onDeleteRow}>
             Delete
           </Button>
+          </Tooltip>
         }
+        
       />
 
       <ConfirmDialog
@@ -483,6 +487,7 @@ export function OrderTableRow({
         content={`Are you sure you want to set this WhatsApp number as ${statusToToggle.toLowerCase()}?`}
 
         action={
+          <Tooltip title="Click here to disale this whatsAppm number" arrow placement='top'>
           <Button
             variant="contained"
             color="primary"
@@ -493,6 +498,7 @@ export function OrderTableRow({
           >
             {statusToToggle.charAt(0).toUpperCase() + statusToToggle.slice(1)}
           </Button>
+          </Tooltip>
         }
       />
       <MoveToFolderPopover

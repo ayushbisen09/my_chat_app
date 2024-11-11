@@ -51,7 +51,7 @@ export const paths = {
       root: `${ROOTS.DASHBOARD}/contact`,
       addcontact: `${ROOTS.DASHBOARD}/contact/addcontact`,
     },
-    agentQueue: `${ROOTS.DASHBOARD}/agentQueue`,
+    teamQueue: `${ROOTS.DASHBOARD}/teamQueue`,
     template: {
       templateslist: `${ROOTS.DASHBOARD}/template/templateslist`,
       root: `${ROOTS.DASHBOARD}/template`,

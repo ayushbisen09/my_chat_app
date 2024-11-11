@@ -208,10 +208,12 @@ export function QuickRepliesTableToolbar({ filters, onResetPage }) {
           >
             {/* <Button variant="outlined" color="inherit" onClick={handleFilterClose}>
               Cancel
-            </Button> */}
+            </Button> */}\
+            <Tooltip title="Click here to apply filter in this table data" arrow placement='top'>
             <Button variant="contained" color="primary" onClick={handleApplyFilter}>
               Apply Filter
             </Button>
+            </Tooltip>
           </Box>
         </Box>
       </Popover>

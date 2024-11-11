@@ -6,11 +6,8 @@ import TableRow from '@mui/material/TableRow';
 import TableCell from '@mui/material/TableCell';
 import IconButton from '@mui/material/IconButton';
 
-import { useBoolean } from 'src/hooks/use-boolean';
-
 import { Label } from 'src/components/label';
 import { Iconify } from 'src/components/iconify';
-import { usePopover } from 'src/components/custom-popover';
 
 import { PreviewTempalteDailog } from './template-preview-dailog/template-preview-dailog';
 import { TextTemplateTypeDialog } from '../template-type-dialogs/text-template-type-dialog';
@@ -18,6 +15,7 @@ import { FileTemplateTypeDialog } from '../template-type-dialogs/file-template-t
 import { AudioTemplateTypeDialog } from '../template-type-dialogs/audio-template-type-dialog';
 import { VideoTemplateTypeDialog } from '../template-type-dialogs/video-template-type-dialog';
 import { ImageTemplateTypeDialog } from '../template-type-dialogs/image-template-type-dialog';
+import { CarouselTemplateTypeDialog } from '../template-type-dialogs/carousel-template-type-dialog';
 
 const templatename = [
   'Classic Layout',
@@ -25,21 +23,20 @@ const templatename = [
   'Elegant Presentation',
   'Professional Report',
   'Educational Content',
+  'New Feature Announcement',
+  'Loyalty Program Invitation',
 ];
 
-const templatetype = ['Text', 'File', 'Audio', 'Video', 'Image'];
+const templatetype = ['Text', 'File', 'Audio', 'Video', 'Image', 'Carousel', 'Limited time offer'];
 
-export function ChooseTemplateDialogTableRow({ row, selected, onDeleteRow, TemplateIndex }) {
-  const confirm = useBoolean();
-  const collapse = useBoolean();
-  const popover = usePopover();
-
+export function ChooseTemplateDialogTableRow({ row, selected, TemplateIndex }) {
   const [openPreviewDialog, setOpenPreviewDialog] = useState(false);
   const [openTextTemplateDialog, setOpenTextTemplateDialog] = useState(false);
   const [openFileTemplateDialog, setOpenFileTemplateDialog] = useState(false);
   const [openAudioTemplateDialog, setOpenAudioTemplateDialog] = useState(false);
   const [openVideoTemplateDialog, setOpenVideoTemplateDialog] = useState(false);
   const [openImageTemplateDialog, setOpenImageTemplateDialog] = useState(false);
+  const [openCarouselTemplateDialog, setOpenCarouselTemplateDialog] = useState(false);
 
   const handleOpenPreviewDialog = (event) => {
     event.stopPropagation(); // Prevents the TableRow click handler from firing
@@ -61,6 +58,8 @@ export function ChooseTemplateDialogTableRow({ row, selected, onDeleteRow, Templ
       setOpenVideoTemplateDialog(true);
     } else if (templatetype[TemplateIndex % templatetype.length] === 'Image') {
       setOpenImageTemplateDialog(true);
+    } else if (templatetype[TemplateIndex % templatetype.length] === 'Carousel') {
+      setOpenCarouselTemplateDialog(true);
     }
   };
 
@@ -82,6 +81,10 @@ export function ChooseTemplateDialogTableRow({ row, selected, onDeleteRow, Templ
 
   const handleCloseImageTemplateDialog = () => {
     setOpenImageTemplateDialog(false);
+  };
+
+  const handleCloseCarouselTemplateDialog = () => {
+    setOpenCarouselTemplateDialog(false);
   };
 
   const handleTableRowClick = () => {
@@ -215,6 +218,11 @@ export function ChooseTemplateDialogTableRow({ row, selected, onDeleteRow, Templ
       <ImageTemplateTypeDialog
         open={openImageTemplateDialog}
         onClose={handleCloseImageTemplateDialog} // Correct closing behavior
+      />
+
+      <CarouselTemplateTypeDialog
+        open={openCarouselTemplateDialog}
+        onClose={handleCloseCarouselTemplateDialog} // Correct closing behavior
       />
     </>
   );

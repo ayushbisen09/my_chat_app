@@ -40,7 +40,7 @@ export const navData = [
           { title: 'Add Contact', path: paths.dashboard.contact.addcontact },
         ],
       },
-      { title: 'Agent Queues', path: paths.dashboard.agentQueue, icon: ICONS.agentqueues },
+      { title: 'Team Queue', path: paths.dashboard.teamQueue, icon: ICONS.agentqueues },
       {
         title: 'Templates',
         path: paths.dashboard.template.root,

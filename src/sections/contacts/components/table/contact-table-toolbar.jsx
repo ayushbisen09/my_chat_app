@@ -5,8 +5,6 @@ import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import Popover from '@mui/material/Popover';
-import MenuList from '@mui/material/MenuList';
-import MenuItem from '@mui/material/MenuItem';
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
 import {
@@ -18,16 +16,12 @@ import {
   useMediaQuery,
 } from '@mui/material';
 
-import { useBoolean } from 'src/hooks/use-boolean';
-
 import { Iconify } from 'src/components/iconify';
-import { usePopover, CustomPopover } from 'src/components/custom-popover';
 
 export function OrderTableToolbar({ filters, onResetPage, dateError }) {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
-  const confirm = useBoolean();
-  const popover = usePopover();
+  
 
   const [filterAnchorEl, setFilterAnchorEl] = useState(null);
   const [selectedColumn, setSelectedColumn] = useState('');
@@ -88,7 +82,7 @@ export function OrderTableToolbar({ filters, onResetPage, dateError }) {
           </Tooltip>
           <Tooltip title="Click here to filter the contacts." arrow placement="top">
             <Button
-              sx={{ ml: '5px' }}
+              sx={{ ml: '5px' , p: 2 }}
               size="large"
               startIcon={<Iconify icon="mdi:filter" />}
               onClick={handleFilterClick}
@@ -96,39 +90,15 @@ export function OrderTableToolbar({ filters, onResetPage, dateError }) {
               Filters
             </Button>
           </Tooltip>
-          <Tooltip title="Click here to see more options." arrow placement="top">
-            <IconButton color={popover.open ? 'inherit' : 'default'} onClick={popover.onOpen}>
-              <Iconify icon="eva:more-vertical-fill" />
+          <Tooltip title="Click here to export the contact list in csv." arrow placement="top">
+            <IconButton color='inherit'>
+              <Iconify icon="line-md:uploading-loop" />
             </IconButton>
           </Tooltip>
         </Stack>
       </Stack>
 
-      <CustomPopover
-        open={popover.open}
-        anchorEl={popover.anchorEl}
-        onClose={popover.onClose}
-        slotProps={{ arrow: { placement: 'right-top' } }}
-      >
-        <MenuList>
-          <Tooltip
-            title="Click here to export all contacts as CSV to your mail."
-            arrow
-            placement="top"
-          >
-            <MenuItem
-              onClick={() => {
-                confirm.onTrue();
-                popover.onClose();
-              }}
-              sx={{ color: 'primary' }}
-            >
-              <Iconify icon="line-md:uploading-loop" />
-              Export
-            </MenuItem>
-          </Tooltip>
-        </MenuList>
-      </CustomPopover>
+      
 
       <Popover
         open={Boolean(filterAnchorEl)}
@@ -364,9 +334,13 @@ export function OrderTableToolbar({ filters, onResetPage, dateError }) {
             {/* <Button variant="outlined" color="inherit" onClick={handleFilterClose}>
               Cancel
             </Button> */}
+            <Tooltip title="Click here to apply filter in this table data" arrow placement='top'>
+
+         
             <Button variant="contained" color="primary" onClick={handleApplyFilter}>
               Apply Filter
             </Button>
+               </Tooltip>
           </Box>
         </Box>
       </Popover>

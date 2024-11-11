@@ -98,7 +98,7 @@ export default function Page({ sx, icon, title, total, color = 'warning', ...oth
           mt: '40px',
           gap: 3,
           display: 'grid',
-          gridTemplateColumns: { xs: 'repeat(1, 1fr)', md: 'repeat(3, 1fr)' },
+          gridTemplateColumns: { xs: 'repeat(1, 1fr)', md: 'repeat(4, 1fr)' },
         }}
       >
         {/* WhatsApp Number Added */}
@@ -115,18 +115,29 @@ export default function Page({ sx, icon, title, total, color = 'warning', ...oth
             />
           </div>
         </Tooltip>
-        {/* Messaage Quota Used */}
-        <Tooltip title="Number of WhatsApp message used frow alloted limit" arrow placement="top">
+        <Tooltip title="Number of WhatsApp message comsumed from alloted credit limit." arrow placement="top">
+          <div>
+            <StatsCards
+              cardtitle="WhatsApp Message Credits Consumed"
+              cardstats="18"
+              icon_name="consumed.png"
+              icon_color="#10CBF3"
+              bg_gradient="#10CBF3"
+            />
+          </div>
+        </Tooltip>
+        <Tooltip title="Number of WhatsApp message used from alloted limit" arrow placement="top">
           <div>
             <StatsCards
               cardtitle="WhatsApp Message Credits Remaining"
               cardstats="2,000"
-              icon_name="3card.svg"
-              icon_color="#7D6ADB"
-              bg_gradient="#8E33FF"
+              icon_name="remaining.png"
+              icon_color="#1D88FA"
+              bg_gradient="#1D88FA"
             />
           </div>
         </Tooltip>
+
         <Tooltip title="Number of WhatsApp Numbers you have added." arrow placement="top">
           <div>
             <StatsCards

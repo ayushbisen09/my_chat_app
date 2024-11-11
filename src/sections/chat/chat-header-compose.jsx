@@ -4,7 +4,7 @@ import ReactCountryFlag from 'react-country-flag';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import { Select, MenuItem, InputAdornment } from '@mui/material';
+import { Select, Tooltip, MenuItem, InputAdornment } from '@mui/material';
 
 import { countries } from 'src/assets/data';
 
@@ -35,7 +35,7 @@ export function ChatHeaderCompose({ contacts }) {
       <Typography variant="subtitle2" sx={{ color: 'text.primary', mr: 2 }}>
         To New Contact:
       </Typography>
-
+      <Tooltip title="Enter whatsApp number here whom you want to chat with." arrow placement="top">
       <TextField
         sx={{ width: 320 }}
         placeholder="Enter mobile number"
@@ -97,6 +97,7 @@ export function ChatHeaderCompose({ contacts }) {
           ),
         }}
       />
+      </Tooltip>
     </>
   );
 }

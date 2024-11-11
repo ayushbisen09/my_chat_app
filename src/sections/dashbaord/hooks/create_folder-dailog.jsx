@@ -129,11 +129,13 @@ export function CreateFolderDialog({ title, content, action, open, onClose, ...o
           onClick={dialog.onFalse}
         >
           Create Folder
+          <Tooltip title="Click here to close the dialog box" arrow placement='top'>
           <Iconify
             onClick={onClose}
             icon="uil:times"
             style={{ width: 20, height: 20, cursor: 'pointer', color: '#637381' }}
           />
+          </Tooltip>
         </DialogTitle>
         <Divider sx={{ mb: 3, borderStyle: 'dashed' }} />
 
@@ -155,6 +157,7 @@ export function CreateFolderDialog({ title, content, action, open, onClose, ...o
                 ) : (
                   <span>
                     Enter the name of the folder here.{' '}
+                    <Tooltip title="If you have any doubt in this click learn more as it contains the forum Support" arrow placement='top'>
                     <Link
                       href="https://forum.pabbly.com/threads/folders.20987/"
                       style={{ color: '#078DEE' }}
@@ -162,6 +165,7 @@ export function CreateFolderDialog({ title, content, action, open, onClose, ...o
                     >
                       Learn more
                     </Link>
+                    </Tooltip>
                   </span>
                 )
               }
@@ -185,7 +189,7 @@ export function CreateFolderDialog({ title, content, action, open, onClose, ...o
                 ),
               }}
             />
-
+            
             <Autocomplete
               sx={{
                 '& .MuiInputBase-input': { fontSize: '14px' },
@@ -196,6 +200,7 @@ export function CreateFolderDialog({ title, content, action, open, onClose, ...o
               onChange={handleChangeCategoryList}
               defaultValue="None"
               renderInput={(params) => (
+                <Tooltip title="Click here to select parent folder" arrow placement='top'>
                 <TextField
                   {...params}
                   label={
@@ -213,6 +218,7 @@ export function CreateFolderDialog({ title, content, action, open, onClose, ...o
                     ) : (
                       <>
                         Choose the parent folder where the new folder should be created.{' '}
+                        <Tooltip title="If you have any doubt in this click learn more as it contains the forum Support" arrow placement='top'>
                         <Link
                           href="https://forum.pabbly.com/threads/folders.20987/"
                           style={{ color: '#078DEE' }}
@@ -220,13 +226,16 @@ export function CreateFolderDialog({ title, content, action, open, onClose, ...o
                         >
                           Learn more
                         </Link>
+                        </Tooltip>
                       </>
                     )
                   }
                   error={categoryError}
                 />
+                 </Tooltip>
               )}
             />
+           
           </Box>
         </DialogContent>
 

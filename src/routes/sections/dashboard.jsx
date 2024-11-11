@@ -15,7 +15,7 @@ const Inbox = lazy(() => import('src/pages/app/inbox'));
 const Contact = lazy(() => import('src/pages/app/contacts'));
 const Addcontact = lazy(() => import('../../sections/contacts/add-contact'));
 
-const AgentQueue = lazy(() => import('src/pages/app/agent-queue'));
+const TeamQueue = lazy(() => import('src/pages/app/team-queue'));
 const Templates = lazy(() => import('src/pages/app/templates'));
 const YourTemplate = lazy(() => import('../../sections/templates/your-templates'));
 const AddTemplate = lazy(() => import('../../sections/templates/add-template'));
@@ -57,7 +57,7 @@ export const dashboardRoutes = [
       { path: 'inbox', element: <Inbox /> },
       { path: 'contact', element: <Contact /> },
       { path: 'contact/addcontact', element: <Addcontact /> },
-      { path: 'agentQueue', element: <AgentQueue /> },
+      { path: 'teamQueue', element: <TeamQueue /> },
       { path: 'template', element: <Templates /> },
       { path: 'template/addtemplate', element: <AddTemplate /> },
       { path: 'template/templateslist', element: <YourTemplate/> },

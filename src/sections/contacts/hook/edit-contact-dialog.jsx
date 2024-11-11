@@ -31,102 +31,135 @@ export function EditContactDialog({ title, content, action, open, onClose, ...ot
   const theme = useTheme();
   const isWeb = useMediaQuery(theme.breakpoints.up('sm'));
   const dialog = useBoolean();
+
   const [selectedCountry, setSelectedCountry] = useState(countries[0]);
-  const [phoneNumber, setPhoneNumber] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('7489077458');
+  const [name, setName] = useState('Contact List Named as Pabbly');
+  const [source, setSource] = useState('API');
+  const [errors, setErrors] = useState({
+    name: false,
+    phoneNumber: false,
+    source: false,
+  });
+
   const handlePhoneNumberChange = (event) => {
     setPhoneNumber(event.target.value);
+    setErrors((prev) => ({ ...prev, phoneNumber: false }));
   };
+  const handleNameChange = (event) => {
+    setName(event.target.value);
+    setErrors((prev) => ({ ...prev, name: false }));
+  };
+
+  const handleSourceChange = (event) => {
+    setSource(event.target.value);
+    setErrors((prev) => ({ ...prev, source: false }));
+  };
+
   const handleCountryChange = (event) => {
     setSelectedCountry(countries.find((country) => country.code === event.target.value));
   };
+
   const updatedCountries = countries.map((country) => ({
     ...country,
     phone: `+${country.phone}`,
   }));
 
-  // Snackbar state
-  const [snackbarOpen, setSnackbarOpen] = useState(false);
-  const handleAdd = () => {
-    setSnackbarOpen(true);
-    setTimeout(() => {
-      onClose();
-    }, 500);
-  };
-
-  const handleSnackbarClose = (event, reason) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-    setSnackbarOpen(false);
-  };
-  const [tags, setTags] = useState(['Purchase', 'Pabbly Connect']);
-  const [tagInput, setTagInput] = useState('');
   const handleAddTag = () => {
     if (tagInput.trim() !== '') {
       setTags([...tags, tagInput.trim()]);
       setTagInput('');
     }
   };
-  return (
-    <>
-      <Dialog
-        open={open}
-        onClose={onClose}
-        {...other}
-        PaperProps={isWeb ? { style: { minWidth: '600px' } } : { style: { minWidth: '330px' } }}
-      >
-        <DialogTitle
-          sx={{ fontWeight: '700', display: 'flex', justifyContent: 'space-between' }}
-          onClick={dialog.onFalse}
-        >
-          Edit Contact{' '}
-          <Iconify
-            onClick={onClose}
-            icon="uil:times"
-            style={{ width: 20, height: 20, cursor: 'pointer', color: '#637381' }}
-          />
-        </DialogTitle>
-        <Divider sx={{ mb: '16px', borderStyle: 'dashed' }} />
 
-        <DialogContent sx={{ display: 'flex', flexDirection: 'column' }}>
-          <TextField
-            autoFocus
-            fullWidth
-            type="text"
-            margin="dense"
-            variant="outlined"
-            label="Name*"
-            helperText="Enter your access token here."
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <Tooltip
-                    title="Enter new name."
-                    arrow
-                    placement="top"
-                    sx={{
-                      fontSize: '16px', // Adjust the font size as needed
-                    }}
-                  >
-                    <Iconify
-                      icon="material-symbols:info-outline"
-                      style={{ width: 20, height: 20 }}
-                    />
-                  </Tooltip>
-                </InputAdornment>
-              ),
-            }}
-            sx={{ mb: 3 }}
-          />
+  // Snackbar state
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+
+  const handleAdd = () => {
+    // Validate fields - if any are empty, set error state
+    const newErrors = {
+      name: name.trim() === '',
+      phoneNumber: phoneNumber.trim() === '',
+      source: source.trim() === '',
+    };
+
+    setErrors(newErrors);
+
+    // Only proceed if all fields are filled
+    if (!Object.values(newErrors).some((error) => error)) {
+      setSnackbarOpen(true);
+      setTimeout(() => {
+        onClose();
+      }, 500);
+    }
+  };
+
+  const [tags, setTags] = useState(['Purchase', 'Pabbly Connect']);
+  const [tagInput, setTagInput] = useState('');
+
+  return (
+    <Dialog
+      open={open}
+      onClose={onClose}
+      {...other}
+      PaperProps={isWeb ? { style: { minWidth: '600px' } } : { style: { minWidth: '330px' } }}
+    >
+      <DialogTitle
+        sx={{ fontWeight: '700', display: 'flex', justifyContent: 'space-between' }}
+        onClick={dialog.onFalse}
+      >
+        Edit Contact{' '}
+        <Iconify
+          onClick={onClose}
+          icon="uil:times"
+          style={{ width: 20, height: 20, cursor: 'pointer', color: '#637381' }}
+        />
+      </DialogTitle>
+      <Divider sx={{ mb: '16px', borderStyle: 'dashed' }} />
+
+      <DialogContent sx={{ display: 'flex', flexDirection: 'column' }}>
+        <TextField
+          autoFocus
+          fullWidth
+          type="text"
+          margin="dense"
+          variant="outlined"
+          label="Name"
+          value={name}
+          onChange={handleNameChange}
+          error={errors.name} // Display error style if validation fails
+          helperText={errors.name ? 'Name is required.' : 'Enter contact name here.'}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <Tooltip
+                  title="Enter new name."
+                  arrow
+                  placement="top"
+                  sx={{
+                    fontSize: '16px', // Adjust the font size as needed
+                  }}
+                >
+                  <Iconify icon="material-symbols:info-outline" style={{ width: 20, height: 20 }} />
+                </Tooltip>
+              </InputAdornment>
+            ),
+          }}
+          sx={{ mb: 3 }}
+        />
+        <Tooltip title="Enter phone number here." arrow placement="top">
           <FormControlLabel
             control={
               <TextField
                 fullWidth
-                helperText="Enter the mobile number."
                 placeholder="Enter mobile number"
                 label="Phone Number"
                 value={phoneNumber}
                 onChange={handlePhoneNumberChange}
+                error={errors.phoneNumber} // Error style if validation fails
+                helperText={
+                  errors.phoneNumber ? 'Phone number is required.' : 'Enter the mobile number.'
+                }
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">
@@ -184,6 +217,8 @@ export function EditContactDialog({ title, content, action, open, onClose, ...ot
             }
             sx={{ width: '100%', mr: 0, ml: 0, mb: 3 }}
           />
+        </Tooltip>
+        <Tooltip title="add any tag here as much as you want." arrow placement="top">
           <Autocomplete
             multiple
             freeSolo
@@ -235,6 +270,8 @@ export function EditContactDialog({ title, content, action, open, onClose, ...ot
               />
             )}
           />
+        </Tooltip>
+        <Tooltip title="Enter source here." arrow placement="top">
           <TextField
             autoFocus
             fullWidth
@@ -242,6 +279,10 @@ export function EditContactDialog({ title, content, action, open, onClose, ...ot
             margin="dense"
             variant="outlined"
             label="Source"
+            value={source}
+            onChange={handleSourceChange}
+            error={errors.source} // Error style if validation fails
+            helperText={errors.source ? 'Source is required.' : 'Enter source here.'}
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
@@ -263,43 +304,24 @@ export function EditContactDialog({ title, content, action, open, onClose, ...ot
             }}
             sx={{ mt: 3 }}
           />
-        </DialogContent>
-        <DialogActions>
+        </Tooltip>
+      </DialogContent>
+      <DialogActions>
+        <Tooltip
+          title="If you don't want to save the changes click this cancel button."
+          arrow
+          placement="top"
+        >
           <Button onClick={onClose} variant="outlined" color="inherit">
             Cancel
           </Button>
+        </Tooltip>
+        <Tooltip title="Click here to save the changes." arrow placement="top">
           <Button onClick={handleAdd} variant="contained" color="primary">
             Save
           </Button>
-        </DialogActions>
-      </Dialog>
-
-      {/* Snackbar component */}
-      {/* <Snackbar
-        open={snackbarOpen}
-        autoHideDuration={1000}
-        onClose={handleSnackbarClose}
-        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-        sx={{
-          boxShadow: '0px 8px 16px 0px rgba(145, 158, 171, 0.16)',
-          zIndex: theme.zIndex.drawer + 10000000000,
-          overflow: 'visible'
-        }}
-      >
-        <Alert
-          onClose={handleSnackbarClose}
-          severity="success"
-          sx={{
-            width: '100%',
-            fontSize: '14px',
-            fontWeight: 'bold',
-            backgroundColor: theme.palette.background.paper,
-            color: theme.palette.text.primary,
-          }}
-        >
-          Updating conversation preferences!
-        </Alert>
-      </Snackbar> */}
-    </>
+        </Tooltip>
+      </DialogActions>
+    </Dialog>
   );
 }

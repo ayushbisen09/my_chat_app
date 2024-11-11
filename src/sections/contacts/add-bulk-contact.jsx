@@ -1,5 +1,5 @@
 import { toast } from 'sonner';
-import { useState, useCallback } from 'react';
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 import {
@@ -15,66 +15,13 @@ import {
   InputAdornment,
 } from '@mui/material';
 
-import { countries } from 'src/assets/data';
-
 import { Iconify } from 'src/components/iconify';
 import FileUpload from 'src/components/upload/upload';
 
 export default function AddBulkContact() {
-  
-
-  // Contact List Events
-
-  const CONTACTLISTS = [
-    { value: 'Pabbly_Connect_list', label: 'Pabbly Connect list' },
-    { value: 'Pabbly_Subscription_Billing_list', label: 'Pabbly Subscription Billing list' },
-    { value: 'Pabbly_Form_Builder_list', label: 'Pabbly Form Builder list' },
-  ];
-
-  // Optin Status Events
-  const [optinstatus, setOptinStatus] = useState('Opted_in');
-
-  const optinStatusChange = useCallback((event) => {
-    setOptinStatus(event.target.value);
-  }, []);
-
-  const OPTINSTATUS = [
-    { value: 'Opted_in', label: 'Opted In' },
-    { value: 'Opted_out', label: 'Opted Out' },
-  ];
-
-  // Country code Events
-  const [selectedCountry, setSelectedCountry] = useState(countries[0]);
-  const [phoneNumber, setPhoneNumber] = useState('');
-
-  const handleCountryChange = (event) => {
-    setSelectedCountry(countries.find((country) => country.code === event.target.value));
-  };
-
-  const handlePhoneNumberChange = (event) => {
-    setPhoneNumber(event.target.value);
-  };
-
-  const updatedCountries = countries.map((country) => ({
-    ...country,
-    phone: `+${country.phone}`,
-  }));
-
-  // Form Events
-  const onSubmit = (data) => {
-    console.log(data);
-    // Handle form submission
-  };
-
-  // Tag Events
-  const TAGS = [
-    { value: 'Purchase', label: 'Purchase' },
-    { value: 'Pabbly_Connect', label: 'Pabbly Connect' },
-    { value: 'Pabbly_Subscription_Billing', label: 'Pabbly Subscription Billing' },
-  ];
-  const [tagInput, setTagInput] = useState('');
-  const [tags, setTags] = useState();
-
+  const [isFileValid, setIsFileValid] = useState(false);
+  const [error, setError] = useState('');
+  const [isFileUploaded, setUploadedFile] = useState(null);
   const navigate = useNavigate();
 
   const handleCancel = () => {
@@ -86,19 +33,28 @@ export default function AddBulkContact() {
     toast.success('Contact Added Successfully!');
   };
 
-  const showToast2 = () => {
-    toast.error('CNo');
+  // const addContact = () => {
+  //   showToast();
+  //   navigate('/app/contact');
+  // };
+  // const [isFileUploaded, setIsFileUploaded] = useState(false);
+
+  const handleFileUpload = (file) => {
+    // Check if the file type is .csv
+    if (file && file.type === 'text/csv') {
+      setIsFileValid(true); // File is valid
+      setError(''); // Clear any existing error
+      setUploadedFile(file); // Save the file for any further processing if needed
+    } else {
+      setIsFileValid(false); // File is invalid
+      setError('Only .csv files are allowed.'); // Display error message
+    }
   };
 
   const addContact = () => {
-    showToast();
-    navigate('/app/contact');
-  };
-  const [isFileUploaded, setIsFileUploaded] = useState(false);
-
-  const handleFileUpload = (file) => {
-    if (file) {
-      setIsFileUploaded(true);
+    if (isFileValid) {
+      // Perform the save operation
+      console.log('Contact added successfully with the uploaded file.');
     }
   };
 
@@ -128,7 +84,7 @@ export default function AddBulkContact() {
               endAdornment: (
                 <InputAdornment position="end">
                   <Tooltip
-                    title="Enter the name of the contact."
+                    title="If you have the url of CSV file enter here if don't have upload the file from your locale."
                     arrow
                     placement="top"
                     sx={{
@@ -147,6 +103,11 @@ export default function AddBulkContact() {
           <Typography sx={{ fontWeight: '600', mb: 3 }}>OR</Typography>
           <Box mb={3}>
             <FileUpload onFileUpload={handleFileUpload} />
+            {error && (
+              <Typography color="error" variant="body2" mt={1}>
+                {error}
+              </Typography>
+            )}
           </Box>
           {isFileUploaded && (
             <Box sx={{ width: '100%' }}>
@@ -420,12 +381,20 @@ export default function AddBulkContact() {
             ml: 0,
           }}
         >
-          <Button onClick={addContact} variant="contained" size="medium" color="primary">
-            Add Contact
-          </Button>
-          <Button onClick={handleCancel} variant="outlined" size="medium" color="inherit">
-            Cancel
-          </Button>
+          <Tooltip title="Click here to add the contact" arrow placement="top">
+            <Button onClick={addContact} variant="contained" size="medium" color="primary">
+              Add Contact
+            </Button>
+          </Tooltip>
+          <Tooltip
+            title="If you don't want to add new contact click this cancel button"
+            arrow
+            placement="top"
+          >
+            <Button onClick={handleCancel} variant="outlined" size="medium" color="inherit">
+              Cancel
+            </Button>
+          </Tooltip>
         </Box>
       </Card>
     </Box>

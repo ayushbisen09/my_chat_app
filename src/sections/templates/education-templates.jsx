@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import {
   Box,
   Button,
+  Tooltip,
   MenuItem,
   MenuList,
   TextField,
@@ -112,8 +113,9 @@ export default function EcommTemplatesRender() {
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
-      <Typography sx={{ fontSize: 18, fontWeight: 600 }}>Ecommerce Messages</Typography>
+      <Typography sx={{ fontSize: 18, fontWeight: 600 }}>Education Templates</Typography>
       <Box display="flex" justifyContent="space-between">
+      <Tooltip title="Click here to search the template by name" arrow placement='top'>
         <TextField
           placeholder="Search templates..."
           InputProps={{
@@ -125,6 +127,7 @@ export default function EcommTemplatesRender() {
           }}
           sx={{ mt: 2.5 }}
         />
+        </Tooltip>
         <Button
           disableRipple
           color="inherit"

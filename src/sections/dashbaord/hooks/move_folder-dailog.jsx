@@ -105,11 +105,13 @@ export function MoveToFolderPopover({ title, content, action, open, onClose, ...
         onClick={dialog.onFalse}
       >
         Move{' '}
+        <Tooltip title="Click here to close the dialog box" arrow placement='top'>
         <Iconify
           onClick={handleDialogClose}
           icon="uil:times"
           style={{ width: 20, height: 20, cursor: 'pointer', color: '#637381' }}
         />
+        </Tooltip>
       </DialogTitle>
       <Divider sx={{ mb: '16px', borderStyle: 'dashed' }} />
 
@@ -127,6 +129,7 @@ export function MoveToFolderPopover({ title, content, action, open, onClose, ...
           options={folder}
           onChange={handleChangeCategoryList}
           renderInput={(params) => (
+            <Tooltip title="Click here to select folder where you want to move the WhatsApp number" arrow placement='top'>
             <TextField
               {...params}
               label={
@@ -144,7 +147,7 @@ export function MoveToFolderPopover({ title, content, action, open, onClose, ...
                     'Please select a required folder.'
                   ) : (
                     <>
-                      Select the folder or subfolder where you want to move the workflow(s).{' '}
+                      Select the folder or subfolder where you want to move the whatsapp number.{' '}
                       <Link
                         href="https://forum.pabbly.com/threads/folders.20987/"
                         style={{ color: '#078DEE' }}
@@ -158,15 +161,18 @@ export function MoveToFolderPopover({ title, content, action, open, onClose, ...
               }
               error={categoryError}
             />
+            </Tooltip>
           )}
         />
       </DialogContent>
 
       <DialogActions>
         {action}
+        <Tooltip title="Click here to move the whatsapp number to existing folder" arrow placement='top'>
         <Button onClick={handleAdd} variant="contained" color="primary">
           Move
         </Button>
+        </Tooltip>
       </DialogActions>
       <Snackbar
         open={snackbarOpen}
