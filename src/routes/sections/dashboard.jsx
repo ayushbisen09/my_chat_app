@@ -1,5 +1,6 @@
 import { lazy, Suspense } from 'react';
-import { Outlet } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { Outlet, Navigate } from 'react-router-dom';
 
 import { CONFIG } from 'src/config-global';
 import { DashboardLayout } from 'src/layouts/dashboard';
@@ -48,42 +49,49 @@ const layoutContent = (
   </DashboardLayout>
 );
 
-export const dashboardRoutes = [
-  {
-    path: 'app',
-    element: CONFIG.auth.skip ? <>{layoutContent}</> : <AuthGuard>{layoutContent}</AuthGuard>,
-    children: [
-      { element: <IndexPage />, index: true },
-      { path: 'inbox', element: <Inbox /> },
-      { path: 'contact', element: <Contact /> },
-      { path: 'contact/addcontact', element: <Addcontact /> },
-      { path: 'teamQueue', element: <TeamQueue /> },
-      { path: 'template', element: <Templates /> },
-      { path: 'template/addtemplate', element: <AddTemplate /> },
-      { path: 'template/templateslist', element: <YourTemplate/> },
-      { path: 'broadcast', element: <Broadcast /> },
-      { path: 'broadcast/addbroadcast', element: <AddBroadcast /> },
-      { path: 'flows', element: <Flows /> },
-      { path: 'flows/createflow', element: <CreateFlow /> },
-      {
-        path: 'settings',
-        children: [
-          { element: <OptInManagement />, index: true },
-          { path: 'inboxsetting', element: <InboxSettings /> },
-          { path: 'userattributes', element: <Userattributes /> },
-          { path: 'tags', element: <Tags /> },
-          { path: 'quickreplies', element: <Quickreplies /> },
-          { path: 'teammembers', element: <Teammembers /> },
-          { path: 'chatassignmentrules', element: <Chatassignmentrules /> },
-          { path: 'configureslas', element: <ConfigureSLAs /> },
-          // { path: 'whatsAppwidget', element: <WhatsAppwidgets /> },
-          { path: 'apiwebhooks', element: <APIWebhooks /> },
-          { path: 'activitylogs', element: <ActivityLogs /> },
-          { path: 'notificationpreferences', element: <Notificationpreferences /> },
-          { path: 'timezone', element: <TimeZone /> },
-        ],
-      },
-      { path: 'gethelp', element: <GetHelp /> },
-    ],
-  },
-];
+export const DashboardRoutes = () => {
+  const teammembersPageDisabled = useSelector((state) => state.access.teammembersPageDisabled);
+
+  return [
+    {
+      path: 'app',
+      element: CONFIG.auth.skip ? <>{layoutContent}</> : <AuthGuard>{layoutContent}</AuthGuard>,
+      children: [
+        { element: <IndexPage />, index: true },
+        { path: 'inbox', element: <Inbox /> },
+        { path: 'contact', element: <Contact /> },
+        { path: 'contact/addcontact', element: <Addcontact /> },
+        { path: 'teamQueue', element: <TeamQueue /> },
+        { path: 'template', element: <Templates /> },
+        { path: 'template/addtemplate', element: <AddTemplate /> },
+        { path: 'template/templateslist', element: <YourTemplate /> },
+        { path: 'broadcast', element: <Broadcast /> },
+        { path: 'broadcast/addbroadcast', element: <AddBroadcast /> },
+        { path: 'flows', element: <Flows /> },
+        { path: 'flows/createflow', element: <CreateFlow /> },
+        {
+          path: 'settings',
+          children: [
+            { element: <OptInManagement />, index: true },
+            { path: 'inboxsetting', element: <InboxSettings /> },
+            { path: 'userattributes', element: <Userattributes /> },
+            { path: 'tags', element: <Tags /> },
+            { path: 'quickreplies', element: <Quickreplies /> },
+            {
+              path: 'teammembers',
+              element: teammembersPageDisabled ? <Navigate to="/app" replace /> : <Teammembers />,
+            },
+            { path: 'chatassignmentrules', element: <Chatassignmentrules /> },
+            { path: 'configureslas', element: <ConfigureSLAs /> },
+            // { path: 'whatsAppwidget', element: <WhatsAppwidgets /> },
+            { path: 'apiwebhooks', element: <APIWebhooks /> },
+            { path: 'activitylogs', element: <ActivityLogs /> },
+            { path: 'notificationpreferences', element: <Notificationpreferences /> },
+            { path: 'timezone', element: <TimeZone /> },
+          ],
+        },
+        { path: 'gethelp', element: <GetHelp /> },
+      ],
+    },
+  ];
+};

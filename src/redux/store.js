@@ -3,13 +3,14 @@ import { configureStore } from '@reduxjs/toolkit';
 
 import messageReplyReducer from './slices/messageReply';
 import includedArrayReducer from './slices/contactSlice'; // Import the new reducer
+import accessReducer from './slices/accessSlice'
 import templateReducer from './slices/carouselslice';
 import selectedListReducer from './slices/selectedListSlice';
 import listNodeReducer from './slices/listNodeMessagePreviewSlice';
 import mediaButtonNodeReducer from './slices/mediaButtonNodeSlice';
 import optOutMessageReducer from './slices/optOutRegularMessageSlice';
-import optInMessageReducer from './slices/regularMessageTemplateSlice';
-import interactiveAllActionsReducer from './slices/interactiveAllActionslice' 
+import optInMessageReducer from './slices/regularMessageTemplateSlice'; 
+import interactiveAllActionsReducer from './slices/interactiveAllActionslice'
 import optInTemplateTypeReducer from './slices/optInMessageTemplateTypeSlice';
 import textButtonNodeReducer from './slices/textButtonNodeMessagePreviewSlice';
 import optOutTemplateTypeReducer from './slices/optOutMessageTemplateTypeSlice';
@@ -38,6 +39,7 @@ const store = configureStore({
     template: templateReducer,
     selectedList: selectedListReducer,
     interactiveAllActions: interactiveAllActionsReducer,
+    access: accessReducer
   
   },
   middleware: (getDefaultMiddleware) =>

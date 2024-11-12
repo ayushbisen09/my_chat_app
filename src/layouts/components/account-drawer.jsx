@@ -1,3 +1,4 @@
+import { useSelector } from 'react-redux';
 import { useState, useCallback } from 'react';
 
 import Box from '@mui/material/Box';
@@ -57,6 +58,9 @@ export function AccountDrawer({ data = [], sx, ...other }) {
     [handleCloseDrawer, router]
   );
 
+  const selectedTeammemberName = useSelector((state) => state.access.selectedTeammemberName);
+  const selectedTeammemberEmail = useSelector((state) => state.access.selectedTeammemberEmail);
+
   const renderAvatar = (
     <AnimateAvatar
       width={96}
@@ -99,19 +103,17 @@ export function AccountDrawer({ data = [], sx, ...other }) {
         </IconButton>
 
         <Scrollbar>
-          <Stack alignItems="center" sx={{ pt: 8,pb:3 }}>
+          <Stack alignItems="center" sx={{ pt: 8, pb: 3 }}>
             {renderAvatar}
 
             <Typography variant="subtitle1" noWrap sx={{ mt: 2 }}>
-              Ankit Mandli
+              {selectedTeammemberName || 'Ankit Mandli'}
             </Typography>
 
             <Typography variant="body2" sx={{ color: 'text.secondary', mt: 0.5 }} noWrap>
-             ankit.mandli@pabbly.com
+              {selectedTeammemberEmail || 'ankit.madli@pabbly.com'}
             </Typography>
           </Stack>
-
-          
 
           <Stack
             sx={{
@@ -154,7 +156,7 @@ export function AccountDrawer({ data = [], sx, ...other }) {
           </Stack>
 
           <Box sx={{ px: 2.5, py: 3 }}>
-            <UpgradeCard/>
+            <UpgradeCard />
             {/* <UpgradeBlock /> */}
           </Box>
         </Scrollbar>

@@ -48,6 +48,17 @@ export function SharedByYouTeammemberTableRow({
     // Add more flow names as needed
   ];
 
+  const teammembername = [
+    'Ayush Bisen',
+    'Ankit Mandli',
+    'Nikhil Patel',
+    'Rajendra Jatav',
+    'Anand Nayak',
+    'Hardik Pradhan',
+    'Abhishek Nagr',
+    // Add more flow names as needed
+  ];
+
   const renderPrimary = (
     <TableRow hover selected={selected}>
       <TableCell padding="checkbox">
@@ -57,6 +68,7 @@ export function SharedByYouTeammemberTableRow({
           inputProps={{ id: `row-checkbox-${row.id}`, 'aria-label': `Row checkbox` }}
         />
       </TableCell>
+
       <TableCell width={700}>
         <Stack spacing={2} direction="row" alignItems="center">
           <Stack
@@ -73,6 +85,25 @@ export function SharedByYouTeammemberTableRow({
             >
               <Box component="span">
                 {teammemberemail[teammemberIndex % teammemberemail.length]}
+              </Box>
+            </Tooltip>
+            <Tooltip
+              title={` Team member name: ${teammembername[teammemberIndex % teammembername.length]}`}
+              arrow
+              placement="top"
+            >
+              <Box
+                component="span"
+                sx={{
+                  color: 'text.disabled',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  whiteSpace: 'nowrap',
+                  maxWidth: '180px', // Adjust the maxWidth to your desired value
+                  display: 'inline-block',
+                }}
+              >
+                {teammembername[teammemberIndex % teammembername.length]}
               </Box>
             </Tooltip>
           </Stack>
