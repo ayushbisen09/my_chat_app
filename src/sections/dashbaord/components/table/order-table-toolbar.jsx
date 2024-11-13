@@ -1,4 +1,5 @@
 import { useTheme } from '@emotion/react';
+import { useSelector } from 'react-redux';
 import { useState, useCallback } from 'react';
 
 import Box from '@mui/material/Box';
@@ -140,7 +141,8 @@ export function OrderTableToolbar({ filters, onResetPage, numSelected, publish, 
     textTransform: 'none',
     padding: '0 16px',
   };
-  const isBelow600px = useMediaQuery(theme.breakpoints.down('sm'));
+
+  const teammembersPageDisabled = useSelector((state) => state.access.teammembersPageDisabled);
 
   return (
     <>
@@ -360,15 +362,19 @@ export function OrderTableToolbar({ filters, onResetPage, numSelected, publish, 
             </MenuItem>
           </Tooltip>
           <Tooltip title="Click here to move whatsapp number to folder." arrow placement="left">
-            <MenuItem
-              onClick={() => {
-                setMoveToFolderPopoverOpen(true); // Open the Move To Folder dialog
-                popover.onClose();
-              }}
-            >
-              <Iconify icon="fluent:folder-move-16-filled" sx={{ mr: 2 }} />
-              Move
-            </MenuItem>
+            {!teammembersPageDisabled && (
+              <Tooltip title="Click here to move WhatsApp number to folder." arrow placement="left">
+                <MenuItem
+                  onClick={() => {
+                    setMoveToFolderPopoverOpen(true); // Open the Move To Folder dialog
+                    popover.onClose();
+                  }}
+                >
+                  <Iconify icon="fluent:folder-move-16-filled" sx={{ mr: 2 }} />
+                  Move
+                </MenuItem>
+              </Tooltip>
+            )}
           </Tooltip>
 
           <Divider style={{ borderStyle: 'dashed' }} />

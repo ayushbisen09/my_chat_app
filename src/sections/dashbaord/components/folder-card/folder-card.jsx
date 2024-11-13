@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { useTheme } from '@emotion/react';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -30,32 +31,6 @@ import { QuickShareDialog } from '../../hooks/quick-share-dailog';
 import { CreateFolderDialog } from '../../hooks/create_folder-dailog';
 import { RenameFolderDialog } from '../../hooks/rename_folder-dailog';
 
-const LABELS = {
-  home: 'Home',
-  companyb: 'Company B',
-  mainFolder: 'WhatsApp Database',
-  whastappDatabase: 'Database 1',
-  childFolder2: 'WhatsApp Number List',
-  grandChild1: 'Employee List',
-  grandChild2: 'Total Member List',
-  folder1: 'List 1',
-  folder2: 'List 2',
-  folder3: 'List 3',
-  grandChild3: 'Administrative List',
-  childFolder3: 'Active Contact List',
-  childFolder4: 'Inactive Contact List',
-  pabblySubscriptionBilling: 'Pabbly Subscription Billing',
-  pabblyEmailMarketing: 'Pabbly Email Marketing',
-  pabblyFormBuilder: 'Pabbly Form Builder',
-  pabblyEmailVerification: 'Pabbly Email Verification',
-  pabblyHook: 'Pabbly Hook',
-  clientA: 'Company B',
-  childFolder1Client: 'Company B WhatsApp Numbers',
-  grandChild1Client: 'Contact List 1',
-  grandChild2Client: 'Contact List 2',
-  trash: 'Trash',
-};
-
 // Count children for tree view items
 const countChildren = (item) =>
   item.children?.length ||
@@ -75,65 +50,6 @@ const folderItems = (items) =>
   }));
 
 // Items for different sections
-const HOMEITEMS = folderItems([{ id: '25', label: LABELS.home, children: [] }]);
-
-const ITEMS = folderItems([
-  { id: '0', label: LABELS.companyb, children: [] },
-  {
-    id: '1',
-    label: LABELS.mainFolder,
-    children: [
-      { id: '2', label: LABELS.whastappDatabase },
-      {
-        id: '3',
-        label: LABELS.childFolder2,
-        children: [
-          { id: '6', label: LABELS.grandChild1 },
-          {
-            id: '7',
-            label: LABELS.grandChild2,
-            children: [
-              { id: '9', label: LABELS.folder1 },
-              { id: '10', label: LABELS.folder2 },
-              { id: '11', label: LABELS.folder3 },
-            ],
-          },
-          { id: '8', label: LABELS.grandChild3 },
-        ],
-      },
-      { id: '4', label: LABELS.childFolder3 },
-      { id: '5', label: LABELS.childFolder4 },
-    ],
-  },
-  { id: '12', label: LABELS.pabblySubscriptionBilling, children: [] },
-  { id: '13', label: LABELS.pabblyEmailMarketing, children: [] },
-  { id: '14', label: LABELS.pabblyFormBuilder, children: [] },
-  { id: '15', label: LABELS.pabblyEmailVerification, children: [] },
-  { id: '16', label: LABELS.pabblyHook, children: [] },
-  {
-    id: '17',
-    label: LABELS.clientA,
-    children: [
-      {
-        id: '19',
-        label: LABELS.childFolder1Client,
-        children: [
-          { id: '20', label: LABELS.grandChild1Client },
-          {
-            id: '21',
-            label: LABELS.grandChild2Client,
-            children: [
-              { id: '22', label: LABELS.folder1 },
-              { id: '23', label: LABELS.folder2 },
-            ],
-          },
-        ],
-      },
-    ],
-  },
-]);
-
-const ITEMS2 = folderItems([{ id: '24', label: LABELS.trash, children: [] }]);
 
 const StyledTreeItem = styled(TreeItem)(({ theme }) => ({
   color: theme.vars.palette.grey[800],
@@ -240,6 +156,8 @@ const CustomTreeItem = React.forwardRef((props, ref) => {
     navigate('/app/settings/teammembers'); // Adjust the path if needed
   };
 
+  const teammembersPageDisabled = useSelector((state) => state.access.teammembersPageDisabled);
+
   return (
     <>
       <StyledTreeItem
@@ -297,31 +215,44 @@ const CustomTreeItem = React.forwardRef((props, ref) => {
               }}
             >
               <MenuList>
-              <Tooltip title="Click here to open create folder dialog box" arrow placement='right'>
-                <MenuItem onClick={handleCreateFolderClick}>
-                  <Iconify icon="fa6-solid:square-plus" />
-                  Create Folder
-                </MenuItem>
+                <Tooltip title="Click here to rename the folder name." arrow placement="right">
+                  <MenuItem onClick={handleRenameFolderClick}>
+                    <Iconify icon="fluent:rename-16-filled" />
+                    Rename
+                  </MenuItem>
                 </Tooltip>
-                <Tooltip title="Click here to rename the folder name." arrow placement='right'>
-                <MenuItem onClick={handleRenameFolderClick}>
-                  <Iconify icon="fluent:rename-16-filled" />
-                  Rename
-                </MenuItem>
-                </Tooltip>
-                <Tooltip title="Click here to share the folder with team member , this will open the team member settings page" arrow placement='right'>
-                <MenuItem onClick={handleNavigateToTeamMembers}>
-                  <Iconify icon="jam:share-alt-f" />
-                  Share
-                </MenuItem>
-                </Tooltip>
-                <Divider style={{ borderStyle: 'dashed' }} />
-                <Tooltip title="Click here to delete the folder" arrow placement='right'>
-                <MenuItem onClick={handleDeleteClick} sx={{ color: 'error.main' }}>
-                  <Iconify icon="solar:trash-bin-trash-bold" />
-                  Delete
-                </MenuItem>
-                </Tooltip>
+                {!teammembersPageDisabled && (
+                  <>
+                    <Tooltip
+                      title="Click here to open create folder dialog box"
+                      arrow
+                      placement="right"
+                    >
+                      <MenuItem onClick={handleCreateFolderClick}>
+                        <Iconify icon="fa6-solid:square-plus" />
+                        Create Folder
+                      </MenuItem>
+                    </Tooltip>
+                    <Tooltip
+                      title="Click here to share the folder with team member , this will open the team member settings page"
+                      arrow
+                      placement="right"
+                    >
+                      <MenuItem onClick={handleNavigateToTeamMembers}>
+                        <Iconify icon="jam:share-alt-f" />
+                        Share
+                      </MenuItem>
+                    </Tooltip>
+
+                    <Divider style={{ borderStyle: 'dashed' }} />
+                    <Tooltip title="Click here to delete the folder" arrow placement="right">
+                      <MenuItem onClick={handleDeleteClick} sx={{ color: 'error.main' }}>
+                        <Iconify icon="solar:trash-bin-trash-bold" />
+                        Delete
+                      </MenuItem>
+                    </Tooltip>
+                  </>
+                )}
               </MenuList>
             </CustomPopover>
           </>
@@ -342,16 +273,15 @@ const CustomTreeItem = React.forwardRef((props, ref) => {
             Deleting a folder also deletes its subfolders, and WhatsApp number are moved to the home
             folder.
             <Link href="#" style={{ color: '#078DEE' }} underline="always">
-                      Learn more
-                    </Link>
+              Learn more
+            </Link>
           </>
         }
-        
         action={
-          <Tooltip title="Click here to delete this folder" arrow placement='top'>
-          <Button variant="contained" color="error" onClick={handleConfirmDeleteClose}>
-            Delete
-          </Button>
+          <Tooltip title="Click here to delete this folder" arrow placement="top">
+            <Button variant="contained" color="error" onClick={handleConfirmDeleteClose}>
+              Delete
+            </Button>
           </Tooltip>
         }
       />
@@ -372,6 +302,95 @@ export default function DashBoardFolderCard({
 }) {
   const theme = useTheme();
   const folderDialog = useBoolean();
+
+  const teammembersPageDisabled = useSelector((state) => state.access.teammembersPageDisabled);
+
+  const LABELS = {
+    home: 'Home',
+    companyb: 'Company B',
+    mainFolder: 'WhatsApp Database',
+    whastappDatabase: 'Database 1',
+    childFolder2: 'WhatsApp Number List',
+    grandChild1: 'Employee List',
+    grandChild2: 'Total Member List',
+    folder1: 'List 1',
+    folder2: 'List 2',
+    folder3: 'List 3',
+    grandChild3: 'Administrative List',
+    childFolder3: 'Active Contact List',
+    childFolder4: 'Inactive Contact List',
+    pabblySubscriptionBilling: 'Pabbly Subscription Billing',
+    pabblyEmailMarketing: 'Pabbly Email Marketing',
+    pabblyFormBuilder: 'Pabbly Form Builder',
+    pabblyEmailVerification: 'Pabbly Email Verification',
+    pabblyHook: 'Pabbly Hook',
+    clientA: 'Company B',
+    childFolder1Client: 'Company B WhatsApp Numbers',
+    grandChild1Client: 'Contact List 1',
+    grandChild2Client: 'Contact List 2',
+    ...(teammembersPageDisabled ? {} : { trash: 'Trash' }),
+  };
+
+  const HOMEITEMS = folderItems([{ id: '25', label: LABELS.home, children: [] }]);
+
+  const ITEMS = folderItems([
+    { id: '0', label: LABELS.companyb, children: [] },
+    {
+      id: '1',
+      label: LABELS.mainFolder,
+      children: [
+        { id: '2', label: LABELS.whastappDatabase },
+        {
+          id: '3',
+          label: LABELS.childFolder2,
+          children: [
+            { id: '6', label: LABELS.grandChild1 },
+            {
+              id: '7',
+              label: LABELS.grandChild2,
+              children: [
+                { id: '9', label: LABELS.folder1 },
+                { id: '10', label: LABELS.folder2 },
+                { id: '11', label: LABELS.folder3 },
+              ],
+            },
+            { id: '8', label: LABELS.grandChild3 },
+          ],
+        },
+        { id: '4', label: LABELS.childFolder3 },
+        { id: '5', label: LABELS.childFolder4 },
+      ],
+    },
+    { id: '12', label: LABELS.pabblySubscriptionBilling, children: [] },
+    { id: '13', label: LABELS.pabblyEmailMarketing, children: [] },
+    { id: '14', label: LABELS.pabblyFormBuilder, children: [] },
+    { id: '15', label: LABELS.pabblyEmailVerification, children: [] },
+    { id: '16', label: LABELS.pabblyHook, children: [] },
+    {
+      id: '17',
+      label: LABELS.clientA,
+      children: [
+        {
+          id: '19',
+          label: LABELS.childFolder1Client,
+          children: [
+            { id: '20', label: LABELS.grandChild1Client },
+            {
+              id: '21',
+              label: LABELS.grandChild2Client,
+              children: [
+                { id: '22', label: LABELS.folder1 },
+                { id: '23', label: LABELS.folder2 },
+              ],
+            },
+          ],
+        },
+      ],
+    },
+  ]);
+  const ITEMS2 = teammembersPageDisabled
+    ? []
+    : folderItems([{ id: '24', label: LABELS.trash, children: [] }]);
 
   return (
     <>
@@ -433,9 +452,9 @@ export default function DashBoardFolderCard({
                       minWidth: 0,
                     }}
                     onClick={folderDialog.onTrue}
-                    maxWidth
                     color="primary"
                     variant="contained"
+                    disabled={teammembersPageDisabled} // Disable based on teammembersPageDisabled
                   >
                     <Iconify icon="fa6-solid:plus" />
                   </Button>

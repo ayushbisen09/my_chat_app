@@ -1,3 +1,4 @@
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import React, { useState, useEffect, useContext } from 'react';
 
@@ -22,6 +23,8 @@ import DashBoardFolderCard from 'src/sections/dashbaord/components/folder-card/f
 import { AuthContext } from 'src/auth/context/auth-context';
 
 export default function Page({ sx, icon, title, total, color = 'warning', ...other }) {
+  const teammembersPageDisabled = useSelector((state) => state.access.teammembersPageDisabled);
+
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
@@ -85,6 +88,7 @@ export default function Page({ sx, icon, title, total, color = 'warning', ...oth
             size="large"
             variant="contained"
             color="primary"
+            disabled={teammembersPageDisabled}
           >
             Add WhatsApp Number
           </Button>

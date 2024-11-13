@@ -9,13 +9,11 @@ import { LoadingScreen } from 'src/components/loading-screen';
 
 import { AuthGuard } from 'src/auth/guard';
 
-// ----------------------------------------------------------------------
-
+// Lazy imports for main pages
 const IndexPage = lazy(() => import('src/pages/app/dashboard'));
 const Inbox = lazy(() => import('src/pages/app/inbox'));
 const Contact = lazy(() => import('src/pages/app/contacts'));
 const Addcontact = lazy(() => import('../../sections/contacts/add-contact'));
-
 const TeamQueue = lazy(() => import('src/pages/app/team-queue'));
 const Templates = lazy(() => import('src/pages/app/templates'));
 const YourTemplate = lazy(() => import('../../sections/templates/your-templates'));
@@ -24,6 +22,8 @@ const Broadcast = lazy(() => import('src/pages/app/broadcast'));
 const AddBroadcast = lazy(() => import('../../sections/broadcast/add-broadcast'));
 const Flows = lazy(() => import('src/pages/app/flows'));
 const CreateFlow = lazy(() => import('../../sections/flow-builder/create-flow'));
+
+// Lazy imports for settings pages
 const OptInManagement = lazy(() => import('src/pages/app/optin-management'));
 const InboxSettings = lazy(() => import('src/pages/app/inbox-setting'));
 const Userattributes = lazy(() => import('src/pages/app/user-attributes'));
@@ -32,7 +32,6 @@ const Quickreplies = lazy(() => import('src/pages/app/quick-replies'));
 const Teammembers = lazy(() => import('src/pages/app/team-members'));
 const Chatassignmentrules = lazy(() => import('src/pages/app/chat-assignment-rules'));
 const ConfigureSLAs = lazy(() => import('src/pages/app/configure-slas'));
-// const WhatsAppwidgets = lazy(() => import('src/pages/app/whatsapp-widget'));
 const APIWebhooks = lazy(() => import('src/pages/app/api-&-webhooks'));
 const ActivityLogs = lazy(() => import('src/pages/app/activity-logs'));
 const Notificationpreferences = lazy(() => import('src/pages/app/notification-preferences'));
@@ -41,6 +40,7 @@ const GetHelp = lazy(() => import('src/pages/app/get-help'));
 
 // ----------------------------------------------------------------------
 
+// Layout with fallback loader
 const layoutContent = (
   <DashboardLayout>
     <Suspense fallback={<LoadingScreen />}>
@@ -49,13 +49,17 @@ const layoutContent = (
   </DashboardLayout>
 );
 
+// Helper function to check access based on teammembersPageDisabled
+const withTeamAccess = (Component, teammembersPageDisabled) =>
+  teammembersPageDisabled ? <Navigate to="/app" replace /> : <Component />;
+
 export const DashboardRoutes = () => {
   const teammembersPageDisabled = useSelector((state) => state.access.teammembersPageDisabled);
 
   return [
     {
       path: 'app',
-      element: CONFIG.auth.skip ? <>{layoutContent}</> : <AuthGuard>{layoutContent}</AuthGuard>,
+      element: CONFIG.auth.skip ? layoutContent : <AuthGuard>{layoutContent}</AuthGuard>,
       children: [
         { element: <IndexPage />, index: true },
         { path: 'inbox', element: <Inbox /> },
@@ -69,27 +73,26 @@ export const DashboardRoutes = () => {
         { path: 'broadcast/addbroadcast', element: <AddBroadcast /> },
         { path: 'flows', element: <Flows /> },
         { path: 'flows/createflow', element: <CreateFlow /> },
+
+        // Settings routes with conditional access
         {
           path: 'settings',
           children: [
-            { element: <OptInManagement />, index: true },
-            { path: 'inboxsetting', element: <InboxSettings /> },
-            { path: 'userattributes', element: <Userattributes /> },
-            { path: 'tags', element: <Tags /> },
+            { index: true, element: withTeamAccess(OptInManagement, teammembersPageDisabled) },
+            { path: 'inboxsetting', element: withTeamAccess(InboxSettings, teammembersPageDisabled) },
+            { path: 'userattributes', element: withTeamAccess(Userattributes, teammembersPageDisabled) },
+            { path: 'tags', element: withTeamAccess(Tags, teammembersPageDisabled) },
             { path: 'quickreplies', element: <Quickreplies /> },
-            {
-              path: 'teammembers',
-              element: teammembersPageDisabled ? <Navigate to="/app" replace /> : <Teammembers />,
-            },
-            { path: 'chatassignmentrules', element: <Chatassignmentrules /> },
-            { path: 'configureslas', element: <ConfigureSLAs /> },
-            // { path: 'whatsAppwidget', element: <WhatsAppwidgets /> },
-            { path: 'apiwebhooks', element: <APIWebhooks /> },
-            { path: 'activitylogs', element: <ActivityLogs /> },
+            { path: 'teammembers', element: withTeamAccess(Teammembers, teammembersPageDisabled) },
+            { path: 'chatassignmentrules', element: withTeamAccess(Chatassignmentrules, teammembersPageDisabled) },
+            { path: 'configureslas', element: withTeamAccess(ConfigureSLAs, teammembersPageDisabled) },
+            { path: 'apiwebhooks', element: withTeamAccess(APIWebhooks, teammembersPageDisabled) },
+            { path: 'activitylogs', element: withTeamAccess(ActivityLogs, teammembersPageDisabled) },
             { path: 'notificationpreferences', element: <Notificationpreferences /> },
             { path: 'timezone', element: <TimeZone /> },
           ],
         },
+
         { path: 'gethelp', element: <GetHelp /> },
       ],
     },

@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 
 import { useTheme } from '@mui/material/styles'; // Corrected import
 
+import { useSelector } from 'react-redux';
+
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import MenuList from '@mui/material/MenuList';
@@ -25,7 +27,6 @@ export function QuickRepliesTableRow({ row, selected, onSelectRow, quickrepliesI
   const theme = useTheme(); // Corrected theme import
   const dialog = useBoolean();
   const previewDialog = useBoolean();
-
 
   const handleSnackbarClose = (reason) => {
     if (reason === 'clickaway') {
@@ -78,10 +79,12 @@ export function QuickRepliesTableRow({ row, selected, onSelectRow, quickrepliesI
     // Add more flow names as needed
   ];
 
- 
+  const teammembersPageDisabled = useSelector((state) => state.access.teammembersPageDisabled);
 
   const renderPrimary = (
     <TableRow hover selected={selected}>
+      {!teammembersPageDisabled && (
+
       <TableCell padding="checkbox">
         <Checkbox
           checked={selected}
@@ -89,6 +92,7 @@ export function QuickRepliesTableRow({ row, selected, onSelectRow, quickrepliesI
           inputProps={{ id: `row-checkbox-${row.id}`, 'aria-label': `Row checkbox` }}
         />
       </TableCell>
+      )}
       <TableCell width={592}>
         <Stack spacing={2} direction="row" alignItems="center">
           <Stack
@@ -98,10 +102,18 @@ export function QuickRepliesTableRow({ row, selected, onSelectRow, quickrepliesI
               alignItems: 'flex-start',
             }}
           >
-            <Tooltip title= {`Qucik replies shortcut messages: ${quickreplies[quickrepliesIndex % quickreplies.length]}`} arrow placement="top">
+            <Tooltip
+              title={`Qucik replies shortcut messages: ${quickreplies[quickrepliesIndex % quickreplies.length]}`}
+              arrow
+              placement="top"
+            >
               <Box component="span">{quickreplies[quickrepliesIndex % quickreplies.length]}</Box>
             </Tooltip>
-            <Tooltip title= {` Created by: ${quickrepliescreatedby[quickrepliesIndex % quickrepliescreatedby.length]}`} arrow placement="top">
+            <Tooltip
+              title={` Created by: ${quickrepliescreatedby[quickrepliesIndex % quickrepliescreatedby.length]}`}
+              arrow
+              placement="top"
+            >
               <Box component="span" sx={{ color: 'text.disabled' }}>
                 {quickrepliescreatedby[quickrepliesIndex % quickrepliescreatedby.length]}
               </Box>
@@ -148,7 +160,11 @@ export function QuickRepliesTableRow({ row, selected, onSelectRow, quickrepliesI
               alignItems: 'flex-start',
             }}
           >
-            <Tooltip title={`Quick replies type: ${quickrepliestypes[quickrepliesIndex % quickrepliestypes.length]} `} arrow placement="top">
+            <Tooltip
+              title={`Quick replies type: ${quickrepliestypes[quickrepliesIndex % quickrepliestypes.length]} `}
+              arrow
+              placement="top"
+            >
               <Box
                 component="span"
                 sx={{
@@ -195,27 +211,31 @@ export function QuickRepliesTableRow({ row, selected, onSelectRow, quickrepliesI
             </MenuItem>
           </Tooltip>
           <PreviewQuickRepliesDialog open={previewDialog.value} onClose={previewDialog.onFalse} />
-          <Tooltip title="Click here to edit quick replies message" arrow placement="left">
-            <MenuItem  onClick={dialog.onTrue}>
-             
+          
+          {!teammembersPageDisabled && (
+            <>
+            <Tooltip title="Click here to edit quick replies message" arrow placement="left">
+            <MenuItem onClick={dialog.onTrue}>
               <Iconify icon="solar:pen-bold" />
               Edit
             </MenuItem>
             <EditQuickRepliesDialog open={dialog.value} onClose={dialog.onFalse} />
           </Tooltip>
-          <Divider style={{ borderStyle: 'dashed' }} />
-          <Tooltip title="Click here to delete quick replies message" arrow placement="left">
-            <MenuItem
-              onClick={() => {
-                confirm.onTrue();
-                popover.onClose();
-              }}
-              sx={{ color: 'error.main' }}
-            >
-              <Iconify icon="solar:trash-bin-trash-bold" />
-              Delete
-            </MenuItem>
-          </Tooltip>
+              <Divider style={{ borderStyle: 'dashed' }} />
+              <Tooltip title="Click here to delete quick replies message" arrow placement="left">
+                <MenuItem
+                  onClick={() => {
+                    confirm.onTrue();
+                    popover.onClose();
+                  }}
+                  sx={{ color: 'error.main' }}
+                >
+                  <Iconify icon="solar:trash-bin-trash-bold" />
+                  Delete
+                </MenuItem>
+              </Tooltip>
+            </>
+          )}
         </MenuList>
       </CustomPopover>
 

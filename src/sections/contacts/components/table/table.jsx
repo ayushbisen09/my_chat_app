@@ -84,10 +84,12 @@ const TABLE_HEAD = [
     tooltip: 'Contact 24 hours status and contact last active date & time.',
   },
 
-  { id: '', width: 88 },
+  { id: 'action', label: 'Action',  width: 88  ,tooltip: 'Actions',},
+
+
 ];
 
-export default function ContactsTable({ sx, icon, title, total, color = 'warning',  ...other }) {
+export default function ContactsTable({ sx, icon, title, total, color = 'warning', ...other }) {
   const theme = useTheme();
 
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
@@ -165,6 +167,7 @@ export default function ContactsTable({ sx, icon, title, total, color = 'warning
     [filters, table]
   );
   const selectedContactName = useSelector((state) => state.selectedList.name);
+  const teammembersPageDisabled = useSelector((state) => state.access.teammembersPageDisabled);
 
   return (
     <>
@@ -176,7 +179,12 @@ export default function ContactsTable({ sx, icon, title, total, color = 'warning
           mt: '24px',
         }}
       >
-       <CardHeader title={<Typography variant="h6">{selectedContactName || "Pabbly Connect List" }</Typography>} sx={{ p: 3 }} />
+        <CardHeader
+          title={
+            <Typography variant="h6">{selectedContactName || 'Pabbly Connect List'}</Typography>
+          }
+          sx={{ p: 3 }}
+        />
 
         <Divider />
         <Tabs
@@ -252,6 +260,7 @@ export default function ContactsTable({ sx, icon, title, total, color = 'warning
           <Scrollbar sx={{ minHeight: 300 }}>
             <Table size={table.dense ? 'small' : 'medium'}>
               <TableHeadCustom
+                showCheckbox={!teammembersPageDisabled}
                 order={table.order}
                 orderBy={table.orderBy}
                 headLabel={TABLE_HEAD}

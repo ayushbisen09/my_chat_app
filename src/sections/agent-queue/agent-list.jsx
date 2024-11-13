@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { useSelector } from 'react-redux';
 import { useState, useCallback } from 'react';
 
 import { Box, List, Tooltip, Typography, ListItemText, ListItemButton } from '@mui/material';
@@ -39,6 +40,12 @@ const AGENTS = [
 export default function Agentlist({ onItemSelect }) {
   const [selectedIndex, setSelectedIndex] = useState(0); // Ayush Bisen is selected by default
 
+  const teammembersPageDisabled = useSelector((state) => state.access.teammembersPageDisabled);
+
+  const filteredAgents = teammembersPageDisabled
+    ? AGENTS.filter((agent) => agent.name === 'Ayush Bisen')
+    : AGENTS;
+
   const handleListItemClick = useCallback(
     (event, index) => {
       setSelectedIndex(index);
@@ -66,7 +73,7 @@ export default function Agentlist({ onItemSelect }) {
       </Typography>
 
       <List sx={{ width: '100%' }}>
-        {AGENTS.map((agent, index) => (
+        {filteredAgents.map((agent, index) => (
           <CustomListItemButton
             key={agent.name}
             selected={selectedIndex === index}
@@ -75,7 +82,7 @@ export default function Agentlist({ onItemSelect }) {
             <ListItemText
               primary={
                 <Tooltip
-                  title= {` This is agent name : "${agent.name}" and number assigned chats for this agent is: "${agent.count}"`}
+                  title={` This is agent name : "${agent.name}" and number assigned chats for this agent is: "${agent.count}"`}
                   arrow
                   placement="top"
                 >

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 
 import Box from '@mui/material/Box';
@@ -24,15 +25,7 @@ import { usePopover, CustomPopover } from 'src/components/custom-popover';
 
 import { MoveToFolderPopover } from '../../hooks/move_folder-dailog';
 
-
-
-export function OrderTableRow({
-  row,
-  selected,
-  onSelectRow,
-  onDeleteRow,
-  dashboardTableIndex,
-}) {
+export function OrderTableRow({ row, selected, onSelectRow, onDeleteRow, dashboardTableIndex }) {
   const confirmDelete = useBoolean();
   const confirmStatus = useBoolean();
   const collapse = useBoolean();
@@ -41,8 +34,7 @@ export function OrderTableRow({
   const [statusToToggle, setStatusToToggle] = useState('');
 
   const [moveToFolderPopoverOpen, setMoveToFolderPopoverOpen] = useState(false);
- 
- 
+
   const confirm = useBoolean(); // Assuming you have a useBoolean hook for handling confirmation
 
   const handleToggleToken = () => {
@@ -99,9 +91,13 @@ export function OrderTableRow({
     'https://chatflow.pabbly.com/65e80c31e88b/5b653435',
     // Add more flow names as needed
   ];
+
+  const teammembersPageDisabled = useSelector((state) => state.access.teammembersPageDisabled);
+
   const renderPrimary = (
     <TableRow hover selected={selected}>
-      <TableCell padding="checkbox">
+      {!teammembersPageDisabled && (
+        <TableCell padding="checkbox">
         <Tooltip title="Select this WhatsApp number" arrow placement="top">
           <Checkbox
             checked={selected}
@@ -110,6 +106,8 @@ export function OrderTableRow({
           />
         </Tooltip>
       </TableCell>
+      )}
+      
 
       <TableCell width={110}>
         {row.status === 'active' ? (
@@ -268,9 +266,11 @@ export function OrderTableRow({
           </IconButton>
         </Tooltip>
         <Tooltip title="Click to see options." arrow placement="top">
-          <IconButton color={popover.open ? 'inherit' : 'default'} onClick={popover.onOpen}>
-            <Iconify icon="eva:more-vertical-fill" />
-          </IconButton>
+          {!teammembersPageDisabled && (
+            <IconButton color={popover.open ? 'inherit' : 'default'} onClick={popover.onOpen}>
+              <Iconify icon="eva:more-vertical-fill" />
+            </IconButton>
+          )}
         </Tooltip>
       </TableCell>
     </TableRow>
@@ -424,7 +424,6 @@ export function OrderTableRow({
               </MenuItem>
             </Tooltip>
           )}
-          
 
           <Tooltip title="Move the WhatsApp number to an existing folder." arrow placement="left">
             <MenuItem
@@ -439,10 +438,7 @@ export function OrderTableRow({
             </MenuItem>
           </Tooltip>
           <Tooltip title="Add team members for collaborative editing." arrow placement="left">
-            <MenuItem
-              onClick={handleNavigateToTeamMembers}
-              sx={{ color: 'secondary' }}
-            >
+            <MenuItem onClick={handleNavigateToTeamMembers} sx={{ color: 'secondary' }}>
               <Iconify icon="fluent:people-team-add-24-filled" />
               Add Team Members
             </MenuItem>
@@ -469,15 +465,13 @@ export function OrderTableRow({
         onClose={confirmDelete.onFalse}
         title="Delete"
         content="Are you sure you want to delete this WhatsApp number?"
-        
         action={
-          <Tooltip title="Click here to delete the whatsapp number" arrow placement='top'>
-          <Button variant="contained" color="error" onClick={onDeleteRow}>
-            Delete
-          </Button>
+          <Tooltip title="Click here to delete the whatsapp number" arrow placement="top">
+            <Button variant="contained" color="error" onClick={onDeleteRow}>
+              Delete
+            </Button>
           </Tooltip>
         }
-        
       />
 
       <ConfirmDialog
@@ -485,19 +479,18 @@ export function OrderTableRow({
         onClose={confirmStatus.onFalse}
         title={statusToToggle.charAt(0).toUpperCase() + statusToToggle.slice(1)}
         content={`Are you sure you want to set this WhatsApp number as ${statusToToggle.toLowerCase()}?`}
-
         action={
-          <Tooltip title="Click here to disale this whatsAppm number" arrow placement='top'>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() => {
-              handleStatusToggle(statusToToggle); // Toggle the status here
-              confirmStatus.onFalse(); // Close the dialog
-            }}
-          >
-            {statusToToggle.charAt(0).toUpperCase() + statusToToggle.slice(1)}
-          </Button>
+          <Tooltip title="Click here to disale this whatsAppm number" arrow placement="top">
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => {
+                handleStatusToggle(statusToToggle); // Toggle the status here
+                confirmStatus.onFalse(); // Close the dialog
+              }}
+            >
+              {statusToToggle.charAt(0).toUpperCase() + statusToToggle.slice(1)}
+            </Button>
           </Tooltip>
         }
       />
@@ -505,7 +498,6 @@ export function OrderTableRow({
         open={moveToFolderPopoverOpen}
         onClose={() => setMoveToFolderPopoverOpen(false)}
       />
-      
     </>
   );
 }

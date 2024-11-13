@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useTheme } from '@emotion/react';
+import { useSelector } from 'react-redux';
 import { CloseIcon } from 'yet-another-react-lightbox';
 
 import {
@@ -51,6 +52,9 @@ export default function BigCard({ sx, ...other }) {
     lineHeight: '24px',
     '&::before': { content: '"•"', paddingRight: '0.5rem' },
   };
+
+  const teammembersPageDisabled = useSelector((state) => state.access.teammembersPageDisabled);
+
 
   return (
     <Box
@@ -169,6 +173,7 @@ export default function BigCard({ sx, ...other }) {
             size="large"
             variant="outlined"
             color="primary"
+            disabled={teammembersPageDisabled}
             startIcon={
               <Iconify icon="heroicons:plus-circle-16-solid" style={{ width: 18, height: 18 }} />
             }

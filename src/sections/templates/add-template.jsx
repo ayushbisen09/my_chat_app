@@ -466,7 +466,6 @@ export default function AddTemplate() {
                   row
                   value={categorylist === 'Authentication' ? 'text' : templateType}
                   onChange={handleTemplateTypeChange}
-                  
                 >
                   {options.map((option) => (
                     <FormControlLabel
@@ -474,7 +473,10 @@ export default function AddTemplate() {
                       value={option.value}
                       control={<Radio />}
                       label={option.label}
-                      disabled={categorylist === 'Authentication' && option.value !== 'text' || !categorylist }
+                      disabled={
+                        (categorylist === 'Authentication' && option.value !== 'text') ||
+                        !categorylist
+                      }
                     />
                   ))}
                 </RadioGroup>
@@ -1250,16 +1252,17 @@ export default function AddTemplate() {
               text={
                 <>
                   <span style={{ fontWeight: '600' }}>
-                    {replacePlaceholders(`Hi {{1}}! 🎧🛒`, sampleValues)}
+                    {replacePlaceholders(`{{1}} is your verification code.`, sampleValues)}
                   </span>
-                  <br /> <br />
-                  {replacePlaceholders(
-                    `Congratulations! 🎉 Your order for the Headway Bassheads has been confirmed. 🙌`,
-                    sampleValues
-                  )}
+                  <br />
                   {isDisclaimerOn && (
                     <Typography mt={1} fontWeight={600} fontSize="14px">
                       For your security, do not share this code.
+                    </Typography>
+                  )}
+                  {Expirationvalue && Expirationvalue >= 1 && Expirationvalue <= 90 && (
+                    <Typography fontWeight={600} fontSize="14px" mt={1}>
+                      This code expires in {Expirationvalue} minute(s).
                     </Typography>
                   )}
                 </>

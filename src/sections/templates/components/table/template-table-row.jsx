@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
@@ -22,6 +23,7 @@ export function OrderTableRow({ row, selected, onViewRow, onSelectRow, onDeleteR
   const confirm = useBoolean();
 
   const popover = usePopover();
+  const teammembersPageDisabled = useSelector((state) => state.access.teammembersPageDisabled);
 
   const renderRow = (label, color) => (
     <TableRow hover selected={selected}>
@@ -134,20 +136,23 @@ export function OrderTableRow({ row, selected, onViewRow, onSelectRow, onDeleteR
               Duplicate Template
             </MenuItem>
           </Tooltip>
-
-          <Divider style={{ borderStyle: 'dashed' }} />
-          <Tooltip title="Click here to remove this template" arrow placement="left">
-            <MenuItem
-              onClick={() => {
-                confirm.onTrue();
-                popover.onClose();
-              }}
-              sx={{ color: 'error.main' }}
-            >
-              <Iconify icon="solar:trash-bin-trash-bold" />
-              Delete
-            </MenuItem>
-          </Tooltip>
+          {!teammembersPageDisabled && (
+            <>
+              <Divider style={{ borderStyle: 'dashed' }} />
+              <Tooltip title="Click here to remove this template" arrow placement="left">
+                <MenuItem
+                  onClick={() => {
+                    confirm.onTrue();
+                    popover.onClose();
+                  }}
+                  sx={{ color: 'error.main' }}
+                >
+                  <Iconify icon="solar:trash-bin-trash-bold" />
+                  Delete
+                </MenuItem>
+              </Tooltip>
+            </>
+          )}
         </MenuList>
       </CustomPopover>
 
@@ -158,13 +163,13 @@ export function OrderTableRow({ row, selected, onViewRow, onSelectRow, onDeleteR
         content="Are you sure want to remove this template? (Removed template will go to deleted section)"
         action={
           <Tooltip
-              title= "Click here to delete template when this template is deleted it will be movedto delete section"
-              arrow
-              placement="top"
-            >
-          <Button variant="contained" color="error" onClick={onDeleteRow}>
-            Delete
-          </Button>
+            title="Click here to delete template when this template is deleted it will be movedto delete section"
+            arrow
+            placement="top"
+          >
+            <Button variant="contained" color="error" onClick={onDeleteRow}>
+              Delete
+            </Button>
           </Tooltip>
         }
       />

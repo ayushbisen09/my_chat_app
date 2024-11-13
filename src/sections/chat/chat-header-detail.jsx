@@ -1,4 +1,5 @@
 import { useCallback } from 'react';
+import { useSelector } from 'react-redux';
 
 import Stack from '@mui/material/Stack';
 import Badge from '@mui/material/Badge';
@@ -20,6 +21,7 @@ import { ChatHeaderSkeleton } from './chat-skeleton';
 // ----------------------------------------------------------------------
 
 export function ChatHeaderDetail({ collapseNav, participants, loading }) {
+  const teammembersPageDisabled = useSelector((state) => state.access.teammembersPageDisabled);
   const popover = usePopover();
 
   const lgUp = useResponsive('up', 'lg');
@@ -83,53 +85,61 @@ export function ChatHeaderDetail({ collapseNav, participants, loading }) {
           arrow
           placement="top"
         >
-          
           <IconButton onClick={handleToggleNav}>
             <Iconify icon={!collapseDesktop ? 'ri:sidebar-unfold-fill' : 'ri:sidebar-fold-fill'} />
           </IconButton>
         </Tooltip>
-        <Tooltip title="Click here for actions" arrow placement='top'>
-        <IconButton onClick={popover.onOpen}>
-          <Iconify icon="eva:more-vertical-fill" />
-        </IconButton>
+        <Tooltip title="Click here for actions" arrow placement="top">
+          <IconButton onClick={popover.onOpen}>
+            <Iconify icon="eva:more-vertical-fill" />
+          </IconButton>
         </Tooltip>
       </Stack>
 
       <CustomPopover open={popover.open} anchorEl={popover.anchorEl} onClose={popover.onClose}>
         <MenuList>
-        <Tooltip title="Click here to hide the notifications for this contact" arrow placement='left'>
-          <MenuItem
-            onClick={() => {
-              popover.onClose();
-            }}
+          <Tooltip
+            title="Click here to hide the notifications for this contact"
+            arrow
+            placement="left"
           >
-            <Iconify icon="solar:bell-off-bold" />
-            Hide notifications
-          </MenuItem>
-          </Tooltip>
-          <Tooltip title="Click here to Block this contact" arrow placement='left'>
-          <MenuItem
-            onClick={() => {
-              popover.onClose();
-            }}
-          >
-            <Iconify icon="solar:forbidden-circle-bold" />
-            Block
-          </MenuItem>
+            <MenuItem
+              onClick={() => {
+                popover.onClose();
+              }}
+            >
+              <Iconify icon="solar:bell-off-bold" />
+              Hide notifications
+            </MenuItem>
           </Tooltip>
 
-          <Divider sx={{ borderStyle: 'dashed' }} />
-          <Tooltip title="Click here to Delete this contact" arrow placement='left'>
-          <MenuItem
-            onClick={() => {
-              popover.onClose();
-            }}
-            sx={{ color: 'error.main' }}
-          >
-            <Iconify icon="solar:trash-bin-trash-bold" />
-            Delete
-          </MenuItem>
-          </Tooltip>
+          {!teammembersPageDisabled && (
+            <>
+              <Tooltip title="Click here to Block this contact" arrow placement="left">
+                <MenuItem
+                  onClick={() => {
+                    popover.onClose();
+                  }}
+                >
+                  <Iconify icon="solar:forbidden-circle-bold" />
+                  Block
+                </MenuItem>
+              </Tooltip>
+
+              <Divider sx={{ borderStyle: 'dashed' }} />
+              <Tooltip title="Click here to Delete this contact" arrow placement="left">
+                <MenuItem
+                  onClick={() => {
+                    popover.onClose();
+                  }}
+                  sx={{ color: 'error.main' }}
+                >
+                  <Iconify icon="solar:trash-bin-trash-bold" />
+                  Delete
+                </MenuItem>
+              </Tooltip>
+            </>
+          )}
         </MenuList>
       </CustomPopover>
     </>

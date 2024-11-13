@@ -19,6 +19,8 @@ import { CONFIG } from 'src/config-global';
 import { varAlpha } from 'src/theme/styles';
 // import { _orders, ORDER_STATUS_OPTIONS } from 'src/_mock';
 
+import { useSelector } from 'react-redux';
+
 import { _broadcast, BROADCAST_STATUS_OPTIONS } from 'src/_mock/_broadcast';
 
 import { Label } from 'src/components/label';
@@ -134,6 +136,7 @@ export default function BroadcastTable({ sx, icon, title, total, color = 'warnin
     },
     [filters, table]
   );
+  const teammembersPageDisabled = useSelector((state) => state.access.teammembersPageDisabled);
 
   return (
     <>
@@ -221,6 +224,7 @@ export default function BroadcastTable({ sx, icon, title, total, color = 'warnin
           <Scrollbar sx={{ minHeight: 300 }}>
             <Table size={table.dense ? 'small' : 'medium'}>
               <TableHeadCustom
+              showCheckbox= {!teammembersPageDisabled}
                 order={table.order}
                 orderBy={table.orderBy}
                 headLabel={TABLE_HEAD}

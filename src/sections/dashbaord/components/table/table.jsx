@@ -1,3 +1,4 @@
+import { useSelector } from 'react-redux';
 import React, { useState, useCallback } from 'react';
 
 import Box from '@mui/material/Box';
@@ -153,6 +154,9 @@ export default function DashboardTable2({
     [filters, table]
   );
 
+  const teammembersPageDisabled = useSelector((state) => state.access.teammembersPageDisabled);
+
+
   return (
     <>
       <Box
@@ -238,7 +242,6 @@ export default function DashboardTable2({
 
           <Box sx={{ position: 'relative' }}>
             <TableSelectedAction
-
               numSelected={table.selected.length}
               rowCount={dataFiltered.length}
               onSelectAllRows={(checked) =>
@@ -279,7 +282,7 @@ export default function DashboardTable2({
               ) : (
                 <Table size={table.dense ? 'small' : 'medium'} sx={{ minWidth: 960 }}>
                   <TableHeadCustom
-                    showCheckbox
+                   showCheckbox={!teammembersPageDisabled}
                     order={table.order}
                     orderBy={table.orderBy}
                     headLabel={TABLE_HEAD}

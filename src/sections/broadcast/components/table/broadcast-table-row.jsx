@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
@@ -77,15 +78,20 @@ export function OrderTableRow({ row, selected, onSelectRow, onDeleteRow, broadca
     resumePopover.onClose(); // Close the resume popover
   };
 
+  const teammembersPageDisabled = useSelector((state) => state.access.teammembersPageDisabled);
+
   const renderPrimary = (
     <TableRow hover selected={selected}>
-      <TableCell padding="checkbox">
-        <Checkbox
-          checked={selected}
-          onClick={onSelectRow}
-          inputProps={{ id: `row-checkbox-${row.id}`, 'aria-label': `Row checkbox` }}
-        />
-      </TableCell>
+      {!teammembersPageDisabled && (
+        <TableCell padding="checkbox">
+          <Checkbox
+            checked={selected}
+            onClick={onSelectRow}
+            inputProps={{ id: `row-checkbox-${row.id}`, 'aria-label': `Row checkbox` }}
+          />
+        </TableCell>
+      )}
+
       <TableCell width={900}>
         <Stack spacing={2} direction="row" alignItems="center">
           <Stack sx={{ typography: 'body2', flex: '1 1 auto', alignItems: 'flex-start' }}>
@@ -161,27 +167,26 @@ export function OrderTableRow({ row, selected, onSelectRow, onDeleteRow, broadca
             {currentStatus}
           </Label>
         )}
-<Tooltip title="Click here to change the status of broadcast" arrow placement="top">
-        {isApiBroadcast && currentStatus !== 'stopped' && (
-          <IconButton sx={{ ml: 1 }} onClick={editpopover.onOpen}>
-            <Iconify icon="solar:pen-bold" sx={{ width: '16px', height: '16px' }} />
-          </IconButton>
-        )}
+        <Tooltip title="Click here to change the status of broadcast" arrow placement="top">
+          {isApiBroadcast && currentStatus !== 'stopped' && (
+            <IconButton sx={{ ml: 1 }} onClick={editpopover.onOpen}>
+              <Iconify icon="solar:pen-bold" sx={{ width: '16px', height: '16px' }} />
+            </IconButton>
+          )}
         </Tooltip>
       </TableCell>
-      
+
       <TableCell align="right" sx={{ px: 1, whiteSpace: 'nowrap' }}>
         {isApiBroadcast ? (
-          <Tooltip title="Click here to send test broadcast" arrow placement='top'>
-          <Button variant="outlined" color="primary" onClick={handleOpenTestCampaignDrawer}>
-            Test Broadcast
-          </Button>
+          <Tooltip title="Click here to send test broadcast" arrow placement="top">
+            <Button variant="outlined" color="primary" onClick={handleOpenTestCampaignDrawer}>
+              Test Broadcast
+            </Button>
           </Tooltip>
         ) : (
           '-'
         )}
       </TableCell>
-      
 
       <TableCell align="right" sx={{ px: 1, whiteSpace: 'nowrap' }}>
         <Tooltip title="Click here to see receiver list and stats" arrow placement="top">
@@ -193,10 +198,11 @@ export function OrderTableRow({ row, selected, onSelectRow, onDeleteRow, broadca
             <Iconify icon="eva:arrow-ios-downward-fill" />
           </IconButton>
         </Tooltip>
-
-        <IconButton color={popover.open ? 'inherit' : 'default'} onClick={popover.onOpen}>
-          <Iconify icon="eva:more-vertical-fill" />
-        </IconButton>
+        {!teammembersPageDisabled && (
+          <IconButton color={popover.open ? 'inherit' : 'default'} onClick={popover.onOpen}>
+            <Iconify icon="eva:more-vertical-fill" />
+          </IconButton>
+        )}
       </TableCell>
     </TableRow>
   );
@@ -384,12 +390,11 @@ export function OrderTableRow({ row, selected, onSelectRow, onDeleteRow, broadca
           <>
             <Box mb={1}>Are you sure you want to stop this broadcast?</Box>
             <Box ml={2}>
-            <ul>
-              <ul> ● API campaign will stop functioning immediately.</ul>
-              <ul> ● You won&apos;t be able to resume this broadcast.</ul>
-            </ul>
+              <ul>
+                <ul> ● API campaign will stop functioning immediately.</ul>
+                <ul> ● You won&apos;t be able to resume this broadcast.</ul>
+              </ul>
             </Box>
-            
           </>
         }
         action={
@@ -399,9 +404,7 @@ export function OrderTableRow({ row, selected, onSelectRow, onDeleteRow, broadca
             onClick={() => {
               handleStopAction(); // Perform the stop action
               stopApiBroadcastConfirmDialog.onFalse(); // Close the dialog
-              
             }}
-            
           >
             Stop
           </Button>
@@ -445,11 +448,10 @@ export function OrderTableRow({ row, selected, onSelectRow, onDeleteRow, broadca
           <>
             <Box mb={1}>Are you sure you want to resume this broadcast?</Box>
             <Box ml={2}>
-            <ul>
-              <ul> ● API broadcast will start to function immediately.</ul>
-            </ul>
+              <ul>
+                <ul> ● API broadcast will start to function immediately.</ul>
+              </ul>
             </Box>
-           
           </>
         }
         action={

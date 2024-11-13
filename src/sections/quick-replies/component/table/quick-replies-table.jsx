@@ -23,6 +23,8 @@ import { useSetState } from 'src/hooks/use-set-state';
 // import { fIsAfter, fIsBetween } from 'src/utils/format-time';
 
 
+import { useSelector } from 'react-redux';
+
 import { _quickreplies } from 'src/_mock/_quickreplies';
 
 import { Label } from 'src/components/label';
@@ -114,6 +116,7 @@ export default function QuickRepliesTable({ sx, icon, title, total, color = 'war
     },
     [router]
   );
+  const teammembersPageDisabled = useSelector((state) => state.access.teammembersPageDisabled);
 
 
   return (
@@ -176,6 +179,7 @@ export default function QuickRepliesTable({ sx, icon, title, total, color = 'war
 
           <Table size={table.dense ? 'small' : 'medium'}>
             <TableHeadCustom
+            showCheckbox= {!teammembersPageDisabled}
               order={table.order}
               orderBy={table.orderBy}
               headLabel={TABLE_HEAD}

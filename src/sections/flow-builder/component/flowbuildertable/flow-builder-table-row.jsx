@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 
 import { useTheme } from '@mui/material/styles'; // Corrected import
 
+import { useSelector } from 'react-redux';
+
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import MenuList from '@mui/material/MenuList';
@@ -75,6 +77,8 @@ export function FlowBuilderTableRow({ row, selected, onSelectRow, flowIndex }) {
     confirm.onFalse();
     setSnackbarOpen(true); // Set Snackbar to open on delete
   };
+
+  const teammembersPageDisabled = useSelector((state) => state.access.teammembersPageDisabled);
 
   const renderPrimary = (
     <TableRow hover selected={selected}>
@@ -171,26 +175,31 @@ export function FlowBuilderTableRow({ row, selected, onSelectRow, flowIndex }) {
               Clone Flow
             </MenuItem>
           </Tooltip>
-          <Tooltip title="Click here to edit the flow" arrow placement="left">
-            <MenuItem>
-              <Iconify icon="solar:pen-bold" />
-              Edit Flow
-            </MenuItem>
-          </Tooltip>
-          <Divider style={{ borderStyle: 'dashed' }} />
-          <Tooltip title="Click here to delete the flow" arrow placement="left">
-            <MenuItem
-              onClick={() => {
-                setFlowToDelete(flowNames[flowIndex % flowNames.length]);
-                confirm.onTrue();
-                popover.onClose();
-              }}
-              sx={{ color: 'error.main' }}
-            >
-              <Iconify icon="solar:trash-bin-trash-bold" />
-              Delete Flow
-            </MenuItem>
-          </Tooltip>
+
+          {!teammembersPageDisabled && (
+            <>
+              <Tooltip title="Click here to edit the flow" arrow placement="left">
+                <MenuItem>
+                  <Iconify icon="solar:pen-bold" />
+                  Edit Flow
+                </MenuItem>
+              </Tooltip>
+              <Divider style={{ borderStyle: 'dashed' }} />
+              <Tooltip title="Click here to delete the flow" arrow placement="left">
+                <MenuItem
+                  onClick={() => {
+                    setFlowToDelete(flowNames[flowIndex % flowNames.length]);
+                    confirm.onTrue();
+                    popover.onClose();
+                  }}
+                  sx={{ color: 'error.main' }}
+                >
+                  <Iconify icon="solar:trash-bin-trash-bold" />
+                  Delete Flow
+                </MenuItem>
+              </Tooltip>
+            </>
+          )}
         </MenuList>
       </CustomPopover>
 
@@ -214,7 +223,6 @@ export function FlowBuilderTableRow({ row, selected, onSelectRow, flowIndex }) {
         sx={{
           boxShadow: '0px 8px 16px 0px rgba(145, 158, 171, 0.16)',
         }}
-        
       >
         <Alert
           onClose={handleSnackbarClose}

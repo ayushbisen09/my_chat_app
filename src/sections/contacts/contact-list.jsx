@@ -1,6 +1,6 @@
 import * as React from 'react';
 import styled from '@emotion/styled';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useState, useEffect, useCallback } from 'react';
 
 import {
@@ -16,7 +16,6 @@ import {
   Typography,
   Pagination,
   ListItemText,
-  useMediaQuery,
   ListItemButton,
 } from '@mui/material';
 
@@ -124,7 +123,7 @@ export default function ContactList({ onItemSelect, itemsPerPage = 10, currentPa
   const handlePageChange = (event, newPage) => {
     setPage(newPage);
   };
-  const isVeryNarrow = useMediaQuery('(max-width:303px)');
+
   const nextPage = currentPage + 1 <= totalPages ? currentPage + 0 : null;
   const previousPage = currentPage - 1 > 0 ? currentPage - 1 : null;
   const pagesToShow = [];
@@ -132,7 +131,8 @@ export default function ContactList({ onItemSelect, itemsPerPage = 10, currentPa
   if (nextPage) pagesToShow.push(nextPage);
   pagesToShow.push(currentPage);
   pagesToShow.sort((a, b) => a - b);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+
+  const teammembersPageDisabled = useSelector((state) => state.access.teammembersPageDisabled);
 
   return (
     <Box
@@ -289,18 +289,22 @@ export default function ContactList({ onItemSelect, itemsPerPage = 10, currentPa
             </MenuItem>
           </Tooltip>
 
-          <Divider style={{ borderStyle: 'dashed' }} />
           <Tooltip title="Click here to delete this contact list ." arrow placement="right">
-            <MenuItem
-              onClick={() => {
-                confirmDelete.onTrue();
-                popover.onClose();
-              }}
-              sx={{ color: 'error.main' }}
-            >
-              <Iconify icon="solar:trash-bin-trash-bold" />
-              Delete List
-            </MenuItem>
+            {!teammembersPageDisabled && (
+              <>
+                <Divider style={{ borderStyle: 'dashed' }} />
+                <MenuItem
+                  onClick={() => {
+                    confirmDelete.onTrue();
+                    popover.onClose();
+                  }}
+                  sx={{ color: 'error.main' }}
+                >
+                  <Iconify icon="solar:trash-bin-trash-bold" />
+                  Delete List
+                </MenuItem>
+              </>
+            )}
           </Tooltip>
         </MenuList>
       </CustomPopover>
@@ -314,18 +318,17 @@ export default function ContactList({ onItemSelect, itemsPerPage = 10, currentPa
         onClose={confirmDelete.onFalse}
         title="Delete"
         content="Are you sure you want to delete this contact list?"
-        
         action={
-          <Tooltip title={`List name: ${contactLists.name}`} arrow placement='top'>
-          <Button
-            variant="contained"
-            color="error"
-            onClick={() => {
-              confirmDelete.onFalse();
-            }}
-          >
-            Delete
-          </Button>
+          <Tooltip title={`List name: ${contactLists.name}`} arrow placement="top">
+            <Button
+              variant="contained"
+              color="error"
+              onClick={() => {
+                confirmDelete.onFalse();
+              }}
+            >
+              Delete
+            </Button>
           </Tooltip>
         }
       />
