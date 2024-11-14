@@ -4,7 +4,7 @@ import { useState, useCallback } from 'react';
 
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
-import { Table, Tooltip, Divider, TableBody, IconButton, CardHeader } from '@mui/material';
+import { Table, Button, Tooltip, Divider, TableBody, IconButton, CardHeader } from '@mui/material';
 
 import { paths } from 'src/routes/paths';
 import { useRouter } from 'src/routes/hooks';
@@ -21,6 +21,7 @@ import { Label } from 'src/components/label';
 import { toast } from 'src/components/snackbar';
 import { Iconify } from 'src/components/iconify';
 import { Scrollbar } from 'src/components/scrollbar';
+import { ConfirmDialog } from 'src/components/custom-dialog';
 import {
   useTable,
   emptyRows,
@@ -127,13 +128,7 @@ export default function TeamMemberTable({ sx, icon, title, total, color = 'warni
     [router]
   );
 
-  const handleFilterStatus = useCallback(
-    (event, newValue) => {
-      table.onResetPage();
-      filters.setState({ status: newValue });
-    },
-    [filters, table]
-  );
+  const confirmDelete = useBoolean();
 
   return (
     <>
@@ -186,7 +181,7 @@ export default function TeamMemberTable({ sx, icon, title, total, color = 'warni
             }
             action={
               <Tooltip title="Delete">
-                <IconButton color="primary" onClick={confirm.onTrue}>
+                <IconButton color="primary" onClick={confirmDelete.onTrue}>
                   <Iconify icon="solar:trash-bin-trash-bold" />
                 </IconButton>
               </Tooltip>
@@ -249,6 +244,18 @@ export default function TeamMemberTable({ sx, icon, title, total, color = 'warni
           onRowsPerPageChange={table.onChangeRowsPerPage}
         />
       </Card>
+
+      <ConfirmDialog
+        open={confirmDelete.value}
+        onClose={confirmDelete.onFalse}
+        title="Delete"
+        content="This action will remove the team member access."
+        action={
+          <Button variant="contained" color="error" onClick={handleDeleteRows}>
+            Delete
+          </Button>
+        }
+      />
     </>
   );
 }

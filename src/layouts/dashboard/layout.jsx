@@ -20,9 +20,9 @@ import { NavHorizontal } from './nav-horizontal';
 import { _account } from '../config-nav-account';
 import { HeaderBase } from '../core/header-base';
 import { FooterBase } from '../core/footer-base';
+import { useNavData } from '../config-nav-dashboard';
 import { _workspaces } from '../config-nav-workspace';
 import { LayoutSection } from '../core/layout-section';
-import { navData as dashboardNavData } from '../config-nav-dashboard';
 
 // ----------------------------------------------------------------------
 
@@ -37,7 +37,7 @@ export function DashboardLayout({ sx, children, data }) {
 
   const layoutQuery = 'lg';
 
-  const navData = data?.nav ?? dashboardNavData;
+  const navData = useNavData();
 
   const isNavMini = settings.navLayout === 'mini';
 

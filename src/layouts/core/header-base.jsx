@@ -114,7 +114,7 @@ export function HeaderBase({
           sx={{
             px: 5,
             py: 2,
-            backgroundColor: '#054990',
+            backgroundImage: 'linear-gradient(to left, #455DF7, #2C2A6ABA, #E1497F)', // Linear gradient as background
             borderBottom: '1px dashed',
             borderColor: varAlpha(theme.vars.palette.grey['500Channel'], 0.3),
             justifyContent: 'center',
@@ -168,6 +168,8 @@ export function HeaderBase({
                   }}
                 />
               )}
+
+            
 
               {isLoginPage ? (
                 <Logo data-slot="logo" />

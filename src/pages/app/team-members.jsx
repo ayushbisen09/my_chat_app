@@ -24,6 +24,7 @@ export default function Page({ sx, icon, title, total, color = 'warning', ...oth
   const theme = useTheme();
 
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+  
 
   const dialog = useBoolean();
   return (

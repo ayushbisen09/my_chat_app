@@ -4,7 +4,7 @@ import { CONFIG } from 'src/config-global';
 
 import { authRoutes } from './auth';
 import { mainRoutes } from './main';
-import { DashboardRoutes } from './dashboard'; // No comma after this line
+import { dashboardRoutes } from './dashboard';
 
 // ----------------------------------------------------------------------
 
@@ -19,7 +19,7 @@ export function Router() {
     ...authRoutes,
 
     // Dashboard
-    ...DashboardRoutes(), // Call DashboardRoutes as a function to get the route array
+    ...dashboardRoutes,
 
     // Main
     ...mainRoutes,
