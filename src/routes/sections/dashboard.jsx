@@ -57,7 +57,7 @@ export const dashboardRoutes = [
       { path: 'inbox', element: <Inbox /> },
       { path: 'contact', element: <Contact /> },
       { path: 'contact/addcontact', element: <Addcontact /> },
-      { path: 'agentQueue', element: <TeamQueue /> },
+      { path: 'teamQueue', element: <TeamQueue /> },
       { path: 'template', element: <Templates /> },
       { path: 'template/addtemplate', element: <AddTemplate /> },
       { path: 'template/templateslist', element: <YourTemplate/> },

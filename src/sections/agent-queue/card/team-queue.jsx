@@ -43,7 +43,7 @@ const getRandomColor = () => {
   return colors[Math.floor(Math.random() * colors.length)];
 };
 
-export default function AgentQues() {
+export default function TeamQueue() {
   // State to manage the selected value and card placement
   const [cardData, setCardData] = useState({
     Open: Array(10).fill('Open'),

@@ -66,8 +66,6 @@ export default function TeamMemberTable({ sx, icon, title, total, color = 'warni
 
   const router = useRouter();
 
-  const confirm = useBoolean();
-
   const [tableData, setTableData] = useState(_templates);
 
   const filters = useSetState({

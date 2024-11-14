@@ -8,8 +8,8 @@ import { DashboardContent } from 'src/layouts/dashboard';
 
 import PageHeader from 'src/components/page-header/page-header';
 
-import Agentlist from 'src/sections/agent-queue/agent-list';
-import AgentQueues from 'src/sections/agent-queue/card/agent-queue';
+import Agentlist from 'src/sections/agent-queue/team-queue-list';
+import TeamQueue from 'src/sections/agent-queue/card/team-queue';
 
 // import { BlankView } from 'src/sections/blank/view';
 
@@ -68,7 +68,7 @@ export default function Page() {
           />
 
           {/* <KanbanView /> */}
-          <AgentQueues />
+          <TeamQueue />
         </Box>
       </Box>
     </DashboardContent>

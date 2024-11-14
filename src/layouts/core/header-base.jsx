@@ -1,22 +1,19 @@
 import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
 
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
+import { Tooltip } from '@mui/material';
 import Button from '@mui/material/Button';
 import { styled, useTheme } from '@mui/material/styles';
-import { Stack, Tooltip, Typography } from '@mui/material';
 
 import { paths } from 'src/routes/paths';
 import { RouterLink } from 'src/routes/components';
 
 import { CONFIG } from 'src/config-global';
 import { varAlpha } from 'src/theme/styles';
-import { hideAccessBox } from 'src/redux/slices/accessSlice';
 
 import { Logo } from 'src/components/logo';
-import { Iconify } from 'src/components/iconify';
 import { AnimateLogo1 } from 'src/components/animate';
 
 import { HeaderSection } from './header-section';
@@ -72,21 +69,7 @@ export function HeaderBase({
 
   const isLoginPage = location.pathname === '/login'; // Adjust this path if your login route is different
 
-  const showAccessBox = useSelector((state) => state.access.showAccessBox);
-
-  const dispatch = useDispatch();
-
   const [isAnimating, setIsAnimating] = useState(false);
-
-  const handleExitClick = () => {
-    setIsAnimating(true); // Start the animation
-    setTimeout(() => {
-      setIsAnimating(false); // End the animation after delay
-      dispatch(hideAccessBox()); // Execute existing logic after animation
-    }, 2000); // Adjust delay time for the animation duration
-  };
-
-  const selectedTeammemberName = useSelector((state) => state.access.selectedTeammemberName);
 
   return (
     <>
@@ -109,39 +92,6 @@ export function HeaderBase({
         </Box>
       )}
 
-      {showAccessBox && (
-        <Box
-          sx={{
-            px: 5,
-            py: 2,
-            backgroundImage: 'linear-gradient(to left, #455DF7, #2C2A6ABA, #E1497F)', // Linear gradient as background
-            borderBottom: '1px dashed',
-            borderColor: varAlpha(theme.vars.palette.grey['500Channel'], 0.3),
-            justifyContent: 'center',
-            display: 'flex',
-          }}
-        >
-          <Stack
-            direction="row"
-            alignItems="center"
-            justifyContent="center" // Center
-            spacing={3}
-          >
-            <Typography fontWeight={400} fontSize={18} color="#FFFFFF">
-              👉 Ankit Mandli logged in as: {selectedTeammemberName}
-            </Typography>
-
-            <Button
-              variant="contained"
-              color="warning"
-              startIcon={<Iconify icon="pepicons-pop:power" style={{ width: 18, height: 18 }} />}
-              onClick={handleExitClick}
-            >
-              Exit Access
-            </Button>
-          </Stack>
-        </Box>
-      )}
       <HeaderSection
         sx={{
           backgroundColor: 'common.white',
@@ -168,8 +118,6 @@ export function HeaderBase({
                   }}
                 />
               )}
-
-            
 
               {isLoginPage ? (
                 <Logo data-slot="logo" />
