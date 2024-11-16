@@ -2,10 +2,7 @@ import React, { useState } from 'react';
 
 import {
   Box,
-  Button,
   Tooltip,
-  MenuItem,
-  MenuList,
   TextField,
   Pagination,
   Typography,
@@ -16,8 +13,9 @@ import {
 import { useBoolean } from 'src/hooks/use-boolean';
 
 import { Iconify } from 'src/components/iconify';
-import ChatBox from 'src/components/chat-box/chat-box';
-import { usePopover, CustomPopover } from 'src/components/custom-popover';
+import { usePopover } from 'src/components/custom-popover';
+
+import ExpoloreTemplateChatBox from './hook/chat-box';
 
 export default function EcommTemplatesRender() {
   const popover = usePopover();
@@ -35,73 +33,101 @@ export default function EcommTemplatesRender() {
   const chatBoxes = [
     {
       coverSrc: '../../assets/images/chatImage/e1.png',
-      text: `Hi {{1}}! 🎉 Thank you for shopping with us! Your order for {{2}} has been confirmed. Order ID: {{4}}. Track your order here! 📦`,
+      text: `Hi Ankit! 🎉 Thank you for shopping with us! Your order for {{2}} has been confirmed. Order ID: {{4}}. Track your order here! 📦`,
       title: 'Order Confirmation',
+      type: 'Text',
+      icon: <Iconify icon="icon-park-outline:share" width={20} />,
     },
     {
       coverSrc: '../../assets/images/chatImage/e2.png',
-      text: `Hi {{1}}! 🚚 Your order for {{2}} has been shipped and is on its way! Estimated Delivery Date: {{6}}. Stay tuned for more updates. 📱`,
+      text: `Hi Ankit! 🚚 Your order for {{2}} has been shipped and is on its way! Estimated Delivery Date: {{6}}. Stay tuned for more updates. 📱`,
       title: 'Shipping Update',
+      type: 'Audio',
+      icon: <Iconify icon="material-symbols:call" width={20} />,
     },
     {
       coverSrc: '../../assets/images/chatImage/e3.png',
-      text: `Hi {{1}}! 🛒 Great news! Our exclusive sale is live now. Enjoy up to 50% off on selected items. Shop now and save big! 💸`,
+      text: `Hi Ankit! 🛒 Great news! Our exclusive sale is live now. Enjoy up to 50% off on selected items. Shop now and save big! 💸`,
       title: 'Exclusive Sale',
+      type: 'Video',
+      icon: <Iconify icon="material-symbols:call" width={20} />,
     },
     {
       coverSrc: '../../assets/images/chatImage/e4.png',
-      text: `Hi {{1}}! 🎁 Congratulations! You have received a gift voucher worth $2. Use code {{4}} at checkout to redeem it. Happy Shopping! 🎊`,
+      text: `Hi Ankit! 🎁 Congratulations! You have received a gift voucher worth $2. Use code {{4}} at checkout to redeem it. Happy Shopping! 🎊`,
       title: 'Gift Voucher',
+      type: 'Image',
+      icon: <Iconify icon="solar:copy-bold" width={20} />,
     },
     {
       coverSrc: '../../assets/images/chatImage/e1.png',
-      text: `Hi {{1}}! 💬 Need help with your recent purchase? Our customer support team is here for you. Contact us anytime, and we’ll be happy to assist! 📞`,
+      text: `Hi Ankit! 💬 Need help with your recent purchase? Our customer support team is here for you. Contact us anytime, and we’ll be happy to assist! 📞`,
       title: 'Customer Support',
+      type: 'File',
+      icon: <Iconify icon="solar:copy-bold" width={20} />,
     },
     {
       coverSrc: '../../assets/images/chatImage/e2.png',
-      text: `Hi {{1}}! 🛍️ New arrivals alert! Check out our latest collection and be the first to get your hands on these trending products. Shop now! 👗`,
+      text: `Hi Ankit! 🛍️ New arrivals alert! Check out our latest collection and be the first to get your hands on these trending products. Shop now! 👗`,
       title: 'New Arrivals',
+      type: 'Video',
+      icon: <Iconify icon="icon-park-outline:share" width={20} />,
     },
     {
       coverSrc: '../../assets/images/chatImage/e3.png',
-      text: `Hi {{1}}! 🔔 Your return request for Order ID {{4}} has been processed. You will receive a confirmation once the refund is completed. Thank you! 🙏`,
+      text: `Hi Ankit! 🔔 Your return request for Order ID {{4}} has been processed. You will receive a confirmation once the refund is completed. Thank you! 🙏`,
       title: 'Return Processed',
+      type: 'File',
+      icon: <Iconify icon="material-symbols:call" width={20} />,
     },
     {
       coverSrc: '../../assets/images/chatImage/e4.png',
-      text: `Hi {{1}}! 🎯 Looking for more? Check out our 'Recommended for You' section based on your shopping history and discover products you’ll love! 🛍️`,
+      text: `Hi Ankit! 🎯 Looking for more? Check out our 'Recommended for You' section based on your shopping history and discover products you’ll love! 🛍️`,
       title: 'Recommended for You',
+      type: 'File',
+      icon: <Iconify icon="solar:copy-bold" width={20} />,
     },
     {
       coverSrc: '../../assets/images/chatImage/e4.png',
-      text: `Hi {{1}}! 📦 Your package for Order ID {{4}} is out for delivery today. Please ensure someone is available to receive it. Thank you! 🚚`,
+      text: `Hi Ankit! 📦 Your package for Order ID {{4}} is out for delivery today. Please ensure someone is available to receive it. Thank you! 🚚`,
       title: 'Out for Delivery',
+      type: 'Image',
+      icon: <Iconify icon="icon-park-outline:share" width={20} />,
     },
     {
       coverSrc: '../../assets/images/chatImage/e3.png',
-      text: `Hi {{1}}! 🎈 Celebrate with us! Enjoy a special discount of 20% on your next purchase using code {{4}}. Valid till {{6}}. 🎉`,
+      text: `Hi Ankit! 🎈 Celebrate with us! Enjoy a special discount of 20% on your next purchase using code {{4}}. Valid till {{6}}. 🎉`,
       title: 'Special Discount',
+      type: 'Video',
+      icon: <Iconify icon="solar:copy-bold" width={20} />,
     },
     {
       coverSrc: '../../assets/images/chatImage/e2.png',
-      text: `Hi {{1}}! 🛒 Your cart is waiting! Complete your purchase today and enjoy free shipping on orders above $50. 🛍️`,
+      text: `Hi Ankit! 🛒 Your cart is waiting! Complete your purchase today and enjoy free shipping on orders above $50. 🛍️`,
       title: 'Cart Reminder',
+      type: 'Text',
+      icon: <Iconify icon="icon-park-outline:share" width={20} />,
     },
     {
       coverSrc: '../../assets/images/chatImage/e1.png',
-      text: `Hi {{1}}! 🌟 Your feedback matters to us! Please rate your recent purchase of {{2}}. Your opinion helps us improve our services. ✨`,
+      text: `Hi Ankit! 🌟 Your feedback matters to us! Please rate your recent purchase of {{2}}. Your opinion helps us improve our services. ✨`,
       title: 'Feedback Request',
+      type: 'Image',
+      icon: <Iconify icon="material-symbols:call" width={20} />,
     },
     {
       coverSrc: '../../assets/images/chatImage/e3.png',
-      text: `Hi {{1}}! 📢 Don’t miss out on our flash sale! Limited time only! Grab your favorite items at unbeatable prices. Shop now! 🛒`,
+      text: `Hi Ankit! 📢 Don’t miss out on our flash sale! Limited time only! Grab your favorite items at unbeatable prices. Shop now! 🛒`,
       title: 'Flash Sale',
+      type: 'Video',
+      icon: <Iconify icon="solar:copy-bold" width={20} />,
     },
     {
       coverSrc: '../../assets/images/chatImage/e4.png',
-      text: `Hi {{1}}! 💌 Thank you for being a loyal customer! Enjoy a special offer exclusively for you. Use code {{4}} and get 15% off on your next order. 🎁`,
+      text: `Hi Ankit! 💌 Thank you for being a loyal customer! Enjoy a special offer exclusively for you. Use code {{4}} and get 15% off on your next order. 🎁`,
       title: 'Loyalty Offer',
+      type: 'Text',
+      icon: <Iconify icon="icon-park-outline:share" width={20} />,
     },
   ];
 
@@ -115,40 +141,20 @@ export default function EcommTemplatesRender() {
     <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
       <Typography sx={{ fontSize: 18, fontWeight: 600 }}>Ecommerce Messages</Typography>
       <Box display="flex" justifyContent="space-between">
-        <Tooltip title="Click here to search the template by name" arrow placement='top'>
-        <TextField
-          placeholder="Search templates..."
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <Iconify icon="eva:search-fill" sx={{ color: 'text.disabled' }} />
-              </InputAdornment>
-            ),
-          }}
-          sx={{ mt: 2.5 }}
-        />
-        </Tooltip>
-        <Button
-          disableRipple
-          color="inherit"
-          onClick={popover.onOpen}
-          endIcon={<Iconify icon="eva:arrow-ios-upward-fill" sx={{ color: 'text.disabled' }} />}
-          sx={{ fontWeight: 'fontWeightSemiBold' }}
-        >
-          Sort by:
-          <Box
-            component="span"
-            sx={{ ml: 0.5, fontWeight: 'fontWeightBold', textTransform: 'capitalize' }}
+        <Tooltip title="Click here to search the template by name" arrow placement="top">
+          <TextField
+            placeholder="Search templates..."
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Iconify icon="eva:search-fill" sx={{ color: 'text.disabled' }} />
+                </InputAdornment>
+              ),
+            }}
+            sx={{ mt: 2.5 }}
           />
-        </Button>
-
-        <CustomPopover open={popover.open} anchorEl={popover.anchorEl} onClose={popover.onClose}>
-          <MenuList>
-            <MenuItem>Latest</MenuItem>
-            <MenuItem>Popular</MenuItem>
-            <MenuItem>Oldest</MenuItem>
-          </MenuList>
-        </CustomPopover>
+        </Tooltip>
+        
       </Box>
 
       <Box
@@ -158,12 +164,14 @@ export default function EcommTemplatesRender() {
         gridTemplateColumns={{ xs: 'repeat(1, 1fr)', sm: 'repeat(2, 1fr)', md: 'repeat(3, 1fr)' }}
       >
         {displayedChatBoxes.map((chatBox, index) => (
-          <ChatBox
+          <ExpoloreTemplateChatBox
             key={index}
             coverSrc={chatBox.coverSrc}
             showImage
-            text={<>{chatBox.text}</>}
-            showLinks
+            text={chatBox.text}
+            type={chatBox.type}
+            icon={chatBox.icon}
+            showLinks={false}
             showVisit
             title={chatBox.title} // Pass title prop
             showOnline={false} // Do not show online status

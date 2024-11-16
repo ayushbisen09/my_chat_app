@@ -2,10 +2,7 @@ import React, { useState } from 'react';
 
 import {
   Box,
-  Button,
   Tooltip,
-  MenuItem,
-  MenuList,
   TextField,
   Pagination,
   Typography,
@@ -16,8 +13,9 @@ import {
 import { useBoolean } from 'src/hooks/use-boolean';
 
 import { Iconify } from 'src/components/iconify';
-import ChatBox from 'src/components/chat-box/chat-box';
-import { usePopover, CustomPopover } from 'src/components/custom-popover';
+import { usePopover } from 'src/components/custom-popover';
+
+import ExpoloreTemplateChatBox from './hook/chat-box';
 
 export default function FestiveTemplatesRender() {
   const popover = usePopover();
@@ -35,73 +33,101 @@ export default function FestiveTemplatesRender() {
   const chatBoxes = [
     {
       coverSrc: '../../assets/images/chatImage/festival-template-images/fes1.png',
-      text: `Hi {{1}}! 🌈 Happy Holi! May the colors of joy, happiness, and positivity fill your life. 🥳`,
+      text: `Hi Ayush! 🌈 Happy Holi! May the colors of joy, happiness, and positivity fill your life. 🥳`,
       title: 'Holi Greetings',
+      type: 'Text',
+      icon: <Iconify icon="icon-park-outline:share" width={20} />,
     },
     {
       coverSrc: '../../assets/images/chatImage/festival-template-images/fes2.png',
-      text: `Hi {{1}}! 🎆 Happy Diwali! May this festival of lights bring joy and prosperity to your life. 🪔`,
+      text: `Hi Ayush! 🎆 Happy Diwali! May this festival of lights bring joy and prosperity to your life. 🪔`,
       title: 'Diwali Wishes',
+      type: 'Audio',
+      icon: <Iconify icon="material-symbols:call" width={20} />,
     },
     {
       coverSrc: '../../assets/images/chatImage/festival-template-images/fes3.png',
-      text: `Hi {{1}}! 🎉 Happy Navratri! May the divine blessings of Maa Durga be with you always. 🌺`,
+      text: `Hi Ayush! 🎉 Happy Navratri! May the divine blessings of Maa Durga be with you always. 🌺`,
       title: 'Navratri Blessings',
+      type: 'Video',
+      icon: <Iconify icon="material-symbols:call" width={20} />,
     },
     {
       coverSrc: '../../assets/images/chatImage/festival-template-images/fes4.png',
-      text: `Hi {{1}}! 🙏 Happy Ganesh Chaturthi! May Lord Ganesha bring you happiness, wisdom, and prosperity. 🐘`,
+      text: `Hi Ayush! 🙏 Happy Ganesh Chaturthi! May Lord Ganesha bring you happiness, wisdom, and prosperity. 🐘`,
       title: 'Ganesh Chaturthi',
+      type: 'Image',
+      icon: <Iconify icon="solar:copy-bold" width={20} />,
     },
     {
       coverSrc: '../../assets/images/chatImage/festival-template-images/fes5.png',
-      text: `Hi {{1}}! 🤗 Happy Raksha Bandhan! May the bond of love and protection between siblings grow stronger. 🎁`,
+      text: `Hi Ayush! 🤗 Happy Raksha Bandhan! May the bond of love and protection between siblings grow stronger. 🎁`,
       title: 'Raksha Bandhan',
+      type: 'File',
+      icon: <Iconify icon="solar:copy-bold" width={20} />,
     },
     {
       coverSrc: '../../assets/images/chatImage/festival-template-images/fes6.png',
-      text: `Hi {{1}}! 🤗 Happy Raksha Bandhan! May the bond of love and protection between siblings grow stronger. 🎁`,
+      text: `Hi Ayush! 🤗 Happy Raksha Bandhan! May the bond of love and protection between siblings grow stronger. 🎁`,
       title: 'Raksha Bandhan Special',
+      type: 'Video',
+      icon: <Iconify icon="icon-park-outline:share" width={20} />,
     },
     {
       coverSrc: '../../assets/images/chatImage/festival-template-images/fes5.png',
-      text: `Hi {{1}}! 🎆 Happy Diwali! May this festival of lights bring joy and prosperity to your life. 🪔`,
+      text: `Hi Ayush! 🎆 Happy Diwali! May this festival of lights bring joy and prosperity to your life. 🪔`,
       title: 'Diwali Celebrations',
+      type: 'File',
+      icon: <Iconify icon="material-symbols:call" width={20} />,
     },
     {
       coverSrc: '../../assets/images/chatImage/festival-template-images/fes4.png',
-      text: `Hi {{1}}! 🕉️ Celebrate Ganesh Chaturthi with devotion and joy. May Lord Ganesha bless you and your family! 🏵️`,
+      text: `Hi Ayush! 🕉️ Celebrate Ganesh Chaturthi with devotion and joy. May Lord Ganesha bless you and your family! 🏵️`,
       title: 'Ganesh Devotion',
+      type: 'File',
+      icon: <Iconify icon="solar:copy-bold" width={20} />,
     },
     {
       coverSrc: '../../assets/images/chatImage/festival-template-images/fes6.png',
-      text: `Hi {{1}}! 🤗 Happy Raksha Bandhan! May the bond of love and protection between siblings grow stronger. 🎁`,
+      text: `Hi Ayush! 🤗 Happy Raksha Bandhan! May the bond of love and protection between siblings grow stronger. 🎁`,
       title: 'Sibling Love',
+      type: 'Image',
+      icon: <Iconify icon="icon-park-outline:share" width={20} />,
     },
     {
       coverSrc: '../../assets/images/chatImage/festival-template-images/fes3.png',
-      text: `Hi {{1}}! ✨ May Maa Durga's blessings brighten up your life this Navratri. 🕯️`,
+      text: `Hi Ayush! ✨ May Maa Durga's blessings brighten up your life this Navratri. 🕯️`,
       title: 'Navratri Blessings Continued',
+      type: 'Video',
+      icon: <Iconify icon="solar:copy-bold" width={20} />,
     },
     {
       coverSrc: '../../assets/images/chatImage/festival-template-images/fes2.png',
-      text: `Hi {{1}}! 🎆 Happy Diwali! May this festival of lights bring joy and prosperity to your life. 🪔`,
+      text: `Hi Ayush! 🎆 Happy Diwali! May this festival of lights bring joy and prosperity to your life. 🪔`,
       title: 'Diwali Lights',
+      type: 'Text',
+      icon: <Iconify icon="icon-park-outline:share" width={20} />,
     },
     {
       coverSrc: '../../assets/images/chatImage/festival-template-images/fes1.png',
-      text: `Hi {{1}}! 🎧🛒 Congratulations! 🎉 Your order for the Headway Bassheads has been confirmed. 🙌 Order Details: Product: {{2}} Quantity: {{3}} Order ID: {{4}} Delivery Address: {{5}} Estimated Delivery Date: {{6}}`,
+      text: `Hi Ayush! 🎧🛒 Congratulations! 🎉 Your order for the Headway Bassheads has been confirmed. 🙌 Order Details: Product: {{2}} Quantity: {{3}} Order ID: {{4}} Delivery Address: {{5}} Estimated Delivery Date: {{6}}`,
       title: 'Order Confirmation',
+      type: 'Image',
+      icon: <Iconify icon="material-symbols:call" width={20} />,
     },
     {
       coverSrc: '../../assets/images/chatImage/festival-template-images/fes6.png',
-      text: `Hi {{1}}! 🎧🛒 Congratulations! 🎉 Your order for the Headway Bassheads has been confirmed. 🙌 Order Details: Product: {{2}} Quantity: {{3}} Order ID: {{4}} Delivery Address: {{5}} Estimated Delivery Date: {{6}}`,
+      text: `Hi Ayush! 🎧🛒 Congratulations! 🎉 Your order for the Headway Bassheads has been confirmed. 🙌 Order Details: Product: {{2}} Quantity: {{3}} Order ID: {{4}} Delivery Address: {{5}} Estimated Delivery Date: {{6}}`,
       title: 'Order Confirmed Again',
+      type: 'Video',
+      icon: <Iconify icon="solar:copy-bold" width={20} />,
     },
     {
       coverSrc: '../../assets/images/chatImage/festival-template-images/fes5.png',
-      text: `Hi {{1}}! 🎧🛒 Congratulations! 🎉 Your order for the Headway Bassheads has been confirmed. 🙌 Order Details: Product: {{2}} Quantity: {{3}} Order ID: {{4}} Delivery Address: {{5}} Estimated Delivery Date: {{6}}`,
+      text: `Hi Ayush! 🎧🛒 Congratulations! 🎉 Your order for the Headway Bassheads has been confirmed. 🙌 Order Details: Product: {{2}} Quantity: {{3}} Order ID: {{4}} Delivery Address: {{5}} Estimated Delivery Date: {{6}}`,
       title: 'Order Details Repeated',
+      type: 'Text',
+      icon: <Iconify icon="icon-park-outline:share" width={20} />,
     },
   ];
 
@@ -115,48 +141,19 @@ export default function FestiveTemplatesRender() {
     <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
       <Typography sx={{ fontSize: 18, fontWeight: 600 }}>Festive Messages</Typography>
       <Box display="flex" justifyContent="space-between">
-      <Tooltip title="Click here to search the template by name" arrow placement='top'>
-        <TextField
-          placeholder="Search templates..."
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <Iconify icon="eva:search-fill" sx={{ color: 'text.disabled' }} />
-              </InputAdornment>
-            ),
-          }}
-          sx={{ mt: 2.5 }}
-        />
-        </Tooltip>
-        <Button
-          disableRipple
-          color="inherit"
-          onClick={popover.onOpen}
-          endIcon={
-            <Iconify
-              icon={popover.open ? 'eva:arrow-ios-upward-fill' : 'eva:arrow-ios-downward-fill'}
-            />
-          }
-          sx={{ fontWeight: 'fontWeightSemiBold' }}
-        >
-          Sort by:
-          <Box
-            component="span"
-            sx={{ ml: 0.5, fontWeight: 'fontWeightBold', textTransform: 'capitalize' }}
+        <Tooltip title="Click here to search the template by name" arrow placement="top">
+          <TextField
+            placeholder="Search templates..."
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Iconify icon="eva:search-fill" sx={{ color: 'text.disabled' }} />
+                </InputAdornment>
+              ),
+            }}
+            sx={{ mt: 2.5 }}
           />
-        </Button>
-
-        <CustomPopover
-          open={popover.open}
-          anchorEl={popover.anchorEl}
-          onClose={popover.onClose}
-        >
-          <MenuList>
-            <MenuItem>Latest</MenuItem>
-            <MenuItem>Popular</MenuItem>
-            <MenuItem>Oldest</MenuItem>
-          </MenuList>
-        </CustomPopover>
+        </Tooltip>
       </Box>
 
       <Box
@@ -166,21 +163,21 @@ export default function FestiveTemplatesRender() {
         gridTemplateColumns={{ xs: 'repeat(1, 1fr)', sm: 'repeat(2, 1fr)', md: 'repeat(3, 1fr)' }}
       >
         {displayedChatBoxes.map((chatBox, index) => (
-          <ChatBox
+          <ExpoloreTemplateChatBox
             key={index}
             coverSrc={chatBox.coverSrc}
             showImage
-            text={<>{chatBox.text}</>}
+            text={chatBox.text}
+            icon={chatBox.icon}
+            type={chatBox.type}
             showLinks
             showVisit
             title={chatBox.title} // Pass title prop
             showOnline={false} // Do not show online status
             showAvatar={false} // Do not show avatar
             showTimestamp={false} // Do not show timestamp
-            
           />
         ))}
-       
       </Box>
 
       <Pagination

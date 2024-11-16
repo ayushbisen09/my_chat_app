@@ -59,9 +59,6 @@ export function OrderTableRow({ row, selected, onSelectRow, onDeleteRow, dashboa
     return '●'.repeat(bulletPointLength);
   };
 
-  // Generate 20 bullet points or fewer
-  const bulletPoints = generateBulletPoints(token.length);
-
   const handleStatusToggle = (newStatus) => {
     setStatusToToggle(newStatus);
     confirmStatus.onTrue();
@@ -98,16 +95,15 @@ export function OrderTableRow({ row, selected, onSelectRow, onDeleteRow, dashboa
     <TableRow hover selected={selected}>
       {!teammembersPageDisabled && (
         <TableCell padding="checkbox">
-        <Tooltip title="Select this WhatsApp number" arrow placement="top">
-          <Checkbox
-            checked={selected}
-            onClick={onSelectRow}
-            inputProps={{ id: `row-checkbox-${row.id}`, 'aria-label': `Row checkbox` }}
-          />
-        </Tooltip>
-      </TableCell>
+          <Tooltip title="Select this WhatsApp number" arrow placement="top">
+            <Checkbox
+              checked={selected}
+              onClick={onSelectRow}
+              inputProps={{ id: `row-checkbox-${row.id}`, 'aria-label': `Row checkbox` }}
+            />
+          </Tooltip>
+        </TableCell>
       )}
-      
 
       <TableCell width={110}>
         {row.status === 'active' ? (

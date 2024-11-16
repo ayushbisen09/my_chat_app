@@ -10,6 +10,7 @@ import {
   Tab,
   Tabs,
   Table,
+  Button,
   Tooltip,
   Divider,
   TableBody,
@@ -49,6 +50,7 @@ import {
   TablePaginationCustom,
 } from 'src/components/table';
 
+import { ConfirmDialog } from '../custom-dialog';
 import { OrderTableRow } from './contact-table-row';
 import { OrderTableToolbar } from './contact-table-toolbar';
 import { OrderTableFiltersResult } from './contact-table-filters-result';
@@ -168,6 +170,8 @@ export default function ContactsTable({ sx, icon, title, total, color = 'warning
   );
   const selectedContactName = useSelector((state) => state.selectedList.name);
   const teammembersPageDisabled = useSelector((state) => state.access.teammembersPageDisabled);
+  const confirmDelete = useBoolean();
+
 
   return (
     <>
@@ -250,9 +254,9 @@ export default function ContactsTable({ sx, icon, title, total, color = 'warning
             }
             action={
               <Tooltip title="Delete">
-                <IconButton color="primary" onClick={confirm.onTrue}>
-                  <Iconify icon="solar:trash-bin-trash-bold" />
-                </IconButton>
+                <IconButton color="primary" onClick={confirmDelete.onTrue}>
+                    <Iconify icon="solar:trash-bin-trash-bold" />
+                  </IconButton>
               </Tooltip>
             }
           />
@@ -312,6 +316,17 @@ export default function ContactsTable({ sx, icon, title, total, color = 'warning
           onRowsPerPageChange={table.onChangeRowsPerPage}
         />
       </Card>
+      <ConfirmDialog
+        open={confirmDelete.value}
+        onClose={confirmDelete.onFalse}
+        title="Delete"
+        content="Contacts once deleted will be deleted permanently."
+        action={
+          <Button variant="contained" color="error" onClick={handleDeleteRows}>
+            Delete
+          </Button>
+        }
+      />
     </>
   );
 }

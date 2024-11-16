@@ -1,46 +1,41 @@
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux'; // Import useDispatch for dispatching actions
+
 import { useState, useCallback } from 'react';
 
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
-// import Avatar from '@mui/material/Avatar';
 import Drawer from '@mui/material/Drawer';
-// import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import { useTheme } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 
-import { paths } from 'src/routes/paths';
-import { useRouter, usePathname } from 'src/routes/hooks';
-
-// import { _mock } from 'src/_mock';
-import { varAlpha } from 'src/theme/styles';
+import { hideAccessBox } from 'src/redux/slices/accessSlice';
 
 import { Label } from 'src/components/label';
 import { Iconify } from 'src/components/iconify';
 import { Scrollbar } from 'src/components/scrollbar';
-import { AnimateAvatar } from 'src/components/animate';
 import UpgradeCard from 'src/components/uprgade-card/upgrade-card';
+import { AnimateLogo1, AnimateAvatar } from 'src/components/animate';
 
-import { useMockedUser } from 'src/auth/hooks';
+import { useMockedUser } from 'src/auth/hooks'; // Import animation logo component
+import { useRouter, usePathname } from 'src/routes/hooks';
 
-// import { UpgradeBlock } from './nav-upgrade';
 import { AccountButton } from './account-button';
-import { SignOutButton } from './sign-out-button';
-
-// ----------------------------------------------------------------------
+import { SignOutButton } from './sign-out-button'; // Import the action
 
 export function AccountDrawer({ data = [], sx, ...other }) {
   const theme = useTheme();
-
-  const router = useRouter();
-
-  const pathname = usePathname();
-
+  const dispatch = useDispatch();
   const { user } = useMockedUser();
 
+  const router = useRouter();
+  const pathname = usePathname();
+
   const [open, setOpen] = useState(false);
+  const [isAnimating, setIsAnimating] = useState(false); // State for animation
+
+  const teammembersPageDisabled = useSelector((state) => state.access.teammembersPageDisabled);
 
   const handleOpenDrawer = useCallback(() => {
     setOpen(true);
@@ -50,12 +45,27 @@ export function AccountDrawer({ data = [], sx, ...other }) {
     setOpen(false);
   }, []);
 
+  const handleExitClick = useCallback(() => {
+    setIsAnimating(true);
+    handleCloseDrawer();
+    setTimeout(() => {
+      setIsAnimating(false);
+
+      dispatch(hideAccessBox());
+      router.push('/app');
+    }, 2000);
+  }, [dispatch, router, handleCloseDrawer]);
+
   const handleClickItem = useCallback(
-    (path) => {
-      handleCloseDrawer();
-      router.push(path);
+    (option) => {
+      if (option.label === 'My Account') {
+        handleExitClick(); // Executes the logic for "My Account"
+      } else {
+        handleCloseDrawer();
+        router.push(option.href);
+      }
     },
-    [handleCloseDrawer, router]
+    [handleExitClick, handleCloseDrawer, router]
   );
 
   const selectedTeammemberName = useSelector((state) => state.access.selectedTeammemberName);
@@ -69,7 +79,7 @@ export function AccountDrawer({ data = [], sx, ...other }) {
         overlay: {
           border: 2,
           spacing: 3,
-          color: `linear-gradient(135deg, ${varAlpha(theme.vars.palette.primary.mainChannel, 0)} 25%, ${theme.vars.palette.primary.main} 100%)`,
+          color: `linear-gradient(135deg, ${theme.vars.palette.primary.main} 25%, ${theme.vars.palette.primary.main} 100%)`,
         },
       }}
     >
@@ -77,8 +87,33 @@ export function AccountDrawer({ data = [], sx, ...other }) {
     </AnimateAvatar>
   );
 
+  // Filter the data array to remove "Subscription" when teammembersPageDisabled is true
+  const filteredData = teammembersPageDisabled
+    ? data.filter((option) => option.label !== 'Subscription')
+    : data;
+
   return (
     <>
+      {/* Animation Overlay */}
+      {isAnimating && (
+        <Box
+          sx={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            width: '100vw',
+            height: '100vh',
+            backgroundColor: '#FFFFFF',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 130000000, // High z-index to cover the entire page
+          }}
+        >
+          <AnimateLogo1 />
+        </Box>
+      )}
+
       <AccountButton
         open={open}
         onClick={handleOpenDrawer}
@@ -123,41 +158,34 @@ export function AccountDrawer({ data = [], sx, ...other }) {
               borderBottom: `dashed 1px ${theme.vars.palette.divider}`,
             }}
           >
-            {data.map((option) => {
-              const rootLabel = pathname.includes('/app') ? 'Dashboard' : 'Dashboard';
+            {filteredData.map((option) => (
+              <MenuItem
+                key={option.label}
+                onClick={() => handleClickItem(option)}
+                sx={{
+                  py: 1,
+                  color: 'text.secondary',
+                  '& svg': { width: 24, height: 24 },
+                  '&:hover': { color: 'text.primary' },
+                }}
+              >
+                {option.icon}
 
-              const rootHref = pathname.includes('/app') ? '/' : paths.dashboard.root;
+                <Box component="span" sx={{ ml: 2 }}>
+                  {option.label}
+                </Box>
 
-              return (
-                <MenuItem
-                  key={option.label}
-                  onClick={() => handleClickItem(option.label === 'Home' ? rootHref : option.href)}
-                  sx={{
-                    py: 1,
-                    color: 'text.secondary',
-                    '& svg': { width: 24, height: 24 },
-                    '&:hover': { color: 'text.primary' },
-                  }}
-                >
-                  {option.icon}
-
-                  <Box component="span" sx={{ ml: 2 }}>
-                    {option.label === 'Home' ? rootLabel : option.label}
-                  </Box>
-
-                  {option.info && (
-                    <Label color="error" sx={{ ml: 1 }}>
-                      {option.info}
-                    </Label>
-                  )}
-                </MenuItem>
-              );
-            })}
+                {option.info && (
+                  <Label color="error" sx={{ ml: 1 }}>
+                    {option.info}
+                  </Label>
+                )}
+              </MenuItem>
+            ))}
           </Stack>
 
           <Box sx={{ px: 2.5, py: 3 }}>
             <UpgradeCard />
-            {/* <UpgradeBlock /> */}
           </Box>
         </Scrollbar>
 

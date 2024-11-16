@@ -2,10 +2,7 @@ import React, { useState } from 'react';
 
 import {
   Box,
-  Button,
   Tooltip,
-  MenuItem,
-  MenuList,
   TextField,
   Pagination,
   Typography,
@@ -16,8 +13,9 @@ import {
 import { useBoolean } from 'src/hooks/use-boolean';
 
 import { Iconify } from 'src/components/iconify';
-import ChatBox from 'src/components/chat-box/chat-box';
-import { usePopover, CustomPopover } from 'src/components/custom-popover';
+import { usePopover } from 'src/components/custom-popover';
+
+import ExpoloreTemplateChatBox from './hook/chat-box';
 
 export default function HealthCareTemplatesRender() {
   const popover = usePopover();
@@ -35,73 +33,101 @@ export default function HealthCareTemplatesRender() {
   const chatBoxes = [
     {
       coverSrc: '../../assets/images/chatImage/health-care-template-images/h1.png',
-      text: `Hi {{1}}! 🩺 Your appointment with Dr. {{2}} is confirmed for {{5}} at {{6}}. Please arrive 15 minutes early. See you soon! 😊`,
+      text: `Hi Rajendra! 🩺 Your appointment with Dr. Ayush Bisen is confirmed for Eye at Today. Please arrive 15 minutes early. See you soon! 😊`,
       title: 'Appointment Confirmation',
+      type: 'Text',
+      icon: <Iconify icon="icon-park-outline:share" width={20} />,
     },
     {
       coverSrc: '../../assets/images/chatImage/health-care-template-images/h2.png',
-      text: `Hi {{1}}! 💊 It's time for your {{2}} medication. Don't forget to take your dose at {{6}}. Stay healthy! 🌟`,
+      text: `Hi Rajendra! 💊 It's time for your Ayush Bisen medication. Don't forget to take your dose at Today. Stay healthy! 🌟`,
       title: 'Medication Reminder',
+      type: 'Video',
+      icon: <Iconify icon="solar:copy-bold" width={20} />,
     },
     {
       coverSrc: '../../assets/images/chatImage/health-care-template-images/h3.png',
-      text: `Hi {{1}}! 🌿 Here’s a health tip for you: Stay hydrated and drink at least 8 glasses of water a day. Cheers to good health! 💧`,
+      text: `Hi Rajendra! 🌿 Here’s a health tip for you: Stay hydrated and drink at least 8 glasses of water a day. Cheers to good health! 💧`,
       title: 'Health Tip',
+      type: 'Image',
+      icon: <Iconify icon="material-symbols:call" width={20} />,
     },
     {
       coverSrc: '../../assets/images/chatImage/health-care-template-images/h2.png',
-      text: `Hi {{1}}! 🌼 Your lab test results for {{2}} are now available. Please check your email or contact us for more information. 📋`,
+      text: `Hi Rajendra! 🌼 Your lab test results for Ayush Bisen are now available. Please check your email or contact us for more information. 📋`,
       title: 'Lab Results Available',
+      type: 'Text',
+      icon: <Iconify icon="icon-park-outline:share" width={20} />,
     },
     {
       coverSrc: '../../assets/images/chatImage/health-care-template-images/h3.png',
-      text: `Hi {{1}}! 🏥 You have an upcoming health check-up on {{5}}. Please remember to fast 12 hours before the appointment. See you soon! 🍎`,
+      text: `Hi Rajendra! 🏥 You have an upcoming health check-up on Eye. Please remember to fast 12 hours before the appointment. See you soon! 🍎`,
       title: 'Health Check-up Reminder',
+      type: 'Video',
+      icon: <Iconify icon="solar:copy-bold" width={20} />,
     },
     {
       coverSrc: '../../assets/images/chatImage/health-care-template-images/h1.png',
-      text: `Hi {{1}}! 🧘‍♂️ Join our free yoga class on {{5}} at {{6}}. It's a great way to relax and stay fit. Reserve your spot today! 🧘‍♀️`,
+      text: `Hi Rajendra! 🧘‍♂️ Join our free yoga class on Eye at Today. It's a great way to relax and stay fit. Reserve your spot today! 🧘‍♀️`,
       title: 'Yoga Class Invitation',
+      type: 'Image',
+      icon: <Iconify icon="icon-park-outline:share" width={20} />,
     },
     {
       coverSrc: '../../assets/images/chatImage/health-care-template-images/h3.png',
-      text: `Hi {{1}}! 🚑 Emergency contact update! Please make sure your emergency contact details are up to date. Safety first! 🛡️`,
+      text: `Hi Rajendra! 🚑 Emergency contact update! Please make sure your emergency contact details are up to date. Safety first! 🛡️`,
       title: 'Emergency Contact Update',
+      type: 'File',
+      icon: <Iconify icon="solar:copy-bold" width={20} />,
     },
     {
       coverSrc: '../../assets/images/chatImage/health-care-template-images/h2.png',
-      text: `Hi {{1}}! 💉 Flu shots are now available! Protect yourself and your loved ones this season. Book your vaccination appointment today! 🌡️`,
+      text: `Hi Rajendra! 💉 Flu shots are now available! Protect yourself and your loved ones this season. Book your vaccination appointment today! 🌡️`,
       title: 'Flu Shot Availability',
+      type: 'File',
+      icon: <Iconify icon="material-symbols:call" width={20} />,
     },
     {
       coverSrc: '../../assets/images/chatImage/health-care-template-images/h1.png',
-      text: `Hi {{1}}! 🥗 Nutrition tip: Incorporate more greens and fruits into your diet for a healthy and balanced lifestyle. 🌿`,
+      text: `Hi Rajendra! 🥗 Nutrition tip: Incorporate more greens and fruits into your diet for a healthy and balanced lifestyle. 🌿`,
       title: 'Nutrition Tip',
+      type: 'Video',
+      icon: <Iconify icon="icon-park-outline:share" width={20} />,
     },
     {
       coverSrc: '../../assets/images/chatImage/health-care-template-images/h2.png',
-      text: `Hi {{1}}! 🩹 Reminder: It's time for your {{2}}. Please make sure to attend your appointment at {{6}}. Stay healthy! 💪`,
+      text: `Hi Rajendra! 🩹 Reminder: It's time for your Ayush Bisen. Please make sure to attend your appointment at Today. Stay healthy! 💪`,
       title: 'Appointment Reminder',
+      type: 'File',
+      icon: <Iconify icon="solar:copy-bold" width={20} />,
     },
     {
       coverSrc: '../../assets/images/chatImage/health-care-template-images/h3.png',
-      text: `Hi {{1}}! 📅 Your dental check-up is scheduled for {{5}} at {{6}}. Please confirm your appointment or reschedule if needed. 🦷`,
+      text: `Hi Rajendra! 📅 Your dental check-up is scheduled for Eye at Today. Please confirm your appointment or reschedule if needed. 🦷`,
       title: 'Dental Check-up Reminder',
+      type: 'Image',
+      icon: <Iconify icon="solar:copy-bold" width={20} />,
     },
     {
       coverSrc: '../../assets/images/chatImage/health-care-template-images/h1.png',
-      text: `Hi {{1}}! 🌞 Good morning! Don’t forget to take your morning vitamins to start your day strong. 🌅`,
+      text: `Hi Rajendra! 🌞 Good morning! Don’t forget to take your morning vitamins to start your day strong. 🌅`,
       title: 'Morning Vitamins Reminder',
+      type: 'Video',
+      icon: <Iconify icon="material-symbols:call" width={20} />,
     },
     {
       coverSrc: '../../assets/images/chatImage/health-care-template-images/h2.png',
-      text: `Hi {{1}}! 🏃‍♂️ Stay active! Regular exercise can help reduce stress and improve overall health. Join our fitness class today! 🏋️‍♀️`,
+      text: `Hi Rajendra! 🏃‍♂️ Stay active! Regular exercise can help reduce stress and improve overall health. Join our fitness class today! 🏋️‍♀️`,
       title: 'Fitness Class Invitation',
+      type: 'Audio',
+      icon: <Iconify icon="material-symbols:call" width={20} />,
     },
     {
       coverSrc: '../../assets/images/chatImage/health-care-template-images/h3.png',
-      text: `Hi {{1}}! 🛏️ Proper sleep is essential for good health. Aim for at least 7-8 hours of sleep tonight. Sweet dreams! 😴`,
+      text: `Hi Rajendra! 🛏️ Proper sleep is essential for good health. Aim for at least 7-8 hours of sleep tonight. Sweet dreams! 😴`,
       title: 'Sleep Reminder',
+      type: 'Text',
+      icon: <Iconify icon="icon-park-outline:share" width={20} />,
     },
   ];
 
@@ -115,48 +141,19 @@ export default function HealthCareTemplatesRender() {
     <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
       <Typography sx={{ fontSize: 18, fontWeight: 600 }}>Healthcare Messages</Typography>
       <Box display="flex" justifyContent="space-between">
-      <Tooltip title="Click here to search the template by name" arrow placement='top'>
-        <TextField
-          placeholder="Search templates..."
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <Iconify icon="eva:search-fill" sx={{ color: 'text.disabled' }} />
-              </InputAdornment>
-            ),
-          }}
-          sx={{ mt: 2.5 }}
-        />
-        </Tooltip>
-        <Button
-          disableRipple
-          color="inherit"
-          onClick={popover.onOpen}
-          endIcon={
-            <Iconify
-              icon={popover.open ? 'eva:arrow-ios-upward-fill' : 'eva:arrow-ios-downward-fill'}
-            />
-          }
-          sx={{ fontWeight: 'fontWeightSemiBold' }}
-        >
-          Sort by:
-          <Box
-            component="span"
-            sx={{ ml: 0.5, fontWeight: 'fontWeightBold', textTransform: 'capitalize' }}
+        <Tooltip title="Click here to search the template by name" arrow placement="top">
+          <TextField
+            placeholder="Search templates..."
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Iconify icon="eva:search-fill" sx={{ color: 'text.disabled' }} />
+                </InputAdornment>
+              ),
+            }}
+            sx={{ mt: 2.5 }}
           />
-        </Button>
-
-        <CustomPopover
-          open={popover.open}
-          anchorEl={popover.anchorEl}
-          onClose={popover.onClose}
-        >
-          <MenuList>
-            <MenuItem>Latest</MenuItem>
-            <MenuItem>Popular</MenuItem>
-            <MenuItem>Oldest</MenuItem>
-          </MenuList>
-        </CustomPopover>
+        </Tooltip>
       </Box>
 
       <Box
@@ -166,11 +163,13 @@ export default function HealthCareTemplatesRender() {
         gridTemplateColumns={{ xs: 'repeat(1, 1fr)', sm: 'repeat(2, 1fr)', md: 'repeat(3, 1fr)' }}
       >
         {displayedChatBoxes.map((chatBox, index) => (
-          <ChatBox
+          <ExpoloreTemplateChatBox
             key={index}
             coverSrc={chatBox.coverSrc}
             showImage
-            text={<>{chatBox.text}</>}
+            text={chatBox.text}
+            icon={chatBox.icon}
+            type={chatBox.type}
             showLinks
             showVisit
             title={chatBox.title} // Pass title prop

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useLocation } from 'react-router-dom';
 
 import Box from '@mui/material/Box';
@@ -14,7 +14,6 @@ import { CONFIG } from 'src/config-global';
 import { varAlpha } from 'src/theme/styles';
 
 import { Logo } from 'src/components/logo';
-import { AnimateLogo1 } from 'src/components/animate';
 
 import { HeaderSection } from './header-section';
 import { Searchbar } from '../components/searchbar';
@@ -53,7 +52,6 @@ export function HeaderBase({
   slotProps,
   onOpenNav,
   layoutQuery,
-
   slotsDisplay: {
     account = true,
     helpLink = true,
@@ -69,144 +67,121 @@ export function HeaderBase({
 
   const isLoginPage = location.pathname === '/login'; // Adjust this path if your login route is different
 
-  const [isAnimating, setIsAnimating] = useState(false);
-
   return (
-    <>
-      {isAnimating && (
-        <Box
-          sx={{
-            position: 'fixed',
-            top: 0,
-            left: 0,
-            width: '100vw',
-            height: '100vh',
-            backgroundColor: '#FFFFFF', // Semi-transparent overlay
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            zIndex: 1300, // High z-index to cover the entire page
-          }}
-        >
-          <AnimateLogo1 />
-        </Box>
-      )}
+    <HeaderSection
+      sx={{
+        backgroundColor: 'common.white',
+        borderBottom: '1px dashed',
+        borderColor: varAlpha(theme.vars.palette.grey['500Channel'], 0.3),
+        ...sx,
+      }}
+      layoutQuery={layoutQuery}
+      slots={{
+        ...slots,
+        leftAreaStart: slots?.leftAreaStart,
+        leftArea: (
+          <>
+            {slots?.leftAreaStart}
 
-      <HeaderSection
-        sx={{
-          backgroundColor: 'common.white',
-          borderBottom: '1px dashed',
-          borderColor: varAlpha(theme.vars.palette.grey['500Channel'], 0.3),
-          ...sx,
-        }}
-        layoutQuery={layoutQuery}
-        slots={{
-          ...slots,
-          leftAreaStart: slots?.leftAreaStart,
-          leftArea: (
-            <>
-              {slots?.leftAreaStart}
+            {menuButton && !isLoginPage && (
+              <MenuButton
+                data-slot="menu-button"
+                onClick={onOpenNav}
+                sx={{
+                  mr: 1,
+                  ml: -1,
+                  [theme.breakpoints.up(layoutQuery)]: { display: 'none' },
+                }}
+              />
+            )}
 
-              {menuButton && !isLoginPage && (
-                <MenuButton
-                  data-slot="menu-button"
-                  onClick={onOpenNav}
+            {isLoginPage ? (
+              <Logo data-slot="logo" />
+            ) : (
+              <>
+                <Box
+                  alt="logo"
+                  component="img"
+                  src={`${CONFIG.site.basePath}/assets/icons/navbar/Chatflow.svg`}
+                  width={120}
                   sx={{
-                    mr: 1,
-                    ml: -1,
-                    [theme.breakpoints.up(layoutQuery)]: { display: 'none' },
+                    display: { xs: 'none', sm: 'block' },
+                    zIndex: theme.zIndex.drawer + 1,
                   }}
                 />
+                <Logo
+                  width={30}
+                  sx={{
+                    display: { xs: 'block', sm: 'none' },
+                  }}
+                />
+              </>
+            )}
+
+            {!isLoginPage && <StyledDivider data-slot="divider" />}
+
+            {slots?.leftAreaEnd}
+          </>
+        ),
+        rightArea: (
+          <>
+            {slots?.rightAreaStart}
+
+            <Box
+              data-area="right"
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: { xs: 1, sm: 1.5 },
+              }}
+            >
+              {helpLink && (
+                <Link
+                  data-slot="help-link"
+                  href={paths.faqs}
+                  component={RouterLink}
+                  color="inherit"
+                  sx={{ typography: 'subtitle2' }}
+                >
+                  Need help?
+                </Link>
               )}
 
-              {isLoginPage ? (
-                <Logo data-slot="logo" />
-              ) : (
-                <>
-                  <Box
-                    alt="logo"
-                    component="img"
-                    src={`${CONFIG.site.basePath}/assets/icons/navbar/Chatflow.svg`}
-                    width={120}
-                    sx={{
-                      display: { xs: 'none', sm: 'block' },
-                      zIndex: theme.zIndex.drawer + 1,
-                    }}
-                  />
-                  <Logo
-                    width={30}
-                    sx={{
-                      display: { xs: 'block', sm: 'none' },
-                    }}
-                  />
-                </>
+              {searchbar && <Searchbar data-slot="searchbar" data={data?.nav} />}
+
+              {account && (
+                <Tooltip title="Click here to see account details." arrow placement="bottom">
+                  <span>
+                    <AccountDrawer data-slot="account" data={data?.account} />
+                  </span>
+                </Tooltip>
               )}
 
-              {!isLoginPage && <StyledDivider data-slot="divider" />}
+              {purchase && (
+                <Button
+                  data-slot="purchase"
+                  variant="contained"
+                  rel="noopener"
+                  target="_blank"
+                  href={paths.minimalStore}
+                  sx={{
+                    display: 'none',
+                    [theme.breakpoints.up(layoutQuery)]: {
+                      display: 'inline-flex',
+                    },
+                  }}
+                >
+                  Purchase
+                </Button>
+              )}
+            </Box>
 
-              {slots?.leftAreaEnd}
-            </>
-          ),
-          rightArea: (
-            <>
-              {slots?.rightAreaStart}
-
-              <Box
-                data-area="right"
-                sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: { xs: 1, sm: 1.5 },
-                }}
-              >
-                {helpLink && (
-                  <Link
-                    data-slot="help-link"
-                    href={paths.faqs}
-                    component={RouterLink}
-                    color="inherit"
-                    sx={{ typography: 'subtitle2' }}
-                  >
-                    Need help?
-                  </Link>
-                )}
-
-                {searchbar && <Searchbar data-slot="searchbar" data={data?.nav} />}
-
-                {account && (
-                  <Tooltip title="Click here to see account details." arrow placement="bottom">
-                    <span>
-                      <AccountDrawer data-slot="account" data={data?.account} />
-                    </span>
-                  </Tooltip>
-                )}
-
-                {purchase && (
-                  <Button
-                    data-slot="purchase"
-                    variant="contained"
-                    rel="noopener"
-                    target="_blank"
-                    href={paths.minimalStore}
-                    sx={{
-                      display: 'none',
-                      [theme.breakpoints.up(layoutQuery)]: {
-                        display: 'inline-flex',
-                      },
-                    }}
-                  >
-                    Purchase
-                  </Button>
-                )}
-              </Box>
-
-              {slots?.rightAreaEnd}
-            </>
-          ),
-        }}
-        slotProps={slotProps}
-        {...other}
-      />
-    </>
+            {slots?.rightAreaEnd}
+          </>
+        ),
+      }}
+      slotProps={slotProps}
+      {...other}
+    />
   );
 }

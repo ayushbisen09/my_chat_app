@@ -16,16 +16,18 @@ import {
   useMediaQuery,
 } from '@mui/material';
 
+import { useBoolean } from 'src/hooks/use-boolean';
+
 import { Iconify } from 'src/components/iconify';
+import { usePopover } from 'src/components/custom-popover';
+import { ConfirmDialog } from 'src/components/custom-dialog';
 
 export function OrderTableToolbar({ filters, onResetPage, dateError }) {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
-  
 
   const [filterAnchorEl, setFilterAnchorEl] = useState(null);
   const [selectedColumn, setSelectedColumn] = useState('');
-  const [operator, setOperator] = useState('contains');
   const [filterValue, setFilterValue] = useState('');
 
   // Updated arrays with sample data
@@ -55,6 +57,27 @@ export function OrderTableToolbar({ filters, onResetPage, dateError }) {
     setFilterAnchorEl(null);
   };
 
+  const popover = usePopover();
+  const confirmDelete = useBoolean();
+
+  const handleExportCSV = () => {
+    const csvData = [
+      ['Name', 'Phone Number', 'Status'], // Header row
+      ['John Doe', '1234567890', 'Active'], // Example data row
+      ['Jane Smith', '9876543210', 'Inactive'], // Example data row
+    ];
+
+    const csvContent = `data:text/csv;charset=utf-8,${csvData.map((e) => e.join(',')).join('\n')}`;
+
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement('a');
+    link.setAttribute('href', encodedUri);
+    link.setAttribute('download', 'exported_data.csv');
+    document.body.appendChild(link); // Required for Firefox
+    link.click();
+    document.body.removeChild(link);
+  };
+
   return (
     <>
       <Stack
@@ -82,7 +105,7 @@ export function OrderTableToolbar({ filters, onResetPage, dateError }) {
           </Tooltip>
           <Tooltip title="Click here to filter the contacts." arrow placement="top">
             <Button
-              sx={{ ml: '5px' , p: 2 }}
+              sx={{ ml: '5px', p: 2 }}
               size="large"
               startIcon={<Iconify icon="mdi:filter" />}
               onClick={handleFilterClick}
@@ -91,14 +114,18 @@ export function OrderTableToolbar({ filters, onResetPage, dateError }) {
             </Button>
           </Tooltip>
           <Tooltip title="Click here to export the contact list in csv." arrow placement="top">
-            <IconButton color='inherit'>
+            <IconButton
+              color="inherit"
+              onClick={() => {
+                confirmDelete.onTrue();
+                popover.onClose();
+              }}
+            >
               <Iconify icon="line-md:uploading-loop" />
             </IconButton>
           </Tooltip>
         </Stack>
       </Stack>
-
-      
 
       <Popover
         open={Boolean(filterAnchorEl)}
@@ -334,16 +361,35 @@ export function OrderTableToolbar({ filters, onResetPage, dateError }) {
             {/* <Button variant="outlined" color="inherit" onClick={handleFilterClose}>
               Cancel
             </Button> */}
-            <Tooltip title="Click here to apply filter in this table data" arrow placement='top'>
-
-         
-            <Button variant="contained" color="primary" onClick={handleApplyFilter}>
-              Apply Filter
-            </Button>
-               </Tooltip>
+            <Tooltip title="Click here to apply filter in this table data" arrow placement="top">
+              <Button variant="contained" color="primary" onClick={handleApplyFilter}>
+                Apply Filter
+              </Button>
+            </Tooltip>
           </Box>
         </Box>
       </Popover>
+
+      <ConfirmDialog
+        open={confirmDelete.value}
+        onClose={confirmDelete.onFalse}
+        title="Export Selected Contact"
+        content="This action will export the selected contact list in csv format"
+        action={
+          <Tooltip title="Click here to delete the whatsapp number" arrow placement="top">
+            <Button
+              variant="contained"
+              color="info"
+              onClick={() => {
+                handleExportCSV();
+                confirmDelete.onFalse();
+              }}
+            >
+              Export
+            </Button>
+          </Tooltip>
+        }
+      />
     </>
   );
 }

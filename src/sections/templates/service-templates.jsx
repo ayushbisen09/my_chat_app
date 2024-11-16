@@ -2,10 +2,7 @@ import React, { useState } from 'react';
 
 import {
   Box,
-  Button,
   Tooltip,
-  MenuItem,
-  MenuList,
   TextField,
   Pagination,
   Typography,
@@ -16,8 +13,9 @@ import {
 import { useBoolean } from 'src/hooks/use-boolean';
 
 import { Iconify } from 'src/components/iconify';
-import ChatBox from 'src/components/chat-box/chat-box';
-import { usePopover, CustomPopover } from 'src/components/custom-popover';
+import { usePopover } from 'src/components/custom-popover';
+
+import ExpoloreTemplateChatBox from './hook/chat-box';
 
 export default function ServiceTemplatesRender() {
   const popover = usePopover();
@@ -35,73 +33,101 @@ export default function ServiceTemplatesRender() {
   const chatBoxes = [
     {
       coverSrc: '../../assets/images/chatImage/food-template-images/f1.png',
-      text: `Hi {{1}}! 🎧🛒 Congratulations! 🎉 Your order for the Headway Bassheads has been confirmed. 🙌 Order Details: Product: {{2}} Quantity: {{3}} Order ID: {{4}} Delivery Address: {{5}} Estimated Delivery Date: {{6}}`,
+      text: `Hi Pabbly! 🎧🛒 Congratulations! 🎉 Your order for the Headway Bassheads has been confirmed. 🙌 Order Details: Product: Chicken Peri Peri Quantity: 2 Order ID: 24431534121541 Delivery Address: House number  90 Piplani Estimated Delivery Date: Today Evening`,
       title: 'Order Confirmation',
+      type: 'Text',
+      icon: <Iconify icon="icon-park-outline:share" width={20} />,
     },
     {
       coverSrc: '../../assets/images/chatImage/food-template-images/f2.png',
-      text: `Hi {{1}}! 🎧🛒 Congratulations! 🎉 Your order for the Headway Bassheads has been confirmed. 🙌 Order Details: Product: {{2}} Quantity: {{3}} Order ID: {{4}} Delivery Address: {{5}} Estimated Delivery Date: {{6}}`,
+      text: `Hi Pabbly! 🎧🛒 Congratulations! 🎉 Your order for the Headway Bassheads has been confirmed. 🙌 Order Details: Product: Chicken Peri Peri Quantity: 2 Order ID: 24431534121541 Delivery Address: House number  90 Piplani Estimated Delivery Date: Today Evening`,
       title: 'Order Confirmation',
+      type: 'Image',
+      icon: <Iconify icon="material-symbols:call" width={20} />,
     },
     {
       coverSrc: '../../assets/images/chatImage/food-template-images/f3.png',
-      text: `Hi {{1}}! 🎧🛒 Congratulations! 🎉 Your order for the Headway Bassheads has been confirmed. 🙌 Order Details: Product: {{2}} Quantity: {{3}} Order ID: {{4}} Delivery Address: {{5}} Estimated Delivery Date: {{6}}`,
+      text: `Hi Pabbly! 🎧🛒 Congratulations! 🎉 Your order for the Headway Bassheads has been confirmed. 🙌 Order Details: Product: Chicken Peri Peri Quantity: 2 Order ID: 24431534121541 Delivery Address: House number  90 Piplani Estimated Delivery Date: Today Evening`,
       title: 'Order Confirmation',
+      type: 'Text',
+      icon: <Iconify icon="icon-park-outline:share" width={20} />,
     },
     {
       coverSrc: '../../assets/images/chatImage/food-template-images/f4.png',
-      text: `Hi {{1}}! 🎧🛒 Congratulations! 🎉 Your order for the Headway Bassheads has been confirmed. 🙌 Order Details: Product: {{2}} Quantity: {{3}} Order ID: {{4}} Delivery Address: {{5}} Estimated Delivery Date: {{6}}`,
+      text: `Hi Pabbly! 🎧🛒 Congratulations! 🎉 Your order for the Headway Bassheads has been confirmed. 🙌 Order Details: Product: Chicken Peri Peri Quantity: 2 Order ID: 24431534121541 Delivery Address: House number  90 Piplani Estimated Delivery Date: Today Evening`,
       title: 'Order Confirmation',
+      type: 'Video',
+      icon: <Iconify icon="solar:copy-bold" width={20} />,
     },
     {
       coverSrc: '../../assets/images/chatImage/food-template-images/f5.png',
-      text: `Hi {{1}}! 🎧🛒 Congratulations! 🎉 Your order for the Headway Bassheads has been confirmed. 🙌 Order Details: Product: {{2}} Quantity: {{3}} Order ID: {{4}} Delivery Address: {{5}} Estimated Delivery Date: {{6}}`,
+      text: `Hi Pabbly! 🎧🛒 Congratulations! 🎉 Your order for the Headway Bassheads has been confirmed. 🙌 Order Details: Product: Chicken Peri Peri Quantity: 2 Order ID: 24431534121541 Delivery Address: House number  90 Piplani Estimated Delivery Date: Today Evening`,
       title: 'Order Confirmation',
+      type: 'Image',
+      icon: <Iconify icon="icon-park-outline:share" width={20} />,
     },
     {
       coverSrc: '../../assets/images/chatImage/food-template-images/f6.png',
-      text: `Hi {{1}}! 🎧🛒 Congratulations! 🎉 Your order for the Headway Bassheads has been confirmed. 🙌 Order Details: Product: {{2}} Quantity: {{3}} Order ID: {{4}} Delivery Address: {{5}} Estimated Delivery Date: {{6}}`,
+      text: `Hi Pabbly! 🎧🛒 Congratulations! 🎉 Your order for the Headway Bassheads has been confirmed. 🙌 Order Details: Product: Chicken Peri Peri Quantity: 2 Order ID: 24431534121541 Delivery Address: House number  90 Piplani Estimated Delivery Date: Today Evening`,
       title: 'Order Confirmation',
+      type: 'File',
+      icon: <Iconify icon="material-symbols:call" width={20} />,
     },
     {
       coverSrc: '../../assets/images/chatImage/food-template-images/f5.png',
-      text: `Hi {{1}}! 🎧🛒 Congratulations! 🎉 Your order for the Headway Bassheads has been confirmed. 🙌 Order Details: Product: {{2}} Quantity: {{3}} Order ID: {{4}} Delivery Address: {{5}} Estimated Delivery Date: {{6}}`,
+      text: `Hi Pabbly! 🎧🛒 Congratulations! 🎉 Your order for the Headway Bassheads has been confirmed. 🙌 Order Details: Product: Chicken Peri Peri Quantity: 2 Order ID: 24431534121541 Delivery Address: House number  90 Piplani Estimated Delivery Date: Today Evening`,
       title: 'Order Confirmation',
+      type: 'Text',
+      icon: <Iconify icon="icon-park-outline:share" width={20} />,
     },
     {
       coverSrc: '../../assets/images/chatImage/food-template-images/f6.png',
-      text: `Hi {{1}}! 🎧🛒 Congratulations! 🎉 Your order for the Headway Bassheads has been confirmed. 🙌 Order Details: Product: {{2}} Quantity: {{3}} Order ID: {{4}} Delivery Address: {{5}} Estimated Delivery Date: {{6}}`,
+      text: `Hi Pabbly! 🎧🛒 Congratulations! 🎉 Your order for the Headway Bassheads has been confirmed. 🙌 Order Details: Product: Chicken Peri Peri Quantity: 2 Order ID: 24431534121541 Delivery Address: House number  90 Piplani Estimated Delivery Date: Today Evening`,
       title: 'Order Confirmation',
+      type: 'Image',
+      icon: <Iconify icon="material-symbols:call" width={20} />,
     },
     {
       coverSrc: '../../assets/images/chatImage/food-template-images/f3.png',
-      text: `Hi {{1}}! 🎧🛒 Congratulations! 🎉 Your order for the Headway Bassheads has been confirmed. 🙌 Order Details: Product: {{2}} Quantity: {{3}} Order ID: {{4}} Delivery Address: {{5}} Estimated Delivery Date: {{6}}`,
+      text: `Hi Pabbly! 🎧🛒 Congratulations! 🎉 Your order for the Headway Bassheads has been confirmed. 🙌 Order Details: Product: Chicken Peri Peri Quantity: 2 Order ID: 24431534121541 Delivery Address: House number  90 Piplani Estimated Delivery Date: Today Evening`,
       title: 'Order Confirmation',
+      type: 'Text',
+      icon: <Iconify icon="icon-park-outline:share" width={20} />,
     },
     {
       coverSrc: '../../assets/images/chatImage/food-template-images/f4.png',
-      text: `Hi {{1}}! 🎧🛒 Congratulations! 🎉 Your order for the Headway Bassheads has been confirmed. 🙌 Order Details: Product: {{2}} Quantity: {{3}} Order ID: {{4}} Delivery Address: {{5}} Estimated Delivery Date: {{6}}`,
+      text: `Hi Pabbly! 🎧🛒 Congratulations! 🎉 Your order for the Headway Bassheads has been confirmed. 🙌 Order Details: Product: Chicken Peri Peri Quantity: 2 Order ID: 24431534121541 Delivery Address: House number  90 Piplani Estimated Delivery Date: Today Evening`,
       title: 'Order Confirmation',
+      type: 'Video',
+      icon: <Iconify icon="icon-park-outline:share" width={20} />,
     },
     {
       coverSrc: '../../assets/images/chatImage/food-template-images/f2.png',
-      text: `Hi {{1}}! 🎧🛒 Congratulations! 🎉 Your order for the Headway Bassheads has been confirmed. 🙌 Order Details: Product: {{2}} Quantity: {{3}} Order ID: {{4}} Delivery Address: {{5}} Estimated Delivery Date: {{6}}`,
+      text: `Hi Pabbly! 🎧🛒 Congratulations! 🎉 Your order for the Headway Bassheads has been confirmed. 🙌 Order Details: Product: Chicken Peri Peri Quantity: 2 Order ID: 24431534121541 Delivery Address: House number  90 Piplani Estimated Delivery Date: Today Evening`,
       title: 'Order Confirmation',
+      type: 'Video',
+      icon: <Iconify icon="icon-park-outline:share" width={20} />,
     },
     {
       coverSrc: '../../assets/images/chatImage/food-template-images/f1.png',
-      text: `Hi {{1}}! 🎧🛒 Congratulations! 🎉 Your order for the Headway Bassheads has been confirmed. 🙌 Order Details: Product: {{2}} Quantity: {{3}} Order ID: {{4}} Delivery Address: {{5}} Estimated Delivery Date: {{6}}`,
+      text: `Hi Pabbly! 🎧🛒 Congratulations! 🎉 Your order for the Headway Bassheads has been confirmed. 🙌 Order Details: Product: Chicken Peri Peri Quantity: 2 Order ID: 24431534121541 Delivery Address: House number  90 Piplani Estimated Delivery Date: Today Evening`,
       title: 'Order Confirmation',
+      type: 'Text',
+      icon: <Iconify icon="icon-park-outline:share" width={20} />,
     },
     {
       coverSrc: '../../assets/images/chatImage/food-template-images/f3.png',
-      text: `Hi {{1}}! 🎧🛒 Congratulations! 🎉 Your order for the Headway Bassheads has been confirmed. 🙌 Order Details: Product: {{2}} Quantity: {{3}} Order ID: {{4}} Delivery Address: {{5}} Estimated Delivery Date: {{6}}`,
+      text: `Hi Pabbly! 🎧🛒 Congratulations! 🎉 Your order for the Headway Bassheads has been confirmed. 🙌 Order Details: Product: Chicken Peri Peri Quantity: 2 Order ID: 24431534121541 Delivery Address: House number  90 Piplani Estimated Delivery Date: Today Evening`,
       title: 'Order Confirmation',
+      type: 'File',
+      icon: <Iconify icon="solar:copy-bold" width={20} />,
     },
     {
       coverSrc: '../../assets/images/chatImage/food-template-images/f4.png',
-      text: `Hi {{1}}! 🎧🛒 Congratulations! 🎉 Your order for the Headway Bassheads has been confirmed. 🙌 Order Details: Product: {{2}} Quantity: {{3}} Order ID: {{4}} Delivery Address: {{5}} Estimated Delivery Date: {{6}}`,
+      text: `Hi Pabbly! 🎧🛒 Congratulations! 🎉 Your order for the Headway Bassheads has been confirmed. 🙌 Order Details: Product: Chicken Peri Peri Quantity: 2 Order ID: 24431534121541 Delivery Address: House number  90 Piplani Estimated Delivery Date: Today Evening`,
       title: 'Order Confirmation',
+      type: 'Video',
+      icon: <Iconify icon="solar:copy-bold" width={20} />,
     },
   ];
 
@@ -115,48 +141,19 @@ export default function ServiceTemplatesRender() {
     <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
       <Typography sx={{ fontSize: 18, fontWeight: 600 }}>Service Messages</Typography>
       <Box display="flex" justifyContent="space-between">
-      <Tooltip title="Click here to search the template by name" arrow placement='top'>
-        <TextField
-          placeholder="Search templates..."
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <Iconify icon="eva:search-fill" sx={{ color: 'text.disabled' }} />
-              </InputAdornment>
-            ),
-          }}
-          sx={{ mt: 2.5 }}
-        />
-        </Tooltip>
-        <Button
-          disableRipple
-          color="inherit"
-          onClick={popover.onOpen}
-          endIcon={
-            <Iconify
-              icon={popover.open ? 'eva:arrow-ios-upward-fill' : 'eva:arrow-ios-downward-fill'}
-            />
-          }
-          sx={{ fontWeight: 'fontWeightSemiBold' }}
-        >
-          Sort by:
-          <Box
-            component="span"
-            sx={{ ml: 0.5, fontWeight: 'fontWeightBold', textTransform: 'capitalize' }}
+        <Tooltip title="Click here to search the template by name" arrow placement="top">
+          <TextField
+            placeholder="Search templates..."
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Iconify icon="eva:search-fill" sx={{ color: 'text.disabled' }} />
+                </InputAdornment>
+              ),
+            }}
+            sx={{ mt: 2.5 }}
           />
-        </Button>
-
-        <CustomPopover
-          open={popover.open}
-          anchorEl={popover.anchorEl}
-          onClose={popover.onClose}
-        >
-          <MenuList>
-            <MenuItem>Latest</MenuItem>
-            <MenuItem>Popular</MenuItem>
-            <MenuItem>Oldest</MenuItem>
-          </MenuList>
-        </CustomPopover>
+        </Tooltip>
       </Box>
 
       <Box
@@ -166,11 +163,13 @@ export default function ServiceTemplatesRender() {
         gridTemplateColumns={{ xs: 'repeat(1, 1fr)', sm: 'repeat(2, 1fr)', md: 'repeat(3, 1fr)' }}
       >
         {displayedChatBoxes.map((chatBox, index) => (
-          <ChatBox
+          <ExpoloreTemplateChatBox
             key={index}
             coverSrc={chatBox.coverSrc}
             showImage
-            text={<>{chatBox.text}</>}
+            text={chatBox.text}
+            icon={chatBox.icon}
+            type={chatBox.type}
             showLinks
             showVisit
             title={chatBox.title} // Pass title prop

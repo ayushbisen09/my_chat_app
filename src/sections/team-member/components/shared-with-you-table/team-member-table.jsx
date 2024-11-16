@@ -42,11 +42,27 @@ import { SharedWithYouTeammemberTableFiltersResult } from './team-member-table-f
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
-  { id: 'teammember', label: 'WhatsApp Number Access Shared By You', width: 1200, tooltip: "WhatsApp number access shared by you" },
-  { id: 'whatsAppNumbershared ', label: 'WhatsApp Number Shared ', width: 1500 ,tooltip: "whatsApp number shared with team member"},
-  { id: 'sharedon', label: 'Shared On', width: 900 ,tooltip: "Shared date and time "},
-  { id: 'access', label: 'Access', width: 900 ,tooltip: "Access team member account" , align: 'right'},
-
+  {
+    id: 'teammember',
+    label: 'WhatsApp Number Access Shared By You',
+    width: 1700,
+    tooltip: 'WhatsApp number access shared by you',
+  },
+  {
+    id: 'whatsAppNumbershared ',
+    label: 'WhatsApp Number Shared ',
+    width: 1700,
+    tooltip: 'whatsApp number shared with team member',
+  },
+  { id: 'sharedon', label: 'Shared On', width: 1900, tooltip: 'Shared date and time ' },
+  { id: 'access', label: 'Access', width: 900, tooltip: 'Access team member account' },
+  {
+    id: 'action',
+    label: '',
+    width: 100,
+    tooltip: 'Access team member account',
+    align: 'right',
+  },
 ];
 
 export default function SharedWithYouTeamMemberTable({
@@ -125,7 +141,7 @@ export default function SharedWithYouTeamMemberTable({
     [router]
   );
 
-  const confirmDelete = useBoolean();;
+  const confirmDelete = useBoolean();
 
   return (
     <>
@@ -208,7 +224,7 @@ export default function SharedWithYouTeamMemberTable({
                     table.page * table.rowsPerPage,
                     table.page * table.rowsPerPage + table.rowsPerPage
                   )
-                  .map((row ,index) => (
+                  .map((row, index) => (
                     <SharedWithYouTeammemberTableRow
                       key={row.id}
                       row={row}
@@ -217,7 +233,6 @@ export default function SharedWithYouTeamMemberTable({
                       onDeleteRow={() => handleDeleteRow(row.id)}
                       onViewRow={() => handleViewRow(row.id)}
                       sharedwithyouteammemberIndex={table.page * table.rowsPerPage + index}
-
                     />
                   ))}
 

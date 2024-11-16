@@ -6,18 +6,23 @@ import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import TableRow from '@mui/material/TableRow';
 import TableCell from '@mui/material/TableCell';
-import { Button, Tooltip, Checkbox } from '@mui/material';
+import { Button, Tooltip, Checkbox, MenuList, MenuItem, IconButton } from '@mui/material';
+
+import { useBoolean } from 'src/hooks/use-boolean';
 
 import { showAccessBox } from 'src/redux/slices/accessSlice';
 
+import { Iconify } from 'src/components/iconify';
 import { AnimateLogo1 } from 'src/components/animate';
+import { ConfirmDialog } from 'src/components/custom-dialog';
+import { usePopover, CustomPopover } from 'src/components/custom-popover';
 
 export function SharedWithYouTeammemberTableRow({
   row,
   selected,
   onSelectRow,
   sharedwithyouteammemberIndex,
-  onAccessNowClick,
+  onDeleteRow,
 }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -34,6 +39,9 @@ export function SharedWithYouTeammemberTableRow({
       navigate('/app');
     }, 2000);
   };
+
+  const confirm = useBoolean();
+  const popover = usePopover();
 
   const sharedondateandtime = [
     'Jan 19, 2024 08:23:31',
@@ -107,7 +115,7 @@ export function SharedWithYouTeammemberTableRow({
           />
         </TableCell>
 
-        <TableCell width={700}>
+        <TableCell width={1500}>
           <Stack spacing={2} direction="row" alignItems="center">
             <Stack
               sx={{
@@ -148,7 +156,7 @@ export function SharedWithYouTeammemberTableRow({
           </Stack>
         </TableCell>
 
-        <TableCell width={700}>
+        <TableCell width={1500}>
           <Stack spacing={2} direction="row" alignItems="center">
             <Stack
               sx={{
@@ -170,7 +178,7 @@ export function SharedWithYouTeammemberTableRow({
           </Stack>
         </TableCell>
 
-        <TableCell width={700}>
+        <TableCell width={1900}>
           <Stack spacing={2} direction="row" alignItems="center">
             <Stack
               sx={{
@@ -192,13 +200,13 @@ export function SharedWithYouTeammemberTableRow({
           </Stack>
         </TableCell>
 
-        <TableCell align="right" width={700}>
+        <TableCell width={700}>
           <Stack spacing={2} direction="row" alignItems="center">
             <Stack
               spacing={2}
               direction="row"
               alignItems="center"
-              justifyContent="flex-end" // Aligns content to the right
+              // justifyContent="flex-end" // Aligns content to the right
               sx={{ width: '100%' }} // Ensure Stack spans the full cell width
             >
               <Tooltip
@@ -221,9 +229,60 @@ export function SharedWithYouTeammemberTableRow({
             </Stack>
           </Stack>
         </TableCell>
+
+        <TableCell align="right" width={100}>
+          <Tooltip title="Action" arrow placement="top">
+            <IconButton color={popover.open ? 'inherit' : 'default'} onClick={popover.onOpen}>
+              <Iconify icon="eva:more-vertical-fill" />
+            </IconButton>
+          </Tooltip>
+        </TableCell>
       </TableRow>
     </>
   );
 
-  return <>{renderPrimary}</>;
+  return (
+    <>
+      {renderPrimary}
+      <CustomPopover
+        open={popover.open}
+        anchorEl={popover.anchorEl}
+        onClose={popover.onClose}
+        slotProps={{ arrow: { placement: 'right-top' } }}
+      >
+        <MenuList>
+          <Tooltip
+            title={`Click here to remove access from this " ${teammemberemail[sharedwithyouteammemberIndex % teammemberemail.length]} " team member`}
+            arrow
+            placement="top"
+          >
+            <MenuItem
+              onClick={() => {
+                confirm.onTrue();
+                popover.onClose();
+              }}
+              sx={{ color: 'error.main' }}
+            >
+              <Iconify icon="solar:trash-bin-trash-bold" />
+              Remove Access
+            </MenuItem>
+          </Tooltip>
+        </MenuList>
+      </CustomPopover>
+
+      <ConfirmDialog
+        open={confirm.value}
+        onClose={confirm.onFalse}
+        title="Remove"
+        content={`Are you sure want to remove this team member ${teammemberemail[sharedwithyouteammemberIndex % teammemberemail.length]} ?`}
+        action={
+          <Tooltip title="Click here to remove team member" arrow placement="bottom">
+            <Button variant="contained" color="error" onClick={onDeleteRow}>
+              Remove
+            </Button>
+          </Tooltip>
+        }
+      />
+    </>
+  );
 }

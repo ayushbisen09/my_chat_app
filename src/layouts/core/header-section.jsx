@@ -14,6 +14,7 @@ import { bgBlur, varAlpha } from 'src/theme/styles';
 import { hideAccessBox } from 'src/redux/slices/accessSlice';
 
 import { Iconify } from 'src/components/iconify';
+import { AnimateLogo1 } from 'src/components/animate';
 
 import { layoutClasses } from '../classes';
 
@@ -85,12 +86,28 @@ export function HeaderSection({
 
   return (
     <>
-
-    {showAccessBox && (
+      {isAnimating && (
         <Box
-        className={layoutClasses.header}
           sx={{
-           
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            width: '100vw',
+            height: '100vh',
+            backgroundColor: '#FFFFFF', // Semi-transparent overlay
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 1300, // High z-index to cover the entire page
+          }}
+        >
+          <AnimateLogo1 />
+        </Box>
+      )}
+      {showAccessBox && (
+        <Box
+          className={layoutClasses.header}
+          sx={{
             px: 5,
             py: 2,
             backgroundImage: 'linear-gradient(to left, #455DF7, #2C2A6ABA, #E1497F)', // Linear gradient as background
@@ -122,55 +139,49 @@ export function HeaderSection({
           </Stack>
         </Box>
       )}
-    <AppBar
-      position="sticky"
-      className={layoutClasses.header}
-      sx={{
-        zIndex: 'var(--layout-header-zIndex)',
-        ...sx,
-      }}
-      {...other}
-    >
-      {slots?.topArea}
-
-      <Toolbar
-        disableGutters
-        {...slotProps?.toolbar}
+      <AppBar
+        position="sticky"
+        className={layoutClasses.header}
         sx={{
-          ...toolbarStyles.default,
-          ...(!disableOffset && offsetTop && toolbarStyles.offset),
-          ...slotProps?.toolbar?.sx,
+          zIndex: 'var(--layout-header-zIndex)',
+          ...sx,
         }}
+        {...other}
       >
-        <Container
-          {...slotProps?.container}
+        {slots?.topArea}
+
+        <Toolbar
+          disableGutters
+          {...slotProps?.toolbar}
           sx={{
-            height: 1,
-            display: 'flex',
-            alignItems: 'center',
-            ...slotProps?.container?.sx,
+            ...toolbarStyles.default,
+            ...(!disableOffset && offsetTop && toolbarStyles.offset),
+            ...slotProps?.toolbar?.sx,
           }}
         >
-          {slots?.leftArea}
+          <Container
+            {...slotProps?.container}
+            sx={{
+              height: 1,
+              display: 'flex',
+              alignItems: 'center',
+              ...slotProps?.container?.sx,
+            }}
+          >
+            {slots?.leftArea}
 
-          <Box sx={{ display: 'flex', flex: '1 1 auto', justifyContent: 'center' }}>
-            {slots?.centerArea}
-          </Box>
+            <Box sx={{ display: 'flex', flex: '1 1 auto', justifyContent: 'center' }}>
+              {slots?.centerArea}
+            </Box>
 
-          {slots?.rightArea}
-        </Container>
-      </Toolbar>
+            {slots?.rightArea}
+          </Container>
+        </Toolbar>
 
-      {slots?.bottomArea}
+        {slots?.bottomArea}
 
-      {!disableElevation && offsetTop && <StyledElevation />}
-    </AppBar>
-
-
-    
+        {!disableElevation && offsetTop && <StyledElevation />}
+      </AppBar>
     </>
-    
-
-    
   );
 }
