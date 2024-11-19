@@ -10,19 +10,13 @@ import {
   paginationClasses,
 } from '@mui/material';
 
-import { useBoolean } from 'src/hooks/use-boolean';
-
 import { Iconify } from 'src/components/iconify';
-import { usePopover } from 'src/components/custom-popover';
 
 import ExpoloreTemplateChatBox from './hook/chat-box';
 
 export default function EcommTemplatesRender() {
-  const popover = usePopover();
-  const confirm = useBoolean();
   const [page, setPage] = useState(1); // State for current page
   const itemsPerPage = 3; // Number of items per page
-  const totalItems = 14; // Total number of items
 
   // Function to handle page change
   const handlePageChange = (event, value) => {
@@ -32,104 +26,57 @@ export default function EcommTemplatesRender() {
   // Data for ChatBox items with eCommerce-related messages
   const chatBoxes = [
     {
-      coverSrc: '../../assets/images/chatImage/e1.png',
-      text: `Hi Nikhil! 🎉 Thank you for shopping with us! Your order for {{2}} has been confirmed. Order ID: {{4}}. Track your order here! 📦`,
-      title: 'Order Confirmation',
-      type: 'Audio',
-      icon: <Iconify icon="material-symbols:call" width={20} />,
-    },
-    {
-      coverSrc: '../../assets/images/chatImage/e2.png',
-      text: `Hi Nikhil! 🚚 Your order for {{2}} has been shipped and is on its way! Estimated Delivery Date: {{6}}. Stay tuned for more updates. 📱`,
-      title: 'Shipping Update',
-      type: 'Audio',
-      icon: <Iconify icon="material-symbols:call" width={20} />,
-    },
-    {
-      coverSrc: '../../assets/images/chatImage/e3.png',
-      text: `Hi Nikhil! 🛒 Great news! Our exclusive sale is live now. Enjoy up to 50% off on selected items. Shop now and save big! 💸`,
-      title: 'Exclusive Sale',
-      type: 'Video',
-      icon: <Iconify icon="material-symbols:call" width={20} />,
-    },
-    {
-      coverSrc: '../../assets/images/chatImage/e4.png',
-      text: `Hi Nikhil! 🎁 Congratulations! You have received a gift voucher worth $2. Use code {{4}} at checkout to redeem it. Happy Shopping! 🎊`,
-      title: 'Gift Voucher',
-      type: 'Image',
-      icon: <Iconify icon="solar:copy-bold" width={20} />,
-    },
-    {
-      coverSrc: '../../assets/images/chatImage/e1.png',
-      text: `Hi Nikhil! 💬 Need help with your recent purchase? Our customer support team is here for you. Contact us anytime, and we’ll be happy to assist! 📞`,
-      title: 'Customer Support',
-      type: 'Video',
-      icon: <Iconify icon="icon-park-outline:share" width={20} />,
-    },
-    {
-      coverSrc: '../../assets/images/chatImage/e2.png',
-      text: `Hi Nikhil! 🛍️ New arrivals alert! Check out our latest collection and be the first to get your hands on these trending products. Shop now! 👗`,
-      title: 'New Arrivals',
-      type: 'File',
-      icon: <Iconify icon="solar:copy-bold" width={20} />,
-    },
-    {
-      coverSrc: '../../assets/images/chatImage/e3.png',
-      text: `Hi Nikhil! 🔔 Your return request for Order ID {{4}} has been processed. You will receive a confirmation once the refund is completed. Thank you! 🙏`,
-      title: 'Return Processed',
-      type: 'File',
-      icon: <Iconify icon="material-symbols:call" width={20} />,
-    },
-    {
-      coverSrc: '../../assets/images/chatImage/e4.png',
-      text: `Hi Nikhil! 🎯 Looking for more? Check out our 'Recommended for You' section based on your shopping history and discover products you’ll love! 🛍️`,
-      title: 'Recommended for You',
-      type: 'File',
-      icon: <Iconify icon="solar:copy-bold" width={20} />,
-    },
-    {
-      coverSrc: '../../assets/images/chatImage/e4.png',
-      text: `Hi Nikhil! 📦 Your package for Order ID {{4}} is out for delivery today. Please ensure someone is available to receive it. Thank you! 🚚`,
-      title: 'Out for Delivery',
-      type: 'Image',
-      icon: <Iconify icon="icon-park-outline:share" width={20} />,
-    },
-    {
-      coverSrc: '../../assets/images/chatImage/e3.png',
-      text: `Hi Nikhil! 🎈 Celebrate with us! Enjoy a special discount of 20% on your next purchase using code {{4}}. Valid till {{6}}. 🎉`,
-      title: 'Special Discount',
-      type: 'Video',
-      icon: <Iconify icon="solar:copy-bold" width={20} />,
-    },
-    {
-      coverSrc: '../../assets/images/chatImage/e2.png',
-      text: `Hi Nikhil! 🛒 Your cart is waiting! Complete your purchase today and enjoy free shipping on orders above $50. 🛍️`,
-      title: 'Cart Reminder',
-      type: 'Text',
-      icon: <Iconify icon="icon-park-outline:share" width={20} />,
-    },
-    {
-      coverSrc: '../../assets/images/chatImage/e1.png',
-      text: `Hi Nikhil! 🌟 Your feedback matters to us! Please rate your recent purchase of {{2}}. Your opinion helps us improve our services. ✨`,
-      title: 'Feedback Request',
+      coverSrc: '../../assets/images/chatImage/education-template-images/ed1.jpg',
+      text: ` Empowering young minds with curiosity and knowledge in [English] 📚✨. Every question leads to a world of discovery! 🌟👩‍🏫`,
+      title: 'Engaged Learning in Action',
       type: 'Image',
       icon: <Iconify icon="material-symbols:call" width={20} />,
     },
     {
-      coverSrc: '../../assets/images/chatImage/e3.png',
-      text: `Hi Nikhil! 📢 Don’t miss out on our flash sale! Limited time only! Grab your favorite items at unbeatable prices. Shop now! 🛒`,
-      title: 'Flash Sale',
+      coverSrc: '../../assets/images/chatImage/education-template-images/ed2.jpg',
+      text: `Watch young learners step into a world of endless opportunities 🎒✨. Every step brings them closer to their dreams! 🌟📚`,
+      title: 'Journey to Knowledge',
+      type: 'Image',
+      icon: <Iconify icon="material-symbols:call" width={20} />,
+    },
+    {
+      coverSrc: '../../assets/images/chatImage/education-template-images/ed3.jpg',
+      text: `Dive into the treasure trove of books and unlock the power of knowledge 📖✨. A world of learning awaits! 🌟📚`,
+      title: 'Library of Wisdom',
       type: 'Video',
+      icon: <Iconify icon="material-symbols:call" width={20} />,
+    },
+    {
+      coverSrc: '../../assets/images/chatImage/education-template-images/ed4.jpg',
+      text: `Hop on the ride of learning and friendship 🚌✨. A new day, a new journey to discover and grow! 🌟🎒`,
+      title: 'School Bus Adventures',
+      type: 'Image',
       icon: <Iconify icon="solar:copy-bold" width={20} />,
     },
     {
-      coverSrc: '../../assets/images/chatImage/e4.png',
-      text: `Hi Nikhil! 💌 Thank you for being a loyal customer! Enjoy a special offer exclusively for you. Use code {{4}} and get 15% off on your next order. 🎁`,
-      title: 'Loyalty Offer',
-      type: 'Text',
+      coverSrc: '../../assets/images/chatImage/education-template-images/ed5.jpg',
+      text: `Where eager minds and creative ideas come alive ✏️✨. Learning today to shape tomorrow! 🌟📚`,
+      title: 'Classroom of Curiosity',
+      type: 'Video',
       icon: <Iconify icon="icon-park-outline:share" width={20} />,
+    },
+    {
+      coverSrc: '../../assets/images/chatImage/education-template-images/ed6.jpg',
+      text: ` Little hands crafting big dreams through art and imagination 🎨✨. Where every stroke tells a story! 🌟🖌️`,
+      title: 'Creativity in Action',
+      type: 'File',
+      icon: <Iconify icon="solar:copy-bold" width={20} />,
+    },
+    {
+      coverSrc: '../../assets/images/chatImage/education-template-images/ed7.jpg',
+      text: `Honoring the hard work and achievements of bright young minds 🎓✨. A moment of pride and joy! 🌟🏆`,
+      title: 'Celebrating Excellence',
+      type: 'File',
+      icon: <Iconify icon="material-symbols:call" width={20} />,
     },
   ];
+
+  const totalItems = chatBoxes.length;
 
   // Calculate the number of pages
   const pageCount = Math.ceil(totalItems / itemsPerPage);
@@ -141,22 +88,19 @@ export default function EcommTemplatesRender() {
     <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
       <Typography sx={{ fontSize: 18, fontWeight: 600 }}>Education Templates</Typography>
       <Box display="flex" justifyContent="space-between">
-      <Tooltip title="Click here to search the template by name" arrow placement='top'>
-        <TextField
-          placeholder="Search templates..."
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <Iconify icon="eva:search-fill" sx={{ color: 'text.disabled' }} />
-              </InputAdornment>
-            ),
-          }}
-          sx={{ mt: 2.5 }}
-        />
+        <Tooltip title="Click here to search the template by name" arrow placement="top">
+          <TextField
+            placeholder="Search templates..."
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Iconify icon="eva:search-fill" sx={{ color: 'text.disabled' }} />
+                </InputAdornment>
+              ),
+            }}
+            sx={{ mt: 2.5 }}
+          />
         </Tooltip>
-      
-
-       
       </Box>
 
       <Box

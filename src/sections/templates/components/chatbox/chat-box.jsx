@@ -3,6 +3,7 @@ import { Box, Divider, CardMedia, Typography } from '@mui/material';
 
 import { Iconify } from 'src/components/iconify';
 
+
 export default function AddTemplateChatBox({
   text,
   coverSrc,

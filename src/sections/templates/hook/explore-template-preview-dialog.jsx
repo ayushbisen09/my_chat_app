@@ -1,5 +1,7 @@
 import { Box, Divider, CardMedia, Typography, IconButton } from '@mui/material';
 
+import { formatNames } from 'src/utils/formatString';
+
 export default function ExploareTemplatePreviewChatBox({ text, coverSrc, showImage, icon, type }) {
   const getIconText = () => {
     if (icon.props.icon === 'icon-park-outline:share') return 'Share';
@@ -48,7 +50,7 @@ export default function ExploareTemplatePreviewChatBox({ text, coverSrc, showIma
           // 24px margin bottom
         }}
       >
-        {text}
+        {formatNames(text)}
       </Typography>
 
       {icon && (

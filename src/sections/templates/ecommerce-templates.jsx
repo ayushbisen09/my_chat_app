@@ -10,132 +10,118 @@ import {
   paginationClasses,
 } from '@mui/material';
 
-import { useBoolean } from 'src/hooks/use-boolean';
-
 import { Iconify } from 'src/components/iconify';
-import { usePopover } from 'src/components/custom-popover';
 
 import ExpoloreTemplateChatBox from './hook/chat-box';
 
 export default function EcommTemplatesRender() {
-  const popover = usePopover();
-  const confirm = useBoolean();
   const [page, setPage] = useState(1); // State for current page
   const itemsPerPage = 3; // Number of items per page
-  const totalItems = 14; // Total number of items
-
-  // Function to handle page change
-  const handlePageChange = (event, value) => {
-    setPage(value);
-  };
 
   // Data for ChatBox items with eCommerce-related messages
   const chatBoxes = [
+   
     {
-      coverSrc: '../../assets/images/chatImage/e1.png',
-      text: `Hi Ankit! 🎉 Thank you for shopping with us! Your order for {{2}} has been confirmed. Order ID: {{4}}. Track your order here! 📦`,
-      title: 'Order Confirmation',
-      type: 'Text',
-      icon: <Iconify icon="icon-park-outline:share" width={20} />,
-    },
-    {
-      coverSrc: '../../assets/images/chatImage/e2.png',
-      text: `Hi Ankit! 🚚 Your order for {{2}} has been shipped and is on its way! Estimated Delivery Date: {{6}}. Stay tuned for more updates. 📱`,
+      coverSrc: '../../assets/images/chatImage/ecommerce-template-images/e2.jpg',
+      text: `Hi [Ankit!] 🚚 Discover endless possibilities with our seamless online shopping experience. From everyday essentials to luxury items, shop with confidence and convenience right from your laptop. Your next great find is just a click away. Start browsing today!. 📱`,
       title: 'Shipping Update',
-      type: 'Audio',
+      type: 'Image',
       icon: <Iconify icon="material-symbols:call" width={20} />,
     },
     {
-      coverSrc: '../../assets/images/chatImage/e3.png',
-      text: `Hi Ankit! 🛒 Great news! Our exclusive sale is live now. Enjoy up to 50% off on selected items. Shop now and save big! 💸`,
+      coverSrc: '../../assets/images/chatImage/ecommerce-template-images/e3.jpg',
+      text: `Hi [Ankit!] 🛒 Shop smarter with a seamless online experience. Fill your cart with top brands, exclusive deals, and everyday essentials—all delivered to your doorstep 💸`,
       title: 'Exclusive Sale',
       type: 'Video',
       icon: <Iconify icon="material-symbols:call" width={20} />,
     },
     {
-      coverSrc: '../../assets/images/chatImage/e4.png',
-      text: `Hi Ankit! 🎁 Congratulations! You have received a gift voucher worth $2. Use code {{4}} at checkout to redeem it. Happy Shopping! 🎊`,
-      title: 'Gift Voucher',
+      coverSrc: '../../assets/images/chatImage/ecommerce-template-images/e4.jpg',
+      text: `Hi [Ankit!] 🎁 Your favorite products are just a tap away! Enjoy a smooth mobile shopping experience with exclusive deals, quick checkout, and fast delivery. Everything you need, right at your fingertips. Start shopping today!🎊`,
+      title: 'Seamless Mobile Shopping Experience',
       type: 'Image',
       icon: <Iconify icon="solar:copy-bold" width={20} />,
     },
     {
-      coverSrc: '../../assets/images/chatImage/e1.png',
-      text: `Hi Ankit! 💬 Need help with your recent purchase? Our customer support team is here for you. Contact us anytime, and we’ll be happy to assist! 📞`,
-      title: 'Customer Support',
+      coverSrc: '../../assets/images/chatImage/ecommerce-template-images/e5.jpg',
+      text: `Hi [Ankit!] 💬  Experience seamless online trade where convenience meets security. Exchange goods and payments effortlessly through digital platforms📞`,
+      title: 'Digital Shoping',
       type: 'File',
       icon: <Iconify icon="solar:copy-bold" width={20} />,
     },
     {
-      coverSrc: '../../assets/images/chatImage/e2.png',
-      text: `Hi Ankit! 🛍️ New arrivals alert! Check out our latest collection and be the first to get your hands on these trending products. Shop now! 👗`,
+      coverSrc: '../../assets/images/chatImage/ecommerce-template-images/e6.jpg',
+      text: `Hi [Ankit!] 🛍️ New arrivals alert! Check out our latest collection and be the first to get your hands on these trending products. Shop now! 👗`,
       title: 'New Arrivals',
       type: 'Video',
       icon: <Iconify icon="icon-park-outline:share" width={20} />,
     },
     {
-      coverSrc: '../../assets/images/chatImage/e3.png',
-      text: `Hi Ankit! 🔔 Your return request for Order ID {{4}} has been processed. You will receive a confirmation once the refund is completed. Thank you! 🙏`,
-      title: 'Return Processed',
+      coverSrc: '../../assets/images/chatImage/ecommerce-template-images/e7.jpg',
+      text: `Hi [Ankit!] 🔔 Shop your favorite products and enjoy up to 50% off with special offers. Add to your cart and save big today!🎊`,
+      title: 'Unlock Exclusive Discounts',
       type: 'File',
       icon: <Iconify icon="material-symbols:call" width={20} />,
     },
     {
-      coverSrc: '../../assets/images/chatImage/e4.png',
-      text: `Hi Ankit! 🎯 Looking for more? Check out our 'Recommended for You' section based on your shopping history and discover products you’ll love! 🛍️`,
-      title: 'Recommended for You',
+      coverSrc: '../../assets/images/chatImage/ecommerce-template-images/e8.jpg',
+      text: `Hi [Ankit!] 🎯 Efficient logistics to ensure your packages are processed and delivered on time. From warehouse to doorstep, we’ve got it covered! 🛍️`,
+      title: 'Order Fulfillment',
       type: 'File',
       icon: <Iconify icon="solar:copy-bold" width={20} />,
     },
     {
-      coverSrc: '../../assets/images/chatImage/e4.png',
-      text: `Hi Ankit! 📦 Your package for Order ID {{4}} is out for delivery today. Please ensure someone is available to receive it. Thank you! 🚚`,
-      title: 'Out for Delivery',
+      coverSrc: '../../assets/images/chatImage/ecommerce-template-images/e9.jpg',
+      text: `Hi [Ankit!]  Experience seamless online shopping where payments 💶 meet products 🛒. A smarter, faster way to shop from screen to reality! 🚀`,
+      title: 'Shop from Home',
       type: 'Image',
       icon: <Iconify icon="icon-park-outline:share" width={20} />,
     },
     {
-      coverSrc: '../../assets/images/chatImage/e3.png',
-      text: `Hi Ankit! 🎈 Celebrate with us! Enjoy a special discount of 20% on your next purchase using code {{4}}. Valid till {{6}}. 🎉`,
-      title: 'Special Discount',
+      coverSrc: '../../assets/images/chatImage/ecommerce-template-images/e10.jpg',
+      text: `Hi [Ankit!] Preparing your package [Order ID: 43543246545] with precision and care for a seamless delivery experience! 📦✨`,
+      title: 'Packing with Care',
       type: 'Video',
       icon: <Iconify icon="solar:copy-bold" width={20} />,
     },
     {
-      coverSrc: '../../assets/images/chatImage/e2.png',
-      text: `Hi Ankit! 🛒 Your cart is waiting! Complete your purchase today and enjoy free shipping on orders above $50. 🛍️`,
-      title: 'Cart Reminder',
+      coverSrc: '../../assets/images/chatImage/ecommerce-template-images/e11.jpg',
+      text: `Hi [Ankit!] Explore your favorite products [Vegatables, Groceries] with ease 🛍️📱. Shop smarter with technology at your fingertips! 🛒✨`,
+      title: 'Smart Shopping Redefined',
       type: 'Text',
       icon: <Iconify icon="icon-park-outline:share" width={20} />,
     },
     {
-      coverSrc: '../../assets/images/chatImage/e1.png',
-      text: `Hi Ankit! 🌟 Your feedback matters to us! Please rate your recent purchase of {{2}}. Your opinion helps us improve our services. ✨`,
-      title: 'Feedback Request',
+      coverSrc: '../../assets/images/chatImage/ecommerce-template-images/e12.jpg',
+      text: `Hi [Ankit!] 🌟 Add [Iphone 16 Pro Max] to your cart 🛒💻 and enjoy exclusive deals! Easy, fast, and secure shopping at your fingertips. 💸✨`,
+      title: 'Shop & Save Online',
       type: 'Image',
       icon: <Iconify icon="material-symbols:call" width={20} />,
     },
     {
-      coverSrc: '../../assets/images/chatImage/e3.png',
-      text: `Hi Ankit! 📢 Don’t miss out on our flash sale! Limited time only! Grab your favorite items at unbeatable prices. Shop now! 🛒`,
+      coverSrc: '../../assets/images/chatImage/ecommerce-template-images/e13.jpg',
+      text: `Hi [Ankit!] 📢 Don’t miss out on our flash sale! Limited time only! Grab your favorite items at unbeatable prices. Shop now! 🛒`,
       title: 'Flash Sale',
       type: 'Video',
       icon: <Iconify icon="solar:copy-bold" width={20} />,
     },
     {
-      coverSrc: '../../assets/images/chatImage/e4.png',
-      text: `Hi Ankit! 💌 Thank you for being a loyal customer! Enjoy a special offer exclusively for you. Use code {{4}} and get 15% off on your next order. 🎁`,
+      coverSrc: '../../assets/images/chatImage/ecommerce-template-images/e14.jpg',
+      text: `Hi [Ankit!] 💌 Fill your bags with [Home Needs] 🛍️✨. Grab amazing deals and offers before they’re gone! 🛒🎉`,
       title: 'Loyalty Offer',
       type: 'Text',
       icon: <Iconify icon="icon-park-outline:share" width={20} />,
     },
   ];
+  const totalItems = chatBoxes.length;
 
-  // Calculate the number of pages
   const pageCount = Math.ceil(totalItems / itemsPerPage);
 
-  // Get the items to display based on the current page
   const displayedChatBoxes = chatBoxes.slice((page - 1) * itemsPerPage, page * itemsPerPage);
+
+  const handlePageChange = (event, value) => {
+    setPage(value);
+  };
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
@@ -154,7 +140,6 @@ export default function EcommTemplatesRender() {
             sx={{ mt: 2.5 }}
           />
         </Tooltip>
-        
       </Box>
 
       <Box

@@ -148,6 +148,7 @@ export default function ExpoloreTemplateChatBox({
           showCoupon={showCoupon}
           showVisit={showVisit}
           icon={icon}
+          title={title}
         />
       )}
       {/* Pass data to the PreviewTempalteDailog */}

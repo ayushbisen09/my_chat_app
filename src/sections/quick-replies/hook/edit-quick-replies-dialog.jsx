@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/img-redundant-alt */
+/* eslint-disable jsx-a11y/media-has-caption */
 import { useTheme } from '@emotion/react';
 import React, { useState, useCallback } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
@@ -9,8 +11,10 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import {
   Box,
+  Alert,
   Divider,
   Tooltip,
+  Snackbar,
   MenuItem,
   TextField,
   Typography,
@@ -22,86 +26,89 @@ import { useBoolean } from 'src/hooks/use-boolean';
 
 import { Iconify } from 'src/components/iconify';
 import FileUpload from 'src/components/upload/upload';
+import { ConfirmDialog } from 'src/components/custom-dialog';
+
+import FileType from 'src/sections/optIn-management/hook/messages-type/file';
 
 // ----------------------------------------------------------------------
 export function EditQuickRepliesDialog({ title, content, action, open, onClose, ...other }) {
   const theme = useTheme();
   const isWeb = useMediaQuery(theme.breakpoints.up('sm'));
   const dialog = useBoolean();
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const [snackbarOpen, setSnackbarOpen] = useState(false);
-  const [chatBoxImage, setChatBoxImage] = useState(''); // State for the image based on the selected type
-
-  const handleChangemessagetype = useCallback((event) => {
-    const selectedType = event.target.value;
-    setmessagetype(selectedType);
-    if (selectedType === 'file' || selectedType === 'audio' || selectedType === 'video') {
-      setMessage('');
-    }
-
-    // Update the chat box image based on the selected type
-    switch (selectedType) {
-      case 'text':
-        setChatBoxImage('');
-        break;
-      case 'image':
-        setChatBoxImage('../../assets/images/chatImage/imagechat.png');
-        break;
-      case 'video':
-        setChatBoxImage('../../assets/images/chatImage/video.png');
-        break;
-      case 'file':
-        setChatBoxImage('../../assets/images/chatImage/document.png');
-        break;
-      case 'audio':
-        setChatBoxImage('../../assets/images/chatImage/audio.png');
-        break;
-      default:
-        setChatBoxImage('../../assets/images/chatImage/default.png');
-    }
-  }, []);
-  const MESSAGETYPE = [
+  const [messageType, setMessageType] = useState('text');
+  const [file, setFile] = useState(null);
+  const [fileURL, setFileURL] = useState('');
+  const [chatBoxImage, setChatBoxImage] = useState('');
+  const [message, setMessage] = useState(
+    'Thank you for opting-out. In the future, if you ever want to connect again just send "Hello" .'
+  );
+  const [fileName, setFileName] = useState('');
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  const MESSAGETYPES = [
     { value: 'text', label: 'Text' },
     { value: 'image', label: 'Image' },
     { value: 'file', label: 'File' },
     { value: 'video', label: 'Video' },
     { value: 'audio', label: 'Audio' },
   ];
-  const handleMessageChange = (event) => {
-    setMessage(event.target.value);
+  const handleChangeMessageType = useCallback((event) => {
+    const selectedType = event.target.value;
+    setMessageType(selectedType);
+
+    setFile(null);
+    setFileURL('');
+    const defaultImages = {
+      text: '',
+      image: '../../assets/images/chatImage/imagechat.png',
+      video: '../../assets/images/chatImage/video.png',
+      file: '../../assets/images/chatImage/document.png',
+      audio: '../../assets/images/chatImage/audio.png',
+    };
+
+    setChatBoxImage(defaultImages[selectedType] || defaultImages.text);
+
+    if (['file', 'audio', 'video'].includes(selectedType)) {
+      setMessage('');
+    }
+  }, []);
+  const handleFileUpload = useCallback((uploadedFile) => {
+    setFile(uploadedFile);
+    const uploadedFileURL = URL.createObjectURL(uploadedFile);
+    setFileURL(uploadedFileURL);
+    setFileName(uploadedFile.name);
+  }, []);
+  const handleRemoveFile = () => {
+    setFile(null);
+    setFileURL('');
+    setFileName('');
+  };
+  const handleConfirmURLChange = (event) => {
+    setFileURL(event.target.value);
+    setShowConfirmation(false);
+  };
+  const handleURLChange = (event) => {
+    setShowConfirmation(true);
   };
 
   const handleAdd = () => {
-    // Implement your logic to add WhatsApp number here
-    // For example, you might want to validate the inputs first
-
-    // Show the snackbar
     setSnackbarOpen(true);
-
-    // Close the dialog after a short delay
-    setTimeout(() => {
-      onClose();
-    }, 500);
   };
 
-  const handleSnackbarClose = (event, reason) => {
-    if (reason === 'clickaway') {
-      return;
+  const handleSnackbarClose = useCallback((event, reason) => {
+    if (reason !== 'clickaway') {
+      setSnackbarOpen(false);
     }
-    setSnackbarOpen(false);
-  };
-  const handleFileUpload = () => {
-    if (file) {
-      setIsFileUploaded(true);
-      setFile(file);
-    }
-  };
-  const [file, setFile] = useState(null); // To store uploaded file
-  const [isFileUploaded, setIsFileUploaded] = useState(false);
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
-  const [messagetype, setmessagetype] = useState('text');
-  const [message, setMessage] = useState(
-    'Thank you for opting-out. In future if you ever want to connect again just send "Hello".'
-  ); // State to store the entered message
+  }, []);
+
+  const handleMessageChange = useCallback((event) => {
+    setMessage(event.target.value);
+  }, []);
+
+  const handleFileNameChange = useCallback((event) => {
+    setFileName(event.target.value);
+  }, []);
 
   return (
     <>
@@ -115,7 +122,7 @@ export function EditQuickRepliesDialog({ title, content, action, open, onClose, 
           sx={{ fontWeight: '700', display: 'flex', justifyContent: 'space-between' }}
           onClick={dialog.onFalse}
         >
-          Edit Quick Replies{' '}
+          Quick Replies{' '}
           <Iconify
             onClick={onClose}
             icon="uil:times"
@@ -124,7 +131,7 @@ export function EditQuickRepliesDialog({ title, content, action, open, onClose, 
         </DialogTitle>
         <Divider sx={{ mb: '16px', borderStyle: 'dashed' }} />
 
-        <DialogContent sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+        <DialogContent sx={{ display: 'flex', flexDirection: 'column' }}>
           <TextField
             autoFocus
             fullWidth
@@ -162,18 +169,17 @@ export function EditQuickRepliesDialog({ title, content, action, open, onClose, 
           />
           <Box sx={{ mt: '24px' }}>
             <Box flexDirection={isMobile ? 'column' : 'row'} width="100%">
-              <Tooltip title="Click here to select regular message type" arrow placement="top">
+              <Tooltip title="Click here to select message type" arrow placement="top">
                 <TextField
                   sx={{ mb: 3 }}
-                  id="select-messagetype-label-x"
                   select
                   fullWidth
-                  label="Message Type"
-                  value={messagetype}
-                  onChange={handleChangemessagetype}
+                  label="Select Message Type"
+                  value={messageType}
+                  onChange={handleChangeMessageType}
                   helperText="Select one fo the message types to proceed"
                 >
-                  {MESSAGETYPE.map((option) => (
+                  {MESSAGETYPES.map((option) => (
                     <MenuItem key={option.value} value={option.value}>
                       {option.label}
                     </MenuItem>
@@ -181,59 +187,59 @@ export function EditQuickRepliesDialog({ title, content, action, open, onClose, 
                 </TextField>
               </Tooltip>
 
-              {/* Conditional rendering based on selected type */}
-              {messagetype === 'text' && (
-                <Tooltip title="Enter message here" arrow placement="top">
+              {messageType === 'text' && (
+                <Tooltip title="Enter your message" arrow placement="top">
                   <TextField
                     rows={4}
                     fullWidth
                     multiline
-                    label="Enter message here."
+                    label="Message"
                     value={message}
-                    onChange={handleMessageChange} // Update state on text change
+                    sx={{ mb: 2 }}
+                    onChange={handleMessageChange}
                     helperText="Use text formatting - *bold* & _italic_ Text can be upto 4096 characters long
-                    Personalize messages with - $FirstName, $Name, $MobileNumber, $LastName & custom attributes.
-                    Customize messages with dynamic parameters e.g. - Your verification code is {{1}}."
+Personalize messages with - $FirstName, $Name, $MobileNumber, $LastName & custom attributes.
+Customize messages with dynamic parameters e.g. - Your verification code is {{1}}."
                   />
                 </Tooltip>
               )}
 
-              {(messagetype === 'image' || messagetype === 'video') && (
+              {(messageType === 'image' || messageType === 'video') && (
                 <>
-                  <Tooltip title="Enter caption here" arrow placement="top">
+                  <Tooltip title="Enter caption" arrow placement="top">
                     <TextField
-                    rows={4}
-                    multiline
                       sx={{ mb: 3 }}
                       fullWidth
-                      label="Enter Message Here"
+                      label="Enter message here."
                       value={message}
-                      onChange={handleMessageChange} // Update state on text change
+                      onChange={handleMessageChange}
                       helperText="Use text formatting - *bold* & _italic_ Text can be upto 4096 characters long
                       Personalize messages with - $FirstName, $Name, $MobileNumber, $LastName & custom attributes.
-                      Customize messages with dynamic parameters e.g. - Your verification code is {{1}}."
+                      Customize messages with dynamic parameters e.g. - Your verification code is{{1}}."
                     />
                   </Tooltip>
 
                   <TextField
-                    sx={{ mt: 0 }}
+                    sx={{ mb: 3 }}
                     fullWidth
-                    type="text"
                     margin="dense"
                     variant="outlined"
                     label="Header File URL"
-                    helperText="Size < 5MB, Accepted formats : .png or .jpeg"
+                    value={fileURL}
+                    onChange={handleURLChange}
+                    helperText={`Size < 5MB, Accepted formats: ${
+                      messageType === 'image'
+                        ? '.png, .jpeg'
+                        : messageType === 'video'
+                          ? '.mp4'
+                          : messageType === 'audio'
+                            ? '.mp3, .wav'
+                            : '.pdf, .doc, .txt'
+                    }`}
                     InputProps={{
                       endAdornment: (
                         <InputAdornment position="end">
-                          <Tooltip
-                            title="Enter header url"
-                            arrow
-                            placement="top"
-                            sx={{
-                              fontSize: '16px',
-                            }}
-                          >
+                          <Tooltip title="Enter header URL" arrow placement="top">
                             <Iconify
                               icon="material-symbols:info-outline"
                               style={{ width: 20, height: 20 }}
@@ -243,24 +249,40 @@ export function EditQuickRepliesDialog({ title, content, action, open, onClose, 
                       ),
                     }}
                   />
-                  <Typography
-                    sx={{
-                      fontSize: '14px',
-                      fontWeight: '600',
-                      width: '100%',
-                      padding: '24px 0px 24px 0px',
-                      mr: 0,
-                      ml: 0,
-                    }}
-                  >
-                    OR
-                  </Typography>
 
-                  <FileUpload onFileUpload={handleFileUpload} />
+                  <Typography sx={{ textAlign: 'center', fontWeight: 600, py: 3 }}>OR</Typography>
+
+                  {(messageType === 'image' ||
+                    messageType === 'video' ||
+                    messageType === 'file' ||
+                    messageType === 'audio') && (
+                    <>
+                      <FileUpload
+                        onFileUpload={handleFileUpload}
+                        accept={
+                          messageType === 'image'
+                            ? 'image/png, image/jpeg'
+                            : messageType === 'video'
+                              ? 'video/mp4'
+                              : messageType === 'audio'
+                                ? 'audio/mpeg, audio/wav'
+                                : '.pdf, .doc, .txt'
+                        }
+                      />
+
+                      {file && (
+                        <Box sx={{ mt: 3 }}>
+                          <Button onClick={handleURLChange} variant="outlined" color="error">
+                            Remove Uploaded File
+                          </Button>
+                        </Box>
+                      )}
+                    </>
+                  )}
+
                   <TextField
-                    sx={{ mt: 3 }}
+                    sx={{ mt: 3, mb: 2 }}
                     fullWidth
-                    type="text"
                     margin="dense"
                     variant="outlined"
                     label="File Name"
@@ -272,9 +294,6 @@ export function EditQuickRepliesDialog({ title, content, action, open, onClose, 
                             title="Enter the name of media file, visible on download"
                             arrow
                             placement="top"
-                            sx={{
-                              fontSize: '16px',
-                            }}
                           >
                             <Iconify
                               icon="material-symbols:info-outline"
@@ -288,27 +307,19 @@ export function EditQuickRepliesDialog({ title, content, action, open, onClose, 
                 </>
               )}
 
-              {(messagetype === 'file' || messagetype === 'audio') && (
+              {(messageType === 'file' || messageType === 'audio') && (
                 <>
                   <TextField
-                    sx={{ mt: 0 }}
+                    sx={{ mb: 3, mt: 0 }}
                     fullWidth
-                    type="text"
                     margin="dense"
                     variant="outlined"
                     label="Header File URL"
-                    helperText="Size < 5MB, Accepted formats : .png or .jpeg"
+                    helperText="Size < 5MB, Accepted formats: .png, .jpeg"
                     InputProps={{
                       endAdornment: (
                         <InputAdornment position="end">
-                          <Tooltip
-                            title="Enter header url"
-                            arrow
-                            placement="top"
-                            sx={{
-                              fontSize: '16px',
-                            }}
-                          >
+                          <Tooltip title="Enter header URL" arrow placement="top">
                             <Iconify
                               icon="material-symbols:info-outline"
                               style={{ width: 20, height: 20 }}
@@ -318,27 +329,19 @@ export function EditQuickRepliesDialog({ title, content, action, open, onClose, 
                       ),
                     }}
                   />
-                  <Typography
-                    sx={{
-                      fontSize: '14px',
-                      fontWeight: '600',
-                      width: '100%',
-                      padding: '24px 0px 24px 0px',
-                      mr: 0,
-                      ml: 0,
-                    }}
-                  >
-                    OR
-                  </Typography>
+
+                  <Typography sx={{ textAlign: 'center', fontWeight: 600, py: 3 }}>OR</Typography>
 
                   <FileUpload onFileUpload={handleFileUpload} />
+
                   <TextField
-                    sx={{ mt: 3 }}
+                    sx={{ mt: 3, mb: 2 }}
                     fullWidth
-                    type="text"
                     margin="dense"
                     variant="outlined"
                     label="File Name"
+                    value={fileName}
+                    onChange={handleFileNameChange}
                     helperText="Display name of media file, visible on download."
                     InputProps={{
                       endAdornment: (
@@ -347,9 +350,6 @@ export function EditQuickRepliesDialog({ title, content, action, open, onClose, 
                             title="Enter the name of media file, visible on download"
                             arrow
                             placement="top"
-                            sx={{
-                              fontSize: '16px',
-                            }}
                           >
                             <Iconify
                               icon="material-symbols:info-outline"
@@ -364,71 +364,134 @@ export function EditQuickRepliesDialog({ title, content, action, open, onClose, 
               )}
             </Box>
           </Box>
-<Divider/>
-         
-          <Tooltip title="Quick replies message type preview" arrow placement="top">
-            <Box>
-              <Box
-                sx={{
-                  p: 2,
-                  backgroundColor: '#CCF4FE',
-                  borderRadius: '8px',
-                  mt: 2,
-                }}
-              >
-                <Box sx={{ mb: 2 }}>
-                  {chatBoxImage && (
+
+          <Box>
+            <Divider />
+            <Tooltip title="Quick replies preview" arrow placement="top">
+              <Box sx={{ p: 2, backgroundColor: '#CCF4FE', borderRadius: 1, mt: 2 }}>
+                {messageType === 'image' && !fileURL && (
+                  <Box sx={{ mb: 2 }}>
                     <img
-                      src={chatBoxImage}
-                      alt="Chat Preview"
-                      style={{ width: '100%', borderRadius: '8px' }}
+                      src={chatBoxImage || '../../assets/images/chatImage/imagechat.png'}
+                      alt="Image Preview"
+                      style={{ width: '100%', borderRadius: 8 }}
                     />
-                  )}
-                </Box>
+                  </Box>
+                )}
+                {fileURL && messageType === 'image' && (
+                  <Box sx={{ mb: 2 }}>
+                    <img
+                      src={fileURL}
+                      alt="Image Preview"
+                      style={{ width: '100%', borderRadius: 8 }}
+                    />
+                  </Box>
+                )}
+                {messageType === 'video' && !fileURL && (
+                  <Box sx={{ mb: 2 }}>
+                    <img
+                      src={chatBoxImage || '../../assets/images/chatImage/video.png'}
+                      alt="Video Preview"
+                      style={{ width: '100%', borderRadius: 8 }}
+                    />
+                  </Box>
+                )}
+                {fileURL && messageType === 'video' && (
+                  <Box sx={{ mb: 2 }}>
+                    <video controls width="100%" style={{ borderRadius: 8 }}>
+                      <source src={fileURL} type="video/mp4" />
+                    </video>
+                  </Box>
+                )}
+
+                {messageType === 'audio' && !fileURL && (
+                  <Box sx={{ mb: 2 }}>
+                    <img
+                      src={chatBoxImage || '../../assets/images/chatImage/audio.png'}
+                      alt="Audio Preview"
+                      style={{ width: '100%', borderRadius: 8 }}
+                    />
+                  </Box>
+                )}
+                {fileURL && messageType === 'audio' && (
+                  <Box sx={{ mb: 2 }}>
+                    <audio controls style={{ width: '100%' }}>
+                      <source src={fileURL} type="audio/mpeg" />
+                    </audio>
+                  </Box>
+                )}
+
+                {messageType === 'file' && !fileURL && (
+                  <Box sx={{ mb: 2 }}>
+                    <img
+                      src={chatBoxImage || '../../assets/images/chatImage/document.png'}
+                      alt="File Preview"
+                      style={{ width: '100%', borderRadius: 8 }}
+                    />
+                  </Box>
+                )}
+                {fileURL && messageType === 'file' && (
+                  <Box sx={{ mb: 2 }}>
+                    <FileType />
+                  </Box>
+                )}
+
                 <Typography
                   variant="body2"
-                  color="text.primary"
-                  sx={{ fontSize: 14, fontWeight: '500', mb: chatBoxImage ? 0 : 0 }}
+                  sx={{ fontSize: 14, fontWeight: 500, whiteSpace: 'pre-line' }}
                 >
                   {message}
                 </Typography>
               </Box>
-            </Box>
-          </Tooltip>
+            </Tooltip>
+          </Box>
         </DialogContent>
 
         <DialogActions>
-          <Button onClick={onClose} variant="outlined" color="inherit">
+          <Button onClick={onClose} variant="outlined">
             Cancel
           </Button>
-          <Button onClick={handleAdd} variant="contained" color='primary'>
-            Update
+          <Button onClick={handleAdd} variant="contained" color="primary">
+            Add
           </Button>
         </DialogActions>
       </Dialog>
-      {/* <Snackbar
+      <Snackbar
         open={snackbarOpen}
-        autoHideDuration={10000}
+        autoHideDuration={3000}
         onClose={handleSnackbarClose}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-        sx={{
-          boxShadow: '0px 8px 16px 0px rgba(145, 158, 171, 0.16)',
-        }}
+        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+        sx={{ boxShadow: '0px 8px 16px 0px rgba(145, 158, 171, 0.16)' }}
       >
         <Alert
           onClose={handleSnackbarClose}
           severity="success"
-          sx={{
-            width: '100%',
-            fontSize: '14px',
-            fontWeight: 'bold',
-            backgroundColor: theme.palette.background.paper,
-            color: theme.palette.text.primary,
-          }}
+          sx={{ boxShadow: '0px 8px 16px 0px rgba(145, 158, 171, 0.16)' }}
         >
-          Quick Replies Updated Successfully!
+          Your template regular message is saved successfully.
         </Alert>
-      </Snackbar> */}
+      </Snackbar>
+
+      <ConfirmDialog
+        open={showConfirmation}
+        onClose={() => setShowConfirmation(false)}
+        title="Remove"
+        content="Are you sure you want to remove uploaded file?"
+        action={
+          <Button
+            variant="contained"
+            color="error"
+            onClick={() => {
+              setFile(null);
+              setFileURL('');
+              setFileName('');
+              setShowConfirmation(false);
+            }}
+          >
+            Remove
+          </Button>
+        }
+      />
     </>
   );
 }

@@ -79,19 +79,40 @@ export function QuickRepliesTableRow({ row, selected, onSelectRow, quickrepliesI
     // Add more flow names as needed
   ];
 
+  const getImageByType = (type) => {
+    switch (type) {
+      case 'Image':
+        return '../../assets/images/chatImage/imagechat.png';
+      case 'Video':
+        return '../../assets/images/chatImage/video.png';
+      case 'Text':
+        return '';
+      case 'Audio':
+        return '../../assets/images/chatImage/audio.png';
+      case 'File':
+        return '../../assets/images/chatImage/document.png';
+      default:
+        return '';
+    }
+  };
+
+  // eslint-disable-next-line arrow-body-style
+  const getMessageByIndex = (index) => {
+    return quickrepliesmessage[index % quickrepliesmessage.length];
+  };
+
   const teammembersPageDisabled = useSelector((state) => state.access.teammembersPageDisabled);
 
   const renderPrimary = (
     <TableRow hover selected={selected}>
       {!teammembersPageDisabled && (
-
-      <TableCell padding="checkbox">
-        <Checkbox
-          checked={selected}
-          onClick={onSelectRow}
-          inputProps={{ id: `row-checkbox-${row.id}`, 'aria-label': `Row checkbox` }}
-        />
-      </TableCell>
+        <TableCell padding="checkbox">
+          <Checkbox
+            checked={selected}
+            onClick={onSelectRow}
+            inputProps={{ id: `row-checkbox-${row.id}`, 'aria-label': `Row checkbox` }}
+          />
+        </TableCell>
       )}
       <TableCell width={592}>
         <Stack spacing={2} direction="row" alignItems="center">
@@ -210,17 +231,29 @@ export function QuickRepliesTableRow({ row, selected, onSelectRow, quickrepliesI
               View
             </MenuItem>
           </Tooltip>
-          <PreviewQuickRepliesDialog open={previewDialog.value} onClose={previewDialog.onFalse} />
-          
+          <PreviewQuickRepliesDialog
+            open={previewDialog.value}
+            onClose={previewDialog.onFalse}
+            image={getImageByType(quickrepliestypes[quickrepliesIndex % quickrepliestypes.length])}
+            message={getMessageByIndex(quickrepliesIndex)}
+          />
+
           {!teammembersPageDisabled && (
             <>
-            <Tooltip title="Click here to edit quick replies message" arrow placement="left">
-            <MenuItem onClick={dialog.onTrue}>
-              <Iconify icon="solar:pen-bold" />
-              Edit
-            </MenuItem>
-            <EditQuickRepliesDialog open={dialog.value} onClose={dialog.onFalse} />
-          </Tooltip>
+              <Tooltip title="Click here to edit quick replies message" arrow placement="left">
+                <MenuItem onClick={dialog.onTrue}>
+                  <Iconify icon="solar:pen-bold" />
+                  Edit
+                </MenuItem>
+                <EditQuickRepliesDialog
+                  open={dialog.value}
+                  onClose={dialog.onFalse}
+                  image={getImageByType(
+                    quickrepliestypes[quickrepliesIndex % quickrepliestypes.length]
+                  )}
+                  quickrepliesMessage={getMessageByIndex(quickrepliesIndex)}
+                />
+              </Tooltip>
               <Divider style={{ borderStyle: 'dashed' }} />
               <Tooltip title="Click here to delete quick replies message" arrow placement="left">
                 <MenuItem

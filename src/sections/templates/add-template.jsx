@@ -149,6 +149,8 @@ export default function AddTemplate() {
 
   const [inputText, setInputText] = useState('');
   const [headerInput, setHeaderInput] = useState('');
+  const [templateFormatInput, settemplateFormatInput] = useState('');
+
   const [fields, setFields] = useState([]);
   const [headerFields, setHeaderFields] = useState([]);
   const [sampleValues, setSampleValues] = useState({});
@@ -185,26 +187,42 @@ export default function AddTemplate() {
     const { value } = e.target;
     setHeaderInput(value);
 
-    // Regex to match {{Any text}} but only add new fields if not already present
     const regex = /\{\{.*?\}\}/g;
     const matchedFields = value.match(regex);
+    console.log(matchedFields, 'matchedFields in handleHeaderInputChange');
 
     if (matchedFields) {
-      const newFields = matchedFields.filter(
-        (match) => !headerFields.includes(match) // Only add fields that don't already exist
-      );
-      if (newFields.length > 0) {
-        setHeaderFields([...headerFields, ...newFields]);
+        const newFields = matchedFields.filter(
+            (match) => !headerFields.includes(match) // Only add fields that don't already exist
+        );
+        console.log(newFields, 'newFields to be added');
 
-        // Set corresponding sample values, initially empty
-        const newSampleValues = newFields.reduce((acc, field, index) => {
-          acc[field] = ''; // Empty value for sample fields
-          return acc;
-        }, {});
-        setSampleValues({ ...sampleValues, ...newSampleValues });
-      }
+        if (newFields.length > 0) {
+            setHeaderFields([...headerFields, ...newFields]);
+        }
     }
-  };
+};
+
+const handleTemplateFormatChange = (e) => {
+  const { value } = e.target;
+  settemplateFormatInput(value);
+
+  const regex = /\{\{.*?\}\}/g;
+  const matchedFields = value.match(regex);
+  console.log(matchedFields, 'matchedFields in handleHeaderInputChange');
+
+  if (matchedFields) {
+      const newFields = matchedFields.filter(
+          (match) => !headerFields.includes(match) // Only add fields that don't already exist
+      );
+      console.log(newFields, 'newFields to be added');
+
+      if (newFields.length > 0) {
+          setHeaderFields([...headerFields, ...newFields]);
+      }
+  }
+};
+
 
   const handleSampleValueChange = (e, field) => {
     const updatedValues = {
@@ -300,11 +318,6 @@ export default function AddTemplate() {
   const handleDelete = () => {
     setIsConfirmDialogOpen(false);
   };
-
-  // const addTemplate = () => {
-  //   showToast();
-  //   navigate('/app/template');
-  // };
 
   const handleCarouselMediaTypeChange = (event) => {
     setCarouselMediaType(event.target.value);
@@ -527,8 +540,8 @@ export default function AddTemplate() {
                           variant="outlined"
                           label="Template Format"
                           helperText="Use text formatting - *bold*, _italic_, ~strikethrough~. For example - Hello {{1}}, your code will expire in {{2}} mins. You're allowed a maximum of 1024 characters."
-                          value={inputText}
-                          onChange={handleInputChange}
+                          value={templateFormatInput}
+                          onChange={handleTemplateFormatChange}
                           onKeyPress={handleKeyPress}
                           InputProps={{
                             endAdornment: (

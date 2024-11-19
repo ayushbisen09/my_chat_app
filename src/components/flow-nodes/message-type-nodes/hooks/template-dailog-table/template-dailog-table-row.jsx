@@ -16,6 +16,8 @@ import { AudioTemplateTypeDialog } from '../template-type-dialogs/audio-template
 import { VideoTemplateTypeDialog } from '../template-type-dialogs/video-template-type-dialog';
 import { ImageTemplateTypeDialog } from '../template-type-dialogs/image-template-type-dialog';
 import { CarouselTemplateTypeDialog } from '../template-type-dialogs/carousel-template-type-dialog';
+import { LocationTemplateTypeDialog } from '../template-type-dialogs/location-template-type-dialog';
+import { LimitedTiemOfferTemplateTypeDialog } from '../template-type-dialogs/limited-time-offer-template-type-dialog';
 
 const templatename = [
   'Classic Layout',
@@ -27,7 +29,16 @@ const templatename = [
   'Loyalty Program Invitation',
 ];
 
-const templatetype = ['Text', 'File', 'Audio', 'Video', 'Image', 'Carousel', 'Limited time offer'];
+const templatetype = [
+  'Text',
+  'File',
+  'Audio',
+  'Video',
+  'Image',
+  'Carousel',
+  'Limited time offer',
+  'Location',
+];
 
 export function ChooseTemplateDialogTableRow({ row, selected, TemplateIndex }) {
   const [openPreviewDialog, setOpenPreviewDialog] = useState(false);
@@ -37,6 +48,8 @@ export function ChooseTemplateDialogTableRow({ row, selected, TemplateIndex }) {
   const [openVideoTemplateDialog, setOpenVideoTemplateDialog] = useState(false);
   const [openImageTemplateDialog, setOpenImageTemplateDialog] = useState(false);
   const [openCarouselTemplateDialog, setOpenCarouselTemplateDialog] = useState(false);
+  const [openLimtedTimeOfferTemplateDialog, setOpenLimtedTimeOfferTemplateDialog] = useState(false);
+  const [openLocationTemplateDialog, setOpenLocationTemplateDialog] = useState(false);
 
   const handleOpenPreviewDialog = (event) => {
     event.stopPropagation(); // Prevents the TableRow click handler from firing
@@ -60,6 +73,10 @@ export function ChooseTemplateDialogTableRow({ row, selected, TemplateIndex }) {
       setOpenImageTemplateDialog(true);
     } else if (templatetype[TemplateIndex % templatetype.length] === 'Carousel') {
       setOpenCarouselTemplateDialog(true);
+    } else if (templatetype[TemplateIndex % templatetype.length] === 'Limited time offer') {
+      setOpenLimtedTimeOfferTemplateDialog(true);
+    } else if (templatetype[TemplateIndex % templatetype.length] === 'Location') {
+      setOpenLocationTemplateDialog(true);
     }
   };
 
@@ -85,6 +102,13 @@ export function ChooseTemplateDialogTableRow({ row, selected, TemplateIndex }) {
 
   const handleCloseCarouselTemplateDialog = () => {
     setOpenCarouselTemplateDialog(false);
+  };
+
+  const handleCloseLimtedTimeOfferTemplateDialog = () => {
+    setOpenLimtedTimeOfferTemplateDialog(false);
+  };
+  const handleCloseLocationTemplateDialog = () => {
+    setOpenLocationTemplateDialog(false);
   };
 
   const handleTableRowClick = () => {
@@ -223,6 +247,15 @@ export function ChooseTemplateDialogTableRow({ row, selected, TemplateIndex }) {
       <CarouselTemplateTypeDialog
         open={openCarouselTemplateDialog}
         onClose={handleCloseCarouselTemplateDialog} // Correct closing behavior
+      />
+
+      <LimitedTiemOfferTemplateTypeDialog
+        open={openLimtedTimeOfferTemplateDialog}
+        onClose={handleCloseLimtedTimeOfferTemplateDialog} // Correct closing behavior
+      />
+      <LocationTemplateTypeDialog
+        open={openLocationTemplateDialog}
+        onClose={handleCloseLocationTemplateDialog} // Correct closing behavior
       />
     </>
   );

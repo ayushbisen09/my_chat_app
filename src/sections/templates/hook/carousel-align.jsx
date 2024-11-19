@@ -13,14 +13,14 @@ import {
 
 import AddTemplateChatBox from '../components/chatbox/chat-box';
 
-export function CarouselAlign() {
+export function CarouselAlign({ displayCardControls = true , uploadedFileURL}) {
   const templateFormatInputText = useSelector((state) => state.template.templateFormatInputText);
   const carousel = useCarousel({
     containScroll: false,
     slideSpacing: '20px',
   });
 
-  const [chatBoxImage] = useState('../../assets/images/chatImage/location.png');
+  const [chatBoxImage, setChatBoxImage] = useState('../../assets/images/chatImage/location.png');
   const [chatData, setChatData] = useState([
     {
       id: 1,
@@ -99,19 +99,28 @@ export function CarouselAlign() {
     };
   }, [carousel, chatData.length, currentCardIndex]);
 
+
+  useEffect(() => {
+    if (uploadedFileURL) {
+      setChatBoxImage(uploadedFileURL);
+    } else {
+      setChatBoxImage('../../assets/images/chatImage/location.png'); // Reset to default
+    }
+  }, [uploadedFileURL]);
+
   return (
     <>
-      <Card sx={{ height: 110,  width: 335,p: 3, mb: 1.5, borderRadius: '8px',  }}>
-      <Typography
-        fontSize={14}
-        sx={{
-          wordBreak: 'break-word',
-          overflowWrap: 'break-word',
-          whiteSpace: 'pre-wrap',
-        }}
-      >
-        {templateFormatInputText || 'Enter template format'}
-      </Typography>
+      <Card sx={{ height: 110, width: 335, p: 3, mb: 1.5, borderRadius: '8px' }}>
+        <Typography
+          fontSize={14}
+          sx={{
+            wordBreak: 'break-word',
+            overflowWrap: 'break-word',
+            whiteSpace: 'pre-wrap',
+          }}
+        >
+          {templateFormatInputText || 'Enter template format'}
+        </Typography>
       </Card>
       <Carousel carousel={carousel} sx={{ width: '335px' }}>
         {chatData.map((item) => (
@@ -161,19 +170,21 @@ export function CarouselAlign() {
       </Box>
 
       {/* Add/Delete Card Buttons */}
-      <Box display="flex" alignItems="center" gap={2} sx={{ mt: 1 }}>
-        <Button onClick={addCard} disabled={chatData.length >= 10} variant="outlined">
-          Add Card
-        </Button>
-        <Button
-          onClick={deleteCard}
-          disabled={chatData.length <= 1}
-          variant="outlined"
-          color="error"
-        >
-          Delete Card
-        </Button>
-      </Box>
+      {displayCardControls && (
+        <Box display="flex" alignItems="center" gap={2} sx={{ mt: 1 }}>
+          <Button onClick={addCard} disabled={chatData.length >= 10} variant="outlined">
+            Add Card
+          </Button>
+          <Button
+            onClick={deleteCard}
+            disabled={chatData.length <= 1}
+            variant="outlined"
+            color="error"
+          >
+            Delete Card
+          </Button>
+        </Box>
+      )}
     </>
   );
 }

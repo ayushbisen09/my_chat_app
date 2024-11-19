@@ -11,15 +11,13 @@ import { useBoolean } from 'src/hooks/use-boolean';
 import { Iconify } from 'src/components/iconify';
 
 // ----------------------------------------------------------------------
-export function PreviewQuickRepliesDialog({ title, content, action, open, onClose, ...other }) {
+export function PreviewQuickRepliesDialog({ title, content, action, open, onClose,image, message,...other }) {
   const theme = useTheme();
   const isWeb = useMediaQuery(theme.breakpoints.up('sm'));
   const dialog = useBoolean();
   const [chatBoxImage] = useState('../../assets/images/chatImage/imagechat.png'); // State for the image based on the selected type
 
-  const [message] = useState(
-    'Thank you for opting-out. In future if you ever want to connect again just send "Hello".'
-  ); // State to store the entered message
+
 
   return (
     <Dialog
@@ -52,13 +50,15 @@ export function PreviewQuickRepliesDialog({ title, content, action, open, onClos
                 mb:3
               }}
             >
-              <Box sx={{ mb: 2 }}>
-                <img
-                  src={chatBoxImage}
-                  alt="Chat Preview"
-                  style={{ width: '100%', borderRadius: '8px' }}
-                />
-              </Box>
+              {image && (
+                <Box sx={{ mb: 2 }}>
+                  <img
+                    src={image}
+                    alt="Chat Preview"
+                    style={{ width: '100%', borderRadius: '8px' }}
+                  />
+                </Box>
+              )}
               <Typography
                 variant="body2"
                 color="text.primary"

@@ -10,152 +10,144 @@ import {
   paginationClasses,
 } from '@mui/material';
 
-import { useBoolean } from 'src/hooks/use-boolean';
-
 import { Iconify } from 'src/components/iconify';
-import { usePopover } from 'src/components/custom-popover';
 
 import ExpoloreTemplateChatBox from './hook/chat-box';
 
 export default function FoodTemplatesRender() {
-  const popover = usePopover();
-  const confirm = useBoolean();
   const [page, setPage] = useState(1); // State for current page
   const itemsPerPage = 3; // Number of items per page
-  const totalItems = 14; // Total number of items
-
-  // Function to handle page change
-  const handlePageChange = (event, value) => {
-    setPage(value);
-  };
 
   // Data for ChatBox items with food-related messages
   const chatBoxes = [
     {
-      coverSrc: '../../assets/images/chatImage/food-template-images/f1.png',
-      text: `Hi Ayush! 🍔 Try our new Gourmet Burger, crafted with the finest ingredients. Order now and indulge in a delicious experience!`,
-      title: 'Gourmet Burger',
+      coverSrc: '../../assets/images/chatImage/food-template-images/f1.jpg',
+      text: `Hi [Ayush!] Savor the freshness of [Egg], [Tomato], and [Papaya], sourced from [Vegetables] 🥗🍓. Stay healthy and energized with every bite, brought to you by [Big Basket!] 🥑✨ `,
+      title: 'Fresh & Nutritious Delights"',
       type: 'Text',
       icon: <Iconify icon="icon-park-outline:share" width={20} />,
     },
     {
-      coverSrc: '../../assets/images/chatImage/food-template-images/f2.png',
-      text: `Hi Ayush! 🍕 Craving pizza? Check out our latest flavors and enjoy a cheesy delight! Order your favorite pizza today!`,
-      title: 'Pizza Delight',
-      type: 'Audio',
+      coverSrc: '../../assets/images/chatImage/food-template-images/f2.jpg',
+      text: `Hi [Ayush!] Indulge in the richness of [Grapes], [Mango], and [Apples] for a wholesome meal 🥗🍇. Sourced from [Fruits], every bite is packed with health and flavor! 🌟🍎`,
+      title: 'A Feast of Freshness',
+      type: 'Image',
       icon: <Iconify icon="material-symbols:call" width={20} />,
     },
     {
-      coverSrc: '../../assets/images/chatImage/food-template-images/f3.png',
-      text: `Hi Ayush! 🍣 Sushi lovers rejoice! Our fresh sushi rolls are here to tantalize your taste buds. Order now and enjoy a taste of Japan!`,
-      title: 'Sushi Rolls',
+      coverSrc: '../../assets/images/chatImage/food-template-images/f3.jpg',
+      text: `Hi [Ayush!] Dive into the deliciousness of [Pretzels], [Popcorn ], and [Nachos ] 🍿🍫. Perfect for [Every Time], these treats are sure to satisfy every craving! 🥨🍪`,
+      title: 'Snacks for Craving',
       type: 'Video',
       icon: <Iconify icon="material-symbols:call" width={20} />,
     },
     {
-      coverSrc: '../../assets/images/chatImage/food-template-images/f4.png',
-      text: `Hi Ayush! 🍝 Introducing our new Pasta Alfredo! Creamy, delicious, and perfect for any pasta lover. Order now and savor the flavor!`,
-      title: 'Pasta Alfredo',
+      coverSrc: '../../assets/images/chatImage/food-template-images/f4.jpg',
+      text: `Hi [Ayush!] Savor the iconic flavors of [Bacon Bliss Burger], [French Fries], and [Coke] 🍔🍟. Your favorites, made fresh and delicious, every time! 🥤✨`,
+      title: 'Taste the Arches"',
       type: 'Image',
       icon: <Iconify icon="solar:copy-bold" width={20} />,
-      
     },
     {
-      coverSrc: '../../assets/images/chatImage/food-template-images/f5.png',
-      text: `Hi Ayush! 🍨 Cool down with our refreshing ice creams! Try our new exotic flavors and beat the heat in style. Order now!`,
-      title: 'Ice Creams',
+      coverSrc: '../../assets/images/chatImage/food-template-images/f5.jpg',
+      text: `Hi [Ayush!] 🍨 Enjoy a hearty breakfast with [Dal Makhani], [Paneer Tikka Masala], and [Coke] 🥞🍳. Start your morning right with flavors that energize and delight! ☕🍌`,
+      title: 'Breakfast Bliss',
       type: 'File',
       icon: <Iconify icon="solar:copy-bold" width={20} />,
     },
     {
-      coverSrc: '../../assets/images/chatImage/food-template-images/f6.png',
-      text: `Hi Ayush! 🍷 Celebrate your special moments with our exquisite wine collection. Order your favorite bottle today and enjoy!`,
-      title: 'Wine Collection',
+      coverSrc: '../../assets/images/chatImage/food-template-images/f6.jpg',
+      text: `Hi [Ayush!] Savor the flavors of [Butter Chicken], [Chicken Peri Peri], and [Coke] 🍗🥗. Perfectly crafted meals for your special evenings! 🍴✨`,
+      title: 'Dinner Delights',
       type: 'Video',
       icon: <Iconify icon="icon-park-outline:share" width={20} />,
     },
     {
-      coverSrc: '../../assets/images/chatImage/food-template-images/f5.png',
-      text: `Hi Ayush! 🥗 Looking for something healthy? Try our fresh and tasty salads, perfect for a light and nutritious meal. Order now!`,
-      title: 'Healthy Salads',
+      coverSrc: '../../assets/images/chatImage/food-template-images/f7.jpg',
+      text: `Hi [Ayush!] 🥗 Treat yourself to [Pizza] topped with [Pepperoni] and [Mozzarella Cheese] 🥞🍓. Indulgence never tasted this good! 🍯✨`,
+      title: 'Sweet Stacks',
       type: 'File',
       icon: <Iconify icon="material-symbols:call" width={20} />,
     },
     {
-      coverSrc: '../../assets/images/chatImage/food-template-images/f6.png',
-      text: `Hi Ayush! 🍰 Sweeten your day with our delicious cakes and pastries. Perfect for every occasion! Order your favorite dessert today!`,
-      title: 'Cakes & Pastries',
+      coverSrc: '../../assets/images/chatImage/food-template-images/f8.jpg',
+      text: `Hi [Ayush!]  Indulge in our delicious [Mushroom Swiss Melt] loaded with [Cherry Tomatoes] and [Whipped Cream] 🥖🍖. A perfect blend of flavors to satisfy your cravings! 🌿✨`,
+      title: 'Savory Bites',
       type: 'File',
       icon: <Iconify icon="solar:copy-bold" width={20} />,
     },
     {
-      coverSrc: '../../assets/images/chatImage/food-template-images/f3.png',
-      text: `Hi Ayush! 🌮 Tacos anyone? Our new taco menu is out now! Packed with flavors that will transport you to Mexico. Order today!`,
-      title: 'Taco Menu',
+      coverSrc: '../../assets/images/chatImage/food-template-images/f9.jpg',
+      text: `Hi [Ayush!] Craft the perfect blend of [Parmesan Shavings], [Dried Cranberries], and [Grilled Chicken] 🌶️🧅. Elevate your dishes with authentic, rich flavors! ✨🍲`,
+      title: 'Flavor in the Making',
       type: 'Image',
       icon: <Iconify icon="icon-park-outline:share" width={20} />,
     },
     {
-      coverSrc: '../../assets/images/chatImage/food-template-images/f4.png',
-      text: `Hi Ayush! 🍵 Warm up with our special soups, made with fresh ingredients to comfort your soul. Order your bowl of goodness now!`,
-      title: 'Special Soups',
+      coverSrc: '../../assets/images/chatImage/food-template-images/f10.jpg',
+      text: `Hi [Ayush!] Enhance your recipes with [Grilled Chicken] and [Dried Cranberries] 🍅🌿. Pure, natural flavors straight from the garden! ✨🥗`,
+      title: 'Fresh & Flavorful',
       type: 'Video',
       icon: <Iconify icon="solar:copy-bold" width={20} />,
     },
     {
-      coverSrc: '../../assets/images/chatImage/food-template-images/f2.png',
-      text: `Hi Ayush! 🍹 Refresh yourself with our new range of mocktails and beverages. Perfect for any time of the day. Order yours now!`,
-      title: 'Mocktails & Beverages',
+      coverSrc: '../../assets/images/chatImage/food-template-images/f11.jpg',
+      text: `Hi [Ayush!] Start your day with [Grilled Chicken] and [Dried Cranberries], and a dash of fun 🍞🍊. Perfectly balanced for happy mornings! ☀️✨`,
+      title: 'Sunny Breakfast Smiles',
       type: 'Text',
       icon: <Iconify icon="icon-park-outline:share" width={20} />,
     },
     {
-      coverSrc: '../../assets/images/chatImage/food-template-images/f1.png',
-      text: `Hi Ayush! 🍜 Noodle lovers, rejoice! Our special ramen bowls are here to satisfy your cravings. Order now and slurp away!`,
-      title: 'Ramen Bowls',
+      coverSrc: '../../assets/images/chatImage/food-template-images/f12.jpg',
+      text: `Hi [Ayush!] Indulge in the richness of [Vanila] and [Berry] 🍫🍒. Every bite is a slice of heaven! 🎂✨`,
+      title: 'Choco Bliss',
       type: 'Image',
       icon: <Iconify icon="material-symbols:call" width={20} />,
     },
     {
-      coverSrc: '../../assets/images/chatImage/food-template-images/f3.png',
-      text: `Hi Ayush! 🥙 Try our new wrap combos, packed with flavors and fresh ingredients. Perfect for a quick and tasty meal. Order now!`,
+      coverSrc: '../../assets/images/chatImage/food-template-images/f13.jpg',
+      text: `Hi [Ayush!] 🥙 Try our new wrap combos, packed with flavors and fresh ingredients. Perfect for a quick and tasty meal. Order now!`,
       title: 'Wrap Combos',
       type: 'Video',
       icon: <Iconify icon="solar:copy-bold" width={20} />,
     },
     {
-      coverSrc: '../../assets/images/chatImage/food-template-images/f4.png',
-      text: `Hi Ayush! 🍪 Enjoy our freshly baked cookies, perfect with a cup of coffee or as a treat on the go. Order your batch now!`,
-      title: 'Fresh Cookies',
+      coverSrc: '../../assets/images/chatImage/food-template-images/f14.jpg',
+      text: `Hi [Ayush!] Add the goodness of [Grilled Chicken] and [Dried Cranberries], and Dried Cranberries to your meals 🍅🧄. Fresh flavors straight from the farm! 🌿✨`,
+      title: 'Farm Fresh Picks',
       type: 'Text',
       icon: <Iconify icon="icon-park-outline:share" width={20} />,
     },
   ];
+
+  // Function to handle page change
+  const totalItems = chatBoxes.length;
 
   // Calculate the number of pages
   const pageCount = Math.ceil(totalItems / itemsPerPage);
 
   // Get the items to display based on the current page
   const displayedChatBoxes = chatBoxes.slice((page - 1) * itemsPerPage, page * itemsPerPage);
-
+  const handlePageChange = (event, value) => {
+    setPage(value);
+  };
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
       <Typography sx={{ fontSize: 18, fontWeight: 600 }}>Food Specials</Typography>
       <Box display="flex" justifyContent="space-between">
-      <Tooltip title="Click here to search the template by name" arrow placement='top'>
-        <TextField
-          placeholder="Search templates..."
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <Iconify icon="eva:search-fill" sx={{ color: 'text.disabled' }} />
-              </InputAdornment>
-            ),
-          }}
-          sx={{ mt: 2.5 }}
-        />
+        <Tooltip title="Click here to search the template by name" arrow placement="top">
+          <TextField
+            placeholder="Search templates..."
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Iconify icon="eva:search-fill" sx={{ color: 'text.disabled' }} />
+                </InputAdornment>
+              ),
+            }}
+            sx={{ mt: 2.5 }}
+          />
         </Tooltip>
-       
       </Box>
 
       <Box

@@ -19,14 +19,15 @@ import templateimage from '../../../../../public/assets/images/chatImage/imagech
 export function SubmitAndPreviewTempalteDailog({
   open,
   onClose,
-  coverSrc,
   text,
   showImage,
   showLinks,
   showCall,
   showCoupon,
   showVisit,
-  type,icon
+  type,
+  icon,
+  title,
 }) {
   const theme = useTheme();
   const isWeb = useMediaQuery(theme.breakpoints.up('sm'));
@@ -34,7 +35,7 @@ export function SubmitAndPreviewTempalteDailog({
   return (
     <Dialog open={open} onClose={onClose} sx={{ width: '450px', mx: '40%' }}>
       <DialogTitle sx={{ fontWeight: '700', display: 'flex', justifyContent: 'space-between' }}>
-        Template Preview
+        {title}
         <Iconify
           onClick={onClose}
           icon="uil:times"
@@ -49,7 +50,7 @@ export function SubmitAndPreviewTempalteDailog({
           alignItems: 'center',
           justifyContent: 'center',
           p: 2,
-          pb:0
+          pb: 0,
         }}
       >
         <Paper>
@@ -64,6 +65,7 @@ export function SubmitAndPreviewTempalteDailog({
               showCoupon={showCoupon}
               showVisit={showVisit}
               icon={icon}
+              title={title}
             />
           </Box>
         </Paper>

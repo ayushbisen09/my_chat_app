@@ -10,132 +10,75 @@ import {
   paginationClasses,
 } from '@mui/material';
 
-import { useBoolean } from 'src/hooks/use-boolean';
-
 import { Iconify } from 'src/components/iconify';
-import { usePopover } from 'src/components/custom-popover';
 
 import ExpoloreTemplateChatBox from './hook/chat-box';
 
 export default function ServiceTemplatesRender() {
-  const popover = usePopover();
-  const confirm = useBoolean();
+
   const [page, setPage] = useState(1); // State for current page
   const itemsPerPage = 3; // Number of items per page
-  const totalItems = 14; // Total number of items
 
   // Function to handle page change
-  const handlePageChange = (event, value) => {
-    setPage(value);
-  };
+ 
 
   // Data for ChatBox items with service-related messages
   const chatBoxes = [
     {
-      coverSrc: '../../assets/images/chatImage/food-template-images/f1.png',
-      text: `Hi Pabbly! 🎧🛒 Congratulations! 🎉 Your order for the Headway Bassheads has been confirmed. 🙌 Order Details: Product: Chicken Peri Peri Quantity: 2 Order ID: 24431534121541 Delivery Address: House number  90 Piplani Estimated Delivery Date: Today Evening`,
-      title: 'Order Confirmation',
+      coverSrc: '../../assets/images/chatImage/service-template-images/ser1.jpg',
+      text: `Hi [Everyone] We’re hiring for [Software Developer] in [Hingwadi , Pune] 💼✨. Join our team and grow your career with exciting opportunities! Apply now! 🚀📧`,
+      title: 'Exciting Job Alert!',
       type: 'Text',
       icon: <Iconify icon="icon-park-outline:share" width={20} />,
     },
     {
-      coverSrc: '../../assets/images/chatImage/food-template-images/f2.png',
-      text: `Hi Pabbly! 🎧🛒 Congratulations! 🎉 Your order for the Headway Bassheads has been confirmed. 🙌 Order Details: Product: Chicken Peri Peri Quantity: 2 Order ID: 24431534121541 Delivery Address: House number  90 Piplani Estimated Delivery Date: Today Evening`,
-      title: 'Order Confirmation',
+      coverSrc: '../../assets/images/chatImage/service-template-images/ser2.jpg',
+      text: ` Explore our comprehensive guide to [Histocical] 📘✨. Step-by-step insights and tips to make your journey smoother and more successful! 🚀💡`,
+      title: 'Your Ultimate Guide Awaits!',
       type: 'Image',
       icon: <Iconify icon="material-symbols:call" width={20} />,
     },
     {
-      coverSrc: '../../assets/images/chatImage/food-template-images/f3.png',
-      text: `Hi Pabbly! 🎧🛒 Congratulations! 🎉 Your order for the Headway Bassheads has been confirmed. 🙌 Order Details: Product: Chicken Peri Peri Quantity: 2 Order ID: 24431534121541 Delivery Address: House number  90 Piplani Estimated Delivery Date: Today Evening`,
-      title: 'Order Confirmation',
+      coverSrc: '../../assets/images/chatImage/service-template-images/ser3.jpg',
+      text: `Hi [Ayush!] Don’t forget your interview for [Software Develoeper] with [Magnet Brains Software Technology] 🕒✨. Date: [20 Nov 2024], Time: [04:30 pm]. Best of luck—you’ve got this! 💼🌟`,
+      title: '',
       type: 'Text',
       icon: <Iconify icon="icon-park-outline:share" width={20} />,
     },
     {
-      coverSrc: '../../assets/images/chatImage/food-template-images/f4.png',
-      text: `Hi Pabbly! 🎧🛒 Congratulations! 🎉 Your order for the Headway Bassheads has been confirmed. 🙌 Order Details: Product: Chicken Peri Peri Quantity: 2 Order ID: 24431534121541 Delivery Address: House number  90 Piplani Estimated Delivery Date: Today Evening`,
-      title: 'Order Confirmation',
+      coverSrc: '../../assets/images/chatImage/service-template-images/ser4.jpg',
+      text: `Share your experience at [Sarkar Gym] 🏋️‍♂️✨. Your feedback helps us improve and provide a better fitness journey for you! 💪📝`,
+      title: 'We Value Your Feedback!',
       type: 'Video',
       icon: <Iconify icon="solar:copy-bold" width={20} />,
     },
     {
-      coverSrc: '../../assets/images/chatImage/food-template-images/f5.png',
-      text: `Hi Pabbly! 🎧🛒 Congratulations! 🎉 Your order for the Headway Bassheads has been confirmed. 🙌 Order Details: Product: Chicken Peri Peri Quantity: 2 Order ID: 24431534121541 Delivery Address: House number  90 Piplani Estimated Delivery Date: Today Evening`,
-      title: 'Order Confirmation',
+      coverSrc: '../../assets/images/chatImage/service-template-images/ser5.jpg',
+      text: `Hi [Ayush!] Enjoy your delicious [Paneer Handi] delivered fresh to your doorstep 🍕✨. Bon appétit and thank you for choosing [Sagar Gaire]! 🍽️🚚`,
+      title: 'Your Food Has Arrived!',
       type: 'Image',
       icon: <Iconify icon="icon-park-outline:share" width={20} />,
     },
     {
-      coverSrc: '../../assets/images/chatImage/food-template-images/f6.png',
-      text: `Hi Pabbly! 🎧🛒 Congratulations! 🎉 Your order for the Headway Bassheads has been confirmed. 🙌 Order Details: Product: Chicken Peri Peri Quantity: 2 Order ID: 24431534121541 Delivery Address: House number  90 Piplani Estimated Delivery Date: Today Evening`,
-      title: 'Order Confirmation',
+      coverSrc: '../../assets/images/chatImage/service-template-images/ser6.jpg',
+      text: `Share your thoughts about your interview experience for [Software Develoeper] at [Magnet Brains Software Technology]📝✨. Your feedback helps us improve our process! 💼🌟`,
+      title: 'Interview Feedback!',
       type: 'File',
       icon: <Iconify icon="material-symbols:call" width={20} />,
-    },
-    {
-      coverSrc: '../../assets/images/chatImage/food-template-images/f5.png',
-      text: `Hi Pabbly! 🎧🛒 Congratulations! 🎉 Your order for the Headway Bassheads has been confirmed. 🙌 Order Details: Product: Chicken Peri Peri Quantity: 2 Order ID: 24431534121541 Delivery Address: House number  90 Piplani Estimated Delivery Date: Today Evening`,
-      title: 'Order Confirmation',
-      type: 'Text',
-      icon: <Iconify icon="icon-park-outline:share" width={20} />,
-    },
-    {
-      coverSrc: '../../assets/images/chatImage/food-template-images/f6.png',
-      text: `Hi Pabbly! 🎧🛒 Congratulations! 🎉 Your order for the Headway Bassheads has been confirmed. 🙌 Order Details: Product: Chicken Peri Peri Quantity: 2 Order ID: 24431534121541 Delivery Address: House number  90 Piplani Estimated Delivery Date: Today Evening`,
-      title: 'Order Confirmation',
-      type: 'Image',
-      icon: <Iconify icon="material-symbols:call" width={20} />,
-    },
-    {
-      coverSrc: '../../assets/images/chatImage/food-template-images/f3.png',
-      text: `Hi Pabbly! 🎧🛒 Congratulations! 🎉 Your order for the Headway Bassheads has been confirmed. 🙌 Order Details: Product: Chicken Peri Peri Quantity: 2 Order ID: 24431534121541 Delivery Address: House number  90 Piplani Estimated Delivery Date: Today Evening`,
-      title: 'Order Confirmation',
-      type: 'Text',
-      icon: <Iconify icon="icon-park-outline:share" width={20} />,
-    },
-    {
-      coverSrc: '../../assets/images/chatImage/food-template-images/f4.png',
-      text: `Hi Pabbly! 🎧🛒 Congratulations! 🎉 Your order for the Headway Bassheads has been confirmed. 🙌 Order Details: Product: Chicken Peri Peri Quantity: 2 Order ID: 24431534121541 Delivery Address: House number  90 Piplani Estimated Delivery Date: Today Evening`,
-      title: 'Order Confirmation',
-      type: 'Video',
-      icon: <Iconify icon="icon-park-outline:share" width={20} />,
-    },
-    {
-      coverSrc: '../../assets/images/chatImage/food-template-images/f2.png',
-      text: `Hi Pabbly! 🎧🛒 Congratulations! 🎉 Your order for the Headway Bassheads has been confirmed. 🙌 Order Details: Product: Chicken Peri Peri Quantity: 2 Order ID: 24431534121541 Delivery Address: House number  90 Piplani Estimated Delivery Date: Today Evening`,
-      title: 'Order Confirmation',
-      type: 'Video',
-      icon: <Iconify icon="icon-park-outline:share" width={20} />,
-    },
-    {
-      coverSrc: '../../assets/images/chatImage/food-template-images/f1.png',
-      text: `Hi Pabbly! 🎧🛒 Congratulations! 🎉 Your order for the Headway Bassheads has been confirmed. 🙌 Order Details: Product: Chicken Peri Peri Quantity: 2 Order ID: 24431534121541 Delivery Address: House number  90 Piplani Estimated Delivery Date: Today Evening`,
-      title: 'Order Confirmation',
-      type: 'Text',
-      icon: <Iconify icon="icon-park-outline:share" width={20} />,
-    },
-    {
-      coverSrc: '../../assets/images/chatImage/food-template-images/f3.png',
-      text: `Hi Pabbly! 🎧🛒 Congratulations! 🎉 Your order for the Headway Bassheads has been confirmed. 🙌 Order Details: Product: Chicken Peri Peri Quantity: 2 Order ID: 24431534121541 Delivery Address: House number  90 Piplani Estimated Delivery Date: Today Evening`,
-      title: 'Order Confirmation',
-      type: 'File',
-      icon: <Iconify icon="solar:copy-bold" width={20} />,
-    },
-    {
-      coverSrc: '../../assets/images/chatImage/food-template-images/f4.png',
-      text: `Hi Pabbly! 🎧🛒 Congratulations! 🎉 Your order for the Headway Bassheads has been confirmed. 🙌 Order Details: Product: Chicken Peri Peri Quantity: 2 Order ID: 24431534121541 Delivery Address: House number  90 Piplani Estimated Delivery Date: Today Evening`,
-      title: 'Order Confirmation',
-      type: 'Video',
-      icon: <Iconify icon="solar:copy-bold" width={20} />,
     },
   ];
 
+  const totalItems = chatBoxes.length;
   // Calculate the number of pages
   const pageCount = Math.ceil(totalItems / itemsPerPage);
 
+
   // Get the items to display based on the current page
   const displayedChatBoxes = chatBoxes.slice((page - 1) * itemsPerPage, page * itemsPerPage);
+
+  const handlePageChange = (event, value) => {
+    setPage(value);
+  };
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
