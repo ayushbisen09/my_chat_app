@@ -98,7 +98,6 @@ export default function Page() {
             </Typography>
             <FormControl fullWidth sx={{ mb: 2 }}>
               <InputLabel id="time-zone-select-label">Time Zone</InputLabel>
-
               <Select
                 labelId="time-zone-select-label"
                 id="time-zone-select"

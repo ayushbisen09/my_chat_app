@@ -13,7 +13,8 @@ export default function LimitedTimeOfferTemplatePreview({
   showCall,
   showCoupon,
   showVisit,
-  title, // Default to true, can be overridden
+  uploadedFileURL,
+  displaybuttons = false,
 }) {
   // Select coupon code from Redux state
   const code = useSelector((state) => state.interactiveAllActions.code);
@@ -33,7 +34,7 @@ export default function LimitedTimeOfferTemplatePreview({
       {showImage && (
         <CardMedia
           component="img"
-          image={coverSrc}
+          image={uploadedFileURL || coverSrc}
           alt="Chat image"
           sx={{
             width: '100%',
@@ -217,6 +218,95 @@ export default function LimitedTimeOfferTemplatePreview({
             </Box>
           )}
         </Box>
+      )}
+
+      {displaybuttons && (
+        <>
+          <Box>
+            <Divider sx={{ mt: 1, mb: 1 }} />
+            <Box
+              sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
+              <IconButton
+                size="small"
+                sx={{
+                  color: '#007BFF',
+                }}
+              >
+                <Iconify width={20} icon="material-symbols:call" />
+              </IconButton>
+              <Typography
+                sx={{
+                  color: '#007BFF',
+                  fontSize: '14px',
+                  fontWeight: '400',
+                }}
+              >
+                Call Now
+              </Typography>
+            </Box>
+          </Box>
+          <Box>
+            <Divider sx={{ mt: 1, mb: 1 }} />
+            <Box
+              sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
+              <IconButton
+                size="small"
+                sx={{
+                  color: '#007BFF',
+                }}
+              >
+                <Iconify width={20} icon="icon-park-outline:share" />
+              </IconButton>
+              <Typography
+                sx={{
+                  color: '#007BFF',
+                  fontSize: '14px',
+                  fontWeight: '400',
+                }}
+              >
+                Visit Now
+              </Typography>
+            </Box>
+          </Box>
+          <Box>
+            <Divider sx={{ mt: 1, mb: 1 }} />
+            <Box
+              sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
+              <IconButton
+                size="small"
+                sx={{
+                  color: '#007BFF',
+                }}
+              >
+                <Iconify width={20} icon="solar:copy-bold" />
+              </IconButton>
+              <Typography
+                sx={{
+                  color: '#007BFF',
+                  fontSize: '14px',
+                  fontWeight: '400',
+                }}
+              >
+                Coupon Code
+              </Typography>
+            </Box>
+          </Box>
+        </>
       )}
     </Box>
   );

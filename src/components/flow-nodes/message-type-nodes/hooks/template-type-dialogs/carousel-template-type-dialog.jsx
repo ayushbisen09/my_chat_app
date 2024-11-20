@@ -88,9 +88,6 @@ export function CarouselTemplateTypeDialog({ title, content, action, open, onClo
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [confirmUrlEdit, setConfirmUrlEdit] = useState(false);
 
-
-
-
   return (
     <Dialog
       open={open}
@@ -290,7 +287,7 @@ export function CarouselTemplateTypeDialog({ title, content, action, open, onClo
               <FileUpload onFileUpload={handleFileUpload} />
 
               {file && (
-                <Button variant="outlined" color="error" onClick={() => setConfirmDelete(true)}>
+                <Button variant="outlined" color="error" onClick={() => setConfirmDelete(true)} sx={{mt : 2}}>
                   Remove Uploaded File
                 </Button>
               )}
@@ -326,11 +323,7 @@ export function CarouselTemplateTypeDialog({ title, content, action, open, onClo
           title="Edit URL"
           content="Changing the URL will remove the uploaded file. Do you want to continue?"
           action={
-            <Button
-              variant="contained"
-              color="error"
-              
-            >
+            <Button variant="contained" color="error">
               Confirm
             </Button>
           }

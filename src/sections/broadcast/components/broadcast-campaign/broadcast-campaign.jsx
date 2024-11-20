@@ -5,8 +5,8 @@ import { useSelector } from 'react-redux';
 import { FormProvider } from 'react-hook-form';
 import ReactCountryFlag from 'react-country-flag';
 
-import { DatePicker } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import {
   Box,
@@ -74,6 +74,7 @@ export default function BroadcastCampaign() {
   const showCall = true;
   const showCoupon = true;
   const showVisit = true;
+  const [datetimeValue, setDateTimeValue] = useState(dayjs(new Date()));
 
   return (
     <FormProvider>
@@ -148,11 +149,9 @@ export default function BroadcastCampaign() {
           </Tooltip>
         </Box>
 
-        <Divider sx={{ borderStyle: 'dashed', mb:3 }} />
+        <Divider sx={{ borderStyle: 'dashed', mb: 3 }} />
 
-        <Box
-          sx={{ mb: 3 }}
-        >
+        <Box sx={{ mb: 3 }}>
           <Typography variant="h7" sx={{ fontSize: '14px', fontWeight: '600' }}>
             Select Message Type
           </Typography>
@@ -206,7 +205,7 @@ export default function BroadcastCampaign() {
 
         <ChooseTemplate open={isTemplateDialogOpen} onClose={closeTemplateDialog} />
 
-        <Divider sx={{ borderStyle: 'dashed', mb:3 }} />
+        <Divider sx={{ borderStyle: 'dashed', mb: 3 }} />
 
         <Box
           width="100%"
@@ -219,7 +218,7 @@ export default function BroadcastCampaign() {
             placement="top"
           >
             <TextField
-            sx={{ mb: 3 }}
+              sx={{ mb: 3 }}
               fullWidth
               helperText="Enter the contact's mobile number."
               placeholder="Enter mobile number"
@@ -292,9 +291,7 @@ export default function BroadcastCampaign() {
           </Tooltip>
         </Box>
 
-        <Box
-          sx={{ mb: 3 }}
-        >
+        <Box sx={{ mb: 3 }}>
           <Typography variant="h7" sx={{ fontSize: '14px', fontWeight: '600' }}>
             Schedule Broadcast
           </Typography>
@@ -330,15 +327,12 @@ export default function BroadcastCampaign() {
             >
               <Form>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DatePicker
-                    sx={{ mt: '24px' }}
-                    label="Select Date and Time"
-                    value={startDate}
-                    minDate={dayjs('2017-01-01')}
-                    onChange={(newValue) => {
-                      setStartDate(newValue);
-                    }}
+                  <DateTimePicker
+                    label="DateTimePicker"
+                    value={datetimeValue}
+                    onChange={setDateTimeValue}
                     slotProps={{ textField: { fullWidth: true } }}
+                    sx={{ mt: 2 }}
                   />
                 </LocalizationProvider>
               </Form>
@@ -346,14 +340,12 @@ export default function BroadcastCampaign() {
           )}
         </Box>
 
-        
-          <Button variant="contained" size="medium" color="primary" sx={{mr:2}}>
-            Add Broadcast
-          </Button>
-          <Button variant="outlined" size="medium">
-            Cancel
-          </Button>
-       
+        <Button variant="contained" size="medium" color="primary" sx={{ mr: 2 }}>
+          Add Broadcast
+        </Button>
+        <Button variant="outlined" size="medium">
+          Cancel
+        </Button>
       </Form>
     </FormProvider>
   );

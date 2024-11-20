@@ -67,61 +67,6 @@ export function ImageTemplateTypeDialog({ title, content, action, open, onClose,
 
   const chosen = useSelector((state) => state.optInMessageTemplateType.chosen);
   const wellComeChosen = useSelector((state) => state.wellComeMessageTemplateType.wellComeChosen);
-  // const handleSave = () => {
-  //   // Check if 'chosen' is 'optIn' and 'wellComeChosen' is not 'wellCome'
-  //   if (chosen === 'optIn' && wellComeChosen !== 'wellCome') {
-  //     // Dispatch the optIn template and data
-  //     dispatch(optInSetTemplateType('image'));
-  //     dispatch(
-  //       optInSetImageData({
-  //         imageUrl: file ? URL.createObjectURL(file) : null,
-  //         bodyFields,
-  //         fileName: file ? file.name : '',
-  //       })
-  //     );
-  //   }
-
-  //   // Check if 'wellComeChosen' is 'wellCome' and 'chosen' is not 'optIn'
-  //   else if (wellComeChosen === 'wellCome' && chosen !== 'optIn') {
-  //     // Dispatch the wellCome template and data
-  //     dispatch(wellComeSetTemplateType('image'));
-  //     dispatch(
-  //       wellComeSetImageData({
-  //         imageUrl: file ? URL.createObjectURL(file) : null,
-  //         bodyFields,
-  //         fileName: file ? file.name : '',
-  //       })
-  //     );
-  //   }
-
-  //   // For the opt-out condition
-  //   else if (chosen !== 'optIn') {
-  //     dispatch(optOutSetTemplateType('image'));
-  //     dispatch(
-  //       optOutSetImageData({
-  //         imageUrl: file ? URL.createObjectURL(file) : null,
-  //         bodyFields,
-  //         fileName: file ? file.name : '',
-  //       })
-  //     );
-  //   }
-
-  //   // Final condition for off-hours template
-  //   else {
-  //     dispatch(offHourSetTemplateType('image'));
-  //     dispatch(
-  //       offHourSetImageData({
-  //         imageUrl: file ? URL.createObjectURL(file) : null,
-  //         bodyFields,
-  //         fileName: file ? file.name : '',
-  //       })
-  //     );
-  //   }
-
-  //   // Close the dialog
-  //   onClose();
-  // };
-
   const handleSave = () => {
     if (chosen === 'optIn') {
       dispatch(optInSetTemplateType('image')); // This sets the template type to 'image'

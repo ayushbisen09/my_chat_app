@@ -1,16 +1,16 @@
 import IconButton from '@mui/material/IconButton';
-import { Box, Divider, CardMedia, Typography } from '@mui/material';
+import { Box, Divider, Tooltip, CardMedia, Typography } from '@mui/material';
 
 import { Iconify } from 'src/components/iconify';
 
-export default function ImagePreviewTemplateChatBox({
+export default function LocationPreviewTemplateChatBox({
   text,
-  coverSrc,
   showImage,
   showLinks,
   showCall,
   showCoupon,
   showVisit,
+  footer,
 }) {
   return (
     <Box
@@ -19,65 +19,81 @@ export default function ImagePreviewTemplateChatBox({
         pt: '16px',
         backgroundColor: '#CCF4FE',
         borderRadius: '8px',
-       
+        width: 335,
       }}
     >
       {showImage && (
         <CardMedia
           component="img"
-          image={coverSrc}
+          image="../../assets/images/chatImage/location.png"
           alt="Chat image"
           sx={{
             width: '100%',
-            height: 'auto',
+            height: '172px',
             objectFit: 'cover',
-            marginBottom: 2, // Add some space between the image and the text
-            borderRadius: '8px', // Optional: add rounded corners to the image
+            marginBottom: 2,
+            borderRadius: '8px',
           }}
         />
       )}
+      
+        <Typography
+          variant="body2"
+          sx={{
+            px: 0,
+            py: 0,
+            mb: 2,
+            color: 'primary',
+            whiteSpace: 'normal', // Allows text to wrap to the next line
+            wordWrap: 'break-word', // Breaks words when necessary to fit within the width
+            overflow: 'hidden',
+          }}
+        >
+          {text}
+        </Typography>
+        <Tooltip
+        tittle="This is footer which is entered during this template creation"
+        arrow
+        placement="top"
+      >
       <Typography
-        variant="body2"
+        fontSize={12}
+        fontWeight={500}
         sx={{
-          px: 0,
-          py: 0,
-          color: 'primary',
+          mb: 2,
+          color: '#637381',
           // 24px margin bottom
         }}
       >
-        {text}
+        {footer}
       </Typography>
-      
+      </Tooltip>
+
       {showLinks && (
-        <Box sx={{ mt: 3 }}>
+        <Box>
           {showCall && (
             <Box>
-              <Divider
-                sx={{
-                  mb: 1,
-                }}
-              />
-
+              <Divider sx={{ mt: 1, mb: 1 }} />
               <Box
                 sx={{
                   display: 'flex',
-                  justifyContent: 'center', // Center horizontally
-                  alignItems: 'center', // Center vertically
+                  justifyContent: 'center',
+                  alignItems: 'center',
                 }}
               >
                 <IconButton
                   size="small"
                   sx={{
-                    color: '#007BFF', // Change color of the icon button
+                    color: '#007BFF',
                   }}
                 >
                   <Iconify width={20} icon="material-symbols:call" />
                 </IconButton>
                 <Typography
                   sx={{
-                    color: '#007BFF', // Change color of the text
-                    fontSize: '14px', // Set font size to 12
-                    fontWeight: '400', // Set font weight to medium
+                    color: '#007BFF',
+                    fontSize: '14px',
+                    fontWeight: '400',
                   }}
                 >
                   Call Now
@@ -91,23 +107,23 @@ export default function ImagePreviewTemplateChatBox({
               <Box
                 sx={{
                   display: 'flex',
-                  justifyContent: 'center', // Center horizontally
-                  alignItems: 'center', // Center vertically
+                  justifyContent: 'center',
+                  alignItems: 'center',
                 }}
               >
                 <IconButton
                   size="small"
                   sx={{
-                    color: '#007BFF', // Change color of the icon button
+                    color: '#007BFF',
                   }}
                 >
                   <Iconify width={20} icon="solar:copy-bold" />
                 </IconButton>
                 <Typography
                   sx={{
-                    color: '#007BFF', // Change color of the text
-                    fontSize: '14px', // Set font size to 12
-                    fontWeight: '400', // Set font weight to medium
+                    color: '#007BFF',
+                    fontSize: '14px',
+                    fontWeight: '400',
                   }}
                 >
                   Coupon Code
@@ -117,27 +133,27 @@ export default function ImagePreviewTemplateChatBox({
           )}
           {showVisit && (
             <Box>
-              <Divider sx={{ mb: 1, mt: 1 }} />
+              <Divider sx={{ mt: 1, mb: 1 }} />
               <Box
                 sx={{
                   display: 'flex',
-                  justifyContent: 'center', // Center horizontally
-                  alignItems: 'center', // Center vertically
+                  justifyContent: 'center',
+                  alignItems: 'center',
                 }}
               >
                 <IconButton
                   size="small"
                   sx={{
-                    color: '#007BFF', // Change color of the icon button
+                    color: '#007BFF',
                   }}
                 >
                   <Iconify width={20} icon="icon-park-outline:share" />
                 </IconButton>
                 <Typography
                   sx={{
-                    color: '#007BFF', // Change color of the text
-                    fontSize: '14px', // Set font size to 12
-                    fontWeight: '400', // Set font weight to medium
+                    color: '#007BFF',
+                    fontSize: '14px',
+                    fontWeight: '400',
                   }}
                 >
                   Visit Now
