@@ -125,7 +125,7 @@ export function LimitedTiemOfferTemplateTypeDialog({
         }}
       >
         <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
-          <Typography variant="h6">Image Template Messages</Typography>
+          <Typography variant="h6">Limited Time Offer Template Messages</Typography>
           <Iconify
             onClick={handleCancel}
             icon="uil:times"

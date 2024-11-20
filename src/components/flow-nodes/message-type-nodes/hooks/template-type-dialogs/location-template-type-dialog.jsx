@@ -75,7 +75,7 @@ export function LocationTemplateTypeDialog({ title, content, action, open, onClo
         }}
       >
         <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
-          <Typography variant="h6">Image Template Messages</Typography>
+          <Typography variant="h6">Location Template Messages</Typography>
           <Iconify
             onClick={handleCancel}
             icon="uil:times"
