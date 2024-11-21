@@ -45,7 +45,7 @@ const folderItems = (items) =>
   items.map((item) => ({
     ...item,
     fullLabel: item.label, // Ensure fullLabel is assigned for tooltip display
-    label: `${(item.label)} (${countChildren(item)})`, // Truncated label for display
+    label: `${item.label} (${countChildren(item)})`, // Truncated label for display
     children: item.children ? folderItems(item.children) : [],
   }));
 
@@ -59,7 +59,6 @@ const StyledTreeItem = styled(TreeItem)(({ theme }) => ({
     padding: theme.spacing(0.8, 1),
     margin: theme.spacing(0.2, 0),
     [`& .${treeItemClasses.label}`]: {
-     
       display: 'flex',
       alignItems: 'center',
       '& > svg': {
@@ -171,10 +170,9 @@ const CustomTreeItem = React.forwardRef((props, ref) => {
                   mr: 'auto',
                   cursor: 'pointer',
                   width: '100%',
-                  display: 'block', // Ensure it's treated as a block for width constraints
-                  maxWidth: '188px', // Set the maximum width for truncation
-                  whiteSpace: 'nowrap', // Prevent text from wrapping to a new line
-                  overflow: 'hidden', // Hide overflowing text
+                  display: 'block', 
+                  whiteSpace: 'nowrap', 
+                  overflow: 'hidden', 
                   textOverflow: 'ellipsis',
                 }}
                 onClick={handleItemClick}
