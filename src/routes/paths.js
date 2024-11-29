@@ -47,39 +47,6 @@ export const paths = {
   dashboard: {
     root: ROOTS.DASHBOARD,
     inbox: `${ROOTS.DASHBOARD}/inbox`,
-    contact: {
-      root: `${ROOTS.DASHBOARD}/contact`,
-      addcontact: `${ROOTS.DASHBOARD}/contact/addcontact`,
-    },
-    teamQueue: `${ROOTS.DASHBOARD}/teamQueue`,
-    template: {
-      templateslist: `${ROOTS.DASHBOARD}/template/templateslist`,
-      root: `${ROOTS.DASHBOARD}/template`,
-      addtemplate: `${ROOTS.DASHBOARD}/template/addtemplate`,
-    },
-    broadcast: {
-      root: `${ROOTS.DASHBOARD}/broadcast`,
-      addbroadcast: `${ROOTS.DASHBOARD}/broadcast/addbroadcast`,
-    },
-    flows: {
-      root: `${ROOTS.DASHBOARD}/flows`,
-      createflow: `${ROOTS.DASHBOARD}/flows/createflow`,
-    },
-    settings: {
-      root: `${ROOTS.DASHBOARD}/settings`,
-      inboxsettings: `${ROOTS.DASHBOARD}/settings/inboxsetting`,
-      userattributes: `${ROOTS.DASHBOARD}/settings/userattributes`,
-      tags: `${ROOTS.DASHBOARD}/settings/tags`,
-      quickreplies: `${ROOTS.DASHBOARD}/settings/quickreplies`,
-      teammembers: `${ROOTS.DASHBOARD}/settings/teammembers`,
-      chatassignmentrules: `${ROOTS.DASHBOARD}/settings/chatassignmentrules`,
-      configureslas: `${ROOTS.DASHBOARD}/settings/configureslas`,
-      // whatsAppwidget: `${ROOTS.DASHBOARD}/group/whatsAppwidget`,
-      apiwebhooks: `${ROOTS.DASHBOARD}/settings/apiwebhooks`,
-      activitylogs: `${ROOTS.DASHBOARD}/settings/activitylogs`,
-      notificationpreferences: `${ROOTS.DASHBOARD}/settings/notificationpreferences`,
-      timezone: `${ROOTS.DASHBOARD}/settings/timezone`,
-    },
-    gethelp: `${ROOTS.DASHBOARD}/gethelp`,
+    
   },
 };
